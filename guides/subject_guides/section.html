@@ -7,12 +7,12 @@
 
     <title>Introduction to Section objects &#8212; DeltaMetrics 0.4.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=649a27d8" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinxdoc.css?v=d59dc883" />
-    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinxdoc.css?v=87629129" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
     <script src="../../_static/documentation_options.js?v=ff822928"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -57,7 +57,7 @@
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rcm8cube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">strike</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">section</span><span class="o">.</span><span class="n">StrikeSection</span><span class="p">(</span><span class="n">rcm8cube</span><span class="p">,</span> <span class="n">distance_idx</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">strike</span><span class="p">[</span><span class="s1">&#39;velocity&#39;</span><span class="p">]</span>
-<span class="go">&lt;xarray.DataArray &#39;velocity&#39; (time: 101, s: 200)&gt;</span>
+<span class="go">&lt;xarray.DataArray &#39;velocity&#39; (time: 101, s: 200)&gt; Size: 81kB</span>
 <span class="go">array([[0.2   , 0.2   , 0.2   , ..., 0.2   , 0.2   , 0.2   ],</span>
 <span class="go">       [0.    , 0.    , 0.    , ..., 0.    , 0.    , 0.    ],</span>
 <span class="go">       [0.    , 0.0025, 0.    , ..., 0.    , 0.    , 0.    ],</span>
@@ -67,8 +67,8 @@
 <span class="go">       [0.    , 0.    , 0.    , ..., 0.0025, 0.    , 0.    ]],</span>
 <span class="go">      dtype=float32)</span>
 <span class="go">Coordinates:</span>
-<span class="go">  * s        (s) float64 0.0 50.0 100.0 150.0 ... 9.85e+03 9.9e+03 9.95e+03</span>
-<span class="go">  * time     (time) float32 0.0 5e+05 1e+06 1.5e+06 ... 4.9e+07 4.95e+07 5e+07</span>
+<span class="go">  * s        (s) float64 2kB 0.0 50.0 100.0 150.0 ... 9.85e+03 9.9e+03 9.95e+03</span>
+<span class="go">  * time     (time) float32 404B 0.0 5e+05 1e+06 ... 4.9e+07 4.95e+07 5e+07</span>
 <span class="go">Attributes:</span>
 <span class="go">    slicetype:           data_section</span>
 <span class="go">    knows_stratigraphy:  False</span>
@@ -79,7 +79,7 @@
 The same <cite>spacetime</cite> data can be requested in the “preserved” form, where non-preserved t-x-y points are masked with <code class="docutils literal notranslate"><span class="pre">np.nan</span></code>.</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rcm8cube</span><span class="o">.</span><span class="n">stratigraphy_from</span><span class="p">(</span><span class="s1">&#39;eta&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">strike</span><span class="p">[</span><span class="s1">&#39;velocity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">strat</span><span class="o">.</span><span class="n">as_preserved</span><span class="p">()</span>
-<span class="go">&lt;xarray.DataArray &#39;velocity&#39; (time: 101, s: 200)&gt;</span>
+<span class="go">&lt;xarray.DataArray &#39;velocity&#39; (time: 101, s: 200)&gt; Size: 81kB</span>
 <span class="go">array([[0.2, 0.2, 0.2, ..., 0.2, 0.2, 0.2],</span>
 <span class="go">       [nan, nan, nan, ..., nan, nan, nan],</span>
 <span class="go">       [nan, nan, nan, ..., nan, nan, nan],</span>
@@ -88,8 +88,8 @@ The same <cite>spacetime</cite> data can be requested in the “preserved” for
 <span class="go">       [nan, nan, nan, ..., nan, nan, nan],</span>
 <span class="go">       [nan, nan, nan, ..., nan, nan, nan]], dtype=float32)</span>
 <span class="go">Coordinates:</span>
-<span class="go">  * s        (s) float64 0.0 50.0 100.0 150.0 ... 9.85e+03 9.9e+03 9.95e+03</span>
-<span class="go">  * time     (time) float32 0.0 5e+05 1e+06 1.5e+06 ... 4.9e+07 4.95e+07 5e+07</span>
+<span class="go">  * s        (s) float64 2kB 0.0 50.0 100.0 150.0 ... 9.85e+03 9.9e+03 9.95e+03</span>
+<span class="go">  * time     (time) float32 404B 0.0 5e+05 1e+06 ... 4.9e+07 4.95e+07 5e+07</span>
 <span class="go">Attributes:</span>
 <span class="go">    slicetype:           data_section</span>
 <span class="go">    knows_stratigraphy:  True</span>
@@ -158,7 +158,7 @@ See the <a class="reference external" href="https://numpy.org/doc/stable/referen
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
@@ -166,7 +166,7 @@ See the <a class="reference external" href="https://numpy.org/doc/stable/referen
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
@@ -191,7 +191,7 @@ See the <a class="reference external" href="https://numpy.org/doc/stable/referen
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2020, The DeltaRCM Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
     </div>
   </body>
 </html>

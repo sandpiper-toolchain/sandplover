@@ -150,7 +150,7 @@ The data returned from the planform are an `xarray` `DataArray`, so you can cont
     >>> final.shape
     (100, 200)
     >>> final['eta']
-    <xarray.DataArray 'eta' (x: 100, y: 200)>
+    <xarray.DataArray 'eta' (x: 100, y: 200)> Size: 80kB
     array([[ 0.015 ,  0.015 ,  0.015 , ...,  0.015 ,  0.015 ,  0.015 ],
            [ 0.0075,  0.0075,  0.0075, ...,  0.0075,  0.0075,  0.0075],
            [ 0.    ,  0.    ,  0.    , ...,  0.    ,  0.    ,  0.    ],
@@ -160,9 +160,9 @@ The data returned from the planform are an `xarray` `DataArray`, so you can cont
            [-2.    , -2.    , -2.    , ..., -2.    , -2.    , -2.    ]],
           dtype=float32)
     Coordinates:
-        time     float32 5e+07
-      * x        (x) float32 0.0 50.0 100.0 150.0 ... 4.85e+03 4.9e+03 4.95e+03
-      * y        (y) float32 0.0 50.0 100.0 150.0 ... 9.85e+03 9.9e+03 9.95e+03
+        time     float32 4B 5e+07
+      * x        (x) float32 400B 0.0 50.0 100.0 150.0 ... 4.85e+03 4.9e+03 4.95e+03
+      * y        (y) float32 800B 0.0 50.0 100.0 150.0 ... 9.85e+03 9.9e+03 9.95e+03
     Attributes:
         slicetype:           data_planform
         knows_stratigraphy:  False
@@ -257,7 +257,7 @@ are sliced themselves, similarly to the cube.
 
     >>> golfcube.register_section('demo', dm.section.StrikeSection(distance_idx=10))
     >>> golfcube.sections['demo']['velocity']
-    <xarray.DataArray 'velocity' (time: 101, s: 200)>
+    <xarray.DataArray 'velocity' (time: 101, s: 200)> Size: 81kB
     array([[0.2   , 0.2   , 0.2   , ..., 0.2   , 0.2   , 0.2   ],
            [0.    , 0.    , 0.    , ..., 0.    , 0.    , 0.    ],
            [0.    , 0.0025, 0.    , ..., 0.    , 0.    , 0.    ],
@@ -267,8 +267,8 @@ are sliced themselves, similarly to the cube.
            [0.    , 0.    , 0.    , ..., 0.0025, 0.    , 0.    ]],
           dtype=float32)
     Coordinates:
-      * s        (s) float64 0.0 50.0 100.0 150.0 ... 9.85e+03 9.9e+03 9.95e+03
-      * time     (time) float32 0.0 5e+05 1e+06 1.5e+06 ... 4.9e+07 4.95e+07 5e+07
+      * s        (s) float64 2kB 0.0 50.0 100.0 150.0 ... 9.85e+03 9.9e+03 9.95e+03
+      * time     (time) float32 404B 0.0 5e+05 1e+06 ... 4.9e+07 4.95e+07 5e+07
     Attributes:
         slicetype:           data_section
         knows_stratigraphy:  False
@@ -321,7 +321,7 @@ Now, the ``DataCube`` has knowledge of stratigraphy, which we can further use to
 .. doctest::
 
     >>> golfcube.sections['demo']['velocity'].strat.as_preserved()
-    <xarray.DataArray 'velocity' (time: 101, s: 200)>
+    <xarray.DataArray 'velocity' (time: 101, s: 200)> Size: 81kB
     array([[0.2, 0.2, 0.2, ..., 0.2, 0.2, 0.2],
            [nan, nan, nan, ..., nan, nan, nan],
            [nan, nan, nan, ..., nan, nan, nan],
@@ -330,12 +330,13 @@ Now, the ``DataCube`` has knowledge of stratigraphy, which we can further use to
            [nan, nan, nan, ..., nan, nan, nan],
            [nan, nan, nan, ..., nan, nan, nan]], dtype=float32)
     Coordinates:
-      * s        (s) float64 0.0 50.0 100.0 150.0 ... 9.85e+03 9.9e+03 9.95e+03
-      * time     (time) float32 0.0 5e+05 1e+06 1.5e+06 ... 4.9e+07 4.95e+07 5e+07
+      * s        (s) float64 2kB 0.0 50.0 100.0 150.0 ... 9.85e+03 9.9e+03 9.95e+03
+      * time     (time) float32 404B 0.0 5e+05 1e+06 ... 4.9e+07 4.95e+07 5e+07
     Attributes:
         slicetype:           data_section
         knows_stratigraphy:  True
         knows_spacetime:     True
+
 
 
 .. doctest::
