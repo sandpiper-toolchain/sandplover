@@ -21,7 +21,7 @@ The data that make up the section can view the section as a `spacetime` section 
     >>> rcm8cube = dm.sample_data.golf()
     >>> strike = dm.section.StrikeSection(rcm8cube, distance_idx=10)
     >>> strike['velocity']
-    <xarray.DataArray 'velocity' (time: 101, s: 200)>
+    <xarray.DataArray 'velocity' (time: 101, s: 200)> Size: 81kB
     array([[0.2   , 0.2   , 0.2   , ..., 0.2   , 0.2   , 0.2   ],
            [0.    , 0.    , 0.    , ..., 0.    , 0.    , 0.    ],
            [0.    , 0.0025, 0.    , ..., 0.    , 0.    , 0.    ],
@@ -31,12 +31,13 @@ The data that make up the section can view the section as a `spacetime` section 
            [0.    , 0.    , 0.    , ..., 0.0025, 0.    , 0.    ]],
           dtype=float32)
     Coordinates:
-      * s        (s) float64 0.0 50.0 100.0 150.0 ... 9.85e+03 9.9e+03 9.95e+03
-      * time     (time) float32 0.0 5e+05 1e+06 1.5e+06 ... 4.9e+07 4.95e+07 5e+07
+      * s        (s) float64 2kB 0.0 50.0 100.0 150.0 ... 9.85e+03 9.9e+03 9.95e+03
+      * time     (time) float32 404B 0.0 5e+05 1e+06 ... 4.9e+07 4.95e+07 5e+07
     Attributes:
         slicetype:           data_section
         knows_stratigraphy:  False
         knows_spacetime:     True
+
 
 
 If a `DataCube` has preservation information (i.e., if the :meth:`~deltametrics.cube.DataCube.stratigraphy_from()` method has been called), then the `xarray` object that is returned has this information too.
@@ -46,7 +47,7 @@ The same `spacetime` data can be requested in the "preserved" form, where non-pr
 
     >>> rcm8cube.stratigraphy_from('eta')
     >>> strike['velocity'].strat.as_preserved()
-    <xarray.DataArray 'velocity' (time: 101, s: 200)>
+    <xarray.DataArray 'velocity' (time: 101, s: 200)> Size: 81kB
     array([[0.2, 0.2, 0.2, ..., 0.2, 0.2, 0.2],
            [nan, nan, nan, ..., nan, nan, nan],
            [nan, nan, nan, ..., nan, nan, nan],
@@ -55,8 +56,8 @@ The same `spacetime` data can be requested in the "preserved" form, where non-pr
            [nan, nan, nan, ..., nan, nan, nan],
            [nan, nan, nan, ..., nan, nan, nan]], dtype=float32)
     Coordinates:
-      * s        (s) float64 0.0 50.0 100.0 150.0 ... 9.85e+03 9.9e+03 9.95e+03
-      * time     (time) float32 0.0 5e+05 1e+06 1.5e+06 ... 4.9e+07 4.95e+07 5e+07
+      * s        (s) float64 2kB 0.0 50.0 100.0 150.0 ... 9.85e+03 9.9e+03 9.95e+03
+      * time     (time) float32 404B 0.0 5e+05 1e+06 ... 4.9e+07 4.95e+07 5e+07
     Attributes:
         slicetype:           data_section
         knows_stratigraphy:  True

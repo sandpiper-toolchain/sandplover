@@ -1,8 +1,7 @@
-
 import abc
 import os
 import copy
-from warnings import warn
+import warnings
 
 import xarray as xr
 import numpy as np
@@ -28,21 +27,18 @@ class BaseIO(abc.ABC):
     """
 
     def __init__(self, io_type):
-        """Initialize the base IO.
-        """
+        """Initialize the base IO."""
         self.io_type = io_type
 
     @abc.abstractmethod
     def __getitem__(self):
-        """Should slice the data from file.
-        """
+        """Should slice the data from file."""
         return
 
     @property
     @abc.abstractmethod
     def keys(self):
-        """Should link to all key _names_ stored in file.
-        """
+        """Should link to all key _names_ stored in file."""
         return
 
 
@@ -108,7 +104,7 @@ class FileIO(BaseIO):
         if os.path.exists(var):
             self._data_path = var
         else:
-            raise FileNotFoundError('File not found at supplied path: %s' % var)
+            raise FileNotFoundError("File not found at supplied path: %s" % var)
 
     @abc.abstractmethod
     def connect(self):
@@ -139,8 +135,7 @@ class FileIO(BaseIO):
 
     @abc.abstractmethod
     def read(self):
-        """Should read data into memory.
-        """
+        """Should read data into memory."""
         return
 
     @abc.abstractmethod
@@ -207,51 +202,58 @@ class NetCDFIO(FileIO):
 
         """
         if not os.path.isfile(self.data_path):
-            _tempdataset = netCDF4.Dataset(
-                self.data_path, "w", format="NETCDF4")
+            _tempdataset = netCDF4.Dataset(self.data_path, "w", format="NETCDF4")
             _tempdataset.close()
 
         _ext = os.path.splitext(self.data_path)[-1]
-        if _ext == '.nc':
-            _engine = 'netcdf4'
-        elif _ext == '.hdf5':
-            _engine = 'h5netcdf'
+        if _ext == ".nc":
+            _engine = "netcdf4"
+        elif _ext == ".hdf5":
+            _engine = "h5netcdf"
         else:
-            TypeError('File format is not supported '
-                      'by DeltaMetrics: {0}'.format(_ext))
+            TypeError(
+                "File format is not supported " "by DeltaMetrics: {0}".format(_ext)
+            )
 
         try:
             # open the dataset
             _dataset = xr.open_dataset(self.data_path, engine=_engine)
         except Exception as e:
-            raise TypeError(
-                f'File format out of scope for DeltaMetrics: {e}')
+            raise TypeError(f"File format out of scope for DeltaMetrics: {e}")
 
         # try to find if coordinates have been preconfigured
         _coords_list = list(_dataset.coords)
+        with warnings.catch_warnings():
+            # filter warning about Dataset.dims changing return, we use the correct use already
+            warnings.filterwarnings("ignore", category=FutureWarning)
+            _dims_set = set(_dataset.dims.keys())
         if len(_coords_list) == 3:
             # the coordinates are preconfigured
             self.dataset = _dataset.set_coords(_coords_list)
             self.coords = list(self.dataset.coords)
             self.dims = copy.deepcopy(self.coords)
-        elif set(['total_time', 'length', 'width']).issubset(set(_dataset.dims.keys())):
+        elif set(["total_time", "length", "width"]).issubset(_dims_set):
             # the coordinates are not set, but there are matching arrays
             # this is a legacy option, so issue a warning here
-            self.dataset = _dataset.set_coords(['x', 'y', 'time'])
-            self.dims = ['time', 'length', 'width']
-            self.coords = ['total_time', 'x', 'y']
-            warn('Coordinates for "time", and ("y", "x") were found as '
-                 'variables in the underlying data file, '
-                 'but are not specified as coordinates in the undelying '
-                 'data file. Please reformat the data file for use '
-                 'with DeltaMetrics. This warning may be replaced '
-                 'with an Error in a future version.', UserWarning)
+            self.dataset = _dataset.set_coords(["x", "y", "time"])
+            self.dims = ["time", "length", "width"]
+            self.coords = ["total_time", "x", "y"]
+            warnings.warn(
+                'Coordinates for "time", and ("y", "x") were found as '
+                "variables in the underlying data file, "
+                "but are not specified as coordinates in the undelying "
+                "data file. Please reformat the data file for use "
+                "with DeltaMetrics. This warning may be replaced "
+                "with an Error in a future version.",
+                UserWarning,
+            )
         else:
             # coordinates were not found and are not being set
             raise NotImplementedError(
-                'Underlying NetCDF datasets without any specified coordinates '
-                'are not supported. See source for additional notes about '
-                'how to implement this feature.')
+                "Underlying NetCDF datasets without any specified coordinates "
+                "are not supported. See source for additional notes about "
+                "how to implement this feature."
+            )
             # DEVELOPER NOTE: it may be possible to support a netcdf file that
             # does not have specified coordinates, but we need a test case to
             # make it work. It may work to just pass everything along to the
@@ -264,12 +266,12 @@ class NetCDFIO(FileIO):
             #       given data file.', UserWarning)
 
         try:
-            _meta = xr.open_dataset(self.data_path, group='meta',
-                                    engine=_engine)
+            _meta = xr.open_dataset(self.data_path, group="meta", engine=_engine)
             self.meta = _meta
         except OSError:
-            warn('No associated metadata was found in the given data file.',
-                 UserWarning)
+            warnings.warn(
+                "No associated metadata was found in the given data file.", UserWarning
+            )
             self.meta = None
 
     def get_known_variables(self):
@@ -279,8 +281,8 @@ class NetCDFIO(FileIO):
         """
         _vars = list(self.dataset.variables)
         _coords = list(self.dataset.coords)
-        if ('strata_age' in _vars) or ('strata_depth' in _vars):
-            _coords += ['strata_age', 'strata_depth']
+        if ("strata_age" in _vars) or ("strata_depth" in _vars):
+            _coords += ["strata_age", "strata_depth"]
         self.known_variables = [item for item in _vars if item not in _coords]
 
     def get_known_coords(self):
@@ -327,8 +329,7 @@ class NetCDFIO(FileIO):
 
     @property
     def keys(self):
-        """Variable names in file.
-        """
+        """Variable names in file."""
         return [var for var in self.dataset.variables]
 
 
@@ -349,7 +350,7 @@ class DictionaryIO(BaseIO):
             each variable.
         """
 
-        super().__init__(io_type='dictionary')
+        super().__init__(io_type="dictionary")
 
         self.dataset = data_dictionary
         self._in_memory_data = self.dataset
@@ -386,27 +387,28 @@ class DictionaryIO(BaseIO):
             # if dimensions was passed, it must be a dictionary
             if not isinstance(dimensions, dict):
                 raise TypeError(
-                    'Input type for `dimensions` must be '
-                    '`dict` but was {0}'.format(type(dimensions)))
+                    "Input type for `dimensions` must be "
+                    "`dict` but was {0}".format(type(dimensions))
+                )
             # there should be exactly 3 keys
             if not (len(dimensions.keys()) == 3):
-                raise ValueError(
-                    '`dimensions` must contain three dimensions!')
+                raise ValueError("`dimensions` must contain three dimensions!")
             # use the dimensions keys as dims and the vals as coords
             #   note, we check the size against the underlying a we go
             for i, (k, v) in enumerate(dimensions.items()):
                 if not (len(dimensions[k]) == under_shp[i]):
                     raise ValueError(
-                        'Shape of `dimensions` at position {0} was {1}, '
-                        'which does not match the variables dimensions '
-                        '{2}.'.format(i, len(dimensions[k]), under_shp))
+                        "Shape of `dimensions` at position {0} was {1}, "
+                        "which does not match the variables dimensions "
+                        "{2}.".format(i, len(dimensions[k]), under_shp)
+                    )
             # make the assignment
             self.dims = list(dimensions.keys())
             self.coords = list(dimensions.values())
             self.dimensions = dimensions
         # otherwise, fill with np.arange(shape)
         else:
-            self.dims = ['dim0', 'dim1', 'dim2']
+            self.dims = ["dim0", "dim1", "dim2"]
             coords = []
             for i in range(3):
                 coords.append(np.arange(under_shp[i]))
@@ -455,11 +457,9 @@ class DictionaryIO(BaseIO):
         elif var in self.known_coords:
             return self.dimensions[var]
         else:
-            raise ValueError(
-                'No variable named {0} found.'.format(var))
+            raise ValueError("No variable named {0} found.".format(var))
 
     @property
     def keys(self):
-        """Variable names in file.
-        """
+        """Variable names in file."""
         return [var for var in self.dataset.variables]

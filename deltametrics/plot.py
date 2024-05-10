@@ -52,7 +52,7 @@ class VariableInfo(object):
     .. doctest::
 
         >>> veg3 = VariableInfo('vegetation_density',
-        ...                     cmap=mpl.colormaps['Greens'].resampled(3))
+        ...                     cmap=matplotlib.colormaps['Greens'].resampled(3))
         >>> veg3.cmap.N
         3
 
