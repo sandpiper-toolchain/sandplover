@@ -446,13 +446,13 @@ class TestLegacyPyDeltaRCMCube:
         assert type(rcm8cube.varset) is plot.VariableSet
 
         # check that two warnings were raised
-        assert re.match(
+        assert any(re.match(
             r'Coordinates for "time", .*',
-            record[0].message.args[0]
-            )
-        assert re.match(
+            _warning.message.args[0]) for _warning in record)
+
+        assert any(re.match(
             r'No associated metadata .*',
-            record[1].message.args[0])
+            _warning.message.args[0]) for _warning in record)
 
     def test_warning_netcdf_no_metadata(self):
         with pytest.warns(UserWarning, match=r'No associated metadata'):
