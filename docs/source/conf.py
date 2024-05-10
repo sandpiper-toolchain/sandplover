@@ -75,6 +75,7 @@ doctest_global_setup = '''
 import deltametrics as dm
 import numpy as np
 from matplotlib import pyplot as plt
+import matplotlib
 '''
 
 # empty string disables testing all code in any docstring

@@ -67,11 +67,12 @@ The underlying xarray object can be directly accessed by using a ``.data`` attri
 .. doctest::
 
     >>> np.mean( golfcube['eta'][1:,43,123] - golfcube['eta'][:-1,43,123] )
-    <xarray.DataArray 'eta' ()>
+    <xarray.DataArray 'eta' ()> Size: 4B
     array(0., dtype=float32)
     Coordinates:
-        x        float32 2.15e+03
-        y        float32 6.15e+03
+        x        float32 4B 2.15e+03
+        y        float32 4B 6.15e+03
+
 
 
 
