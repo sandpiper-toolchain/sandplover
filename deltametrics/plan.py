@@ -3,7 +3,9 @@ import xarray as xr
 import matplotlib.pyplot as plt
 
 from scipy.spatial import ConvexHull
+from scipy.signal import fftconvolve
 from shapely.geometry.polygon import Polygon
+
 from skimage import morphology
 
 import abc
@@ -771,7 +773,6 @@ class OpeningAnglePlanform(SpecialtyPlanform):
 
         # check if there is any *land*
         if np.any(below_mask == 0):
-
             # need to convert type to integer
             below_mask = below_mask.astype(int)
 
@@ -1431,7 +1432,6 @@ def compute_shoreline_length(shore_mask, origin=[0, 0], return_line=False):
     # # loop through all of the other points and organize into a line
     idx = 0
     while dist_next <= dist_max:
-
         idx += 1
 
         # find where the distance is minimized (i.e., next point)
@@ -1467,7 +1467,6 @@ def compute_shoreline_length(shore_mask, origin=[0, 0], return_line=False):
     )
 
     if not np.all(hit_pts):
-
         # compute dists from the intial point
         dists_pts = np.sqrt(
             (_x[~hit_pts] - line_xs_0[0]) ** 2 + (_y[~hit_pts] - line_ys_0[0]) ** 2
@@ -1477,7 +1476,6 @@ def compute_shoreline_length(shore_mask, origin=[0, 0], return_line=False):
         # loop through all of the other points and organize into a line
         idx = -1
         while dist_next <= dist_max:
-
             idx += 1
 
             # find where the distance is minimized (i.e., next point)
@@ -1635,7 +1633,6 @@ def _compute_angles_between(c1, shoreandborder, Shallowsea, numviews):
     """
     maxtheta = np.zeros((numviews, c1))
     for i in range(c1):
-
         shallow_reshape = np.atleast_2d(Shallowsea[:, i]).T
         diff = shoreandborder - shallow_reshape
         x = diff[0]
@@ -1764,16 +1761,38 @@ def shaw_opening_angle_method(below_mask, numviews=3):
 
 
 def _custom_closing(img, disksize):
-    """Private function for the binary closing."""
-    _changed = np.infty
+    """Custom function for the binary closing.
+
+    Custom function is implemented to handle iteration until convergence, and
+    use Fourier transform implementation of the morphological operations.
+
+    Iteration is repeated until specified tolerance (1 pixel) and maximum
+    number of iterations (100). In most (all?) cases, two iterations is
+    sufficient.
+
+    The FFT implementation is after
+    https://www.cs.utep.edu/vladik/misha5.pdf
+    """
+
+    def _dilate(A, B):
+        return fftconvolve(A, B, "same") > 0.5
+
+    def _erode(A, B, r):
+        A_inv = np.logical_not(A)
+        A_inv = np.pad(A_inv, r, "constant", constant_values=0)
+        tmp = fftconvolve(A_inv, B, "same") > 0.5
+        # now we must un-pad the result, and invert it again
+        return np.logical_not(tmp[r:-r, r:-r])
+
+    _changed = np.inf
     disk = morphology.disk(disksize)
+    r = (disksize // 2) + 1  # kernel radius, i.e. half the width of disk
     _iter = 0  # count number of closings, cap at 100
-    while (_changed != 0) and (_iter < 100):
-        _iter += 1
-        _newimg = morphology.binary_closing(img, footprint=disk)
-        _changed = np.sum(_newimg.astype(float) - img.astype(float))
-        _closed = _newimg
-    return _closed
+
+    _dilated = _dilate(img, disk)
+    _newimg = _erode(_dilated, disk, r)
+
+    return _newimg
 
 
 def morphological_closing_method(elevationmask, biggestdisk=None):
