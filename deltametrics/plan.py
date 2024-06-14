@@ -1763,12 +1763,10 @@ def shaw_opening_angle_method(below_mask, numviews=3):
 def _custom_closing(img, disksize):
     """Custom function for the binary closing.
 
-    Custom function is implemented to handle iteration until convergence, and
-    use Fourier transform implementation of the morphological operations.
+    Custom function is implemented to use Fourier transform implementation of
+    the morphological operations.
 
-    Iteration is repeated until specified tolerance (1 pixel) and maximum
-    number of iterations (100). In most (all?) cases, two iterations is
-    sufficient.
+    This operation is equivalent to scikit-image.morphology.binary_closing.
 
     The FFT implementation is after
     https://www.cs.utep.edu/vladik/misha5.pdf
@@ -1789,6 +1787,7 @@ def _custom_closing(img, disksize):
     r = (disksize // 2) + 1  # kernel radius, i.e. half the width of disk
     _iter = 0  # count number of closings, cap at 100
 
+    # binary_closing is dilation followed by erosion
     _dilated = _dilate(img, disk)
     _newimg = _erode(_dilated, disk, r)
 
