@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from scipy.spatial import ConvexHull
 from scipy.signal import fftconvolve
 from shapely.geometry.polygon import Polygon
+from scipy.ndimage import binary_fill_holes, generate_binary_structure
 
 from skimage import morphology
 
@@ -1652,7 +1653,7 @@ def _compute_angles_between(c1, shoreandborder, Shallowsea, numviews):
     return maxtheta
 
 
-def shaw_opening_angle_method(below_mask, numviews=3):
+def shaw_opening_angle_method(below_mask, numviews=3, preprocess=True):
     """Extract the opening angle map from an image.
 
     Applies the opening angle method [1]_ to compute the shoreline mask.
@@ -1694,18 +1695,29 @@ def shaw_opening_angle_method(below_mask, numviews=3):
         hull which envelops the shoreline as well as the delta interior.
     """
 
+    ## Preprocess
+    # Preprocess in orginal paper: "we pre-process by filling lakes
+    # (contiguous sets of water pixels surrounded by land)"
+    if preprocess:
+        below_mask = np.logical_not(
+            binary_fill_holes(np.logical_not(below_mask))
+        ).astype(int)
+
+    ## Find land-water interface (`edges`)
+    # find the edges of the below_mask by a gradient approach in x and y
     Sx, Sy = np.gradient(below_mask)
     G = np.sqrt((Sx * Sx) + (Sy * Sy))
-
     # threshold the gradient to produce edges
-    edges = np.logical_and((G > 0), (below_mask > 0))
-
+    #   NOTE: edges must be land pixels (below_mask == 0)
+    edges = np.logical_and((G > 0), (below_mask == 0))
+    # sanity check on found edges
     if np.sum(edges) == 0:
         raise ValueError(
             "No pixels identified in below_mask. "
             "Cannot compute the Opening Angle Method."
         )
 
+    ## Find convex hull
     # extract coordinates of the edge pixels and define convex hull
     bordermap = np.pad(np.zeros_like(edges), 1, "edge")
     bordermap[:-2, 1:-1] = edges
@@ -1713,7 +1725,7 @@ def shaw_opening_angle_method(below_mask, numviews=3):
     points = np.fliplr(np.array(np.where(edges > 0)).T)
     hull = ConvexHull(points, qhull_options="Qc")
 
-    # identify set of points to evaluate
+    ## Find set of all `sea` points to evaluate
     sea = np.fliplr(np.array(np.where(below_mask > 0.5)).T)
 
     # identify set of points in both the convex hull polygon and
