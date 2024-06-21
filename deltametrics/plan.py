@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 
 from scipy.spatial import ConvexHull
 from scipy.signal import fftconvolve
-from shapely.geometry.polygon import Polygon
+
+# from shapely.geometry.polygon import Polygon
 from scipy.ndimage import binary_fill_holes, generate_binary_structure
 
 from skimage import morphology
@@ -770,7 +771,7 @@ class OpeningAnglePlanform(SpecialtyPlanform):
             Passed to :func:`shaw_opening_angle_method`.
         """
 
-        sea_angles = np.zeros(self._shape)
+        # sea_angles = np.zeros(self._shape)
 
         # check if there is any *land*
         if np.any(below_mask == 0):
@@ -783,19 +784,17 @@ class OpeningAnglePlanform(SpecialtyPlanform):
                 shaw_kwargs["numviews"] = kwargs.pop("numviews")
 
             # pixels present in the mask
-            shoreangles, seaangles = shaw_opening_angle_method(
-                below_mask, **shaw_kwargs
-            )
+            sea_angles = shaw_opening_angle_method(below_mask, **shaw_kwargs)
 
             # translate flat seaangles values to the shoreline image
             #  this is a good target for optimization (return reshaped?)
-            flat_inds = list(
-                map(
-                    lambda x: np.ravel_multi_index(x, sea_angles.shape),
-                    seaangles[:2, :].T.astype(int),
-                )
-            )
-            sea_angles.flat[flat_inds] = seaangles[-1, :]
+            # flat_inds = list(
+            #     map(
+            #         lambda x: np.ravel_multi_index(x, sea_angles.shape),
+            #         seaangles[:2, :].T.astype(int),
+            #     )
+            # )
+            # sea_angles.flat[flat_inds] = seaangles[-1, :]
 
         # assign shore_image to the mask object with proper size
         self._sea_angles[:] = sea_angles
@@ -1627,15 +1626,18 @@ def compute_shoreline_distance(shore_mask, origin=[0, 0], return_distances=False
 
 
 @njit
-def _compute_angles_between(c1, shoreandborder, Shallowsea, numviews):
+def _compute_angles_between(test_set_idxs, query_set_idxs, numviews):
     """Private helper for shaw_opening_angle_method.
 
-    Good target for code style, organization, and optimization.
+    This function computes the angle between each point in the query set and
+    all points in the test set.
+
     """
-    maxtheta = np.zeros((numviews, c1))
-    for i in range(c1):
-        shallow_reshape = np.atleast_2d(Shallowsea[:, i]).T
-        diff = shoreandborder - shallow_reshape
+    query_set_length = len(query_set_idxs[0])
+    maxtheta = np.zeros((numviews, query_set_length))
+    for i in range(query_set_length):
+        shallow_reshape = np.atleast_2d(query_set_idxs[:, i]).T
+        diff = test_set_idxs - shallow_reshape
         x = diff[0]
         y = diff[1]
 
@@ -1653,7 +1655,7 @@ def _compute_angles_between(c1, shoreandborder, Shallowsea, numviews):
     return maxtheta
 
 
-def shaw_opening_angle_method(below_mask, numviews=3, preprocess=True):
+def shaw_opening_angle_method(below_mask, numviews=3, preprocess=True, location="sea"):
     """Extract the opening angle map from an image.
 
     Applies the opening angle method [1]_ to compute the shoreline mask.
@@ -1694,6 +1696,16 @@ def shaw_opening_angle_method(below_mask, numviews=3, preprocess=True):
         'look' of the opening angle method. The 'sea' region is the convex
         hull which envelops the shoreline as well as the delta interior.
     """
+    # Dev notes:
+    #
+    #   Variables are named somewhat in accordance with the original paper,
+    #   and sometimes have comments to clarify their meaning. In
+    #   general, "points" means x-y pairs as columns, and "idx" means indices
+    #   into the original shape of the array, and "flat" means indices into
+    #   the flattened shape of the original array.
+    #
+    #   Query set refers to the points for which the angle is calculated, test
+    #   set refers to the points which block the angle calculation.
 
     ## Preprocess
     # Preprocess in orginal paper: "we pre-process by filling lakes
@@ -1717,59 +1729,91 @@ def shaw_opening_angle_method(below_mask, numviews=3, preprocess=True):
             "Cannot compute the Opening Angle Method."
         )
 
+    ## bordered edges
+    bordermap = np.pad(
+        np.zeros_like(edges), pad_width=1, mode="constant", constant_values=0
+    )
+    bordermap[1:-1, 1:-1] = edges
+
     ## Find convex hull
     # extract coordinates of the edge pixels and define convex hull
-    bordermap = np.pad(np.zeros_like(edges), 1, "edge")
-    bordermap[:-2, 1:-1] = edges
-    bordermap[0, :] = 1
-    points = np.fliplr(np.array(np.where(edges > 0)).T)
-    hull = ConvexHull(points, qhull_options="Qc")
+    edge_idxs = np.column_stack(np.where(edges))
+    edge_points = np.fliplr(edge_idxs)  # as columns, x-y pairs
+    hull = ConvexHull(edge_points, qhull_options="Qc")
 
     ## Find set of all `sea` points to evaluate
-    sea = np.fliplr(np.array(np.where(below_mask > 0.5)).T)
+    all_sea_points = np.fliplr(np.column_stack(np.where(below_mask)))
 
     # identify set of points in both the convex hull polygon and
     #   defined as points_to_test and put these binary points into seamap
-    polygon = Polygon(points[hull.vertices]).buffer(0.01)
-    In = utils._points_in_polygon(sea, np.array(polygon.exterior.coords))
-    In = In.astype(bool)
-
-    Shallowsea_ = sea[In]
-    seamap = np.zeros(bordermap.shape)
-    flat_inds = list(
-        map(lambda x: np.ravel_multi_index(x, seamap.shape), np.fliplr(Shallowsea_))
+    sea_point_in_hull_bool = utils._points_in_polygon(
+        all_sea_points, edge_points[hull.vertices]
     )
-    seamap.flat[flat_inds] = 1
-    seamap[:3, :] = 0
+    sea_point_in_hull_bool = sea_point_in_hull_bool.astype(bool)
 
-    # define other points as these 'Deepsea' points
-    Deepsea_ = sea[~In]
-    Deepsea = np.zeros((numviews + 2, len(Deepsea_)))
-    Deepsea[:2, :] = np.flipud(Deepsea_.T)
-    Deepsea[-1, :] = 180.0  # 180 is a background value for waves1s later
+    # define sets of points in the sea as in or out of hull
+    Shallowsea_ = all_sea_points[sea_point_in_hull_bool]
+    Deepsea_ = all_sea_points[~sea_point_in_hull_bool]
 
-    # define points for the shallow sea and the shoreborder
-    Shallowsea = np.array(np.where(seamap > 0.5))
-    shoreandborder = np.array(np.where(bordermap > 0.5))
-    c1 = len(Shallowsea[0])
-    maxtheta = np.zeros((numviews, c1))
+    ## Make test set
+    # test set comprises the shoreline and border
+    shoreandborder = np.array(np.where(bordermap))
+    # test_set_idxs = edge_idxs
+    test_set_idxs = shoreandborder
 
-    # compute angle between each shallowsea and shoreborder point
-    maxtheta = _compute_angles_between(c1, shoreandborder, Shallowsea, numviews)
+    # flexible processing of the query set
+    if location == "sea":
+        # define the query set, as all water loactions inside the hull
+        # query_set_idxs = np.array(np.where(seamap))
+        query_set_idxs = np.flipud(Shallowsea_.T)
+        outside_hull_value = 180
+    elif location == "shore":
+        # define the query set, as all cells along the land water interace (edges)
+        query_set_idxs = np.array(np.where(edges))
+        outside_hull_value = 0
+    else:
+        raise ValueError("Bad value for 'location'")
 
-    # set up arrays for tracking the shore points and  their angles
-    allshore = np.array(np.where(edges > 0))
-    c3 = len(allshore[0])
-    maxthetashore = np.zeros((numviews, c3))
+    # compute angle between each query_set_idxs and shoreborder point
+    maxtheta = _compute_angles_between(test_set_idxs, query_set_idxs, numviews)
 
-    # get angles between the shore points and shoreborder points
-    maxthetashore = _compute_angles_between(c3, shoreandborder, allshore, numviews)
+    ## Cast
+    # create a new array to return and cast values into it
+    sea_angles = np.zeros_like(below_mask)
+    sea_angles[query_set_idxs[0, :], query_set_idxs[1, :]] = maxtheta[-1, :]
+    sea_angles[Deepsea_[:, 1], Deepsea_[:, 0]] = outside_hull_value  # aka 180
+
+    # if not return_shore_angles:
+    #     return sea_angles
+    # else:
+    #     return sea_angles, shore_angles
+
+    return sea_angles
 
     # define the shoreangles and seaangles identified
-    shoreangles = np.vstack([allshore, maxthetashore])
-    seaangles = np.hstack([np.vstack([Shallowsea, maxtheta]), Deepsea])
+    # shoreangles = np.vstack([allshore, maxthetashore])
+    # seaangles = np.hstack([np.vstack([query_set_idxs, maxtheta]), Deepsea])
 
-    return shoreangles, seaangles
+    # def _cast(_in):
+    #     # cast long lists to input array shape
+    #     _out = np.zeros_like(below_mask)
+    #     flat_inds = list(
+    #         map(
+    #             lambda x: np.ravel_multi_index(x, _out.shape),
+    #             _in[:2, :].T.astype(int),
+    #         )
+    #     )
+    #     _out.flat[flat_inds] = _in[-1, :]
+    #     return _out
+
+    # sea_angles = _cast(seaangles)
+    # shore_angles = _cast(shoreangles)
+
+    ## OR
+
+    breakpoint()
+
+    return shore_angles, sea_angles
 
 
 def _custom_closing(img, disksize):
