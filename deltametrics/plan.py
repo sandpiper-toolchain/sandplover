@@ -1847,9 +1847,10 @@ def morphological_closing_method(elevationmask, biggestdisk=None):
         biggestdisk = 1
 
     # loop through and do binary closing for each disk size up to biggestdisk
-    imageset = np.zeros((biggestdisk + 1, emsk.shape[0], emsk.shape[1]))
-    for i in range(biggestdisk + 1):
-        imageset[i, ...] = _custom_closing(emsk, i)
+    disksizes = np.arange(0, biggestdisk + 1, step=1)
+    imageset = np.zeros((len(disksizes), emsk.shape[0], emsk.shape[1]))
+    for i, size in enumerate(disksizes):
+        imageset[i, ...] = _custom_closing(emsk, size)
 
     return imageset, imageset.mean(axis=0)
 
