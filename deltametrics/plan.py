@@ -1658,7 +1658,7 @@ def _compute_angles_between(test_set_points, query_set_points, numviews):
         x = diff[:, 0]
         y = diff[:, 1]
 
-        angles = np.arctan2(y, x)  # DROP angles0 after debug
+        angles = np.arctan2(y, x)
         angles = np.sort(angles) * 180.0 / np.pi
 
         dangles = np.zeros_like(angles)
@@ -1733,6 +1733,21 @@ def shaw_opening_angle_method(
         Flattened values corresponding to the 'sea' angle detected for each
         'look' of the opening angle method. The 'sea' region is the convex
         hull which envelops the shoreline as well as the delta interior.
+
+    Examples
+    --------
+
+    .. plot::
+        :include-source:
+
+        golfcube = dm.sample_data.golf()
+        EM = dm.mask.ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
+
+        OAM = dm.plan.shaw_opening_angle_method(np.logical_not(EM.mask))
+
+        fig, ax = plt.subplots()
+        ax.imshow(OAM, vmin=0, vmax=180)
+        plt.show()
     """
     # Dev notes:
     #
