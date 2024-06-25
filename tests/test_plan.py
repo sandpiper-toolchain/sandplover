@@ -329,12 +329,30 @@ class TestMorphologicalPlanform:
 
 
 class TestShawOpeningAngleMethod:
-    simple_ocean = 1 - simple_land
+    simple_ocean = 1 - simple_land  # ocean is at bottom of image
 
-    # NEED TESTS
+    def test_allblack(self):
+        with pytest.raises(ValueError, match=r"No pixels identified in below_mask.*"):
+            _ = plan.shaw_opening_angle_method(np.zeros((10, 10), dtype=int))
 
-    def test_null(self):
-        pass
+    def test_simple_case_defaults(self):
+        oam = plan.shaw_opening_angle_method(self.simple_ocean)
+        assert np.all(oam <= 180)
+        assert np.all(oam >= 0)
+        assert np.all(oam[-1, :] == 180)
+
+    def test_simple_case_preprocess(self):
+        # make a custom mask with a lake
+        _custom_ocean = np.copy(self.simple_ocean)
+        _custom_ocean[1:3, 1:3] = 1  # add a lake
+
+        # the lake should be removed (default)
+        oam1 = plan.shaw_opening_angle_method(_custom_ocean, preprocess=True)
+        assert np.all(oam1[1:3, 1:3] == 0)
+
+        # the lake should persist
+        oam2 = plan.shaw_opening_angle_method(_custom_ocean, preprocess=False)
+        assert np.all(oam2[1:3, 1:3] != 0)
 
 
 class TestDeltaArea:

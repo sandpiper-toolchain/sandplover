@@ -1700,7 +1700,7 @@ def shaw_opening_angle_method(
         Binary image that has been thresholded to split water/land. At
         minimum, this should be a thresholded elevation matrix, or some
         classification of land/water based on pixel color or reflectance
-        intensity. This is the startin point (i.e., guess) for the opening
+        intensity. This is the starting point for the opening
         angle method.
 
     numviews : int, optional
@@ -1748,12 +1748,15 @@ def shaw_opening_angle_method(
     #   set refers to the points which bound the angle calculations.
 
     ## Preprocess
-    #   Preprocess in orginal paper: "we pre-process by filling lakes
-    #   (contiguous sets of water pixels surrounded by land)"
     if preprocess:
+        # Preprocess in orginal paper: "we pre-process by filling lakes
+        #   (contiguous sets of water pixels surrounded by land)"
         below_mask = np.logical_not(
             binary_fill_holes(np.logical_not(below_mask))
         ).astype(int)
+    else:
+        # Ensure array is integer binary
+        below_mask = below_mask.astype(int)
 
     ## Find land-water interface (`edges`)
     # find the edges of the below_mask by a gradient approach in x and y
