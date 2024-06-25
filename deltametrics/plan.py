@@ -1712,27 +1712,25 @@ def shaw_opening_angle_method(
 
     query_set : str, optional
         Where to compute the opening angle. Default is "sea", consistent with
-        the original paper. Also implemented is "edges"
+        the original paper. Also implemented is "lwi", which approximates the
+        view of open water from every point along the coast.
 
     test_set : str, optional
-        In implementation, we use land-water interface + border of land
-        pixels (default) NOTE: LWI, by default, includes the image border
-        land pixels. This results in a cleaner computation. In some
-        applications, this may not be necessary, and a computational gain can
-        be had by specifying test_set="edge". This does not circumvent the
-        issue described in the paper where a barrier island 1 pixel wide may
-        not block a view.
+        Which pixels to use as bounding in the opening angle calculation.
+        Default (`"lwi+border"`)is to use land-water interface and the border
+        of land pixels In some applications, a computational gain can be had
+        by using `"lwi"`. These options differ from the description in
+        [1]_ that describes the test set as comprising all land pixels; this
+        behavior is accomplished by option `"land"`, but comes at
+        considerable computational cost. Note that none of these options will
+        avoid the issue (described in [1]_ where a barrier island 1 pixel wide
+        may not properly block a view.
 
     Returns
     -------
-    shoreangles : ndarray
-        Flattened values corresponding to the shoreangle detected for each
-        'look' of the opening angle method
-
-    seaangles : ndarray
-        Flattened values corresponding to the 'sea' angle detected for each
-        'look' of the opening angle method. The 'sea' region is the convex
-        hull which envelops the shoreline as well as the delta interior.
+    opening_angles : ndarray
+        The opening angle detected for each location in the input
+        `below_mask`, with values determined according to the `query_set`.
 
     Examples
     --------
@@ -1866,17 +1864,17 @@ def shaw_opening_angle_method(
 
     ## Cast to map shape
     #   create a new array with padded shape to return and cast values into it
-    pad_sea_angles = np.zeros_like(pad_below_mask)
+    pad_opening_angles = np.zeros_like(pad_below_mask)
     #   fill the query points with the value returned from theta
-    pad_sea_angles[query_set_idxs[:, 0], query_set_idxs[:, 1]] = theta
+    pad_opening_angles[query_set_idxs[:, 0], query_set_idxs[:, 1]] = theta
     #   fill the rest of the array
-    pad_sea_angles[
+    pad_opening_angles[
         sea_idxs_outside_hull[:, 0], sea_idxs_outside_hull[:, 1]
     ] = outside_hull_value  # aka 180
     #   grab the data that is the same shape as the input below_mask
-    sea_angles = pad_sea_angles[1:-1, 1:-1]
+    opening_angles = pad_opening_angles[1:-1, 1:-1]
 
-    return sea_angles
+    return opening_angles
 
 
 def _custom_closing(img, disksize):
