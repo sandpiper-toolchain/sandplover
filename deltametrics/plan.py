@@ -1778,21 +1778,20 @@ def shaw_opening_angle_method(
     pad_below_mask = np.pad(below_mask, 1, "edge")
 
     ## Find land-water interface (`edges`)
-    # def _dilate(A, B):
-    #     return fftconvolve(A, B, "same") > 0.5
-
-    # include diagonals in edge
-    # selem = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]])
     selem = np.ones((3, 3)).astype(
         int
-    )  # # include diagonals in edge, another option would be a 3x3 disk
+    )  # include diagonals in edge, another option would be a 3x3 disk (no corners)
     land_dilation = _fft_dilate(
         np.logical_not(pad_below_mask), selem
     )  # expands land edges
     water_dilation = _fft_dilate(pad_below_mask, selem)  # excludes island interiors
-    land_edges_expanded = np.logical_and(land_dilation, water_dilation)
+    land_edges_expanded = np.logical_and(
+        land_dilation, water_dilation
+    )  # intersection is land plus edges
 
-    pad_edges = np.logical_and(land_edges_expanded, (pad_below_mask == 0))
+    pad_edges = np.logical_and(
+        land_edges_expanded, (pad_below_mask == 0)
+    )  # intersection is edges of actual land only
     if np.sum(pad_edges) == 0:
         raise ValueError(
             "No pixels identified in below_mask. "
