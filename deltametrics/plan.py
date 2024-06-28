@@ -13,7 +13,7 @@ from skimage import morphology
 import abc
 import warnings
 
-from numba import njit
+from numba import njit, prange, set_num_threads
 
 from . import mask
 from . import cube
@@ -782,6 +782,8 @@ class OpeningAnglePlanform(SpecialtyPlanform):
                 shaw_kwargs["numviews"] = kwargs.pop("numviews")
             if "preprocess" in kwargs:
                 shaw_kwargs["preprocess"] = kwargs.pop("preprocess")
+            if "parallel" in kwargs:
+                shaw_kwargs["parallel"] = kwargs.pop("parallel")
 
             # pixels present in the mask
             opening_angles = shaw_opening_angle_method(below_mask, **shaw_kwargs)
@@ -1626,7 +1628,7 @@ def compute_shoreline_distance(shore_mask, origin=[0, 0], return_distances=False
         return np.nanmean(_dists), np.nanstd(_dists)
 
 
-@njit
+@njit(parallel=True)
 def _compute_angles_between(test_set_points, query_set_points, numviews):
     """Private helper for shaw_opening_angle_method.
 
@@ -1647,6 +1649,10 @@ def _compute_angles_between(test_set_points, query_set_points, numviews):
     numviews==1, this can considerably speed up computations and has minimal
     effect on shoreline location in many cases.
 
+    .. important::
+
+        This function uses jit compilation via `numba`.
+
     .. [1] Shaw, John B., et al. "An image‐based method for
        shoreline mapping on complex coasts." Geophysical Research Letters
        35.12 (2008).
@@ -1654,7 +1660,8 @@ def _compute_angles_between(test_set_points, query_set_points, numviews):
     """
     query_set_length = query_set_points.shape[0]
     theta = np.zeros((query_set_length,))
-    for i in range(query_set_length):
+
+    for i in prange(query_set_length):
         diff = test_set_points - query_set_points[i]
         x = diff[:, 0]
         y = diff[:, 1]
@@ -1673,13 +1680,19 @@ def _compute_angles_between(test_set_points, query_set_points, numviews):
             # summed = np.sum(dangles[-numviews:])
             # theta[i] = np.minimum(summed, 180)
             tops = dangles[-numviews:]
-            theta[i] = np.sum(tops)
+            summed = np.sum(tops)
+            theta[i] = np.minimum(summed, 180)
 
     return theta
 
 
 def shaw_opening_angle_method(
-    below_mask, numviews=1, preprocess=True, query_set="sea", test_set="lwi+border"
+    below_mask,
+    query_set="sea",
+    test_set="lwi+border",
+    numviews=1,
+    preprocess=True,
+    parallel=0,
 ):
     """Extract the opening angle map from an image.
 
@@ -1706,13 +1719,6 @@ def shaw_opening_angle_method(
         intensity. This is the starting point for the opening
         angle method.
 
-    numviews : int, optional
-        Defines the number of largest angles to consider for the opening angle
-        map for each pixel. Default is 1, based on parameter $p$ in
-        [1]_. Note, this parameter is not an iteration count, but values >1
-        incur an additional `sort` operation, which can drastically increase
-        computation time. Value in original paper [1]_ is `numviews=3`.
-
     query_set : str, optional
         Where to compute the opening angle. Default is "sea", consistent with
         the original paper. Also implemented is "lwi", which approximates the
@@ -1728,6 +1734,28 @@ def shaw_opening_angle_method(
         considerable computational cost. Note that none of these options will
         avoid the issue (described in [1]_ where a barrier island 1 pixel wide
         may not properly block a view.
+
+    numviews : int, optional
+        Defines the number of largest angles to consider for the opening angle
+        map for each pixel. Default is 1, based on parameter $p$ in
+        [1]_. Note, this parameter is not an iteration count, but values >1
+        incur an additional `sort` operation, which can drastically increase
+        computation time. Value in original paper [1]_ is `numviews=3`.
+
+    preprocess : bool or int, optional
+        Whether to preprocess the input binary mask before applying the
+        opening angle method. Preprocessing fills lakes that are entirely
+        disconnected from the open water in the landmask. This is a helpful
+        operation for reducing computational load and ensuring the "correct"
+        shoreline is ultimately identified. Preprocessing is implemented in a
+        manner consistent with [1]_.
+
+    parallel : int, optional
+        Whether to use parallelization in the opening angle calculation. If
+        sufficient processors are available, we recommend using two to four
+        cores per mask being calculated. A value of `0` uses no
+        parallelization, and other positive integers specify the number of
+        threads to use (i.e., `1` also uses no parallelization).
 
     Returns
     -------
@@ -1871,6 +1899,10 @@ def shaw_opening_angle_method(
     ## Compute opening angle
     #   this is the main workhorse of the algorithm
     #   (see _compute_angles_between docstring for more information).
+    if parallel > 0:
+        set_num_threads(parallel)
+    else:
+        set_num_threads(1)  # if false, 1 thread max
     theta = _compute_angles_between(test_set_points, query_set_points, numviews)
 
     ## Cast to map shape
