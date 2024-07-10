@@ -4,14 +4,16 @@ import matplotlib.pyplot as plt
 
 from scipy.spatial import ConvexHull
 from scipy.signal import fftconvolve
-from shapely.geometry.polygon import Polygon
+
+# from shapely.geometry.polygon import Polygon
+from scipy.ndimage import binary_fill_holes, generate_binary_structure
 
 from skimage import morphology
 
 import abc
 import warnings
 
-from numba import njit
+from numba import njit, prange, set_num_threads
 
 from . import mask
 from . import cube
@@ -395,7 +397,7 @@ class SpecialtyPlanform(BasePlanform):
     All subclassing objects must implement:
       * a property named `data` that points to some field (i.e., an attribute
         of the planform) that best characterizes the Planform. For example,
-        the OAP planform `data` property points to the `sea_angles` field.
+        the OAP planform `data` property points to the `opening_angles` field.
 
     All subclassing objects should consider implementing:
       * the `show` method takes (optionally) a string argument specifying the
@@ -406,12 +408,12 @@ class SpecialtyPlanform(BasePlanform):
         will be used to style the displayed field. You can add different
         `VariableInfo` objects with the name matching any other field of the
         planform to use that style instead; for example, OAP implements
-        `self._sea_angles_varinfo`, which is used if the `sea_angles` field
+        `self._opening_angles_varinfo`, which is used if the `opening_angles` field
         is specified to :meth:`show`.
       * The `self._default_varinfo` can be overwritten in a subclass
         (after ``super().__init__``) to style the `show` default field
         (`data`) a certain way. For example, OAP sets ``self._default_varinfo
-        = self._sea_angles_varinfo``.
+        = self._opening_angles_varinfo``.
     """
 
     def __init__(self, planform_type, *args, **kwargs):
@@ -556,7 +558,7 @@ class OpeningAnglePlanform(SpecialtyPlanform):
 
     The OAP stores information computed from the
     :func:`shaw_opening_angle_method`. See the two properties of the OAP
-    :obj:`below_mask` and :obj:`sea_angles`.
+    :obj:`below_mask` and :obj:`opening_angles`.
 
     .. plot::
         :context:
@@ -565,12 +567,12 @@ class OpeningAnglePlanform(SpecialtyPlanform):
         golfcube.quick_show('eta', idx=-1, ax=ax[0])
         im1 = ax[1].imshow(OAP.below_mask,
                            cmap='Greys_r')
-        im2 = ax[2].imshow(OAP.sea_angles,
+        im2 = ax[2].imshow(OAP.opening_angles,
                            cmap='jet')
         dm.plot.append_colorbar(im2, ax=ax[2])
         ax[0].set_title('input elevation data')
         ax[1].set_title('OAP.below_mask')
-        ax[2].set_title('OAP.sea_angles')
+        ax[2].set_title('OAP.opening_angles')
         for i in range(1, 3):
             ax[i].set_xticks([])
             ax[i].set_yticks([])
@@ -624,7 +626,7 @@ class OpeningAnglePlanform(SpecialtyPlanform):
         _em = mask.ElevationMask(elevation_data, **kwargs)
 
         # invert the mask for the below sea level area
-        _below_mask = ~(_em.mask)
+        _below_mask = np.logical_not(_em.mask)
 
         # compute from __init__ pathway
         return OpeningAnglePlanform(_below_mask, **kwargs)
@@ -681,17 +683,17 @@ class OpeningAnglePlanform(SpecialtyPlanform):
         """
         super().__init__("opening angle", *args)
         self._shape = None
-        self._sea_angles = None
+        self._opening_angles = None
         self._below_mask = None
 
         # set variable info display options
-        self._sea_angles_varinfo = plot.VariableInfo(
-            "sea_angles", cmap=plt.cm.jet, label="opening angle"
+        self._opening_angles_varinfo = plot.VariableInfo(
+            "opening_angles", cmap=plt.cm.jet, label="opening angle"
         )
         self._below_mask_varinfo = plot.VariableInfo(
             "below_mask", cmap=plt.cm.gray, label="where below"
         )
-        self._default_varinfo = self._sea_angles_varinfo
+        self._default_varinfo = self._opening_angles_varinfo
 
         # check for inputs to return or proceed
         if len(args) == 0:
@@ -730,15 +732,15 @@ class OpeningAnglePlanform(SpecialtyPlanform):
             if isinstance(_below_mask, xr.core.dataarray.DataArray):
                 self._below_mask = xr.zeros_like(_below_mask, dtype=bool)
                 self._below_mask.name = "below_mask"
-                self._sea_angles = xr.zeros_like(_below_mask, dtype=float)
-                self._sea_angles.name = "sea_angles"
+                self._opening_angles = xr.zeros_like(_below_mask, dtype=float)
+                self._opening_angles.name = "opening_angles"
             elif isinstance(_below_mask, np.ndarray):
                 # this will use meshgrid to fill out with dx=1 in shape of array
                 self._below_mask = xr.DataArray(
                     data=np.zeros(_below_mask.shape, dtype=bool), name="below_mask"
                 )
-                self._sea_angles = xr.DataArray(
-                    data=np.zeros(_below_mask.shape, dtype=float), name="sea_angles"
+                self._opening_angles = xr.DataArray(
+                    data=np.zeros(_below_mask.shape, dtype=float), name="opening_angles"
                 )
             else:
                 raise TypeError("Invalid type {0}".format(type(_below_mask)))
@@ -769,8 +771,6 @@ class OpeningAnglePlanform(SpecialtyPlanform):
             Passed to :func:`shaw_opening_angle_method`.
         """
 
-        sea_angles = np.zeros(self._shape)
-
         # check if there is any *land*
         if np.any(below_mask == 0):
             # need to convert type to integer
@@ -780,36 +780,30 @@ class OpeningAnglePlanform(SpecialtyPlanform):
             shaw_kwargs = {}
             if "numviews" in kwargs:
                 shaw_kwargs["numviews"] = kwargs.pop("numviews")
+            if "preprocess" in kwargs:
+                shaw_kwargs["preprocess"] = kwargs.pop("preprocess")
+            if "parallel" in kwargs:
+                shaw_kwargs["parallel"] = kwargs.pop("parallel")
 
             # pixels present in the mask
-            shoreangles, seaangles = shaw_opening_angle_method(
-                below_mask, **shaw_kwargs
-            )
-
-            # translate flat seaangles values to the shoreline image
-            #  this is a good target for optimization (return reshaped?)
-            flat_inds = list(
-                map(
-                    lambda x: np.ravel_multi_index(x, sea_angles.shape),
-                    seaangles[:2, :].T.astype(int),
-                )
-            )
-            sea_angles.flat[flat_inds] = seaangles[-1, :]
+            opening_angles = shaw_opening_angle_method(below_mask, **shaw_kwargs)
+        else:
+            opening_angles = np.zeros_like(below_mask).astype(float)
 
         # assign shore_image to the mask object with proper size
-        self._sea_angles[:] = sea_angles
+        self._opening_angles[:] = opening_angles
 
         # properly assign the oceanmap to the self.below_mask
         #   set it to be bool regardless of input type
         self._below_mask[:] = below_mask.astype(bool)
 
     @property
-    def sea_angles(self):
+    def opening_angles(self):
         """Maximum opening angle view of the sea from a pixel.
 
         See figure in main docstring for visual example.
         """
-        return self._sea_angles
+        return self._opening_angles
 
     @property
     def below_mask(self):
@@ -823,16 +817,25 @@ class OpeningAnglePlanform(SpecialtyPlanform):
 
     @property
     def composite_array(self):
-        """Alias to `sea_angles`.
+        """Alias to `opening_angles`.
 
         This is the array that a contour is extracted from using some threshold
         value when making land and shoreline masks.
         """
-        return self._sea_angles
+        return self._opening_angles
+
+    @property
+    def sea_angles(self):
+        """Alias to `opening_angles`.
+
+        This alias is implemented for backwards compatability, and should not
+        be relied on. Use `opening_angles` instead.
+        """
+        return self._opening_angles
 
     @property
     def data(self):
-        return self._sea_angles
+        return self._opening_angles
 
 
 class MorphologicalPlanform(SpecialtyPlanform):
@@ -1625,34 +1628,72 @@ def compute_shoreline_distance(shore_mask, origin=[0, 0], return_distances=False
         return np.nanmean(_dists), np.nanstd(_dists)
 
 
-@njit
-def _compute_angles_between(c1, shoreandborder, Shallowsea, numviews):
+@njit(parallel=True)
+def _compute_angles_between(test_set_points, query_set_points, numviews):
     """Private helper for shaw_opening_angle_method.
 
-    Good target for code style, organization, and optimization.
-    """
-    maxtheta = np.zeros((numviews, c1))
-    for i in range(c1):
-        shallow_reshape = np.atleast_2d(Shallowsea[:, i]).T
-        diff = shoreandborder - shallow_reshape
-        x = diff[0]
-        y = diff[1]
+    This function is the workhorse of the public function implementing the
+    Opening Angle Method. Here, we iterate over all points in the query set,
+    and find (approximate) the opening angle of the query point. This
+    approximation is made by calculating the angle between the query point
+    and all points in the test set, and then finding the angles not covered
+    by rays between the query point an all test points. This "remaining"
+    angle is the opening angle.
 
-        angles = np.arctan2(x, y)
+    Implementation follows closely to the description in the original paper
+    [1]_. Some changes are made to reduce the number of computations; these
+    changes do not change the end result. For example, sorts are in ascending
+    order, and differencing follows in the opposite sequence of the paper.
+    Iteration is limited to the query points, with all other computation
+    vectorized. Implementaion is also optimized to skip the second sort if
+    numviews==1, this can considerably speed up computations and has minimal
+    effect on shoreline location in many cases.
+
+    .. important::
+
+        This function uses jit compilation via `numba`.
+
+    .. [1] Shaw, John B., et al. "An image‐based method for
+       shoreline mapping on complex coasts." Geophysical Research Letters
+       35.12 (2008).
+
+    """
+    query_set_length = query_set_points.shape[0]
+    theta = np.zeros((query_set_length,))
+
+    for i in prange(query_set_length):
+        diff = test_set_points - query_set_points[i]
+        x = diff[:, 0]
+        y = diff[:, 1]
+
+        angles = np.arctan2(y, x)
         angles = np.sort(angles) * 180.0 / np.pi
 
         dangles = np.zeros_like(angles)
         dangles[:-1] = angles[1:] - angles[:-1]
         remangle = 360 - (angles.max() - angles.min())
         dangles[-1] = remangle
-        dangles = np.sort(dangles)
+        if numviews == 1:
+            theta[i] = np.max(dangles)
+        else:
+            dangles = np.sort(dangles)
+            # summed = np.sum(dangles[-numviews:])
+            # theta[i] = np.minimum(summed, 180)
+            tops = dangles[-numviews:]
+            summed = np.sum(tops)
+            theta[i] = np.minimum(summed, 180)
 
-        maxtheta[:, i] = dangles[-numviews:]
-
-    return maxtheta
+    return theta
 
 
-def shaw_opening_angle_method(below_mask, numviews=3):
+def shaw_opening_angle_method(
+    below_mask,
+    query_set="sea",
+    test_set="lwi+border",
+    numviews=1,
+    preprocess=True,
+    parallel=0,
+):
     """Extract the opening angle map from an image.
 
     Applies the opening angle method [1]_ to compute the shoreline mask.
@@ -1675,89 +1716,230 @@ def shaw_opening_angle_method(below_mask, numviews=3):
         Binary image that has been thresholded to split water/land. At
         minimum, this should be a thresholded elevation matrix, or some
         classification of land/water based on pixel color or reflectance
-        intensity. This is the startin point (i.e., guess) for the opening
+        intensity. This is the starting point for the opening
         angle method.
 
-    numviews : int
+    query_set : str, optional
+        Where to compute the opening angle. Default is "sea", consistent with
+        the original paper. Also implemented is "lwi", which approximates the
+        view of open water from every point along the coast.
+
+    test_set : str, optional
+        Which pixels to use as bounding in the opening angle calculation.
+        Default (`"lwi+border"`)is to use land-water interface and the border
+        of land pixels In some applications, a computational gain can be had
+        by using `"lwi"`. These options differ from the description in
+        [1]_ that describes the test set as comprising all land pixels; this
+        behavior is accomplished by option `"land"`, but comes at
+        considerable computational cost. Note that none of these options will
+        avoid the issue (described in [1]_ where a barrier island 1 pixel wide
+        may not properly block a view.
+
+    numviews : int, optional
         Defines the number of largest angles to consider for the opening angle
-        map for each pixel. Default is 3, based on [1]_.
+        map for each pixel. Default is 1, based on parameter $p$ in
+        [1]_. Note, this parameter is not an iteration count, but values >1
+        incur an additional `sort` operation, which can drastically increase
+        computation time. Value in original paper [1]_ is `numviews=3`.
+
+    preprocess : bool or int, optional
+        Whether to preprocess the input binary mask before applying the
+        opening angle method. Preprocessing fills lakes that are entirely
+        disconnected from the open water in the landmask. This is a helpful
+        operation for reducing computational load and ensuring the "correct"
+        shoreline is ultimately identified. Preprocessing is implemented in a
+        manner consistent with [1]_.
+
+    parallel : int, optional
+        Whether to use parallelization in the opening angle calculation. If
+        sufficient processors are available, we recommend using two to four
+        cores per mask being calculated. A value of `0` uses no
+        parallelization, and other positive integers specify the number of
+        threads to use (i.e., `1` also uses no parallelization).
 
     Returns
     -------
-    shoreangles : ndarray
-        Flattened values corresponding to the shoreangle detected for each
-        'look' of the opening angle method
+    opening_angles : ndarray
+        The opening angle detected for each location in the input
+        `below_mask`, with values determined according to the `query_set`.
 
-    seaangles : ndarray
-        Flattened values corresponding to the 'sea' angle detected for each
-        'look' of the opening angle method. The 'sea' region is the convex
-        hull which envelops the shoreline as well as the delta interior.
+    Examples
+    --------
+
+    .. plot::
+        :include-source:
+
+        golfcube = dm.sample_data.golf()
+        EM = dm.mask.ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
+
+        OAM = dm.plan.shaw_opening_angle_method(np.logical_not(EM.mask))
+
+        fig, ax = plt.subplots()
+        ax.imshow(OAM, vmin=0, vmax=180)
+        plt.show()
     """
+    # Dev notes:
+    #
+    #   Variables are named somewhat in accordance with the original paper,
+    #   and sometimes have comments to clarify their meaning. In
+    #   general, "points" means x-y pairs as columns, and "idx" means indices
+    #   into the original shape of the array (dim0-dim1 pairs), and "flat"
+    #   means indices into the flattened shape of the original array. "pad"
+    #   refers to maps that have been padded by one pixel, which is used in
+    #   most calculations as a buffer.
+    #
+    #   Query set refers to the points for which the angle is calculated, test
+    #   set refers to the points which bound the angle calculations.
 
-    Sx, Sy = np.gradient(below_mask)
-    G = np.sqrt((Sx * Sx) + (Sy * Sy))
+    ## Preprocess
+    if preprocess:
+        # Preprocess in orginal paper: "we pre-process by filling lakes
+        #   (contiguous sets of water pixels surrounded by land)"
+        below_mask = np.logical_not(
+            binary_fill_holes(np.logical_not(below_mask))
+        ).astype(int)
+    else:
+        # Ensure array is integer binary
+        below_mask = below_mask.astype(int)
 
-    # threshold the gradient to produce edges
-    edges = np.logical_and((G > 0), (below_mask > 0))
+    ## Make padded version of below_mask and edges
+    pad_below_mask = np.pad(below_mask, 1, "edge")
 
-    if np.sum(edges) == 0:
+    ## Find land-water interface (`edges`)
+    selem = np.ones((3, 3)).astype(
+        int
+    )  # include diagonals in edge, another option would be a 3x3 disk (no corners)
+    land_dilation = _fft_dilate(
+        np.logical_not(pad_below_mask), selem
+    )  # expands land edges
+    water_dilation = _fft_dilate(pad_below_mask, selem)  # excludes island interiors
+    land_edges_expanded = np.logical_and(
+        land_dilation, water_dilation
+    )  # intersection is land plus edges
+
+    pad_edges = np.logical_and(
+        land_edges_expanded, (pad_below_mask == 0)
+    )  # intersection is edges of actual land only
+    if np.sum(pad_edges) == 0:
         raise ValueError(
             "No pixels identified in below_mask. "
             "Cannot compute the Opening Angle Method."
         )
 
-    # extract coordinates of the edge pixels and define convex hull
-    bordermap = np.pad(np.zeros_like(edges), 1, "edge")
-    bordermap[:-2, 1:-1] = edges
-    bordermap[0, :] = 1
-    points = np.fliplr(np.array(np.where(edges > 0)).T)
-    hull = ConvexHull(points, qhull_options="Qc")
+    ## Find set of all `sea` points to evaluate
+    all_sea_idxs = np.column_stack(np.where(pad_below_mask))
+    all_sea_points = np.fliplr(all_sea_idxs)
 
-    # identify set of points to evaluate
-    sea = np.fliplr(np.array(np.where(below_mask > 0.5)).T)
+    ## Make test set
+    edge_idxs = np.column_stack(np.where(pad_edges))
+    edge_points = np.fliplr(edge_idxs)  # as columns, x-y pairs
+    land_points = np.fliplr(
+        np.column_stack(np.where(np.logical_not(pad_below_mask)))
+    )  # as columns, x-y pairs
+    if test_set == "lwi+border":
+        # default option, land-water interface and the border pixels that are land
+        #   this is a good compromise between accuracy and computational
+        #   efficiency.
+        pad_below_mask_border_only = np.copy(pad_below_mask)
+        pad_below_mask_border_only[1:-1, 1:-1] = 1
 
-    # identify set of points in both the convex hull polygon and
+        pad_edges_and_border = np.logical_or(
+            np.logical_not(pad_below_mask_border_only), pad_edges
+        )
+        test_set_points = np.fliplr(np.column_stack(np.where(pad_edges_and_border)))
+    elif test_set == "lwi":
+        # use only the land-water interface
+        #   this option is slightly faster than the default, but may be
+        #   inaccurate in shorelines with deep embayments. test set is the
+        #   land-water interface
+        test_set_points = edge_points
+    elif test_set == "land":
+        # use all land points
+        #   this is very slow if there is a large area of land, but is the
+        #   most accurate implementation
+        test_set_points = land_points
+    else:
+        raise ValueError(
+            f"Invalid option '{test_set}' for `test_set` parameter was supplied."
+        )
+
+    ## Find convex hull
+    hull = ConvexHull(test_set_points, qhull_options="Qc")
+
+    ## Make sea points
+    #   identify set of points in both the convex hull polygon and
     #   defined as points_to_test and put these binary points into seamap
-    polygon = Polygon(points[hull.vertices]).buffer(0.01)
-    In = utils._points_in_polygon(sea, np.array(polygon.exterior.coords))
-    In = In.astype(bool)
-
-    Shallowsea_ = sea[In]
-    seamap = np.zeros(bordermap.shape)
-    flat_inds = list(
-        map(lambda x: np.ravel_multi_index(x, seamap.shape), np.fliplr(Shallowsea_))
+    sea_points_in_hull_bool = utils._points_in_polygon(
+        all_sea_points, test_set_points[hull.vertices]
     )
-    seamap.flat[flat_inds] = 1
-    seamap[:3, :] = 0
+    sea_points_in_hull_bool = sea_points_in_hull_bool.astype(bool)
 
-    # define other points as these 'Deepsea' points
-    Deepsea_ = sea[~In]
-    Deepsea = np.zeros((numviews + 2, len(Deepsea_)))
-    Deepsea[:2, :] = np.flipud(Deepsea_.T)
-    Deepsea[-1, :] = 180.0  # 180 is a background value for waves1s later
+    # define sets of points in the sea as in or out of hull
+    sea_idxs_in_hull = all_sea_idxs[sea_points_in_hull_bool]
+    sea_points_in_hull = all_sea_points[sea_points_in_hull_bool]
+    sea_idxs_outside_hull = all_sea_idxs[~sea_points_in_hull_bool]
 
-    # define points for the shallow sea and the shoreborder
-    Shallowsea = np.array(np.where(seamap > 0.5))
-    shoreandborder = np.array(np.where(bordermap > 0.5))
-    c1 = len(Shallowsea[0])
-    maxtheta = np.zeros((numviews, c1))
+    ## Make query set
+    # flexible processing of the query set
+    if query_set == "sea":
+        # all water locations inside the hull
+        query_set_idxs = sea_idxs_in_hull
+        query_set_points = sea_points_in_hull
+        outside_hull_value = 180
+    elif query_set == "lwi":
+        # all cells along the land water interface (edges)
+        query_set_idxs = np.column_stack(np.where(pad_edges))
+        query_set_points = np.fliplr(query_set_idxs)
+        outside_hull_value = 0
+    else:
+        raise ValueError(
+            f"Invalid option '{query_set}' for `query_set` parameter was supplied."
+        )
 
-    # compute angle between each shallowsea and shoreborder point
-    maxtheta = _compute_angles_between(c1, shoreandborder, Shallowsea, numviews)
+    ## Compute opening angle
+    #   this is the main workhorse of the algorithm
+    #   (see _compute_angles_between docstring for more information).
+    if parallel > 0:
+        set_num_threads(parallel)
+    else:
+        set_num_threads(1)  # if false, 1 thread max
+    theta = _compute_angles_between(test_set_points, query_set_points, numviews)
 
-    # set up arrays for tracking the shore points and  their angles
-    allshore = np.array(np.where(edges > 0))
-    c3 = len(allshore[0])
-    maxthetashore = np.zeros((numviews, c3))
+    ## Cast to map shape
+    #   create a new array with padded shape to return and cast values into it
+    pad_opening_angles = np.zeros_like(pad_below_mask)
+    #   fill the query points with the value returned from theta
+    pad_opening_angles[query_set_idxs[:, 0], query_set_idxs[:, 1]] = theta
+    #   fill the rest of the array
+    pad_opening_angles[
+        sea_idxs_outside_hull[:, 0], sea_idxs_outside_hull[:, 1]
+    ] = outside_hull_value  # aka 180
+    #   grab the data that is the same shape as the input below_mask
+    opening_angles = pad_opening_angles[1:-1, 1:-1]
 
-    # get angles between the shore points and shoreborder points
-    maxthetashore = _compute_angles_between(c3, shoreandborder, allshore, numviews)
+    return opening_angles
 
-    # define the shoreangles and seaangles identified
-    shoreangles = np.vstack([allshore, maxthetashore])
-    seaangles = np.hstack([np.vstack([Shallowsea, maxtheta]), Deepsea])
 
-    return shoreangles, seaangles
+def _fft_dilate(A, B):
+    """morphological dilation in the frequency domain.
+
+    The FFT implementation is after
+    https://www.cs.utep.edu/vladik/misha5.pdf
+    """
+    return fftconvolve(A, B, "same") > 0.5
+
+
+def _fft_erode(A, B, r):
+    """morphological dilation in the frequency domain.
+
+    The FFT implementation is after
+    https://www.cs.utep.edu/vladik/misha5.pdf
+    """
+    A_inv = np.logical_not(A)
+    A_inv = np.pad(A_inv, r, "constant", constant_values=0)
+    tmp = fftconvolve(A_inv, B, "same") > 0.5
+    # now we must un-pad the result, and invert it again
+    return np.logical_not(tmp[r:-r, r:-r])
 
 
 def _custom_closing(img, disksize):
@@ -1771,25 +1953,14 @@ def _custom_closing(img, disksize):
     The FFT implementation is after
     https://www.cs.utep.edu/vladik/misha5.pdf
     """
-
-    def _dilate(A, B):
-        return fftconvolve(A, B, "same") > 0.5
-
-    def _erode(A, B, r):
-        A_inv = np.logical_not(A)
-        A_inv = np.pad(A_inv, r, "constant", constant_values=0)
-        tmp = fftconvolve(A_inv, B, "same") > 0.5
-        # now we must un-pad the result, and invert it again
-        return np.logical_not(tmp[r:-r, r:-r])
-
     _changed = np.inf
     disk = morphology.disk(disksize)
     r = (disksize // 2) + 1  # kernel radius, i.e. half the width of disk
     _iter = 0  # count number of closings, cap at 100
 
     # binary_closing is dilation followed by erosion
-    _dilated = _dilate(img, disk)
-    _newimg = _erode(_dilated, disk, r)
+    _dilated = _fft_dilate(img, disk)
+    _newimg = _fft_erode(_dilated, disk, r)
 
     return _newimg
 
@@ -1826,7 +1997,8 @@ def morphological_closing_method(elevationmask, biggestdisk=None):
 
     meanimage : ndarray
         2-D array of shape x-y of the mean of imageset taken over the first
-        axis. This approximates the `sea_angles` attribute of the OAM method.
+        axis. This approximates the opening_angles
+        of :obj:`shaw_opening_angle_method`.
     """
     # coerce input image into 2-d ndarray
     if isinstance(elevationmask, mask.BaseMask):
@@ -1847,9 +2019,10 @@ def morphological_closing_method(elevationmask, biggestdisk=None):
         biggestdisk = 1
 
     # loop through and do binary closing for each disk size up to biggestdisk
-    imageset = np.zeros((biggestdisk + 1, emsk.shape[0], emsk.shape[1]))
-    for i in range(biggestdisk + 1):
-        imageset[i, ...] = _custom_closing(emsk, i)
+    disksizes = np.arange(0, biggestdisk + 1, step=1)
+    imageset = np.zeros((len(disksizes), emsk.shape[0], emsk.shape[1]))
+    for i, size in enumerate(disksizes):
+        imageset[i, ...] = _custom_closing(emsk, size)
 
     return imageset, imageset.mean(axis=0)
 

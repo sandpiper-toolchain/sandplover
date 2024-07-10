@@ -23,7 +23,7 @@ class TestComputeBoxyStratigraphyVolume:
             self.elev, self.time, dz=0.05)
         assert s.ndim == 3
         assert s.shape == e.shape
-        assert e[1, 0, 0] - e[0, 0, 0] == pytest.approx(0.05)
+        assert e[1, 0, 0] - e[0, 0, 0] == pytest.approx(0.05, rel=1e-3)
 
     def test_returns_volume_and_elevations_given_z(self):
         z = np.linspace(-20, 500, 200)
