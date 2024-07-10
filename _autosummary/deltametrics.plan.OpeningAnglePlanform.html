@@ -77,7 +77,7 @@ elevation data (i.e., from an <a class="reference internal" href="deltametrics.m
 </div>
 <p>The OAP stores information computed from the
 <a class="reference internal" href="deltametrics.plan.shaw_opening_angle_method.html#deltametrics.plan.shaw_opening_angle_method" title="deltametrics.plan.shaw_opening_angle_method"><code class="xref py py-func docutils literal notranslate"><span class="pre">shaw_opening_angle_method()</span></code></a>. See the two properties of the OAP
-<a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.below_mask" title="deltametrics.plan.OpeningAnglePlanform.below_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">below_mask</span></code></a> and <a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.sea_angles" title="deltametrics.plan.OpeningAnglePlanform.sea_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sea_angles</span></code></a>.</p>
+<a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.below_mask" title="deltametrics.plan.OpeningAnglePlanform.below_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">below_mask</span></code></a> and <a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.opening_angles" title="deltametrics.plan.OpeningAnglePlanform.opening_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opening_angles</span></code></a>.</p>
 <p>(<a class="reference download internal" download="" href="../_downloads/dadc983f771eddf26b94fc76d1dff0ec/deltametrics-plan-OpeningAnglePlanform-2.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/8cf3689626e00f4a5dc564caa8536cc5/deltametrics-plan-OpeningAnglePlanform-2.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
 <figure class="align-default">
 <img alt="../_images/deltametrics-plan-OpeningAnglePlanform-2.png" class="plot-directive" src="../_images/deltametrics-plan-OpeningAnglePlanform-2.png" />
@@ -123,7 +123,7 @@ elevation data (i.e., from an <a class="reference internal" href="deltametrics.m
 <td><p>Mask for below sea level pixels.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.composite_array" title="deltametrics.plan.OpeningAnglePlanform.composite_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">composite_array</span></code></a></p></td>
-<td><p>Alias to <cite>sea_angles</cite>.</p></td>
+<td><p>Alias to <cite>opening_angles</cite>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.data" title="deltametrics.plan.OpeningAnglePlanform.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
 <td><p>The public data field.</p></td>
@@ -131,10 +131,13 @@ elevation data (i.e., from an <a class="reference internal" href="deltametrics.m
 <tr class="row-even"><td><p><a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.name" title="deltametrics.plan.OpeningAnglePlanform.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
 <td><p>Planform name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.sea_angles" title="deltametrics.plan.OpeningAnglePlanform.sea_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sea_angles</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.opening_angles" title="deltametrics.plan.OpeningAnglePlanform.opening_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opening_angles</span></code></a></p></td>
 <td><p>Maximum opening angle view of the sea from a pixel.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.shape" title="deltametrics.plan.OpeningAnglePlanform.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.sea_angles" title="deltametrics.plan.OpeningAnglePlanform.sea_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sea_angles</span></code></a></p></td>
+<td><p>Alias to <cite>opening_angles</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.shape" title="deltametrics.plan.OpeningAnglePlanform.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></p></td>
 <td><p>Planform shape.</p></td>
 </tr>
 </tbody>
@@ -158,7 +161,7 @@ to <cite>self.data</cite>. I.e., the returned slice is <code class="docutils lit
 <dl class="py property">
 <dt class="sig sig-object py" id="deltametrics.plan.OpeningAnglePlanform.composite_array">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">composite_array</span></span><a class="headerlink" href="#deltametrics.plan.OpeningAnglePlanform.composite_array" title="Link to this definition">¶</a></dt>
-<dd><p>Alias to <cite>sea_angles</cite>.</p>
+<dd><p>Alias to <cite>opening_angles</cite>.</p>
 <p>This is the array that a contour is extracted from using some threshold
 value when making land and shoreline masks.</p>
 </dd></dl>
@@ -256,10 +259,18 @@ turn used to create the <cite>OpeningAnglePlanform</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="deltametrics.plan.OpeningAnglePlanform.sea_angles">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sea_angles</span></span><a class="headerlink" href="#deltametrics.plan.OpeningAnglePlanform.sea_angles" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="deltametrics.plan.OpeningAnglePlanform.opening_angles">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">opening_angles</span></span><a class="headerlink" href="#deltametrics.plan.OpeningAnglePlanform.opening_angles" title="Link to this definition">¶</a></dt>
 <dd><p>Maximum opening angle view of the sea from a pixel.</p>
 <p>See figure in main docstring for visual example.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="deltametrics.plan.OpeningAnglePlanform.sea_angles">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sea_angles</span></span><a class="headerlink" href="#deltametrics.plan.OpeningAnglePlanform.sea_angles" title="Link to this definition">¶</a></dt>
+<dd><p>Alias to <cite>opening_angles</cite>.</p>
+<p>This alias is implemented for backwards compatability, and should not
+be relied on. Use <cite>opening_angles</cite> instead.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -324,6 +335,7 @@ create a new) <cite>Axes</cite> object.</p></li>
 <li><a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.from_elevation_data"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.from_elevation_data()</span></code></a></li>
 <li><a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.from_mask"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.from_mask()</span></code></a></li>
 <li><a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.name"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.name</span></code></a></li>
+<li><a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.opening_angles"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.opening_angles</span></code></a></li>
 <li><a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.sea_angles"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.sea_angles</span></code></a></li>
 <li><a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.shape"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.shape</span></code></a></li>
 <li><a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.show"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.show()</span></code></a></li>

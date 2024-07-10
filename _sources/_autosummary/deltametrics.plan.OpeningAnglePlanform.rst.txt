@@ -32,6 +32,7 @@
       ~OpeningAnglePlanform.composite_array
       ~OpeningAnglePlanform.data
       ~OpeningAnglePlanform.name
+      ~OpeningAnglePlanform.opening_angles
       ~OpeningAnglePlanform.sea_angles
       ~OpeningAnglePlanform.shape
    

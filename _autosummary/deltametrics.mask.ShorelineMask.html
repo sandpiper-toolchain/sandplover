@@ -74,12 +74,14 @@ pixels.</p>
 <dd><p>Initialize the ShorelineMask.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This class currently computes the mask via the Shaw opening
-angle method (<code class="xref py py-obj docutils literal notranslate"><span class="pre">shaw_opening_angle_method</span></code>). However,
-it could/should be generalized to support multiple implementations
-via a <cite>method</cite> argument. For example, a sobel edge detection and
-morphological thinning on a LandMask (already made from the OAM, or
-not) may also return a good approximation of the shoreline.</p>
+<p>This class currently computes the mask by either the Shaw Opening
+Angle Method (<code class="xref py py-obj docutils literal notranslate"><span class="pre">shaw_opening_angle_method</span></code>) or the
+morphological closing method
+(<code class="xref py py-obj docutils literal notranslate"><span class="pre">morphological_closing_method</span></code>). Other
+implementations can be used if manually implemented, and then the computed mask can be passed via via a <cite>method</cite> argument. For example, a sobel
+edge detection and morphological thinning on a LandMask
+(already made from the OAM, or not) may also return a good
+approximation of the shoreline.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -87,7 +89,7 @@ not) may also return a good approximation of the shoreline.</p>
 <li><p><strong>arr</strong> (<em>ndarray</em>) – 2-D topographic array to make the mask from.</p></li>
 <li><p><strong>contour_threshold</strong> (<em>float</em><em>, </em><em>optional</em>) – Threshold value used when identifying the shoreline contour.
 For the opening angle method, this is a threshold opening angle
-value used to determine shoreline contour based on the sea_angles
+value used to determine shoreline contour based on the opening_angles
 from the <code class="xref py py-obj docutils literal notranslate"><span class="pre">OpeningAnglePlanform</span></code>. For the morphological
 method this is a threshold value between 0 and 1, for extracting
 the contour from the mean_image array.</p></li>
@@ -112,7 +114,7 @@ ocean area binary mask input to the opening angle method.</p></li>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_Planform</span></code>(_Planform, **kwargs)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#deltametrics.mask.ShorelineMask.from_array" title="deltametrics.mask.ShorelineMask.from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_array</span></code></a>(_arr)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#deltametrics.mask.ShorelineMask.from_array" title="deltametrics.mask.ShorelineMask.from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_array</span></code></a>(_arr[, contour])</p></td>
 <td><p>Create a ShorelineMask from an array.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#deltametrics.mask.ShorelineMask.from_mask" title="deltametrics.mask.ShorelineMask.from_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_mask</span></code></a>(UnknownMask, **kwargs)</p></td>
@@ -135,22 +137,25 @@ ocean area binary mask input to the opening angle method.</p></li>
 <p class="rubric">Attributes</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#deltametrics.mask.ShorelineMask.contour_threshold" title="deltametrics.mask.ShorelineMask.contour_threshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contour_threshold</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#deltametrics.mask.ShorelineMask.contour" title="deltametrics.mask.ShorelineMask.contour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contour</span></code></a></p></td>
+<td><p>Path of the contour that was cast to shoreline mask.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#deltametrics.mask.ShorelineMask.contour_threshold" title="deltametrics.mask.ShorelineMask.contour_threshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contour_threshold</span></code></a></p></td>
 <td><p>Threshold value used for picking shoreline contour.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#deltametrics.mask.ShorelineMask.integer_mask" title="deltametrics.mask.ShorelineMask.integer_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer_mask</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#deltametrics.mask.ShorelineMask.integer_mask" title="deltametrics.mask.ShorelineMask.integer_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer_mask</span></code></a></p></td>
 <td><p>Binary mask values as integer</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#deltametrics.mask.ShorelineMask.mask" title="deltametrics.mask.ShorelineMask.mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#deltametrics.mask.ShorelineMask.mask" title="deltametrics.mask.ShorelineMask.mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask</span></code></a></p></td>
 <td><p>Binary mask values.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#deltametrics.mask.ShorelineMask.mask_type" title="deltametrics.mask.ShorelineMask.mask_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask_type</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#deltametrics.mask.ShorelineMask.mask_type" title="deltametrics.mask.ShorelineMask.mask_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask_type</span></code></a></p></td>
 <td><p>Type of the mask (string)</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -164,6 +169,12 @@ only ‘mask’ or ‘integer’.</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="deltametrics.mask.ShorelineMask.contour">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">contour</span></span><a class="headerlink" href="#deltametrics.mask.ShorelineMask.contour" title="Link to this definition">¶</a></dt>
+<dd><p>Path of the contour that was cast to shoreline mask.</p>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="deltametrics.mask.ShorelineMask.contour_threshold">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">contour_threshold</span></span><a class="headerlink" href="#deltametrics.mask.ShorelineMask.contour_threshold" title="Link to this definition">¶</a></dt>
 <dd><p>Threshold value used for picking shoreline contour.</p>
@@ -171,7 +182,7 @@ only ‘mask’ or ‘integer’.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="deltametrics.mask.ShorelineMask.from_array">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_arr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#deltametrics.mask.ShorelineMask.from_array" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contour</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#deltametrics.mask.ShorelineMask.from_array" title="Link to this definition">¶</a></dt>
 <dd><p>Create a ShorelineMask from an array.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -182,8 +193,12 @@ mask is created correctly.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>_arr</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – The array with values to set as the mask. Can be any <cite>dtype</cite> but
-will be coerced to <cite>boolean</cite>.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_arr</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – The array with values to set as the mask. Can be any <cite>dtype</cite> but
+will be coerced to <cite>boolean</cite>.</p></li>
+<li><p><strong>contour</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – A path of the shoreline contour, if available. Default is None
+(or contour path is unknown).</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -306,6 +321,7 @@ the top domain edge.</p></li>
 <li><a class="reference internal" href="#deltametrics.mask.ShorelineMask"><code class="docutils literal notranslate"><span class="pre">ShorelineMask</span></code></a><ul>
 <li><a class="reference internal" href="#deltametrics.mask.ShorelineMask.__init__"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.__init__()</span></code></a></li>
 <li><a class="reference internal" href="#deltametrics.mask.ShorelineMask.__getitem__"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.__getitem__()</span></code></a></li>
+<li><a class="reference internal" href="#deltametrics.mask.ShorelineMask.contour"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.contour</span></code></a></li>
 <li><a class="reference internal" href="#deltametrics.mask.ShorelineMask.contour_threshold"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.contour_threshold</span></code></a></li>
 <li><a class="reference internal" href="#deltametrics.mask.ShorelineMask.from_array"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.from_array()</span></code></a></li>
 <li><a class="reference internal" href="#deltametrics.mask.ShorelineMask.from_mask"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.from_mask()</span></code></a></li>

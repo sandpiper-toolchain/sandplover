@@ -47,7 +47,7 @@
 <h1>deltametrics.plan.shaw_opening_angle_method<a class="headerlink" href="#deltametrics-plan-shaw-opening-angle-method" title="Link to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="deltametrics.plan.shaw_opening_angle_method">
-<span class="sig-prename descclassname"><span class="pre">deltametrics.plan.</span></span><span class="sig-name descname"><span class="pre">shaw_opening_angle_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">below_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numviews</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#deltametrics.plan.shaw_opening_angle_method" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">deltametrics.plan.</span></span><span class="sig-name descname"><span class="pre">shaw_opening_angle_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">below_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_set</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sea'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_set</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lwi+border'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numviews</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preprocess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#deltametrics.plan.shaw_opening_angle_method" title="Link to this definition">¶</a></dt>
 <dd><p>Extract the opening angle map from an image.</p>
 <p>Applies the opening angle method <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> to compute the shoreline mask.
 Adapted from the Matlab implementation in <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.</p>
@@ -55,7 +55,7 @@ Adapted from the Matlab implementation in <a class="footnote-reference brackets"
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="id3" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id5">2</a>)</span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id5">2</a>,<a role="doc-backlink" href="#id6">3</a>,<a role="doc-backlink" href="#id7">4</a>,<a role="doc-backlink" href="#id8">5</a>,<a role="doc-backlink" href="#id9">6</a>)</span>
 <p>Shaw, John B., et al. “An image‐based method for
 shoreline mapping on complex coasts.” Geophysical Research Letters
 35.12 (2008).</p>
@@ -74,23 +74,61 @@ of Geophysical Research: Earth Surface 121.2 (2016): 465-496.</p>
 <li><p><strong>below_mask</strong> (<em>ndarray</em>) – Binary image that has been thresholded to split water/land. At
 minimum, this should be a thresholded elevation matrix, or some
 classification of land/water based on pixel color or reflectance
-intensity. This is the startin point (i.e., guess) for the opening
+intensity. This is the starting point for the opening
 angle method.</p></li>
-<li><p><strong>numviews</strong> (<em>int</em>) – Defines the number of largest angles to consider for the opening angle
-map for each pixel. Default is 3, based on <a class="footnote-reference brackets" href="#id3" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p></li>
+<li><p><strong>query_set</strong> (<em>str</em><em>, </em><em>optional</em>) – Where to compute the opening angle. Default is “sea”, consistent with
+the original paper. Also implemented is “lwi”, which approximates the
+view of open water from every point along the coast.</p></li>
+<li><p><strong>test_set</strong> (<em>str</em><em>, </em><em>optional</em>) – Which pixels to use as bounding in the opening angle calculation.
+Default (<cite>“lwi+border”</cite>)is to use land-water interface and the border
+of land pixels In some applications, a computational gain can be had
+by using <cite>“lwi”</cite>. These options differ from the description in
+<a class="footnote-reference brackets" href="#id3" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> that describes the test set as comprising all land pixels; this
+behavior is accomplished by option <cite>“land”</cite>, but comes at
+considerable computational cost. Note that none of these options will
+avoid the issue (described in <a class="footnote-reference brackets" href="#id3" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> where a barrier island 1 pixel wide
+may not properly block a view.</p></li>
+<li><p><strong>numviews</strong> (<em>int</em><em>, </em><em>optional</em>) – Defines the number of largest angles to consider for the opening angle
+map for each pixel. Default is 1, based on parameter $p$ in
+<a class="footnote-reference brackets" href="#id3" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. Note, this parameter is not an iteration count, but values &gt;1
+incur an additional <cite>sort</cite> operation, which can drastically increase
+computation time. Value in original paper <a class="footnote-reference brackets" href="#id3" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> is <cite>numviews=3</cite>.</p></li>
+<li><p><strong>preprocess</strong> (<em>bool</em><em> or </em><em>int</em><em>, </em><em>optional</em>) – Whether to preprocess the input binary mask before applying the
+opening angle method. Preprocessing fills lakes that are entirely
+disconnected from the open water in the landmask. This is a helpful
+operation for reducing computational load and ensuring the “correct”
+shoreline is ultimately identified. Preprocessing is implemented in a
+manner consistent with <a class="footnote-reference brackets" href="#id3" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p></li>
+<li><p><strong>parallel</strong> (<em>int</em><em>, </em><em>optional</em>) – Whether to use parallelization in the opening angle calculation. If
+sufficient processors are available, we recommend using two to four
+cores per mask being calculated. A value of <cite>0</cite> uses no
+parallelization, and other positive integers specify the number of
+threads to use (i.e., <cite>1</cite> also uses no parallelization).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>shoreangles</strong> (<em>ndarray</em>) – Flattened values corresponding to the shoreangle detected for each
-‘look’ of the opening angle method</p></li>
-<li><p><strong>seaangles</strong> (<em>ndarray</em>) – Flattened values corresponding to the ‘sea’ angle detected for each
-‘look’ of the opening angle method. The ‘sea’ region is the convex
-hull which envelops the shoreline as well as the delta interior.</p></li>
-</ul>
-</p>
+<dd class="field-even"><p><strong>opening_angles</strong> – The opening angle detected for each location in the input
+<cite>below_mask</cite>, with values determined according to the <cite>query_set</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
+<span class="n">EM</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ElevationMask</span><span class="p">(</span><span class="n">golfcube</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">OAM</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">shaw_opening_angle_method</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">EM</span><span class="o">.</span><span class="n">mask</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">OAM</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">180</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="../_downloads/f964ae026fadb5f50dcc2f5820953c75/deltametrics-plan-shaw_opening_angle_method-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/a9668597807e436a1e495d23afd680af/deltametrics-plan-shaw_opening_angle_method-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../_images/deltametrics-plan-shaw_opening_angle_method-1.png" class="plot-directive" src="../_images/deltametrics-plan-shaw_opening_angle_method-1.png" />
+</figure>
 </dd></dl>
 
 </section>

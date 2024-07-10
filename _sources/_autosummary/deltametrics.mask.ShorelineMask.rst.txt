@@ -30,6 +30,7 @@
 
    .. autosummary::
    
+      ~ShorelineMask.contour
       ~ShorelineMask.contour_threshold
       ~ShorelineMask.integer_mask
       ~ShorelineMask.mask
