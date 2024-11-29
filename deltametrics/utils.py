@@ -7,14 +7,6 @@ import datetime
 from numba import njit
 
 
-def _get_version():
-    """
-    Extract version number from single file, and make it availabe everywhere.
-    """
-    from . import _version
-    return _version.__version__()
-
-
 def format_number(number):
     integer = int(round(number, -1))
     string = "{:,}".format(integer)
