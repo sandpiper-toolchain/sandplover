@@ -1,0 +1,112 @@
+[project]
+name = "DeltaMetrics"
+requires-python = ">=3.8"
+description = "Tools for manipulating sedimentologic data cubes."
+keywords = [
+]
+authors = [
+    { name = "Andrew Moodie", email = "amoodie@tamu.edu" },
+]
+maintainers = [
+    { name = "Andrew Moodie", email = "amoodie@tamu.edu" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Scientific/Engineering :: Hydrology",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+dependencies = [
+    "h5py",
+    "h5netcdf",
+    "matplotlib",
+    "netCDF4",
+    "numba",
+    "numpy",
+    "pooch",
+    "pyyaml",
+    "scikit-image",
+    "scipy",
+    "xarray",
+]
+dynamic = [
+    "version",
+    "readme",
+]
+
+[project.license]
+text = "MIT"
+
+[project.urls]
+documentation = "https://deltarcm.github.io/deltametrics"
+homepage = "https://github.com/DeltaRCM/DeltaMetrics"
+repository = "https://github.com/DeltaRCM/DeltaMetrics"
+
+[build-system]
+requires = [
+    "setuptools >=61",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.dynamic.readme]
+file = "README.rst"
+content-type = "text/x-rst"
+
+[tool.setuptools.dynamic.version]
+attr = "deltametrics._version.__version__"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+deltametrics = [
+    "sample_data/registry.txt",
+]
+
+[project.optional-dependencies]
+docs = [
+    "pyvista",
+    "sphinx",
+]
+testing = [
+    "coveralls",
+    "pytest",
+    "pytest-cov",
+]
+
+[tool.setuptools.packages.find]
+where = [
+    ".",
+]
+include = [
+    "deltametrics*",
+]
+
+[tool.coverage.run]
+relative_files = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = [
+    "tests",
+]
+norecursedirs = [
+    ".*",
+    "*.egg*",
+    "build",
+    "dist",
+]
+addopts = [
+    "--ignore=setup.py",
+    "--tb=native",
+    "--durations=16",
+    "--strict-markers",
+    "-vvv",
+]
