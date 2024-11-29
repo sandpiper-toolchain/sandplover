@@ -330,7 +330,7 @@ def calculate_planform_overlap(chmap, landmap,
     where :math:`K_B` and :math:`K_T` are the channel mask values at the base
     and target maps, respectively.
 
-    :math:`\Phi` is calculated as:
+    :math:`\\Phi` is calculated as:
 
     .. math::
 
