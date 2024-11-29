@@ -15,7 +15,7 @@ import sys
 
 import pyvista
 
-import deltametrics as dm
+from deltametrics._version import __version__
 
 # -- Project information -----------------------------------------------------
 
@@ -24,8 +24,8 @@ copyright = '2020, The DeltaRCM Team'
 author = 'The DeltaRCM Team'
 
 # The full version, including alpha/beta/rc tags
-release = dm.__version__
-version = dm.__version__
+release = __version__
+version = __version__
 
 
 # -- General configuration ---------------------------------------------------
