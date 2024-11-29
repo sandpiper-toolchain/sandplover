@@ -26,6 +26,7 @@ classifiers = [
 dependencies = [
     "h5py",
     "h5netcdf",
+    "importlib-resources; python_version < '3.12'",
     "matplotlib",
     "netCDF4",
     "numba",
