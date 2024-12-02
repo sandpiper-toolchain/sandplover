@@ -11,7 +11,11 @@ import matplotlib.patches as ptch
 import matplotlib.collections as coll
 import mpl_toolkits.axes_grid1 as axtk
 
-from . import strat
+from deltametrics.strat import _adjust_elevation_by_subsidence
+from deltametrics.strat import _compute_elevation_to_preservation
+from deltametrics.strat import _compute_preservation_to_cube
+from deltametrics.strat import _compute_preservation_to_time_intervals
+from deltametrics.strat import _determine_strat_coordinates
 
 # from . import section
 
@@ -1181,11 +1185,11 @@ def show_one_dimensional_trajectory_to_strata(
 
     if sigma_dist is not None:
         # adjust elevations by subsidence rate
-        e = strat._adjust_elevation_by_subsidence(e_in, sigma_dist)
-    s, p = strat._compute_elevation_to_preservation(e)  # strat, preservation
-    z = strat._determine_strat_coordinates(e, dz=dz, z=z, nz=nz)  # vert coordinates
+        e = _adjust_elevation_by_subsidence(e_in, sigma_dist)
+    s, p = _compute_elevation_to_preservation(e)  # strat, preservation
+    z = _determine_strat_coordinates(e, dz=dz, z=z, nz=nz)  # vert coordinates
     z_disp = np.append(z, z[-1])
-    sc, dc = strat._compute_preservation_to_cube(s, z)
+    sc, dc = _compute_preservation_to_cube(s, z)
     lst = np.argmin(s < s[-1])  # last elevation
 
     c = np.full_like(z, np.nan)
@@ -1201,7 +1205,7 @@ def show_one_dimensional_trajectory_to_strata(
     pt[
         np.union1d(
             p.nonzero()[0],
-            np.array(strat._compute_preservation_to_time_intervals(p).nonzero()[0]),
+            np.array(_compute_preservation_to_time_intervals(p).nonzero()[0]),
         )
     ] = 1
     ax.add_collection(
