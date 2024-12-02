@@ -11,7 +11,11 @@ from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 
 from . import plan
 from . import section
-from . import strat
+from deltametrics.strat import _adjust_elevation_by_subsidence
+from deltametrics.strat import _determine_strat_coordinates
+from deltametrics.strat import BoxyStratigraphyAttributes
+from deltametrics.strat import MeshStratigraphyAttributes
+from deltametrics.strat import compute_boxy_stratigraphy_coordinates
 from . import plot
 from deltametrics.io import DictionaryIO
 from deltametrics.io import NetCDFIO
@@ -782,11 +786,11 @@ class DataCube(BaseCube):
             see :obj:_determine_strat_coordinates`.
         """
         if style == "mesh":
-            self.strat_attr = strat.MeshStratigraphyAttributes(
+            self.strat_attr = MeshStratigraphyAttributes(
                 elev=self[variable], **kwargs
             )
         elif style == "boxy":
-            self.strat_attr = strat.BoxyStratigraphyAttributes(
+            self.strat_attr = BoxyStratigraphyAttributes(
                 elev=self[variable], **kwargs
             )
         else:
@@ -921,19 +925,19 @@ class StratigraphyCube(BaseCube):
 
             # set up coordinates of the array
             if sigma_dist is not None:
-                _elev_adj = strat._adjust_elevation_by_subsidence(
+                _elev_adj = _adjust_elevation_by_subsidence(
                     _elev.data, sigma_dist
                 )
             else:
                 _elev_adj = _elev.data
-            _z = strat._determine_strat_coordinates(_elev_adj, dz=dz, z=z, nz=nz)
+            _z = _determine_strat_coordinates(_elev_adj, dz=dz, z=z, nz=nz)
             self._z = xr.DataArray(_z, name="z", dims=["z"], coords={"z": _z})
             self._H = len(self.z)
             self._L, self._W = _elev.shape[1:]
             self._Z = np.tile(self.z, (self.W, self.L, 1)).T
             self._sigma_dist = sigma_dist
 
-            _out = strat.compute_boxy_stratigraphy_coordinates(
+            _out = compute_boxy_stratigraphy_coordinates(
                 _elev_adj, sigma_dist=None, z=_z, return_strata=True
             )
             self.strata_coords, self.data_coords, self.strata = _out
