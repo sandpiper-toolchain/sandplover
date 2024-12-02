@@ -16,7 +16,6 @@ import warnings
 from numba import njit, prange, set_num_threads
 
 from . import mask
-from . import cube
 from . import section as dm_section
 from deltametrics.plot import VariableInfo
 from deltametrics.plot import VariableSet
@@ -221,11 +220,13 @@ class Planform(BasePlanform):
 
     def connect(self, CubeInstance, name=None):
         """Connect this Planform instance to a Cube instance."""
-        if not issubclass(type(CubeInstance), cube.BaseCube):
+        from deltametrics.cube import BaseCube
+
+        if not issubclass(type(CubeInstance), BaseCube):
             raise TypeError(
                 "Expected type is subclass of {_exptype}, "
                 "but received was {_gottype}.".format(
-                    _exptype=type(cube.BaseCube), _gottype=type(CubeInstance)
+                    _exptype=type(BaseCube), _gottype=type(CubeInstance)
                 )
             )
         self.cube = CubeInstance
@@ -280,7 +281,10 @@ class Planform(BasePlanform):
             The undelrying data returned as an xarray `DataArray`, maintaining
             coordinates.
         """
-        if isinstance(self.cube, cube.DataCube):
+        from deltametrics.cube import DataCube
+        from deltametrics.cube import StratigraphyCube
+
+        if isinstance(self.cube, DataCube):
             _xrDA = self.cube[var][self._dim0_idx, :, :]
             _xrDA.attrs = {
                 "slicetype": "data_planform",
@@ -295,7 +299,7 @@ class Planform(BasePlanform):
                     _strat_attr=self.cube.strat_attr("planform", self._dim0_idx, None),
                 )
             return _xrDA
-        elif isinstance(self.cube, cube.StratigraphyCube):
+        elif isinstance(self.cube, StratigraphyCube):
             _xrDA = self.cube[var][self._dim0_idx, :, :]
             _xrDA.attrs = {
                 "slicetype": "stratigraphy_planform",
@@ -359,10 +363,12 @@ class Planform(BasePlanform):
             >>> planform.show('velocity', ax=ax[1])
             >>> plt.show()
         """
+        from deltametrics.cube import BaseCube
+
         # process the planform attribute to a field
         _varinfo = (
             self.cube.varset[var]
-            if issubclass(type(self.cube), cube.BaseCube)
+            if issubclass(type(self.cube), BaseCube)
             else VariableSet()[var]
         )
         _field = self[var]
@@ -683,6 +689,8 @@ class OpeningAnglePlanform(SpecialtyPlanform):
         .. note:: needs docstring.
 
         """
+        from deltametrics.cube import BaseCube
+
         super().__init__("opening angle", *args)
         self._shape = None
         self._opening_angles = None
@@ -747,7 +755,7 @@ class OpeningAnglePlanform(SpecialtyPlanform):
             else:
                 raise TypeError("Invalid type {0}".format(type(_below_mask)))
 
-        elif issubclass(type(args[0]), cube.BaseCube):
+        elif issubclass(type(args[0]), BaseCube):
             raise NotImplementedError(
                 "Instantiation from a Cube is not yet implemented."
             )
@@ -983,6 +991,8 @@ class MorphologicalPlanform(SpecialtyPlanform):
             may not be what you expect.
 
         """
+        from deltametrics.cube import BaseCube
+
         super().__init__("morphological method", *args)
         self._shape = None
         self._elevation_mask = None
@@ -1030,7 +1040,7 @@ class MorphologicalPlanform(SpecialtyPlanform):
                     "Expected single number to set max inlet size, got: "
                     "{0}".format(args[1])
                 )
-        elif isinstance(self.cube, cube.BaseCube):
+        elif isinstance(self.cube, BaseCube):
             try:
                 self._max_disk = self.cube.meta["N0"].data
             except Exception:
@@ -2360,13 +2370,15 @@ def compute_surface_deposit_time(data, surface_idx=-1, **kwargs):
         plt.show()
 
     """
+    from deltametrics.cube import DataCube
+
     # sanitize the input surface declared
     if surface_idx == 0:
         raise ValueError(
             "`surface_idx` must not be 0 " " (i.e., this would yield no timeseries)"
         )
 
-    if isinstance(data, cube.DataCube):
+    if isinstance(data, DataCube):
         etas = data["eta"][:surface_idx, :, :]
         etas = np.array(etas)  # strip xarray for input to helper
     elif is_ndarray_or_xarray(data):
