@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 from deltametrics.sample_data import _get_rcm8_path, _get_golf_path
 
 from deltametrics import mask
-from deltametrics import cube
+from deltametrics.cube import DataCube
+from deltametrics.cube import StratigraphyCube
 from deltametrics import plan
 from deltametrics.section import CircularSection
 
@@ -60,7 +61,7 @@ class TestPlanform:
             _ = plan.Planform(badcube, idx=12)
 
     def test_Planform_idx(self):
-        golfcube = cube.DataCube(golf_path)
+        golfcube = DataCube(golf_path)
         plnfrm = plan.Planform(golfcube, idx=40)
         assert plnfrm.name == "data"
         assert plnfrm.idx == 40
@@ -68,7 +69,7 @@ class TestPlanform:
         assert len(plnfrm.variables) > 0
 
     def test_Planform_z_t_thesame(self):
-        golfcube = cube.DataCube(golf_path)
+        golfcube = DataCube(golf_path)
         plnfrm = plan.Planform(golfcube, t=3e6)
         plnfrm2 = plan.Planform(golfcube, z=3e6)
         assert plnfrm.name == "data"
@@ -78,7 +79,7 @@ class TestPlanform:
         assert len(plnfrm.variables) > 0
 
     def test_Planform_idx_z_t_mutual_exclusive(self):
-        golfcube = cube.DataCube(golf_path)
+        golfcube = DataCube(golf_path)
         with pytest.raises(TypeError, match=r"Cannot .* `z` and `idx`."):
             _ = plan.Planform(golfcube, z=5e6, idx=30)
         with pytest.raises(TypeError, match=r"Cannot .* `t` and `idx`."):
@@ -88,10 +89,10 @@ class TestPlanform:
 
     def test_Planform_slicing(self):
         # make the planforms
-        golfcube = cube.DataCube(golf_path)
-        golfcubestrat = cube.DataCube(golf_path)
+        golfcube = DataCube(golf_path)
+        golfcubestrat = DataCube(golf_path)
         golfcubestrat.stratigraphy_from("eta", dz=0.1)
-        golfstrat = cube.StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+        golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
         plnfrm1 = plan.Planform(golfcube, idx=-1)
         plnfrm2 = plan.Planform(golfcubestrat, z=-2)
         plnfrm3 = plan.Planform(
@@ -106,7 +107,7 @@ class TestPlanform:
         just checks that the function runs.
         """
         # make the planforms
-        golfcube = cube.DataCube(golf_path)
+        golfcube = DataCube(golf_path)
         plnfrm = plan.Planform(golfcube, idx=-1)
         _field = plnfrm["eta"]
         _varinfo = golfcube.varset["eta"]
@@ -133,7 +134,7 @@ class TestPlanform:
         plt.close()
 
     def test_Planform_public_show(self):
-        golfcube = cube.DataCube(golf_path)
+        golfcube = DataCube(golf_path)
         plnfrm = plan.Planform(golfcube, idx=-1)
         plnfrm._show = mock.MagicMock()
         # test with ax
@@ -156,7 +157,7 @@ class TestOpeningAnglePlanform:
     simple_ocean = 1 - simple_land
 
     golf_path = _get_golf_path()
-    golfcube = cube.DataCube(golf_path)
+    golfcube = DataCube(golf_path)
 
     def test_allblack(self):
         with pytest.raises(ValueError, match=r"No pixels identified in below_mask.*"):
@@ -260,7 +261,7 @@ class TestOpeningAnglePlanform:
 class TestMorphologicalPlanform:
     simple_land = simple_land
     golf_path = _get_golf_path()
-    golfcube = cube.DataCube(golf_path)
+    golfcube = DataCube(golf_path)
 
     def test_defaults_array_int(self):
         mpm = plan.MorphologicalPlanform(self.simple_land.astype(int), 2)
@@ -355,7 +356,7 @@ class TestShawOpeningAngleMethod:
 
 class TestDeltaArea:
     golf_path = _get_golf_path()
-    golfcube = cube.DataCube(golf_path)
+    golfcube = DataCube(golf_path)
 
     lm = mask.LandMask(
         golfcube["eta"][-1, :, :],
@@ -388,7 +389,7 @@ class TestDeltaArea:
 class TestShorelineRoughness:
     rcm8_path = _get_rcm8_path()
     with pytest.warns(UserWarning):
-        rcm8 = cube.DataCube(rcm8_path)
+        rcm8 = DataCube(rcm8_path)
 
     em = mask.ElevationMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
     em.trim_mask(value=1, length=1)
@@ -465,7 +466,7 @@ class TestShorelineRoughness:
 class TestShorelineLength:
     rcm8_path = _get_rcm8_path()
     with pytest.warns(UserWarning):
-        rcm8 = cube.DataCube(rcm8_path)
+        rcm8 = DataCube(rcm8_path)
 
     sm = mask.ShorelineMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
     sm0 = mask.ShorelineMask(rcm8["eta"][0, :, :], elevation_threshold=0)
@@ -512,7 +513,7 @@ class TestShorelineLength:
 
 class TestShorelineDistance:
     golf_path = _get_golf_path()
-    golf = cube.DataCube(golf_path)
+    golf = DataCube(golf_path)
 
     sm = mask.ShorelineMask(
         golf["eta"][-1, :, :], elevation_threshold=0, elevation_offset=-0.5
@@ -564,7 +565,7 @@ class TestComputeChannelWidth:
     ).astype(int)
 
     golf_path = _get_golf_path()
-    golf = cube.DataCube(golf_path)
+    golf = DataCube(golf_path)
 
     cm = mask.ChannelMask(
         golf["eta"][-1, :, :],
@@ -634,7 +635,7 @@ class TestComputeChannelDepth:
     ).astype(int)
 
     golf_path = _get_golf_path()
-    golf = cube.DataCube(golf_path)
+    golf = DataCube(golf_path)
 
     cm = mask.ChannelMask(
         golf["eta"][-1, :, :],
@@ -711,7 +712,7 @@ class TestComputeChannelDepth:
 
 
 class TestComputeSurfaceDepositTime:
-    golfcube = cube.DataCube(golf_path)
+    golfcube = DataCube(golf_path)
 
     def test_with_diff_indices(self):
         with pytest.raises(ValueError):
@@ -751,7 +752,7 @@ class TestComputeSurfaceDepositTime:
 
 
 class TestComputeSurfaceDepositAge:
-    golfcube = cube.DataCube(golf_path)
+    golfcube = DataCube(golf_path)
 
     def test_idx_minus_date(self):
         with pytest.raises(ValueError):
