@@ -4,7 +4,7 @@ import warnings
 import numpy as np
 import xarray as xr
 
-from . import section
+from deltametrics.section import CircularSection
 
 
 def compute_compensation(line1, line2):
@@ -397,7 +397,7 @@ def compute_sedimentograph(
 
     # loop through the sections and compute the sediment vols
     for i, sect_rad in enumerate(section_radii):
-        sect = section.CircularSection(
+        sect = CircularSection(
             sediment_volume[0, :, :],  # must be a 2d slice to make section
             radius=sect_rad, **kwargs)
         # manually slice, because not set up for sections into arbitrary 3d volume
