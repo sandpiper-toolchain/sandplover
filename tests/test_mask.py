@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 import unittest.mock as mock
 
-from deltametrics import cube
+from deltametrics.cube import DataCube
 from deltametrics import mask
 from deltametrics.plan import OpeningAnglePlanform, MorphologicalPlanform
 from deltametrics.sample_data import _get_rcm8_path, _get_golf_path
@@ -16,10 +16,10 @@ from deltametrics.sample_data import _get_rcm8_path, _get_golf_path
 
 rcm8_path = _get_rcm8_path()
 with pytest.warns(UserWarning):
-    rcm8cube = cube.DataCube(rcm8_path)
+    rcm8cube = DataCube(rcm8_path)
 
 golf_path = _get_golf_path()
-golfcube = cube.DataCube(golf_path)
+golfcube = DataCube(golf_path)
 
 _OAP_0 = OpeningAnglePlanform.from_elevation_data(
     golfcube["eta"][-1, :, :], elevation_threshold=0
