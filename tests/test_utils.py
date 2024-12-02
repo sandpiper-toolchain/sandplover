@@ -7,7 +7,12 @@ import pathlib
 
 import numpy as np
 
-from deltametrics import utils
+from deltametrics.utils import NoStratigraphyError
+from deltametrics.utils import curve_fit
+from deltametrics.utils import format_table
+from deltametrics.utils import format_number
+from deltametrics.utils import line_to_cells
+from deltametrics.utils import runtime_from_log
 from deltametrics.mobility import calculate_channel_abandonment
 from deltametrics import sample_data
 
@@ -15,44 +20,44 @@ class TestNoStratigraphyError:
 
     def test_needs_obj_argument(self):
         with pytest.raises(TypeError):
-            raise utils.NoStratigraphyError()
+            raise NoStratigraphyError()
 
     def test_only_obj_argument(self):
         _mtch = "'str' object has no*."
-        with pytest.raises(utils.NoStratigraphyError, match=_mtch):
-            raise utils.NoStratigraphyError('someobj')
+        with pytest.raises(NoStratigraphyError, match=_mtch):
+            raise NoStratigraphyError('someobj')
 
     def test_obj_and_var(self):
         _mtch = "'str' object has no attribute 'somevar'."
-        with pytest.raises(utils.NoStratigraphyError, match=_mtch):
-            raise utils.NoStratigraphyError('someobj', 'somevar')
+        with pytest.raises(NoStratigraphyError, match=_mtch):
+            raise NoStratigraphyError('someobj', 'somevar')
 
 
 class TestLineToCells:
 
     def test_flat_inputs(self):
         x0, y0, x1, y1 = 10, 40, 50, 40
-        ret1 = utils.line_to_cells(np.array([[x0, y0], [x1, y1]]))
-        ret2 = utils.line_to_cells((x0, y0), (x1, y1))
-        ret3 = utils.line_to_cells(x0, y0, x1, y1)
+        ret1 = line_to_cells(np.array([[x0, y0], [x1, y1]]))
+        ret2 = line_to_cells((x0, y0), (x1, y1))
+        ret3 = line_to_cells(x0, y0, x1, y1)
         ret1, ret2, ret3 = np.vstack(ret1), np.vstack(ret2), np.vstack(ret3)
         assert (np.all(ret1 == ret2) and np.all(ret1 == ret3))
         assert ret1.shape[1] == 41
 
     def test_vert_inputs(self):
         x0, y0, x1, y1 = 40, 10, 40, 70
-        ret1 = utils.line_to_cells(np.array([[x0, y0], [x1, y1]]))
-        ret2 = utils.line_to_cells((x0, y0), (x1, y1))
-        ret3 = utils.line_to_cells(x0, y0, x1, y1)
+        ret1 = line_to_cells(np.array([[x0, y0], [x1, y1]]))
+        ret2 = line_to_cells((x0, y0), (x1, y1))
+        ret3 = line_to_cells(x0, y0, x1, y1)
         ret1, ret2, ret3 = np.vstack(ret1), np.vstack(ret2), np.vstack(ret3)
         assert (np.all(ret1 == ret2) and np.all(ret1 == ret3))
         assert ret1.shape[1] == 61
 
     def test_quadrantI_angle_inputs(self):
         x0, y0, x1, y1 = 10, 10, 60, 92
-        ret1 = utils.line_to_cells(np.array([[x0, y0], [x1, y1]]))
-        ret2 = utils.line_to_cells((x0, y0), (x1, y1))
-        ret3 = utils.line_to_cells(x0, y0, x1, y1)
+        ret1 = line_to_cells(np.array([[x0, y0], [x1, y1]]))
+        ret2 = line_to_cells((x0, y0), (x1, y1))
+        ret3 = line_to_cells(x0, y0, x1, y1)
         ret1, ret2, ret3 = np.vstack(ret1), np.vstack(ret2), np.vstack(ret3)
         assert (np.all(ret1 == ret2) and np.all(ret1 == ret3))
         assert ret1.shape[1] == 83
@@ -62,9 +67,9 @@ class TestLineToCells:
 
     def test_quadrantII_angle_inputs(self):
         x0, y0, x1, y1 = 80, 20, 40, 50
-        ret1 = utils.line_to_cells(np.array([[x0, y0], [x1, y1]]))
-        ret2 = utils.line_to_cells((x0, y0), (x1, y1))
-        ret3 = utils.line_to_cells(x0, y0, x1, y1)
+        ret1 = line_to_cells(np.array([[x0, y0], [x1, y1]]))
+        ret2 = line_to_cells((x0, y0), (x1, y1))
+        ret3 = line_to_cells(x0, y0, x1, y1)
         ret1, ret2, ret3 = np.vstack(ret1), np.vstack(ret2), np.vstack(ret3)
         assert (np.all(ret1 == ret2) and np.all(ret1 == ret3))
         assert ret1.shape[1] == 41
@@ -74,9 +79,9 @@ class TestLineToCells:
 
     def test_quadrantIII_angle_inputs(self):
         x0, y0, x1, y1 = 80, 70, 40, 40
-        ret1 = utils.line_to_cells(np.array([[x0, y0], [x1, y1]]))
-        ret2 = utils.line_to_cells((x0, y0), (x1, y1))
-        ret3 = utils.line_to_cells(x0, y0, x1, y1)
+        ret1 = line_to_cells(np.array([[x0, y0], [x1, y1]]))
+        ret2 = line_to_cells((x0, y0), (x1, y1))
+        ret3 = line_to_cells(x0, y0, x1, y1)
         ret1, ret2, ret3 = np.vstack(ret1), np.vstack(ret2), np.vstack(ret3)
         assert (np.all(ret1 == ret2) and np.all(ret1 == ret3))
         assert ret1.shape[1] == 41
@@ -86,9 +91,9 @@ class TestLineToCells:
 
     def test_quadrantIV_angle_inputs(self):
         x0, y0, x1, y1 = 10, 80, 60, 30
-        ret1 = utils.line_to_cells(np.array([[x0, y0], [x1, y1]]))
-        ret2 = utils.line_to_cells((x0, y0), (x1, y1))
-        ret3 = utils.line_to_cells(x0, y0, x1, y1)
+        ret1 = line_to_cells(np.array([[x0, y0], [x1, y1]]))
+        ret2 = line_to_cells((x0, y0), (x1, y1))
+        ret3 = line_to_cells(x0, y0, x1, y1)
         ret1, ret2, ret3 = np.vstack(ret1), np.vstack(ret2), np.vstack(ret3)
         assert (np.all(ret1 == ret2) and np.all(ret1 == ret3))
         assert ret1.shape[1] == 51
@@ -98,9 +103,9 @@ class TestLineToCells:
     def test_bad_inputs(self):
         x0, y0, x1, y1 = 10, 10, 60, 92
         with pytest.raises(TypeError, match=r'Length of input .*'):
-            _ = utils.line_to_cells(x0, y0, x1, y1, x0, y1)
+            _ = line_to_cells(x0, y0, x1, y1, x0, y1)
         with pytest.raises(ValueError):
-            _ = utils.line_to_cells(
+            _ = line_to_cells(
                 np.array([[x0, y0], [x1, y1], [x0, y1]]))
 
 
@@ -124,7 +129,7 @@ def test_linear_fit():
     """Test linear curve fitting."""
     ch_abandon = calculate_channel_abandonment(
         chmap, basevalues_idx=basevalue, window_idx=time_window)
-    yfit, popts, cov, err = utils.curve_fit(ch_abandon, fit='linear')
+    yfit, popts, cov, err = curve_fit(ch_abandon, fit='linear')
     assert pytest.approx(yfit) == np.array([4.76315477e-24, 2.50000000e-01,
                                             5.00000000e-01, 7.50000000e-01,
                                             1.00000000e+00])
@@ -138,7 +143,7 @@ def test_harmonic_fit():
     """Test harmonic curve fitting."""
     ch_abandon = calculate_channel_abandonment(
         chmap, basevalues_idx=basevalue, window_idx=time_window)
-    yfit, popts, cov, err = utils.curve_fit(ch_abandon, fit='harmonic')
+    yfit, popts, cov, err = curve_fit(ch_abandon, fit='harmonic')
     assert pytest.approx(yfit) == np.array([-0.25986438, 0.41294455,
                                             0.11505591, 0.06683947,
                                             0.04710091])
@@ -153,13 +158,13 @@ def test_invalid_fit():
     ch_abandon = calculate_channel_abandonment(
         chmap, basevalues_idx=basevalue, window_idx=time_window)
     with pytest.raises(ValueError):
-        utils.curve_fit(ch_abandon, fit='invalid')
+        curve_fit(ch_abandon, fit='invalid')
 
 
 def test_exponential_fit():
     """Test exponential fitting."""
     ydata = np.array([10, 5, 2, 1])
-    yfit, popts, cov, err = utils.curve_fit(ydata, fit='exponential')
+    yfit, popts, cov, err = curve_fit(ydata, fit='exponential')
     assert pytest.approx(yfit) == np.array([10.02900253, 4.85696353,
                                             2.22612537, 0.88790858])
     assert pytest.approx(popts) == np.array([10.02900253, -0.49751195,
@@ -173,69 +178,69 @@ def test_exponential_fit():
 
 def test_format_number_float():
     _val = float(5.2)
-    _fnum = utils.format_number(_val)
+    _fnum = format_number(_val)
     assert _fnum == '10'
 
     _val = float(50.2)
-    _fnum = utils.format_number(_val)
+    _fnum = format_number(_val)
     assert _fnum == '50'
 
     _val = float(15.0)
-    _fnum = utils.format_number(_val)
+    _fnum = format_number(_val)
     assert _fnum == '20'
 
 
 def test_format_number_int():
     _val = int(5)
-    _fnum = utils.format_number(_val)
+    _fnum = format_number(_val)
     assert _fnum == '0'
 
     _val = int(6)
-    _fnum = utils.format_number(_val)
+    _fnum = format_number(_val)
     assert _fnum == '10'
 
     _val = int(52)
-    _fnum = utils.format_number(_val)
+    _fnum = format_number(_val)
     assert _fnum == '50'
 
     _val = int(15)
-    _fnum = utils.format_number(_val)
+    _fnum = format_number(_val)
     assert _fnum == '20'
 
 
 def test_format_table_float():
     _val = float(5.2)
-    _fnum = utils.format_table(_val)
+    _fnum = format_table(_val)
     assert _fnum == '5.2'
 
     _val = float(50.2)
-    _fnum = utils.format_table(_val)
+    _fnum = format_table(_val)
     assert _fnum == '50.2'
 
     _val = float(15.0)
-    _fnum = utils.format_table(_val)
+    _fnum = format_table(_val)
     assert _fnum == '15.0'
 
     _val = float(15.03689)
-    _fnum = utils.format_table(_val)
+    _fnum = format_table(_val)
     assert _fnum == '15.0'
 
     _val = float(15.0689)
-    _fnum = utils.format_table(_val)
+    _fnum = format_table(_val)
     assert _fnum == '15.1'
 
 
 def test_format_table_int():
     _val = int(5)
-    _fnum = utils.format_table(_val)
+    _fnum = format_table(_val)
     assert _fnum == '5'
 
     _val = int(5.8)
-    _fnum = utils.format_table(_val)
+    _fnum = format_table(_val)
     assert _fnum == '5'
 
     _val = int(5.2)
-    _fnum = utils.format_table(_val)
+    _fnum = format_table(_val)
     assert _fnum == '5'
 
 
@@ -248,7 +253,7 @@ def test_time_from_log_new(tmp_path):
     time.sleep(1)
     delta.finalize()  # finalize and end log file
     log_path = os.path.join(tmp_path, os.listdir(tmp_path)[0])  # path to log
-    elapsed_time = utils.runtime_from_log(log_path)
+    elapsed_time = runtime_from_log(log_path)
     # elapsed time should exceed 0, but exact time will vary
     assert isinstance(elapsed_time, float)
     assert elapsed_time > 0
@@ -259,7 +264,7 @@ def test_time_from_log_sampledataset(tmp_path):
     # find the log file there
     found = glob.glob(os.path.join(golfpath.parent, '*.log'))
     assert len(found) == 1
-    elapsed_time = utils.runtime_from_log(found[0])
+    elapsed_time = runtime_from_log(found[0])
     # elapsed time should exceed 0, but exact time will vary
     assert isinstance(elapsed_time, float)
     assert elapsed_time > 0
