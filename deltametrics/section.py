@@ -12,7 +12,13 @@ from . import cube
 from . import plot
 from . import mask
 from . import plan
-from . import utils
+from deltametrics.utils import NoStratigraphyError
+from deltametrics.utils import circle_to_cells
+from deltametrics.utils import coordinates_to_segments
+from deltametrics.utils import guess_land_width_from_land
+from deltametrics.utils import is_ndarray_or_xarray
+from deltametrics.utils import line_to_cells
+from deltametrics.utils import segments_to_cells
 
 
 @xr.register_dataarray_accessor("strat")
@@ -113,7 +119,7 @@ class StratigraphicInformation:
             Raises if does not know stratigraphy.
         """
         if not self._knows_stratigraphy:
-            raise utils.NoStratigraphyError(obj=self)
+            raise NoStratigraphyError(obj=self)
         return self._knows_stratigraphy
 
     def as_preserved(self):
@@ -233,7 +239,7 @@ class BaseSection(abc.ABC):
             self._underlying_dim1_coords = _mask_xarray[_mask_xarray.dims[0]]
             self._underlying_dim2_coords = _mask_xarray[_mask_xarray.dims[1]]
             self._z = None
-        elif utils.is_ndarray_or_xarray(InputInstance):
+        elif is_ndarray_or_xarray(InputInstance):
             self._underlying = InputInstance
             self._underlying_type = "array"
             self._variables = None
@@ -404,7 +410,7 @@ class BaseSection(abc.ABC):
         if self._underlying._knows_stratigraphy:
             return self._underlying.strat_attr
         else:
-            raise utils.NoStratigraphyError(obj=self, var="strat_attr")
+            raise NoStratigraphyError(obj=self, var="strat_attr")
 
     def __getitem__(self, var):
         """Get a slice of the section.
@@ -872,8 +878,8 @@ class PathSection(BaseSection):
 
         # convert the points into segments into lists of cells
         #    input to utils needs to be xy cartesian order
-        _segs = utils.coordinates_to_segments(np.fliplr(_path))
-        _cell = utils.segments_to_cells(_segs)
+        _segs = coordinates_to_segments(np.fliplr(_path))
+        _cell = segments_to_cells(_segs)
 
         # determine only unique coordinates along the path
         def unsorted_unique(array):
@@ -1592,7 +1598,7 @@ class CircularSection(BaseSection):
                         "This is unlikely to work for data not generated from pyDeltaRCM."
                     )
                     land_width = np.minimum(
-                        utils.guess_land_width_from_land(
+                        guess_land_width_from_land(
                             self._underlying["eta"][-1, :, 0]
                         ),
                         5,
@@ -1617,7 +1623,7 @@ class CircularSection(BaseSection):
 
         # use the utility to compute the cells *in order*
         origin_idx_rev = tuple(reversed(self._origin_idx))  # input must be x,y
-        xy = utils.circle_to_cells(origin_idx_rev, self._radius_idx)
+        xy = circle_to_cells(origin_idx_rev, self._radius_idx)
 
         # store
         self._dim1_idx = xy[1]
@@ -1841,7 +1847,7 @@ class RadialSection(BaseSection):
                         "This is unlikely to work for data not generated from pyDeltaRCM."
                     )
                     land_width = np.minimum(
-                        utils.guess_land_width_from_land(
+                        guess_land_width_from_land(
                             self._underlying["eta"][-1, :, 0]
                         ),
                         5,
@@ -1932,7 +1938,7 @@ class RadialSection(BaseSection):
 
         # note that origin idx and end point are in x-y cartesian convention!
         origin_idx_rev = tuple(reversed(self._origin_idx))  # input must be x,y
-        x, y = utils.line_to_cells(origin_idx_rev, end_point)
+        x, y = line_to_cells(origin_idx_rev, end_point)
 
         # validate and clean the xy array
         yvalid = np.logical_and(y >= 0, y <= (_L - 1))
