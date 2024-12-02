@@ -4,7 +4,8 @@ import pytest
 import numpy as np
 import xarray as xr
 
-from deltametrics import cube
+from deltametrics.cube import DataCube
+from deltametrics.cube import StratigraphyCube
 from deltametrics.strat import _adjust_elevation_by_subsidence
 from deltametrics.strat import _compute_elevation_to_preservation
 from deltametrics.strat import _compute_preservation_to_cube
@@ -18,7 +19,7 @@ from deltametrics.sample_data import _get_golf_path
 
 
 golf_path = _get_golf_path()
-golfcube = cube.DataCube(golf_path)
+golfcube = DataCube(golf_path)
 
 
 class TestComputeBoxyStratigraphyVolume:
@@ -512,7 +513,7 @@ class TestSubsidenceElevationAdjustment:
 
 class TestComputeNetToGross:
 
-    golfstrat = cube.StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+    golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
 
     def test_net_to_gross_nobg(self):
         net_to_gross = compute_net_to_gross(
@@ -586,7 +587,7 @@ class TestComputeThicknessSurfaces:
 
 class TestComputeSedimentograph:
 
-    golfstrat = cube.StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+    golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
 
     def test_two_bins(self):
         background = (self.golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
