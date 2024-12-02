@@ -8,7 +8,9 @@ import xarray as xr
 
 from deltametrics.io import DictionaryIO
 from deltametrics.io import NetCDFIO
-from deltametrics.sample_data import _get_rcm8_path, _get_golf_path, _get_landsat_path
+from deltametrics.sample_data.sample_data import _get_rcm8_path
+from deltametrics.sample_data.sample_data import _get_golf_path
+from deltametrics.sample_data.sample_data import _get_landsat_path
 import utilities
 
 
