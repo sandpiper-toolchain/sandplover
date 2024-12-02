@@ -7,7 +7,7 @@ import xarray as xr
 
 from deltametrics import cube
 
-from deltametrics import plot
+from deltametrics.plot import VariableSet
 from deltametrics.section import BaseSection
 from deltametrics.section import StrikeSection
 from deltametrics import plan
@@ -32,7 +32,7 @@ class TestDataCubeNoStratigraphy:
         assert golf.dataio.io_type == "netcdf"
         assert golf._planform_set == {}
         assert golf._section_set == {}
-        assert type(golf.varset) is plot.VariableSet
+        assert type(golf.varset) is VariableSet
 
     def test_error_init_empty_cube(self):
         with pytest.raises(TypeError):
@@ -67,19 +67,19 @@ class TestDataCubeNoStratigraphy:
         assert golf._knows_stratigraphy is True
 
     def test_init_with_shared_varset_prior(self):
-        shared_varset = plot.VariableSet()
+        shared_varset = VariableSet()
         golf1 = cube.DataCube(golf_path, varset=shared_varset)
         golf2 = cube.DataCube(golf_path, varset=shared_varset)
-        assert type(golf1.varset) is plot.VariableSet
-        assert type(golf2.varset) is plot.VariableSet
+        assert type(golf1.varset) is VariableSet
+        assert type(golf2.varset) is VariableSet
         assert golf1.varset is shared_varset
         assert golf1.varset is golf2.varset
 
     def test_init_with_shared_varset_from_first(self):
         golf1 = cube.DataCube(golf_path)
         golf2 = cube.DataCube(golf_path, varset=golf1.varset)
-        assert type(golf1.varset) is plot.VariableSet
-        assert type(golf2.varset) is plot.VariableSet
+        assert type(golf1.varset) is VariableSet
+        assert type(golf2.varset) is VariableSet
         assert golf1.varset is golf2.varset
 
     def test_slice_op(self):
@@ -162,7 +162,7 @@ class TestDataCubeNoStratigraphy:
             golf.sections["testsection"]["velocity"].strat.as_stratigraphy()
 
     def test_fixeddatacube_init_varset(self):
-        assert type(self.fixeddatacube.varset) is plot.VariableSet
+        assert type(self.fixeddatacube.varset) is VariableSet
 
     def test_fixeddatacube_init_data_path(self):
         assert self.fixeddatacube.data_path == golf_path
@@ -288,10 +288,10 @@ class TestDataCubeWithStratigraphy:
 
     # test setting all the properties / attributes
     def test_fixeddatacube_set_varset(self):
-        new_varset = plot.VariableSet()
+        new_varset = VariableSet()
         self.fixeddatacube.varset = new_varset
         assert hasattr(self.fixeddatacube, "varset")
-        assert type(self.fixeddatacube.varset) is plot.VariableSet
+        assert type(self.fixeddatacube.varset) is VariableSet
         assert self.fixeddatacube.varset is new_varset
 
     def test_fixeddatacube_set_varset_bad_type(self):
@@ -427,7 +427,7 @@ class TestLegacyPyDeltaRCMCube:
         assert rcm8cube.dataio.io_type == "netcdf"
         assert rcm8cube._planform_set == {}
         assert rcm8cube._section_set == {}
-        assert type(rcm8cube.varset) is plot.VariableSet
+        assert type(rcm8cube.varset) is VariableSet
 
         # check that two warnings were raised
         assert any(
@@ -507,7 +507,7 @@ class TestLandsatCube:
         assert hdfcube.dataio.io_type == "hdf5"
         assert hdfcube._planform_set == {}
         assert hdfcube._section_set == {}
-        assert type(hdfcube.varset) is plot.VariableSet
+        assert type(hdfcube.varset) is VariableSet
 
     def test_read_Blue_intomemory(self):
         assert self.landsatcube._dataio._in_memory_data == {}
