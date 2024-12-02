@@ -6,7 +6,7 @@ import numpy as np
 import xarray as xr
 
 import deltametrics as dm
-from deltametrics import cube
+from deltametrics.cube import DataCube
 from deltametrics.sample_data import _get_rcm8_path
 from deltametrics.mobility import _calculate_temporal_linear_slope
 from deltametrics.mobility import calculate_channel_abandonment
@@ -20,7 +20,7 @@ from deltametrics.mobility import check_inputs
 
 rcm8_path = _get_rcm8_path()
 with pytest.warns(UserWarning):
-    rcm8cube = cube.DataCube(rcm8_path)
+    rcm8cube = DataCube(rcm8_path)
 
 # define some masks once up top
 chmask = []
