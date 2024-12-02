@@ -19,7 +19,8 @@ from . import mask
 from . import cube
 from . import section as dm_section
 from . import plot
-from . import utils
+from deltametrics.utils import _points_in_polygon
+from deltametrics.utils import is_ndarray_or_xarray
 
 
 class BasePlanform(abc.ABC):
@@ -707,7 +708,7 @@ class OpeningAnglePlanform(SpecialtyPlanform):
             raise ValueError("Expected 1 input, got %s." % str(len(args)))
 
         # process the argument to the omask needed for Shaw OAM
-        if utils.is_ndarray_or_xarray(args[0]):
+        if is_ndarray_or_xarray(args[0]):
             _arr = args[0]
             # check that is boolean or integer binary
             if _arr.dtype == bool:
@@ -1002,7 +1003,7 @@ class MorphologicalPlanform(SpecialtyPlanform):
         # assign first argument to attribute of self
         if issubclass(type(args[0]), mask.BaseMask):
             self._elevation_mask = args[0]._mask
-        elif utils.is_ndarray_or_xarray(args[0]):
+        elif is_ndarray_or_xarray(args[0]):
             self._elevation_mask = args[0]
         else:
             raise TypeError("Type of first argument is unrecognized or unsupported")
@@ -1869,7 +1870,7 @@ def shaw_opening_angle_method(
     ## Make sea points
     #   identify set of points in both the convex hull polygon and
     #   defined as points_to_test and put these binary points into seamap
-    sea_points_in_hull_bool = utils._points_in_polygon(
+    sea_points_in_hull_bool = _points_in_polygon(
         all_sea_points, test_set_points[hull.vertices]
     )
     sea_points_in_hull_bool = sea_points_in_hull_bool.astype(bool)
@@ -2003,7 +2004,7 @@ def morphological_closing_method(elevationmask, biggestdisk=None):
     # coerce input image into 2-d ndarray
     if isinstance(elevationmask, mask.BaseMask):
         emsk = np.array(elevationmask.mask)
-    elif utils.is_ndarray_or_xarray(elevationmask):
+    elif is_ndarray_or_xarray(elevationmask):
         emsk = np.array(elevationmask)
     else:
         raise TypeError(
@@ -2113,7 +2114,7 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
     #   todo...
 
     # coerce the channel mask to just the raw mask values
-    if utils.is_ndarray_or_xarray(channelmask):
+    if is_ndarray_or_xarray(channelmask):
         if isinstance(channelmask, xr.core.dataarray.DataArray):
             _dx = float(
                 channelmask[channelmask.dims[0]][1]
@@ -2245,7 +2246,7 @@ def compute_channel_depth(
     # check that the section trace is a valid shape
     #   todo...
 
-    if utils.is_ndarray_or_xarray(channelmask):
+    if is_ndarray_or_xarray(channelmask):
         pass
     elif isinstance(channelmask, mask.ChannelMask):
         channelmask = np.array(channelmask.mask)
@@ -2367,7 +2368,7 @@ def compute_surface_deposit_time(data, surface_idx=-1, **kwargs):
     if isinstance(data, cube.DataCube):
         etas = data["eta"][:surface_idx, :, :]
         etas = np.array(etas)  # strip xarray for input to helper
-    elif utils.is_ndarray_or_xarray(data):
+    elif is_ndarray_or_xarray(data):
         etas = np.array(data[:surface_idx, :, :])
     else:
         # implement other options...
