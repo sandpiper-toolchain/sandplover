@@ -660,7 +660,7 @@ class TestComputeSedimentograph:
             self.golfstrat['time'],
             num_sections=50,
             last_section_radius=2750,
-            sediment_bins=np.linspace(0, golfcube.t[-1], num=5),
+            sediment_bins=np.linspace(0, float(golfcube.t[-1]), num=5),
             background=background,
             origin_idx=[3, 100])
         assert np.all(np.logical_or(s <= 1, np.isnan(s)))
