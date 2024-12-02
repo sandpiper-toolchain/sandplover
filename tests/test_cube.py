@@ -10,7 +10,7 @@ from deltametrics import cube
 from deltametrics import plot
 from deltametrics import section
 from deltametrics import plan
-from deltametrics import utils
+from deltametrics.utils import NoStratigraphyError
 from deltametrics.sample_data import _get_golf_path, _get_rcm8_path, _get_landsat_path
 
 
@@ -157,7 +157,7 @@ class TestDataCubeNoStratigraphy:
         golf = cube.DataCube(golf_path)
         golf.register_section("testsection", section.StrikeSection(distance_idx=10))
         assert golf._knows_stratigraphy is False
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             golf.sections["testsection"]["velocity"].strat.as_stratigraphy()
 
     def test_fixeddatacube_init_varset(self):
@@ -224,9 +224,9 @@ class TestDataCubeNoStratigraphy:
         sc = section.StrikeSection(self.fixeddatacube, distance_idx=10)
         _ = sc["velocity"][:, 1]
         assert not hasattr(sc, "strat_attr")
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             _ = sc.strat_attr
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             _ = sc["velocity"].strat.as_preserved()
 
     def test_show_section_mocked_BaseSection_show(self):
