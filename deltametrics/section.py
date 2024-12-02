@@ -8,7 +8,6 @@ import xarray as xr
 import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
 
-from . import cube
 from . import mask
 from . import plan
 from deltametrics.utils import NoStratigraphyError
@@ -219,7 +218,9 @@ class BaseSection(abc.ABC):
 
     def connect(self, InputInstance, name=None):
         """Connect this Section instance to a Cube instance."""
-        if issubclass(type(InputInstance), cube.BaseCube):
+        from deltametrics.cube import BaseCube
+
+        if issubclass(type(InputInstance), BaseCube):
             self._underlying = InputInstance
             self._underlying_type = "cube"
             self._variables = InputInstance.variables
@@ -430,8 +431,11 @@ class BaseSection(abc.ABC):
             The underlying data returned as an xarray `DataArray`, maintaining
             coordinates.
         """
+        from deltametrics.cube import DataCube
+        from deltametrics.cube import StratigraphyCube
+
         if self._underlying_type == "cube":
-            if isinstance(self._underlying, cube.DataCube):
+            if isinstance(self._underlying, DataCube):
                 _xrDA = xr.DataArray(
                     self._underlying[var].data[:, self._dim1_idx, self._dim2_idx],
                     coords={"s": self._s, self._z.dims[0]: self._z},
@@ -453,7 +457,7 @@ class BaseSection(abc.ABC):
                         ),
                     )
                 return _xrDA
-            elif isinstance(self._underlying, cube.StratigraphyCube):
+            elif isinstance(self._underlying, StratigraphyCube):
                 _xrDA = xr.DataArray(
                     self._underlying[var].data[:, self._dim1_idx, self._dim2_idx],
                     coords={"s": self._s, self._z.dims[0]: self._z},
@@ -599,6 +603,7 @@ class BaseSection(abc.ABC):
 
         .. plot:: section/section_demo_quick_strat.py
         """
+        from deltametrics.cube import BaseCube
         from deltametrics.plot import VariableSet
         from deltametrics.plot import append_colorbar
         from deltametrics.plot import get_display_arrays
@@ -629,7 +634,7 @@ class BaseSection(abc.ABC):
             # if te underlying is a cube
             _varinfo = (
                 self._underlying.varset[SectionAttribute]
-                if issubclass(type(self._underlying), cube.BaseCube)
+                if issubclass(type(self._underlying), BaseCube)
                 else VariableSet()[SectionAttribute]
             )
             # main routines for plot styles
