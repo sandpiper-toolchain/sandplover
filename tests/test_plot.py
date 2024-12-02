@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 from deltametrics import plot
 from deltametrics import cube
-from deltametrics import section
+from deltametrics.section import StrikeSection
 from deltametrics.utils import NoStratigraphyError
 from deltametrics.sample_data import _get_golf_path
 
@@ -392,18 +392,18 @@ class TestGetDisplayArrays:
 
     rcm8cube_nostrat = cube.DataCube(golf_path)
     rcm8cube_nostrat.register_section(
-        'test', section.StrikeSection(distance_idx=5))
+        'test', StrikeSection(distance_idx=5))
     dsv_nostrat = rcm8cube_nostrat.sections['test']['velocity']
 
     rcm8cube = cube.DataCube(golf_path)
     rcm8cube.stratigraphy_from('eta', dz=0.1)
     rcm8cube.register_section(
-        'test', section.StrikeSection(distance_idx=5))
+        'test', StrikeSection(distance_idx=5))
     dsv = rcm8cube.sections['test']['velocity']
 
     sc8cube = cube.StratigraphyCube.from_DataCube(rcm8cube, dz=0.1)
     sc8cube.register_section(
-        'test', section.StrikeSection(distance_idx=5))
+        'test', StrikeSection(distance_idx=5))
     ssv = sc8cube.sections['test']['velocity']
 
     def test_dsv_nostrat_get_display_arrays_spacetime(self):
@@ -486,18 +486,18 @@ class TestGetDisplayLines:
 
     rcm8cube_nostrat = cube.DataCube(golf_path)
     rcm8cube_nostrat.register_section(
-        'test', section.StrikeSection(distance_idx=5))
+        'test', StrikeSection(distance_idx=5))
     dsv_nostrat = rcm8cube_nostrat.sections['test']['velocity']
 
     rcm8cube = cube.DataCube(golf_path)
     rcm8cube.stratigraphy_from('eta', dz=0.1)
     rcm8cube.register_section(
-        'test', section.StrikeSection(distance_idx=5))
+        'test', StrikeSection(distance_idx=5))
     dsv = rcm8cube.sections['test']['velocity']
 
     sc8cube = cube.StratigraphyCube.from_DataCube(rcm8cube, dz=0.1)
     sc8cube.register_section(
-        'test', section.StrikeSection(distance_idx=5))
+        'test', StrikeSection(distance_idx=5))
     ssv = sc8cube.sections['test']['velocity']
 
     def test_dsv_nostrat_get_display_lines_spacetime(self):
@@ -563,18 +563,18 @@ class TestGetDisplayLimits:
 
     rcm8cube_nostrat = cube.DataCube(golf_path)
     rcm8cube_nostrat.register_section(
-        'test', section.StrikeSection(distance_idx=5))
+        'test', StrikeSection(distance_idx=5))
     dsv_nostrat = rcm8cube_nostrat.sections['test']['velocity']
 
     rcm8cube = cube.DataCube(golf_path)
     rcm8cube.stratigraphy_from('eta', dz=0.1)
     rcm8cube.register_section(
-        'test', section.StrikeSection(distance_idx=5))
+        'test', StrikeSection(distance_idx=5))
     dsv = rcm8cube.sections['test']['velocity']
 
     sc8cube = cube.StratigraphyCube.from_DataCube(rcm8cube, dz=0.1)
     sc8cube.register_section(
-        'test', section.StrikeSection(distance_idx=5))
+        'test', StrikeSection(distance_idx=5))
     ssv = sc8cube.sections['test']['velocity']
 
     def test_dsv_nostrat_get_display_limits_spacetime(self):
