@@ -18,10 +18,11 @@ from numba import njit, prange, set_num_threads
 from . import mask
 from . import cube
 from . import section as dm_section
-from . import plot
+from deltametrics.plot import VariableInfo
+from deltametrics.plot import VariableSet
+from deltametrics.plot import append_colorbar
 from deltametrics.utils import _points_in_polygon
 from deltametrics.utils import is_ndarray_or_xarray
-
 
 class BasePlanform(abc.ABC):
     """Base planform object.
@@ -138,7 +139,7 @@ class BasePlanform(abc.ABC):
         )
 
         if colorbar:
-            cb = plot.append_colorbar(im, ax)
+            cb = append_colorbar(im, ax)
             if colorbar_label:
                 _colorbar_label = (
                     varinfo.label if (colorbar_label is True) else str(colorbar_label)
@@ -362,7 +363,7 @@ class Planform(BasePlanform):
         _varinfo = (
             self.cube.varset[var]
             if issubclass(type(self.cube), cube.BaseCube)
-            else plot.VariableSet()[var]
+            else VariableSet()[var]
         )
         _field = self[var]
 
@@ -436,7 +437,7 @@ class SpecialtyPlanform(BasePlanform):
         """
         super().__init__(planform_type, *args, **kwargs)
 
-        self._default_varinfo = plot.VariableInfo("data", label="data")
+        self._default_varinfo = VariableInfo("data", label="data")
 
     @property
     @abc.abstractmethod
@@ -688,10 +689,10 @@ class OpeningAnglePlanform(SpecialtyPlanform):
         self._below_mask = None
 
         # set variable info display options
-        self._opening_angles_varinfo = plot.VariableInfo(
+        self._opening_angles_varinfo = VariableInfo(
             "opening_angles", cmap=plt.cm.jet, label="opening angle"
         )
-        self._below_mask_varinfo = plot.VariableInfo(
+        self._below_mask_varinfo = VariableInfo(
             "below_mask", cmap=plt.cm.gray, label="where below"
         )
         self._default_varinfo = self._opening_angles_varinfo
@@ -989,7 +990,7 @@ class MorphologicalPlanform(SpecialtyPlanform):
         self._below_mask = None
 
         # set variable info display options
-        self._mean_image_varinfo = plot.VariableInfo("mean_image", label="mean image")
+        self._mean_image_varinfo = VariableInfo("mean_image", label="mean image")
         self._default_varinfo = self._mean_image_varinfo
 
         # check for input or allowable emptiness
