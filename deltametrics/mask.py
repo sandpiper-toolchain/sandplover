@@ -11,7 +11,6 @@ import abc
 import warnings
 
 from deltametrics.utils import is_ndarray_or_xarray
-from . import cube
 from . import plan
 from deltametrics.plot import append_colorbar
 
@@ -32,6 +31,8 @@ class BaseMask(abc.ABC):
 
         *args
         """
+        from deltametrics.cube import BaseCube
+
         # add mask type as attribute
         self._mask_type = mask_type
         self._shape = None
@@ -53,7 +54,7 @@ class BaseMask(abc.ABC):
                 return
             else:
                 raise ValueError("Expected 1 input, got 0.")
-        elif (len(args) == 1) and issubclass(type(args[0]), cube.BaseCube):
+        elif (len(args) == 1) and issubclass(type(args[0]), BaseCube):
             self._input_flag = "cube"
             # take a slice to have the coordinates available
             #   note: this is an uncessary disk-read operation, which
