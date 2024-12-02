@@ -11,7 +11,8 @@ from deltametrics.cube import StratigraphyCube
 from deltametrics.plot import VariableSet
 from deltametrics.section import BaseSection
 from deltametrics.section import StrikeSection
-from deltametrics import plan
+from deltametrics.plan import BasePlanform
+from deltametrics.plan import Planform
 from deltametrics.utils import NoStratigraphyError
 from deltametrics.sample_data import _get_golf_path, _get_rcm8_path, _get_landsat_path
 
@@ -120,7 +121,7 @@ class TestDataCubeNoStratigraphy:
     def test_register_planform(self):
         golf = DataCube(golf_path)
         golf.stratigraphy_from("eta", dz=0.1)
-        golf.register_planform("testplanform", plan.Planform(idx=10))
+        golf.register_planform("testplanform", Planform(idx=10))
         assert golf.planforms is golf.planform_set
         assert len(golf.planforms.keys()) == 1
         assert "testplanform" in golf.planforms.keys()
@@ -129,16 +130,16 @@ class TestDataCubeNoStratigraphy:
         with pytest.raises(TypeError, match=r"`PlanformInstance` .*"):
             golf.register_planform("fail2", 22)
         with pytest.raises(TypeError, match=r"`name` .*"):
-            golf.register_planform(22, plan.Planform(idx=10))
+            golf.register_planform(22, Planform(idx=10))
         returnedplanform = golf.register_planform(
-            "returnedplanform", plan.Planform(idx=10), return_planform=True
+            "returnedplanform", Planform(idx=10), return_planform=True
         )
         assert returnedplanform.name == "returnedplanform"
 
     def test_register_plan_legacy_method(self):
         """This tests the shorthand named version."""
         golf = DataCube(golf_path)
-        golf.register_plan("testplanform", plan.Planform(idx=10))
+        golf.register_plan("testplanform", Planform(idx=10))
         assert golf.planforms is golf.planform_set
         assert len(golf.planforms.keys()) == 1
         assert "testplanform" in golf.planforms.keys()
@@ -146,10 +147,10 @@ class TestDataCubeNoStratigraphy:
     def test_planforms_slice_op(self):
         golf = DataCube(golf_path)
         golf.stratigraphy_from("eta", dz=0.1)
-        golf.register_planform("testplanform", plan.Planform(idx=10))
+        golf.register_planform("testplanform", Planform(idx=10))
         assert "testplanform" in golf.planforms.keys()
         slc = golf.planforms["testplanform"]
-        assert issubclass(type(slc), plan.BasePlanform)
+        assert issubclass(type(slc), BasePlanform)
 
     def test_nostratigraphy_default(self):
         golf = DataCube(golf_path)
@@ -258,7 +259,7 @@ class TestDataCubeNoStratigraphy:
 
     def test_show_planform_mocked_Planform_show(self):
         golf = DataCube(golf_path)
-        golf.register_planform("displayplan", plan.Planform(idx=-1))
+        golf.register_planform("displayplan", Planform(idx=-1))
         golf.planforms["displayplan"].show = mock.MagicMock()
         mocked = golf.planforms["displayplan"].show
         # no arguments is an error
