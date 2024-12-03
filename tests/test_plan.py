@@ -7,7 +7,10 @@ import matplotlib.pyplot as plt
 
 from deltametrics.sample_data import _get_rcm8_path, _get_golf_path
 
-from deltametrics import mask
+from deltametrics.mask import ChannelMask
+from deltametrics.mask import ElevationMask
+from deltametrics.mask import LandMask
+from deltametrics.mask import ShorelineMask
 from deltametrics.cube import DataCube
 from deltametrics.cube import StratigraphyCube
 from deltametrics import plan
@@ -200,7 +203,7 @@ class TestOpeningAnglePlanform:
             )
 
     def test_defaults_static_from_ElevationMask(self):
-        _em = mask.ElevationMask(self.golfcube["eta"][-1, :, :], elevation_threshold=0)
+        _em = ElevationMask(self.golfcube["eta"][-1, :, :], elevation_threshold=0)
 
         oap = plan.OpeningAnglePlanform.from_ElevationMask(_em)
 
@@ -358,7 +361,7 @@ class TestDeltaArea:
     golf_path = _get_golf_path()
     golfcube = DataCube(golf_path)
 
-    lm = mask.LandMask(
+    lm = LandMask(
         golfcube["eta"][-1, :, :],
         elevation_threshold=golfcube.meta["H_SL"][-1],
         elevation_offset=-0.5,
@@ -391,21 +394,21 @@ class TestShorelineRoughness:
     with pytest.warns(UserWarning):
         rcm8 = DataCube(rcm8_path)
 
-    em = mask.ElevationMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
+    em = ElevationMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
     em.trim_mask(value=1, length=1)
     OAP = plan.OpeningAnglePlanform(~(em.mask))
-    lm = mask.LandMask.from_Planform(OAP)
-    sm = mask.ShorelineMask.from_Planform(OAP)
-    em0 = mask.ElevationMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
+    lm = LandMask.from_Planform(OAP)
+    sm = ShorelineMask.from_Planform(OAP)
+    em0 = ElevationMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
     em0.trim_mask(value=1, length=1)
     OAP0 = plan.OpeningAnglePlanform(~(em0.mask))
-    lm0 = mask.LandMask.from_Planform(OAP0)
-    sm0 = mask.ShorelineMask.from_Planform(OAP0)
+    lm0 = LandMask.from_Planform(OAP0)
+    sm0 = ShorelineMask.from_Planform(OAP0)
 
-    # lm = mask.LandMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
-    # sm = mask.ShorelineMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
-    # lm0 = mask.LandMask(rcm8["eta"][0, :, :], elevation_threshold=0)
-    # sm0 = mask.ShorelineMask(rcm8["eta"][0, :, :], elevation_threshold=0)
+    # lm = LandMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
+    # sm = ShorelineMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
+    # lm0 = LandMask(rcm8["eta"][0, :, :], elevation_threshold=0)
+    # sm0 = ShorelineMask(rcm8["eta"][0, :, :], elevation_threshold=0)
 
     # _trim_length = 4
     # lm.trim_mask(length=_trim_length)
@@ -468,8 +471,8 @@ class TestShorelineLength:
     with pytest.warns(UserWarning):
         rcm8 = DataCube(rcm8_path)
 
-    sm = mask.ShorelineMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
-    sm0 = mask.ShorelineMask(rcm8["eta"][0, :, :], elevation_threshold=0)
+    sm = ShorelineMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
+    sm0 = ShorelineMask(rcm8["eta"][0, :, :], elevation_threshold=0)
 
     _trim_length = 4
     sm.trim_mask(length=_trim_length)
@@ -515,7 +518,7 @@ class TestShorelineDistance:
     golf_path = _get_golf_path()
     golf = DataCube(golf_path)
 
-    sm = mask.ShorelineMask(
+    sm = ShorelineMask(
         golf["eta"][-1, :, :], elevation_threshold=0, elevation_offset=-0.5
     )
 
@@ -567,7 +570,7 @@ class TestComputeChannelWidth:
     golf_path = _get_golf_path()
     golf = DataCube(golf_path)
 
-    cm = mask.ChannelMask(
+    cm = ChannelMask(
         golf["eta"][-1, :, :],
         golf["velocity"][-1, :, :],
         elevation_threshold=0,
@@ -637,7 +640,7 @@ class TestComputeChannelDepth:
     golf_path = _get_golf_path()
     golf = DataCube(golf_path)
 
-    cm = mask.ChannelMask(
+    cm = ChannelMask(
         golf["eta"][-1, :, :],
         golf["velocity"][-1, :, :],
         elevation_threshold=0,
