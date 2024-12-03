@@ -16,7 +16,7 @@ import warnings
 from numba import njit, prange, set_num_threads
 
 from . import mask
-from . import section as dm_section
+from deltametrics.section import BaseSection
 from deltametrics.plot import VariableInfo
 from deltametrics.plot import VariableSet
 from deltametrics.plot import append_colorbar
@@ -2111,7 +2111,7 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
         plt.show()
     """
     if not (section is None):
-        if issubclass(type(section), dm_section.BaseSection):
+        if issubclass(type(section), BaseSection):
             section_trace = section.idx_trace
             section_coord = section._s.data
         elif isinstance(section, np.ndarray):
@@ -2244,7 +2244,7 @@ def compute_channel_depth(
         List of depth measurements. Returned only if `return_depths=True`.
     """
     if not (section is None):
-        if issubclass(type(section), dm_section.BaseSection):
+        if issubclass(type(section), BaseSection):
             section_trace = section.idx_trace
             section_coord = section._s.data
         elif isinstance(section, np.ndarray):
