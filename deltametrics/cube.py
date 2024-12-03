@@ -9,11 +9,12 @@ import xarray as xr
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 
-from . import io
 from . import plan
 from . import section
 from . import strat
 from . import plot
+from deltametrics.io import DictionaryIO
+from deltametrics.io import NetCDFIO
 
 
 class BaseCube(abc.ABC):
@@ -66,7 +67,7 @@ class BaseCube(abc.ABC):
         elif type(data) is dict:
             # handle a dict, arrays set up already, make an io class to wrap it
             self._data_path = None
-            self._dataio = io.DictionaryIO(data, dimensions=dimensions)
+            self._dataio = DictionaryIO(data, dimensions=dimensions)
             self._read_meta_from_file()
         elif isinstance(data, DataCube):
             # handle initializing one cube type from another
@@ -105,9 +106,9 @@ class BaseCube(abc.ABC):
         """
         _, ext = os.path.splitext(data_path)
         if ext == ".nc":
-            self._dataio = io.NetCDFIO(data_path, "netcdf")
+            self._dataio = NetCDFIO(data_path, "netcdf")
         elif ext == ".hdf5":
-            self._dataio = io.NetCDFIO(data_path, "hdf5")
+            self._dataio = NetCDFIO(data_path, "hdf5")
         else:
             raise ValueError('Invalid file extension for "data_path": %s' % data_path)
 
