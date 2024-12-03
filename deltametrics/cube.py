@@ -11,7 +11,9 @@ from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 
 from deltametrics.plan import BasePlanform
 from deltametrics.plan import Planform
-from . import section
+from deltametrics.section import BaseSection
+from deltametrics.section import DipSection
+from deltametrics.section import StrikeSection
 from deltametrics.strat import _adjust_elevation_by_subsidence
 from deltametrics.strat import _determine_strat_coordinates
 from deltametrics.strat import BoxyStratigraphyAttributes
@@ -307,7 +309,7 @@ class BaseCube(abc.ABC):
         ``golf.register_section('trial', trace='strike',
         distance=2000)``.
         """
-        if not issubclass(type(SectionInstance), section.BaseSection):
+        if not issubclass(type(SectionInstance), BaseSection):
             raise TypeError(
                 "`SectionInstance` was not a `Section`. "
                 "Instead, was: {0}".format(type(SectionInstance))
@@ -461,10 +463,10 @@ class BaseCube(abc.ABC):
             _obj = Planform(self, idx=idx)
         elif axis == 1:
             # this is a Strike section
-            _obj = section.StrikeSection(self, distance_idx=idx)
+            _obj = StrikeSection(self, distance_idx=idx)
         elif axis == 2:
             # this is a Dip section
-            _obj = section.DipSection(self, distance_idx=idx)
+            _obj = DipSection(self, distance_idx=idx)
         else:
             raise ValueError("Invalid `axis` specified: {0}".format(axis))
 
