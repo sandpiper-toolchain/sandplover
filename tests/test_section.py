@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 from deltametrics.cube import DataCube
 from deltametrics.cube import StratigraphyCube
-from deltametrics import mask
+from deltametrics.mask import ElevationMask
 from deltametrics import plan
 
 from deltametrics.section import CircularSection
@@ -1294,7 +1294,7 @@ class TestDipSection:
 class TestSectionsIntoMasks:
 
     golfcube = DataCube(golf_path)
-    EM = mask.ElevationMask(golfcube["eta"][-1], elevation_threshold=0)
+    EM = ElevationMask(golfcube["eta"][-1], elevation_threshold=0)
 
     def test_section_types(self):
         mcs = CircularSection(self.EM, radius=500)
