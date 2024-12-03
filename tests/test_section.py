@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from deltametrics.cube import DataCube
 from deltametrics.cube import StratigraphyCube
 from deltametrics.mask import ElevationMask
-from deltametrics import plan
+from deltametrics.plan import Planform
 
 from deltametrics.section import CircularSection
 from deltametrics.section import DipSection
@@ -1326,7 +1326,7 @@ class TestSectionsIntoMasks:
 class TestSectionsIntoPlans:
 
     golfcube = DataCube(golf_path)
-    pl = plan.Planform(golfcube, idx=-1)
+    pl = Planform(golfcube, idx=-1)
 
     def test_section_types(self):
         mcs = CircularSection(self.pl, radius=500)
