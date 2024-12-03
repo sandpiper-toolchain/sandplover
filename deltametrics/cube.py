@@ -9,7 +9,8 @@ import xarray as xr
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 
-from . import plan
+from deltametrics.plan import BasePlanform
+from deltametrics.plan import Planform
 from . import section
 from deltametrics.strat import _adjust_elevation_by_subsidence
 from deltametrics.strat import _determine_strat_coordinates
@@ -252,7 +253,7 @@ class BaseCube(abc.ABC):
         return_planform : :obj:`bool`
             Whether to return the planform object.
         """
-        if not issubclass(type(PlanformInstance), plan.BasePlanform):
+        if not issubclass(type(PlanformInstance), BasePlanform):
             raise TypeError(
                 "`PlanformInstance` was not a `Planform`. "
                 "Instead, was: {0}".format(type(PlanformInstance))
@@ -457,7 +458,7 @@ class BaseCube(abc.ABC):
         """
         if axis == 0:
             # this is a planform slice
-            _obj = plan.Planform(self, idx=idx)
+            _obj = Planform(self, idx=idx)
         elif axis == 1:
             # this is a Strike section
             _obj = section.StrikeSection(self, distance_idx=idx)
