@@ -51,10 +51,10 @@ jobs:
       uses: actions/checkout@v4
       with:
         persist-credentials: false
-    - name: Set up Python 3.9
+    - name: Set up Python 3.12
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9'
+        python-version: '3.12'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -63,7 +63,8 @@ jobs:
         sudo apt update -y && sudo apt install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended dvipng
     - name: Install DeltaMetrics
       run: |
-        python setup.py install
+        pip install setuptools
+        pip install --no-build-isolation .
     - name: Build and test documentation
       run: |
         (cd docs && make docs)
