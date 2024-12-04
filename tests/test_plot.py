@@ -20,7 +20,8 @@ from deltametrics.plot import show_histograms
 from deltametrics.plot import show_one_dimensional_trajectory_to_strata
 from deltametrics.plot import style_axes_km
 from deltametrics.plot import vintage_colormap
-from deltametrics import cube
+from deltametrics.cube import DataCube
+from deltametrics.cube import StratigraphyCube
 from deltametrics.section import StrikeSection
 from deltametrics.utils import NoStratigraphyError
 from deltametrics.sample_data import _get_golf_path
@@ -354,7 +355,7 @@ class TestSODTTST:
         plt.close()
 
     def test_sodttst_makes_plot_sample_data(self):
-        rcm8cube = cube.DataCube(golf_path)
+        rcm8cube = DataCube(golf_path)
         locs = np.array([[48, 152], [8, 63], [14, 102],
                          [92, 118], [92, 168], [26, 114],
                          [62, 135], [61, 171], [65, 193],
@@ -403,18 +404,18 @@ class TestSODTTST:
 
 class TestGetDisplayArrays:
 
-    rcm8cube_nostrat = cube.DataCube(golf_path)
+    rcm8cube_nostrat = DataCube(golf_path)
     rcm8cube_nostrat.register_section(
         'test', StrikeSection(distance_idx=5))
     dsv_nostrat = rcm8cube_nostrat.sections['test']['velocity']
 
-    rcm8cube = cube.DataCube(golf_path)
+    rcm8cube = DataCube(golf_path)
     rcm8cube.stratigraphy_from('eta', dz=0.1)
     rcm8cube.register_section(
         'test', StrikeSection(distance_idx=5))
     dsv = rcm8cube.sections['test']['velocity']
 
-    sc8cube = cube.StratigraphyCube.from_DataCube(rcm8cube, dz=0.1)
+    sc8cube = StratigraphyCube.from_DataCube(rcm8cube, dz=0.1)
     sc8cube.register_section(
         'test', StrikeSection(distance_idx=5))
     ssv = sc8cube.sections['test']['velocity']
@@ -497,18 +498,18 @@ class TestGetDisplayArrays:
 
 class TestGetDisplayLines:
 
-    rcm8cube_nostrat = cube.DataCube(golf_path)
+    rcm8cube_nostrat = DataCube(golf_path)
     rcm8cube_nostrat.register_section(
         'test', StrikeSection(distance_idx=5))
     dsv_nostrat = rcm8cube_nostrat.sections['test']['velocity']
 
-    rcm8cube = cube.DataCube(golf_path)
+    rcm8cube = DataCube(golf_path)
     rcm8cube.stratigraphy_from('eta', dz=0.1)
     rcm8cube.register_section(
         'test', StrikeSection(distance_idx=5))
     dsv = rcm8cube.sections['test']['velocity']
 
-    sc8cube = cube.StratigraphyCube.from_DataCube(rcm8cube, dz=0.1)
+    sc8cube = StratigraphyCube.from_DataCube(rcm8cube, dz=0.1)
     sc8cube.register_section(
         'test', StrikeSection(distance_idx=5))
     ssv = sc8cube.sections['test']['velocity']
@@ -574,18 +575,18 @@ class TestGetDisplayLines:
 
 class TestGetDisplayLimits:
 
-    rcm8cube_nostrat = cube.DataCube(golf_path)
+    rcm8cube_nostrat = DataCube(golf_path)
     rcm8cube_nostrat.register_section(
         'test', StrikeSection(distance_idx=5))
     dsv_nostrat = rcm8cube_nostrat.sections['test']['velocity']
 
-    rcm8cube = cube.DataCube(golf_path)
+    rcm8cube = DataCube(golf_path)
     rcm8cube.stratigraphy_from('eta', dz=0.1)
     rcm8cube.register_section(
         'test', StrikeSection(distance_idx=5))
     dsv = rcm8cube.sections['test']['velocity']
 
-    sc8cube = cube.StratigraphyCube.from_DataCube(rcm8cube, dz=0.1)
+    sc8cube = StratigraphyCube.from_DataCube(rcm8cube, dz=0.1)
     sc8cube.register_section(
         'test', StrikeSection(distance_idx=5))
     ssv = sc8cube.sections['test']['velocity']
@@ -642,7 +643,7 @@ class TestGetDisplayLimits:
 class TestColorMapFunctions:
     # note, no plotting, just boundaries and values checking
 
-    rcm8cube = cube.DataCube(golf_path)
+    rcm8cube = DataCube(golf_path)
 
     def test_cartographic_SL0_defaults(self):
         H_SL = 0
