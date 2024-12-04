@@ -11,7 +11,6 @@ import abc
 import warnings
 
 from deltametrics.utils import is_ndarray_or_xarray
-from . import plan
 from deltametrics.plot import append_colorbar
 
 
@@ -1042,21 +1041,24 @@ class LandMask(BaseMask):
         -------
         LandMask : :obj:`LandMask`
         """
+        from deltametrics.plan import MorphologicalPlanform
+        from deltametrics.plan import OpeningAnglePlanform
+
         if isinstance(UnknownMask, ElevationMask):
             if "method" in kwargs:
                 _method = kwargs.pop("method")
                 if _method == "MPM":
-                    _Planform = plan.MorphologicalPlanform.from_mask(
+                    _Planform = MorphologicalPlanform.from_mask(
                         UnknownMask, **kwargs
                     )
                 else:
                     # make intermediate shoreline mask
-                    _Planform = plan.OpeningAnglePlanform.from_mask(
+                    _Planform = OpeningAnglePlanform.from_mask(
                         UnknownMask, **kwargs
                     )
             else:
                 # make intermediate shoreline mask
-                _Planform = plan.OpeningAnglePlanform.from_mask(UnknownMask, **kwargs)
+                _Planform = OpeningAnglePlanform.from_mask(UnknownMask, **kwargs)
         else:
             raise TypeError
 
@@ -1145,6 +1147,9 @@ class LandMask(BaseMask):
             Keyword arguments for :obj:`compute_shoremask`.
 
         """
+        from deltametrics.plan import MorphologicalPlanform
+        from deltametrics.plan import OpeningAnglePlanform
+
         super().__init__("land", *args, **kwargs)
 
         self._contour_threshold = contour_threshold
@@ -1170,9 +1175,9 @@ class LandMask(BaseMask):
 
         # create a planform
         if method == "OAM":
-            _Planform = plan.OpeningAnglePlanform.from_elevation_data(_eta, **kwargs)
+            _Planform = OpeningAnglePlanform.from_elevation_data(_eta, **kwargs)
         elif method == "MPM":
-            _Planform = plan.MorphologicalPlanform.from_elevation_data(_eta, **kwargs)
+            _Planform = MorphologicalPlanform.from_elevation_data(_eta, **kwargs)
         else:
             raise TypeError("method argument is unrecognized.")
 
@@ -1195,9 +1200,11 @@ class LandMask(BaseMask):
               (matching shape of mask)
 
         """
+        from deltametrics.plan import BasePlanform
+
         # for landmask, we need the shore image field of the OAP
         if len(args) == 1:
-            if isinstance(args[0], plan.BasePlanform):
+            if isinstance(args[0], BasePlanform):
                 composite_array = args[0].composite_array
             elif is_ndarray_or_xarray(args[0]):
                 composite_array = args[0]
@@ -1264,6 +1271,9 @@ class ShorelineMask(BaseMask):
             Optionally, use the `method` flag to control how the
             mask is created.
         """
+        from deltametrics.plan import MorphologicalPlanform
+        from deltametrics.plan import OpeningAnglePlanform
+
         if not isinstance(UnknownMask, ElevationMask):
             # make intermediate shoreline mask
             raise TypeError("Input must be ElevationMask")
@@ -1271,11 +1281,11 @@ class ShorelineMask(BaseMask):
         if "method" in kwargs:
             _method = kwargs.pop("method")
             if _method == "MPM":
-                _Planform = plan.MorphologicalPlanform(UnknownMask, kwargs["max_disk"])
+                _Planform = MorphologicalPlanform(UnknownMask, kwargs["max_disk"])
             else:
-                _Planform = plan.OpeningAnglePlanform.from_ElevationMask(UnknownMask)
+                _Planform = OpeningAnglePlanform.from_ElevationMask(UnknownMask)
         else:
-            _Planform = plan.OpeningAnglePlanform.from_ElevationMask(UnknownMask)
+            _Planform = OpeningAnglePlanform.from_ElevationMask(UnknownMask)
         return ShorelineMask.from_Planform(_Planform, **kwargs)
 
     @staticmethod
@@ -1355,6 +1365,9 @@ class ShorelineMask(BaseMask):
             :obj:`~deltametrics.plan.shaw_opening_angle_method`.
 
         """
+        from deltametrics.plan import MorphologicalPlanform
+        from deltametrics.plan import OpeningAnglePlanform
+
         super().__init__("shoreline", *args, **kwargs)
 
         # initialize empty
@@ -1389,7 +1402,7 @@ class ShorelineMask(BaseMask):
 
         # use an OAP to get the ocean mask and sea angles fields
         if method == "OAM":
-            _OAP = plan.OpeningAnglePlanform.from_elevation_data(_eta, **kwargs)
+            _OAP = OpeningAnglePlanform.from_elevation_data(_eta, **kwargs)
 
             # get fields out of the OAP
             _below_mask = _OAP._below_mask
@@ -1399,7 +1412,7 @@ class ShorelineMask(BaseMask):
             self._compute_mask(_below_mask, _opening_angles, method, **kwargs)
 
         elif method == "MPM":
-            _MPM = plan.MorphologicalPlanform.from_elevation_data(_eta, **kwargs)
+            _MPM = MorphologicalPlanform.from_elevation_data(_eta, **kwargs)
 
             # get fields and compute the mask
             _elevationmask = _MPM._elevation_mask
@@ -1410,14 +1423,17 @@ class ShorelineMask(BaseMask):
 
     def _compute_mask(self, *args, **kwargs):
         """Internally call either the OAM or MPM method."""
+        from deltametrics.plan import MorphologicalPlanform
+        from deltametrics.plan import OpeningAnglePlanform
+
         # handle types / input arguments
         if len(args) <= 2:
             if len(args) == 1:
-                if isinstance(args[0], plan.OpeningAnglePlanform):
+                if isinstance(args[0], OpeningAnglePlanform):
                     _below_mask = args[0]._below_mask
                     _opening_angles = args[0]._opening_angles
                     _method = "OAM"
-                elif isinstance(args[0], plan.MorphologicalPlanform):
+                elif isinstance(args[0], MorphologicalPlanform):
                     _elev_mask = args[0]._elevation_mask
                     _mean_image = args[0]._mean_image
                     _method = "MPM"
@@ -1459,8 +1475,10 @@ class ShorelineMask(BaseMask):
             Defines the number of times to 'look' for the OAM. Default is 3.
 
         """
+        from deltametrics.plan import OpeningAnglePlanform
+
         if len(args) == 1:
-            if not isinstance(args[0], plan.OpeningAnglePlanform):
+            if not isinstance(args[0], OpeningAnglePlanform):
                 raise TypeError("Must be type OAP.")
             _below_mask = args[0]._below_mask
             _opening_angles = args[0]._opening_angles
@@ -1503,12 +1521,14 @@ class ShorelineMask(BaseMask):
             Default is 3.
 
         """
+        from deltametrics.plan import MorphologicalPlanform
+
         if len(args) == 1:
-            if not isinstance(args[0], plan.MorphologicalPlanform):
+            if not isinstance(args[0], MorphologicalPlanform):
                 raise TypeError("Must be type MPM.")
             _mean_image = args[0]._mean_image
         elif len(args) == 2:
-            if isinstance(args[0], plan.MorphologicalPlanform):
+            if isinstance(args[0], MorphologicalPlanform):
                 _mean_image = args[0]._mean_image
             elif is_ndarray_or_xarray(args[1]):
                 _mean_image = args[1]
@@ -1743,6 +1763,9 @@ class EdgeMask(BaseMask):
             Keyword arguments for :obj:`compute_shoremask`.
 
         """
+        from deltametrics.plan import MorphologicalPlanform
+        from deltametrics.plan import OpeningAnglePlanform
+
         super().__init__("edge", *args, **kwargs)
 
         # temporary storage of args as needed for processing
@@ -1771,15 +1794,15 @@ class EdgeMask(BaseMask):
         if "method" in kwargs:
             _method = kwargs.pop("method")
             if _method == "MPM":
-                _Planform = plan.MorphologicalPlanform.from_elevation_data(
+                _Planform = MorphologicalPlanform.from_elevation_data(
                     _eta, **kwargs
                 )
             else:
-                _Planform = plan.OpeningAnglePlanform.from_elevation_data(
+                _Planform = OpeningAnglePlanform.from_elevation_data(
                     _eta, **kwargs
                 )
         else:
-            _Planform = plan.OpeningAnglePlanform.from_elevation_data(_eta, **kwargs)
+            _Planform = OpeningAnglePlanform.from_elevation_data(_eta, **kwargs)
 
         # get Masks from the Planform object
         _LM = LandMask.from_Planform(_Planform, **kwargs)

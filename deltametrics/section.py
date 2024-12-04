@@ -8,8 +8,6 @@ import xarray as xr
 import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
 
-from . import mask
-from . import plan
 from deltametrics.utils import NoStratigraphyError
 from deltametrics.utils import circle_to_cells
 from deltametrics.utils import coordinates_to_segments
@@ -219,6 +217,8 @@ class BaseSection(abc.ABC):
     def connect(self, InputInstance, name=None):
         """Connect this Section instance to a Cube instance."""
         from deltametrics.cube import BaseCube
+        from deltametrics.mask import BaseMask
+        from deltametrics.plan import Planform
 
         if issubclass(type(InputInstance), BaseCube):
             self._underlying = InputInstance
@@ -229,7 +229,7 @@ class BaseSection(abc.ABC):
             self._underlying_dim1_coords = InputInstance.dim1_coords
             self._underlying_dim2_coords = InputInstance.dim2_coords
             self._z = self._underlying.z
-        elif issubclass(type(InputInstance), mask.BaseMask):
+        elif issubclass(type(InputInstance), BaseMask):
             self._underlying = InputInstance
             self._underlying_type = "mask"
             self._variables = None
@@ -252,7 +252,7 @@ class BaseSection(abc.ABC):
                 self._underlying_dim1_coords = np.arange(self._L, dtype=float)
                 self._underlying_dim2_coords = np.arange(self._W, dtype=float)
             self._z = None
-        elif issubclass(type(InputInstance), plan.Planform):
+        elif issubclass(type(InputInstance), Planform):
             self._underlying = InputInstance
             self._underlying_type = "planform"
             self._variables = InputInstance.variables

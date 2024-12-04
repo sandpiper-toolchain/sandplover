@@ -9,8 +9,11 @@ import xarray as xr
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 
-from . import plan
-from . import section
+from deltametrics.plan import BasePlanform
+from deltametrics.plan import Planform
+from deltametrics.section import BaseSection
+from deltametrics.section import DipSection
+from deltametrics.section import StrikeSection
 from deltametrics.strat import _adjust_elevation_by_subsidence
 from deltametrics.strat import _determine_strat_coordinates
 from deltametrics.strat import BoxyStratigraphyAttributes
@@ -252,7 +255,7 @@ class BaseCube(abc.ABC):
         return_planform : :obj:`bool`
             Whether to return the planform object.
         """
-        if not issubclass(type(PlanformInstance), plan.BasePlanform):
+        if not issubclass(type(PlanformInstance), BasePlanform):
             raise TypeError(
                 "`PlanformInstance` was not a `Planform`. "
                 "Instead, was: {0}".format(type(PlanformInstance))
@@ -306,7 +309,7 @@ class BaseCube(abc.ABC):
         ``golf.register_section('trial', trace='strike',
         distance=2000)``.
         """
-        if not issubclass(type(SectionInstance), section.BaseSection):
+        if not issubclass(type(SectionInstance), BaseSection):
             raise TypeError(
                 "`SectionInstance` was not a `Section`. "
                 "Instead, was: {0}".format(type(SectionInstance))
@@ -457,13 +460,13 @@ class BaseCube(abc.ABC):
         """
         if axis == 0:
             # this is a planform slice
-            _obj = plan.Planform(self, idx=idx)
+            _obj = Planform(self, idx=idx)
         elif axis == 1:
             # this is a Strike section
-            _obj = section.StrikeSection(self, distance_idx=idx)
+            _obj = StrikeSection(self, distance_idx=idx)
         elif axis == 2:
             # this is a Dip section
-            _obj = section.DipSection(self, distance_idx=idx)
+            _obj = DipSection(self, distance_idx=idx)
         else:
             raise ValueError("Invalid `axis` specified: {0}".format(axis))
 

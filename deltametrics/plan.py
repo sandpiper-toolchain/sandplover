@@ -15,8 +15,12 @@ import warnings
 
 from numba import njit, prange, set_num_threads
 
-from . import mask
-from . import section as dm_section
+from deltametrics.mask import BaseMask
+from deltametrics.mask import ChannelMask
+from deltametrics.mask import ElevationMask
+from deltametrics.mask import LandMask
+from deltametrics.mask import ShorelineMask
+from deltametrics.section import BaseSection
 from deltametrics.plot import VariableInfo
 from deltametrics.plot import VariableSet
 from deltametrics.plot import append_colorbar
@@ -631,7 +635,7 @@ class OpeningAnglePlanform(SpecialtyPlanform):
             ...     elevation_threshold=0)
         """
         # make a temporary mask
-        _em = mask.ElevationMask(elevation_data, **kwargs)
+        _em = ElevationMask(elevation_data, **kwargs)
 
         # invert the mask for the below sea level area
         _below_mask = np.logical_not(_em.mask)
@@ -640,7 +644,7 @@ class OpeningAnglePlanform(SpecialtyPlanform):
         return OpeningAnglePlanform(_below_mask, **kwargs)
 
     @staticmethod
-    def from_ElevationMask(ElevationMask, **kwargs):
+    def from_ElevationMask(elevation_mask, **kwargs):
         """Create an `OpeningAnglePlanform` from an `ElevationMask`.
 
         .. note::
@@ -667,11 +671,11 @@ class OpeningAnglePlanform(SpecialtyPlanform):
             >>> OAP = dm.plan.OpeningAnglePlanform.from_ElevationMask(
             ...     _EM)
         """
-        if not isinstance(ElevationMask, mask.ElevationMask):
+        if not isinstance(elevation_mask, ElevationMask):
             raise TypeError("Must be type: ElevationMask.")
 
         # invert the mask for the below sea level area
-        _below_mask = ~(ElevationMask.mask)
+        _below_mask = ~(elevation_mask.mask)
 
         # compute from __init__ pathway
         return OpeningAnglePlanform(_below_mask)
@@ -942,7 +946,7 @@ class MorphologicalPlanform(SpecialtyPlanform):
             ...     max_disk=3)
         """
         # make a temporary mask
-        _em = mask.ElevationMask(elevation_data, **kwargs)
+        _em = ElevationMask(elevation_data, **kwargs)
 
         # compute from __init__ pathway
         return MorphologicalPlanform(_em, max_disk, **kwargs)
@@ -1012,7 +1016,7 @@ class MorphologicalPlanform(SpecialtyPlanform):
             else:
                 raise ValueError("Expected at least 1 input, got 0.")
         # assign first argument to attribute of self
-        if issubclass(type(args[0]), mask.BaseMask):
+        if issubclass(type(args[0]), BaseMask):
             self._elevation_mask = args[0]._mask
         elif is_ndarray_or_xarray(args[0]):
             self._elevation_mask = args[0]
@@ -1159,7 +1163,7 @@ def compute_land_area(land_mask):
 
     """
     # extract data from masks
-    if isinstance(land_mask, mask.LandMask):
+    if isinstance(land_mask, LandMask):
         land_mask = land_mask.mask
         _lm = land_mask.values
         _dx = float(land_mask[land_mask.dims[0]][1] - land_mask[land_mask.dims[0]][0])
@@ -1288,7 +1292,7 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
         plt.show()
     """
     # extract data from masks
-    if isinstance(land_mask, mask.LandMask):
+    if isinstance(land_mask, LandMask):
         land_mask = land_mask.mask
         _lm = land_mask.values
         _dx = float(land_mask[land_mask.dims[0]][1] - land_mask[land_mask.dims[0]][0])
@@ -1393,7 +1397,7 @@ def compute_shoreline_length(shore_mask, origin=[0, 0], return_line=False):
         plt.show()
     """
     # check if mask or already array
-    if isinstance(shore_mask, mask.ShorelineMask):
+    if isinstance(shore_mask, ShorelineMask):
         shore_mask = shore_mask.mask
         _sm = shore_mask.values
         _dx = float(
@@ -1605,7 +1609,7 @@ def compute_shoreline_distance(shore_mask, origin=[0, 0], return_distances=False
         plt.show()
     """
     # check if mask or already array
-    if isinstance(shore_mask, mask.ShorelineMask):
+    if isinstance(shore_mask, ShorelineMask):
         shore_mask = shore_mask.mask
         _sm = shore_mask.values
         _dx = float(
@@ -2013,7 +2017,7 @@ def morphological_closing_method(elevationmask, biggestdisk=None):
         of :obj:`shaw_opening_angle_method`.
     """
     # coerce input image into 2-d ndarray
-    if isinstance(elevationmask, mask.BaseMask):
+    if isinstance(elevationmask, BaseMask):
         emsk = np.array(elevationmask.mask)
     elif is_ndarray_or_xarray(elevationmask):
         emsk = np.array(elevationmask)
@@ -2111,7 +2115,7 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
         plt.show()
     """
     if not (section is None):
-        if issubclass(type(section), dm_section.BaseSection):
+        if issubclass(type(section), BaseSection):
             section_trace = section.idx_trace
             section_coord = section._s.data
         elif isinstance(section, np.ndarray):
@@ -2133,7 +2137,7 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
             )
         elif isinstance(channelmask, np.ndarray):
             _dx = 1
-    elif isinstance(channelmask, mask.ChannelMask):
+    elif isinstance(channelmask, ChannelMask):
         channelmask = channelmask.mask
         _dx = float(
             channelmask[channelmask.dims[0]][1] - channelmask[channelmask.dims[0]][0]
@@ -2244,7 +2248,7 @@ def compute_channel_depth(
         List of depth measurements. Returned only if `return_depths=True`.
     """
     if not (section is None):
-        if issubclass(type(section), dm_section.BaseSection):
+        if issubclass(type(section), BaseSection):
             section_trace = section.idx_trace
             section_coord = section._s.data
         elif isinstance(section, np.ndarray):
@@ -2259,7 +2263,7 @@ def compute_channel_depth(
 
     if is_ndarray_or_xarray(channelmask):
         pass
-    elif isinstance(channelmask, mask.ChannelMask):
+    elif isinstance(channelmask, ChannelMask):
         channelmask = np.array(channelmask.mask)
     else:
         raise TypeError(
