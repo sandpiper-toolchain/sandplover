@@ -8,7 +8,8 @@ import xarray as xr
 from deltametrics import cube
 
 from deltametrics import plot
-from deltametrics import section
+from deltametrics.section import BaseSection
+from deltametrics.section import StrikeSection
 from deltametrics import plan
 from deltametrics.utils import NoStratigraphyError
 from deltametrics.sample_data import _get_golf_path, _get_rcm8_path, _get_landsat_path
@@ -96,7 +97,7 @@ class TestDataCubeNoStratigraphy:
     def test_register_section(self):
         golf = cube.DataCube(golf_path)
         golf.stratigraphy_from("eta", dz=0.1)
-        golf.register_section("testsection", section.StrikeSection(distance_idx=10))
+        golf.register_section("testsection", StrikeSection(distance_idx=10))
         assert golf.sections is golf.section_set
         assert len(golf.sections.keys()) == 1
         assert "testsection" in golf.sections.keys()
@@ -105,15 +106,15 @@ class TestDataCubeNoStratigraphy:
         with pytest.raises(TypeError, match=r"`SectionInstance` .*"):
             golf.register_section("fail2", 22)
         with pytest.raises(TypeError, match=r"`name` .*"):
-            golf.register_section(22, section.StrikeSection(distance_idx=10))
+            golf.register_section(22, StrikeSection(distance_idx=10))
 
     def test_sections_slice_op(self):
         golf = cube.DataCube(golf_path)
         golf.stratigraphy_from("eta", dz=0.1)
-        golf.register_section("testsection", section.StrikeSection(distance_idx=10))
+        golf.register_section("testsection", StrikeSection(distance_idx=10))
         assert "testsection" in golf.sections.keys()
         slc = golf.sections["testsection"]
-        assert issubclass(type(slc), section.BaseSection)
+        assert issubclass(type(slc), BaseSection)
 
     def test_register_planform(self):
         golf = cube.DataCube(golf_path)
@@ -155,7 +156,7 @@ class TestDataCubeNoStratigraphy:
 
     def test_nostratigraphy_default_attribute_derived_variable(self):
         golf = cube.DataCube(golf_path)
-        golf.register_section("testsection", section.StrikeSection(distance_idx=10))
+        golf.register_section("testsection", StrikeSection(distance_idx=10))
         assert golf._knows_stratigraphy is False
         with pytest.raises(NoStratigraphyError):
             golf.sections["testsection"]["velocity"].strat.as_stratigraphy()
@@ -221,7 +222,7 @@ class TestDataCubeNoStratigraphy:
         assert self.fixeddatacube.shape == self.fdc_shape
 
     def test_section_no_stratigraphy(self):
-        sc = section.StrikeSection(self.fixeddatacube, distance_idx=10)
+        sc = StrikeSection(self.fixeddatacube, distance_idx=10)
         _ = sc["velocity"][:, 1]
         assert not hasattr(sc, "strat_attr")
         with pytest.raises(NoStratigraphyError):
@@ -231,7 +232,7 @@ class TestDataCubeNoStratigraphy:
 
     def test_show_section_mocked_BaseSection_show(self):
         golf = cube.DataCube(golf_path)
-        golf.register_section("displaysection", section.StrikeSection(distance_idx=10))
+        golf.register_section("displaysection", StrikeSection(distance_idx=10))
         golf.sections["displaysection"].show = mock.MagicMock()
         mocked = golf.sections["displaysection"].show
         # no arguments is an error
@@ -343,7 +344,7 @@ class TestDataCubeWithStratigraphy:
 
     def test_section_with_stratigraphy(self):
         assert hasattr(self.fixeddatacube, "strat_attr")
-        sc = section.StrikeSection(self.fixeddatacube, distance_idx=10)
+        sc = StrikeSection(self.fixeddatacube, distance_idx=10)
         assert sc.strat_attr is self.fixeddatacube.strat_attr
         _take = sc["velocity"][:, 1]
         assert _take.shape == (self.fixeddatacube.shape[0],)

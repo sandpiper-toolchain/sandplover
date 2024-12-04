@@ -10,7 +10,7 @@ from deltametrics.sample_data import _get_rcm8_path, _get_golf_path
 from deltametrics import mask
 from deltametrics import cube
 from deltametrics import plan
-from deltametrics import section
+from deltametrics.section import CircularSection
 
 # a simple custom layout
 simple_land = np.zeros((10, 10))
@@ -572,7 +572,7 @@ class TestComputeChannelWidth:
         elevation_threshold=0,
         flow_threshold=0.3,
     )
-    sec = section.CircularSection(golf, radius_idx=40)
+    sec = CircularSection(golf, radius_idx=40)
 
     def test_widths_simple(self):
         """Get mean and std from simple."""
@@ -642,7 +642,7 @@ class TestComputeChannelDepth:
         elevation_threshold=0,
         flow_threshold=0.3,
     )
-    sec = section.CircularSection(golf, radius_idx=40)
+    sec = CircularSection(golf, radius_idx=40)
 
     def test_depths_simple_thalweg(self):
         """Get mean and std from simple."""
