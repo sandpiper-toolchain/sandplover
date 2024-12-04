@@ -5,9 +5,10 @@ import os
 import numpy as np
 import xarray as xr
 
-import deltametrics as dm
-from deltametrics import cube
+from deltametrics.cube import DataCube
 from deltametrics.sample_data import _get_rcm8_path
+from deltametrics.mask import ChannelMask
+from deltametrics.mask import LandMask
 from deltametrics.mobility import _calculate_temporal_linear_slope
 from deltametrics.mobility import calculate_channel_abandonment
 from deltametrics.mobility import calculate_channel_decay
@@ -20,19 +21,19 @@ from deltametrics.mobility import check_inputs
 
 rcm8_path = _get_rcm8_path()
 with pytest.warns(UserWarning):
-    rcm8cube = cube.DataCube(rcm8_path)
+    rcm8cube = DataCube(rcm8_path)
 
 # define some masks once up top
 chmask = []
 landmask = []
 for i in range(20, 23):
     chmask.append(
-        dm.mask.ChannelMask(rcm8cube['eta'][i, :, :],
+        ChannelMask(rcm8cube['eta'][i, :, :],
                             rcm8cube['velocity'][i, :, :],
                             elevation_threshold=0,
                             flow_threshold=0.3))
     landmask.append(
-        dm.mask.LandMask(rcm8cube['eta'][i, :, :],
+        LandMask(rcm8cube['eta'][i, :, :],
                          elevation_threshold=0))
 
 # make them into xarrays (list of xarrays)
