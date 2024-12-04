@@ -14,7 +14,7 @@ from deltametrics.utils import format_number
 from deltametrics.utils import line_to_cells
 from deltametrics.utils import runtime_from_log
 from deltametrics.mobility import calculate_channel_abandonment
-from deltametrics import sample_data
+from deltametrics.sample_data.sample_data import _get_golf_path
 
 class TestNoStratigraphyError:
 
@@ -260,7 +260,7 @@ def test_time_from_log_new(tmp_path):
 
 
 def test_time_from_log_sampledataset(tmp_path):
-    golfpath = pathlib.PurePath(sample_data._get_golf_path())
+    golfpath = pathlib.PurePath(_get_golf_path())
     # find the log file there
     found = glob.glob(os.path.join(golfpath.parent, '*.log'))
     assert len(found) == 1

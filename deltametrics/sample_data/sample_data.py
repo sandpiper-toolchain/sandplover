@@ -7,7 +7,7 @@ import numpy as np
 import netCDF4
 import pooch
 
-from .. import cube
+from deltametrics.cube import DataCube
 from deltametrics.utils import _get_version
 
 
@@ -70,7 +70,7 @@ def golf():
         plt.show()
     """
     golf_path = _get_golf_path()
-    return cube.DataCube(golf_path)
+    return DataCube(golf_path)
 
 
 def _get_xslope_path():
@@ -145,7 +145,7 @@ def xslope():
         at channel inlet.
     """
     xslope_path0, xslope_path1 = _get_xslope_path()
-    return cube.DataCube(xslope_path0), cube.DataCube(xslope_path1)
+    return DataCube(xslope_path0), DataCube(xslope_path1)
 
 
 def tdb12():
@@ -203,7 +203,7 @@ def aeolian():
         plt.show()
     """
     aeolian_path = _get_aeolian_path()
-    return cube.DataCube(aeolian_path)
+    return DataCube(aeolian_path)
 
 
 def _get_rcm8_path():
@@ -248,7 +248,7 @@ def rcm8():
         plt.show()
     """
     rcm8_path = _get_rcm8_path()
-    return cube.DataCube(rcm8_path)
+    return DataCube(rcm8_path)
 
 
 def _get_landsat_path():
@@ -286,7 +286,7 @@ def landsat():
         plt.show()
     """
     landsat_path = _get_landsat_path()
-    return cube.DataCube(landsat_path)
+    return DataCube(landsat_path)
 
 
 def _get_savi2020_path():
@@ -363,4 +363,4 @@ def savi2020():
 
     """
     savi2020_img_path, savi2020_scan_path = _get_savi2020_path()
-    return cube.DataCube(savi2020_img_path), cube.DataCube(savi2020_scan_path)
+    return DataCube(savi2020_img_path), DataCube(savi2020_scan_path)

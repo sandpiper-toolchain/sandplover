@@ -1,6 +1,6 @@
 import warnings
 
-from . import rcm8 as moved_rcm8
+from deltametrics.sample_data.sample_data import rcm8 as moved_rcm8
 
 warnings.simplefilter("default")
 
