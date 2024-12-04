@@ -21,7 +21,8 @@ from deltametrics.mask import LandMask
 from deltametrics.mask import ShorelineMask
 from deltametrics.mask import WetMask
 from deltametrics.plan import OpeningAnglePlanform, MorphologicalPlanform
-from deltametrics.sample_data import _get_rcm8_path, _get_golf_path
+from deltametrics.sample_data.sample_data import _get_golf_path
+from deltametrics.sample_data.sample_data import _get_rcm8_path
 
 
 rcm8_path = _get_rcm8_path()
