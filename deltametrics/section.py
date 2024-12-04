@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
 
 from . import cube
-from . import plot
 from . import mask
 from . import plan
 from deltametrics.utils import NoStratigraphyError
@@ -600,6 +599,12 @@ class BaseSection(abc.ABC):
 
         .. plot:: section/section_demo_quick_strat.py
         """
+        from deltametrics.plot import VariableSet
+        from deltametrics.plot import append_colorbar
+        from deltametrics.plot import get_display_arrays
+        from deltametrics.plot import get_display_limits
+        from deltametrics.plot import get_display_lines
+
         # check that someting is attached
         if self._underlying is None:
             raise AttributeError(
@@ -625,11 +630,11 @@ class BaseSection(abc.ABC):
             _varinfo = (
                 self._underlying.varset[SectionAttribute]
                 if issubclass(type(self._underlying), cube.BaseCube)
-                else plot.VariableSet()[SectionAttribute]
+                else VariableSet()[SectionAttribute]
             )
             # main routines for plot styles
             if style in ["shade", "shaded"]:
-                _data, _X, _Y = plot.get_display_arrays(
+                _data, _X, _Y = get_display_arrays(
                     SectionVariableInstance, data=data
                 )
                 ci = ax.pcolormesh(
@@ -644,7 +649,7 @@ class BaseSection(abc.ABC):
                     rasterized=True,
                 )
             elif style in ["line", "lines"]:
-                _data, _segments = plot.get_display_lines(
+                _data, _segments = get_display_lines(
                     SectionVariableInstance, data=data
                 )
                 lc = LineCollection(_segments, cmap=_varinfo.cmap)
@@ -656,7 +661,7 @@ class BaseSection(abc.ABC):
 
             # style adjustments
             if colorbar:
-                cb = plot.append_colorbar(ci, ax)
+                cb = append_colorbar(ci, ax)
                 if colorbar_label:
                     _colorbar_label = (
                         _varinfo.label
@@ -680,7 +685,7 @@ class BaseSection(abc.ABC):
                 )
 
             # set the limits of the plot accordingly
-            xmin, xmax, ymin, ymax = plot.get_display_limits(
+            xmin, xmax, ymin, ymax = get_display_limits(
                 SectionVariableInstance, data=data
             )
             ax.set_xlim(xmin, xmax)

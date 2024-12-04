@@ -16,7 +16,7 @@ from deltametrics.strat import _determine_strat_coordinates
 from deltametrics.strat import BoxyStratigraphyAttributes
 from deltametrics.strat import MeshStratigraphyAttributes
 from deltametrics.strat import compute_boxy_stratigraphy_coordinates
-from . import plot
+from deltametrics.plot import VariableSet
 from deltametrics.io import DictionaryIO
 from deltametrics.io import NetCDFIO
 
@@ -87,7 +87,7 @@ class BaseCube(abc.ABC):
         if varset:
             self.varset = varset
         else:
-            self.varset = plot.VariableSet()
+            self.varset = VariableSet()
 
         # some undocumented aliases
         self.plans = self._planform_set
@@ -190,7 +190,7 @@ class BaseCube(abc.ABC):
 
     @varset.setter
     def varset(self, var):
-        if type(var) is plot.VariableSet:
+        if type(var) is VariableSet:
             self._varset = var
         else:
             raise TypeError("Pass a valid VariableSet instance.")

@@ -1,12 +1,25 @@
 import pytest
-
 import os
 
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 
-from deltametrics import plot
+from deltametrics.plot import VariableInfo
+from deltametrics.plot import VariableSet
+from deltametrics.plot import _fill_steps
+from deltametrics.plot import _scale_lightness
+from deltametrics.plot import aerial_view
+from deltametrics.plot import append_colorbar
+from deltametrics.plot import cartographic_colormap
+from deltametrics.plot import get_display_arrays
+from deltametrics.plot import get_display_lines
+from deltametrics.plot import get_display_limits
+from deltametrics.plot import overlay_sparse_array
+from deltametrics.plot import show_histograms
+from deltametrics.plot import show_one_dimensional_trajectory_to_strata
+from deltametrics.plot import style_axes_km
+from deltametrics.plot import vintage_colormap
 from deltametrics import cube
 from deltametrics.section import StrikeSection
 from deltametrics.utils import NoStratigraphyError
@@ -19,40 +32,40 @@ golf_path = _get_golf_path()
 class TestVariableInfo:
 
     def test_initialize_default_VariableInfo(self):
-        vi = plot.VariableInfo('testinfo')
+        vi = VariableInfo('testinfo')
         assert vi.cmap.N == 64
 
     def test_initialize_default_VariableInfo_noname(self):
         with pytest.raises(TypeError):
-            _ = plot.VariableInfo()
+            _ = VariableInfo()
 
     def test_initialize_default_VariableInfo_name_isstr(self):
         with pytest.raises(TypeError):
-            _ = plot.VariableInfo(None)
+            _ = VariableInfo(None)
 
     def test_initialize_VariableInfo_cmap_str(self):
-        vi = plot.VariableInfo('testinfo', cmap='Blues')
+        vi = VariableInfo('testinfo', cmap='Blues')
         assert vi.cmap.N == 64
         assert vi.cmap(0)[0] == pytest.approx(0.96862745)
 
     def test_initialize_VariableInfo_cmap_spec(self):
-        vi = plot.VariableInfo(
+        vi = VariableInfo(
             'testinfo', cmap=matplotlib.colormaps['Blues'].resampled(7))
         assert vi.cmap.N == 7
         assert vi.cmap(0)[0] == pytest.approx(0.96862745)
 
     def test_initialize_VariableInfo_cmap_tuple(self):
-        vi = plot.VariableInfo('testinfo', cmap=('Blues', 7))
+        vi = VariableInfo('testinfo', cmap=('Blues', 7))
         assert vi.cmap.N == 7
         assert vi.cmap(0)[0] == pytest.approx(0.96862745)
 
     def test_initialize_VariableInfo_label_str(self):
-        vi = plot.VariableInfo('testinfo', label='Test Information')
+        vi = VariableInfo('testinfo', label='Test Information')
         assert vi.label == 'Test Information'
         assert vi.name == 'testinfo'
 
     def test_VariableInfo_change_label(self):
-        vi = plot.VariableInfo('testinfo')
+        vi = VariableInfo('testinfo')
         vi.label = 'Test Information'
         assert vi.label == 'Test Information'
         assert vi.name == 'testinfo'
@@ -62,7 +75,7 @@ class TestVariableInfo:
             vi.label = 19
 
     def test_VariableInfo_change_cmap(self):
-        vi = plot.VariableInfo('testinfo')
+        vi = VariableInfo('testinfo')
         _jet = matplotlib.colormaps['jet'].resampled(21)
         vi.cmap = _jet
         assert vi.cmap == _jet
@@ -79,65 +92,65 @@ class TestVariableInfo:
 class TestVariableSet:
 
     def test_initialize_default_VariableSet(self):
-        vs = plot.VariableSet()
+        vs = VariableSet()
         assert 'eta' in vs.known_list
         assert vs['depth'].vmin == 0
         assert vs.variables == vs.known_list
         # get returns from some properties anc check types
         assert isinstance(vs.variables, list)
-        assert isinstance(vs.x, plot.VariableInfo)
-        assert isinstance(vs.y, plot.VariableInfo)
-        assert isinstance(vs.eta, plot.VariableInfo)
-        assert isinstance(vs.stage, plot.VariableInfo)
-        assert isinstance(vs.depth, plot.VariableInfo)
-        assert isinstance(vs.discharge, plot.VariableInfo)
-        assert isinstance(vs.velocity, plot.VariableInfo)
-        assert isinstance(vs.strata_sand_frac, plot.VariableInfo)
-        assert isinstance(vs.sedflux, plot.VariableInfo)
+        assert isinstance(vs.x, VariableInfo)
+        assert isinstance(vs.y, VariableInfo)
+        assert isinstance(vs.eta, VariableInfo)
+        assert isinstance(vs.stage, VariableInfo)
+        assert isinstance(vs.depth, VariableInfo)
+        assert isinstance(vs.discharge, VariableInfo)
+        assert isinstance(vs.velocity, VariableInfo)
+        assert isinstance(vs.strata_sand_frac, VariableInfo)
+        assert isinstance(vs.sedflux, VariableInfo)
 
     def test_initialize_VariableSet_override_known_VariableInfo(self):
-        vi = plot.VariableInfo('depth')
+        vi = VariableInfo('depth')
         od = {'depth': vi}
-        vs = plot.VariableSet(override_dict=od)
+        vs = VariableSet(override_dict=od)
         assert vs['depth'].vmin is None
 
     def test_initialize_VariableSet_override_unknown_VariableInfo(self):
-        vi = plot.VariableInfo('fakevariable', vmin=-9999)
+        vi = VariableInfo('fakevariable', vmin=-9999)
         od = {'fakevariable': vi}
-        vs = plot.VariableSet(override_dict=od)
+        vs = VariableSet(override_dict=od)
         assert vs['fakevariable'].vmin == -9999
 
     def test_initialize_VariableSet_override_known_badtype(self):
-        vi = plot.VariableInfo('depth')
+        vi = VariableInfo('depth')
         od = ('depth', vi)
         with pytest.raises(TypeError):
-            _ = plot.VariableSet(override_dict=od)
+            _ = VariableSet(override_dict=od)
 
     def test_VariableSet_add_known_VariableInfo(self):
-        vs = plot.VariableSet()
-        vi = plot.VariableInfo('depth', vmin=-9999)
+        vs = VariableSet()
+        vi = VariableInfo('depth', vmin=-9999)
         vs.depth = vi
         assert vs.depth.vmin == -9999
         assert vs['depth'].vmin == -9999
 
     def test_VariableSet_add_unknown_VariableInfo(self):
-        vs = plot.VariableSet()
-        vi = plot.VariableInfo('fakevariable', vmin=-9999)
+        vs = VariableSet()
+        vi = VariableInfo('fakevariable', vmin=-9999)
         vs.fakevariable = vi
         assert vs.fakevariable.vmin == -9999
         assert 'fakevariable' in vs.variables
         assert vs['fakevariable'].vmin == -9999
 
     def test_VariableSet_set_known_VariableInfo_direct(self):
-        vs = plot.VariableSet()
+        vs = VariableSet()
         vs.depth.vmin = -9999
         assert vs.depth.vmin == -9999
         assert vs['depth'].vmin == -9999
 
     def test_VariableSet_change_then_default(self):
-        vs = plot.VariableSet()
+        vs = VariableSet()
         _first = vs.depth.cmap(0)[0]
-        vi = plot.VariableInfo('depth', vmin=-9999)
+        vi = VariableInfo('depth', vmin=-9999)
         vs.depth = vi
         assert vs.depth.vmin == -9999
         vs.depth = None  # reset to default
@@ -145,18 +158,18 @@ class TestVariableSet:
         assert vs.depth.vmin == 0
 
     def test_VariableSet_add_known_badtype(self):
-        vs = plot.VariableSet()
+        vs = VariableSet()
         with pytest.raises(TypeError):
             vs.depth = 'Yellow!'
 
     def test_VariableSet_add_unknown_badtype(self):
-        vs = plot.VariableSet()
+        vs = VariableSet()
         with pytest.raises(TypeError):
             vs.fakevariable = 'Yellow!'
 
     def test_get_unknown_notadded_variable(self):
         # should return a default VariableInfo with name field
-        vs = plot.VariableSet()
+        vs = VariableSet()
         got = vs['fakevariable']
         assert got.name == 'fakevariable'
         # NOTE: this does not work with attribute accessing
@@ -173,7 +186,7 @@ class TestAppendColorbar:
         _arr = np.random.randint(0, 100, size=(50, 50))
         fig, ax = plt.subplots()
         im = ax.imshow(_arr)
-        cb = plot.append_colorbar(im, ax)
+        cb = append_colorbar(im, ax)
         assert isinstance(cb, matplotlib.colorbar.Colorbar)
         assert ax.use_sticky_edges is False
 
@@ -184,7 +197,7 @@ class TestAppendColorbar:
         _arr = np.random.randint(0, 100, size=(50, 50))
         fig, ax = plt.subplots()
         im = ax.imshow(_arr)
-        cb = plot.append_colorbar(im, ax, size=10)
+        cb = append_colorbar(im, ax, size=10)
         assert isinstance(cb, matplotlib.colorbar.Colorbar)
 
     def test_kwargs_argument_passed(self):
@@ -192,7 +205,7 @@ class TestAppendColorbar:
         fig, ax = plt.subplots()
         im = ax.imshow(_arr)
         _formatter = plt.FuncFormatter(lambda val, loc: np.round(val, 0))
-        cb = plot.append_colorbar(im, ax, size=10, format=_formatter)
+        cb = append_colorbar(im, ax, size=10, format=_formatter)
         assert isinstance(cb, matplotlib.colorbar.Colorbar)
         assert cb.formatter is _formatter
 
@@ -202,12 +215,12 @@ class TestStyleAxesKm:
     def test_style_axes_km_ax(self):
 
         fig, ax = plt.subplots(1, 6)
-        plot.style_axes_km(ax[0]) # both
-        plot.style_axes_km(ax[1], 'x')  # x only
-        plot.style_axes_km(ax[2], 'y')  # y only
-        plot.style_axes_km(ax[3], 'xy') # both
-        plot.style_axes_km(ax[4], 'z')  # do nothing
-        ax[5].xaxis.set_major_formatter(plot.style_axes_km)  # x only
+        style_axes_km(ax[0]) # both
+        style_axes_km(ax[1], 'x')  # x only
+        style_axes_km(ax[2], 'y')  # y only
+        style_axes_km(ax[3], 'xy') # both
+        style_axes_km(ax[4], 'z')  # do nothing
+        ax[5].xaxis.set_major_formatter(style_axes_km)  # x only
 
         # check that the formatter has been set (or not)
         #   note, returns '' if formatter not changed
@@ -243,49 +256,49 @@ class TestFillSteps:
         return len(pc.properties()['facecolor'])
 
     def test_return_type(self):
-        pc = plot._fill_steps(self.arr)
+        pc = _fill_steps(self.arr)
         assert isinstance(pc, matplotlib.collections.PatchCollection)
 
     def test_return_length_zero(self):
         _arr = np.array([False])
-        pc = plot._fill_steps(_arr)
+        pc = _fill_steps(_arr)
         assert self.num_patches(pc) == 0
 
     def test_return_length_zero_trues(self):
         _arr = np.array([True])
-        pc = plot._fill_steps(_arr)
+        pc = _fill_steps(_arr)
         assert self.num_patches(pc) == 0
 
     def test_return_length_one(self):
         _arr = np.array([False, True])
-        pc = plot._fill_steps(_arr)
+        pc = _fill_steps(_arr)
         assert self.num_patches(pc) == 1
 
     def test_return_length_three_get_two(self):
         _arr = np.array([False, True, True])
-        pc = plot._fill_steps(_arr)
+        pc = _fill_steps(_arr)
         assert self.num_patches(pc) == 2
 
     def test_return_length_three_get_two_trues(self):
         _arr = np.array([True, True, True])
-        pc = plot._fill_steps(_arr)
+        pc = _fill_steps(_arr)
         assert self.num_patches(pc) == 2
 
     def test_return_length_three_get_five(self):
         _arr = np.array([False, True, True, False, False, False,
                          True, True, False, True])
-        pc = plot._fill_steps(_arr)
+        pc = _fill_steps(_arr)
         assert self.num_patches(pc) == 5
 
     def test_kwargs_default(self):
-        pc = plot._fill_steps(self.arr)
+        pc = _fill_steps(self.arr)
         assert self.num_patches(pc) == 7
         _exp = pytest.approx(np.array([0.12156863, 0.46666667,
                                        0.70588235, 1.]))
         assert np.all(pc.get_facecolors()[0] == _exp)
 
     def test_kwargs_facecolor(self):
-        pc = plot._fill_steps(self.arr, facecolor='green')
+        pc = _fill_steps(self.arr, facecolor='green')
         assert self.num_patches(pc) == 7
         _exp = pytest.approx(np.array([0., 0.50196078, 0., 1.]))
         assert np.all(pc.get_facecolors()[0] == _exp)
@@ -297,21 +310,21 @@ class TestSODTTST:
     def test_sodttst_makes_plot(self):
         _e = np.random.randint(0, 10, size=(50,))
         fig, ax = plt.subplots()
-        plot.show_one_dimensional_trajectory_to_strata(
+        show_one_dimensional_trajectory_to_strata(
             _e, ax=ax, dz=0.1)
         plt.close()
 
     def test_sodttst_makes_labeled_strata(self):
         _e = np.random.randint(0, 10, size=(50,))
         fig, ax = plt.subplots()
-        plot.show_one_dimensional_trajectory_to_strata(
+        show_one_dimensional_trajectory_to_strata(
             _e, ax=ax, dz=0.1, label_strata=False)
         plt.close()
 
     def test_sodttst_makes_plot_lims_positives(self):
         _e = np.array([0, 1, 4, 5, 4, 10])
         fig, ax = plt.subplots()
-        plot.show_one_dimensional_trajectory_to_strata(
+        show_one_dimensional_trajectory_to_strata(
             _e, ax=ax, dz=0.1)
         assert ax.get_ylim() == (0, 12)
         plt.close()
@@ -319,7 +332,7 @@ class TestSODTTST:
     def test_sodttst_makes_plot_lims_negative(self):
         _e = np.array([10, -1, -4, -5, -4, -10])
         fig, ax = plt.subplots()
-        plot.show_one_dimensional_trajectory_to_strata(
+        show_one_dimensional_trajectory_to_strata(
             _e, ax=ax, dz=0.1)
         assert ax.get_ylim() == (-12, 12)
         plt.close()
@@ -327,7 +340,7 @@ class TestSODTTST:
     def test_sodttst_makes_plot_lims_negative_zero(self):
         _e = np.array([-1, -1, -4, -5, -4, -10])
         fig, ax = plt.subplots()
-        plot.show_one_dimensional_trajectory_to_strata(
+        show_one_dimensional_trajectory_to_strata(
             _e, ax=ax, dz=0.1)
         assert ax.get_ylim() == (-12, 0)
         plt.close()
@@ -335,7 +348,7 @@ class TestSODTTST:
     def test_sodttst_makes_plot_lims_equal(self):
         _e = np.array([-1, -1, -1, -1, -1, -1])
         fig, ax = plt.subplots()
-        plot.show_one_dimensional_trajectory_to_strata(
+        show_one_dimensional_trajectory_to_strata(
             _e, ax=ax, dz=0.1)
         assert ax.get_ylim() == (-1.2, 0)
         plt.close()
@@ -349,31 +362,31 @@ class TestSODTTST:
         for i in range(10):
             _e = rcm8cube['eta'][:, locs[i, 0], locs[i, 1]]
             fig, ax = plt.subplots()
-            plot.show_one_dimensional_trajectory_to_strata(
+            show_one_dimensional_trajectory_to_strata(
                 _e, ax=ax, dz=0.1)
             plt.close()
 
     def test_sodttst_makes_plot_no_ax(self):
         _e = np.random.randint(0, 10, size=(50,))
-        plot.show_one_dimensional_trajectory_to_strata(_e, dz=0.1)
+        show_one_dimensional_trajectory_to_strata(_e, dz=0.1)
         plt.close()
 
     def test_sodttst_makes_plot_3d_column(self):
         _e = np.random.randint(0, 10, size=(50, 1, 1))
-        plot.show_one_dimensional_trajectory_to_strata(_e, dz=0.1)
+        show_one_dimensional_trajectory_to_strata(_e, dz=0.1)
         plt.close()
 
     def test_sodttst_makes_plot_2d_column_error(self):
         _e = np.random.randint(0, 10, size=(50, 100, 1))
         with pytest.raises(ValueError, match=r'Elevation data "e" must *.'):
-            plot.show_one_dimensional_trajectory_to_strata(_e, dz=0.1)
+            show_one_dimensional_trajectory_to_strata(_e, dz=0.1)
         plt.close()
 
     def test_sodttst_makes_plot_subsidence_zeros(self):
         _e = np.array([0, 1, 4, 5, 4, 10])
         _s = np.array([0, 0, 0, 0, 0, 0])
         fig, ax = plt.subplots()
-        plot.show_one_dimensional_trajectory_to_strata(
+        show_one_dimensional_trajectory_to_strata(
             _e, sigma_dist=_s, ax=ax, dz=0.1)
         assert ax.get_ylim() == (0, 12)
         plt.close()
@@ -381,7 +394,7 @@ class TestSODTTST:
     def test_sodttst_makes_plot_lims_equal_via_subs(self):
         _e = np.arange(0, 6)
         fig, ax = plt.subplots()
-        plot.show_one_dimensional_trajectory_to_strata(
+        show_one_dimensional_trajectory_to_strata(
             _e, sigma_dist=1.0, ax=ax, dz=0.1)
         assert ax.get_ylim()[0] < 0
         assert ax.get_ylim()[1] > 0
@@ -407,7 +420,7 @@ class TestGetDisplayArrays:
     ssv = sc8cube.sections['test']['velocity']
 
     def test_dsv_nostrat_get_display_arrays_spacetime(self):
-        _data, _X, _Y = plot.get_display_arrays(self.dsv_nostrat,
+        _data, _X, _Y = get_display_arrays(self.dsv_nostrat,
                                                 data='spacetime')
         assert (_data.shape[0] == _X.shape[0] - 1)
         assert (_data.shape[1] == _Y.shape[1] - 1)
@@ -417,16 +430,16 @@ class TestGetDisplayArrays:
 
     def test_dsv_nostrat_get_display_arrays_preserved(self):
         with pytest.raises(NoStratigraphyError):
-            plot.get_display_arrays(self.dsv_nostrat,
+            get_display_arrays(self.dsv_nostrat,
                                     data='preserved')
 
     def test_dsv_nostrat_get_display_arrays_stratigraphy(self):
         with pytest.raises(NoStratigraphyError):
-            plot.get_display_arrays(self.dsv_nostrat,
+            get_display_arrays(self.dsv_nostrat,
                                     data='stratigraphy')
 
     def test_dsv_get_display_arrays_spacetime(self):
-        _data, _X, _Y = plot.get_display_arrays(self.dsv,
+        _data, _X, _Y = get_display_arrays(self.dsv,
                                                 data='spacetime')
         assert (_data.shape[0] == _X.shape[0] - 1)
         assert (_data.shape[1] == _Y.shape[1] - 1)
@@ -435,7 +448,7 @@ class TestGetDisplayArrays:
         assert np.all(_data == self.dsv)
 
     def test_dsv_get_display_arrays_preserved(self):
-        _data, _X, _Y = plot.get_display_arrays(self.dsv,
+        _data, _X, _Y = get_display_arrays(self.dsv,
                                                 data='preserved')
         assert (_data.shape[0] == _X.shape[0] - 1)
         assert (_data.shape[1] == _Y.shape[1] - 1)
@@ -444,7 +457,7 @@ class TestGetDisplayArrays:
         assert np.any(np.isnan(_data))  # check that some are False
 
     def test_dsv_get_display_arrays_stratigraphy(self):
-        _data, _X, _Y = plot.get_display_arrays(self.dsv,
+        _data, _X, _Y = get_display_arrays(self.dsv,
                                                 data='stratigraphy')
         assert (_data.shape[0] == _X.shape[0] - 1)
         assert (_data.shape[1] == _Y.shape[1] - 1)
@@ -453,23 +466,23 @@ class TestGetDisplayArrays:
 
     def test_dsv_get_display_arrays_badstring(self):
         with pytest.raises(ValueError, match=r'Bad data *.'):
-            _data, _X, _Y = plot.get_display_arrays(
+            _data, _X, _Y = get_display_arrays(
                 self.dsv, data='badstring')
 
     def test_ssv_get_display_arrays_spacetime(self):
         with pytest.raises(AttributeError,
                            match=r'No "spacetime" or "preserved"*.'):
-            _data, _X, _Y = plot.get_display_arrays(
+            _data, _X, _Y = get_display_arrays(
                 self.ssv, data='spacetime')
 
     def test_ssv_get_display_arrays_preserved(self):
         with pytest.raises(AttributeError,
                            match=r'No "spacetime" or "preserved"*.'):
-            _data, _X, _Y = plot.get_display_arrays(self.ssv,
+            _data, _X, _Y = get_display_arrays(self.ssv,
                                                     data='preserved')
 
     def test_ssv_get_display_arrays_stratigraphy(self):
-        _data, _X, _Y = plot.get_display_arrays(
+        _data, _X, _Y = get_display_arrays(
             self.ssv, data='stratigraphy')
         assert (_data.shape[0] == _X.shape[0] - 1)
         assert (_data.shape[1] == _Y.shape[1] - 1)
@@ -478,7 +491,7 @@ class TestGetDisplayArrays:
 
     def test_ssv_get_display_arrays_badstring(self):
         with pytest.raises(ValueError, match=r'Bad data *.'):
-            _data, _X, _Y = plot.get_display_arrays(
+            _data, _X, _Y = get_display_arrays(
                 self.ssv, data='badstring')
 
 
@@ -501,61 +514,61 @@ class TestGetDisplayLines:
     ssv = sc8cube.sections['test']['velocity']
 
     def test_dsv_nostrat_get_display_lines_spacetime(self):
-        _data, _segments = plot.get_display_lines(self.dsv_nostrat,
+        _data, _segments = get_display_lines(self.dsv_nostrat,
                                                   data='spacetime')
         assert _segments.shape[1:] == (2, 2)
 
     def test_dsv_nostrat_get_display_lines_preserved(self):
         with pytest.raises(NoStratigraphyError):
-            plot.get_display_lines(self.dsv_nostrat,
+            get_display_lines(self.dsv_nostrat,
                                    data='preserved')
 
     def test_dsv_nostrat_get_display_lines_stratigraphy(self):
         with pytest.raises(NoStratigraphyError):
-            plot.get_display_lines(self.dsv_nostrat,
+            get_display_lines(self.dsv_nostrat,
                                    data='stratigraphy')
 
     def test_dsv_get_display_lines_spacetime(self):
-        _data, _segments = plot.get_display_lines(self.dsv,
+        _data, _segments = get_display_lines(self.dsv,
                                                   data='spacetime')
         assert _segments.shape[1:] == (2, 2)
 
     def test_dsv_get_display_lines_preserved(self):
-        _data, _segments = plot.get_display_lines(self.dsv,
+        _data, _segments = get_display_lines(self.dsv,
                                                   data='preserved')
         assert _segments.shape[1:] == (2, 2)
 
     def test_dsv_get_display_lines_stratigraphy(self):
-        _data, _segments = plot.get_display_lines(self.dsv,
+        _data, _segments = get_display_lines(self.dsv,
                                                   data='stratigraphy')
         assert _segments.shape[1:] == (2, 2)
 
     def test_dsv_get_display_lines_badstring(self):
         with pytest.raises(ValueError, match=r'Bad data*.'):
-            plot.get_display_lines(self.dsv,
+            get_display_lines(self.dsv,
                                    data='badstring')
 
     def test_ssv_get_display_lines_spacetime(self):
         with pytest.raises(AttributeError,
                            match=r'No "spacetime" or "preserved"*.'):
-            _data, _segments = plot.get_display_lines(self.ssv,
+            _data, _segments = get_display_lines(self.ssv,
                                                       data='spacetime')
 
     def test_ssv_get_display_lines_preserved(self):
         with pytest.raises(AttributeError,
                            match=r'No "spacetime" or "preserved"*.'):
-            plot.get_display_lines(self.ssv,
+            get_display_lines(self.ssv,
                                    data='preserved')
 
     def test_ssv_get_display_lines_badstring(self):
         with pytest.raises(ValueError, match=r'Bad data*.'):
-            plot.get_display_lines(self.ssv,
+            get_display_lines(self.ssv,
                                    data='badstring')
 
     @pytest.mark.xfail(raises=NotImplementedError, strict=True,
                        reason='Have not determined how to implement yet.')
     def test_ssv_get_display_lines_stratigraphy(self):
-        plot.get_display_lines(self.ssv,
+        get_display_lines(self.ssv,
                                data='stratigraphy')
 
 
@@ -578,51 +591,51 @@ class TestGetDisplayLimits:
     ssv = sc8cube.sections['test']['velocity']
 
     def test_dsv_nostrat_get_display_limits_spacetime(self):
-        _lims = plot.get_display_limits(self.dsv_nostrat, data='spacetime')
+        _lims = get_display_limits(self.dsv_nostrat, data='spacetime')
         assert len(_lims) == 4
 
     def test_dsv_nostrat_get_display_limits_preserved(self):
         with pytest.raises(NoStratigraphyError):
-            plot.get_display_limits(self.dsv_nostrat, data='preserved')
+            get_display_limits(self.dsv_nostrat, data='preserved')
 
     def test_dsv_nostrat_get_display_limits_stratigraphy(self):
         with pytest.raises(NoStratigraphyError):
-            plot.get_display_limits(self.dsv_nostrat, data='stratigraphy')
+            get_display_limits(self.dsv_nostrat, data='stratigraphy')
 
     def test_dsv_get_display_limits_spacetime(self):
-        _lims = plot.get_display_limits(self.dsv, data='spacetime')
+        _lims = get_display_limits(self.dsv, data='spacetime')
         assert len(_lims) == 4
 
     def test_dsv_get_display_limits_preserved(self):
-        _lims = plot.get_display_limits(self.dsv, data='preserved')
+        _lims = get_display_limits(self.dsv, data='preserved')
         assert len(_lims) == 4
 
     def test_dsv_get_display_limits_stratigraphy(self):
-        _lims = plot.get_display_limits(self.dsv, data='stratigraphy')
+        _lims = get_display_limits(self.dsv, data='stratigraphy')
         assert len(_lims) == 4
 
     def test_dsv_get_display_limits_badstring(self):
         with pytest.raises(ValueError, match=r'Bad data*.'):
-            plot.get_display_limits(self.dsv,
+            get_display_limits(self.dsv,
                                     data='badstring')
 
     def test_ssv_get_display_limits_spacetime(self):
         with pytest.raises(AttributeError,
                            match=r'No "spacetime" or "preserved"*.'):
-            _ = plot.get_display_limits(self.ssv, data='spacetime')
+            _ = get_display_limits(self.ssv, data='spacetime')
 
     def test_ssv_get_display_limits_preserved(self):
         with pytest.raises(AttributeError,
                            match=r'No "spacetime" or "preserved"*.'):
-            _ = plot.get_display_limits(self.ssv, data='preserved')
+            _ = get_display_limits(self.ssv, data='preserved')
 
     def test_ssv_get_display_limits_stratigraphy(self):
-        _lims = plot.get_display_limits(self.ssv, data='stratigraphy')
+        _lims = get_display_limits(self.ssv, data='stratigraphy')
         assert len(_lims) == 4
 
     def test_ssv_get_display_limits_badstring(self):
         with pytest.raises(ValueError, match=r'Bad data*.'):
-            plot.get_display_limits(self.ssv,
+            get_display_limits(self.ssv,
                                     data='badstring')
 
 
@@ -633,7 +646,7 @@ class TestColorMapFunctions:
 
     def test_cartographic_SL0_defaults(self):
         H_SL = 0
-        cmap, norm = plot.cartographic_colormap(H_SL)
+        cmap, norm = cartographic_colormap(H_SL)
 
         assert cmap.colors.shape == (10, 4)
         assert norm.boundaries[0] == H_SL-4.5
@@ -642,7 +655,7 @@ class TestColorMapFunctions:
     def test_cartographic_SL0_h(self):
         H_SL = 0
         _h = 10
-        cmap, norm = plot.cartographic_colormap(H_SL, h=_h)
+        cmap, norm = cartographic_colormap(H_SL, h=_h)
 
         assert cmap.colors.shape == (10, 4)
         assert norm.boundaries[0] == H_SL-_h
@@ -651,7 +664,7 @@ class TestColorMapFunctions:
     def test_cartographic_SL0_n(self):
         H_SL = 0
         _n = 0.1
-        cmap, norm = plot.cartographic_colormap(H_SL, n=_n)
+        cmap, norm = cartographic_colormap(H_SL, n=_n)
 
         assert cmap.colors.shape == (10, 4)
         assert norm.boundaries[0] == H_SL-4.5
@@ -659,7 +672,7 @@ class TestColorMapFunctions:
 
     def test_cartographic_SLn1_defaults(self):
         H_SL = -1
-        cmap, norm = plot.cartographic_colormap(H_SL)
+        cmap, norm = cartographic_colormap(H_SL)
 
         assert cmap.colors.shape == (10, 4)
         assert norm.boundaries[0] == H_SL-4.5
@@ -669,7 +682,7 @@ class TestColorMapFunctions:
         H_SL = -1
         _h = 10
         _n = 0.1
-        cmap, norm = plot.cartographic_colormap(H_SL, h=_h, n=_n)
+        cmap, norm = cartographic_colormap(H_SL, h=_h, n=_n)
 
         assert cmap.colors.shape == (10, 4)
         assert norm.boundaries[0] == H_SL-_h
@@ -677,7 +690,7 @@ class TestColorMapFunctions:
 
     def test_vintage_SL0_defaults(self):
         H_SL = 0
-        cmap, norm = plot.vintage_colormap(H_SL)
+        cmap, norm = vintage_colormap(H_SL)
 
         assert cmap.colors.shape == (10, 3)
         assert norm.boundaries[0] == H_SL-4.5
@@ -686,7 +699,7 @@ class TestColorMapFunctions:
     def test_vintage_SL0_h(self):
         H_SL = 0
         _h = 10
-        cmap, norm = plot.vintage_colormap(H_SL, h=_h)
+        cmap, norm = vintage_colormap(H_SL, h=_h)
 
         assert cmap.colors.shape == (10, 3)
         assert norm.boundaries[0] == H_SL-_h
@@ -695,7 +708,7 @@ class TestColorMapFunctions:
     def test_vintage_SL0_n(self):
         H_SL = 0
         _n = 0.1
-        cmap, norm = plot.vintage_colormap(H_SL, n=_n)
+        cmap, norm = vintage_colormap(H_SL, n=_n)
 
         assert cmap.colors.shape == (10, 3)
         assert norm.boundaries[0] == H_SL-4.5
@@ -703,7 +716,7 @@ class TestColorMapFunctions:
 
     def test_vintage_SLn1_defaults(self):
         H_SL = -1
-        cmap, norm = plot.vintage_colormap(H_SL)
+        cmap, norm = vintage_colormap(H_SL)
 
         assert cmap.colors.shape == (10, 3)
         assert norm.boundaries[0] == H_SL-4.5
@@ -713,7 +726,7 @@ class TestColorMapFunctions:
         H_SL = -1
         _h = 10
         _n = 0.1
-        cmap, norm = plot.vintage_colormap(H_SL, h=_h, n=_n)
+        cmap, norm = vintage_colormap(H_SL, h=_h, n=_n)
 
         assert cmap.colors.shape == (10, 3)
         assert norm.boundaries[0] == H_SL-_h
@@ -721,7 +734,7 @@ class TestColorMapFunctions:
 
     def test_vintage_pearson_recovered(self):
         # use pearsons bounds to recover the original
-        cmap, norm = plot.vintage_colormap(H_SL=0, h=20, n=10)
+        cmap, norm = vintage_colormap(H_SL=0, h=20, n=10)
 
         assert cmap.colors.shape == (10, 3)
         assert norm.boundaries[0] == -20
@@ -733,15 +746,15 @@ class TestScaleLightness:
 
     def test_no_scaling_one(self):
         _in = (0.12156862745098039, 0.4666666666666667, 0.7058823529411765)
-        _out = plot._scale_lightness(_in, 1)
+        _out = _scale_lightness(_in, 1)
         assert _in == pytest.approx(_out)
         assert isinstance(_out, tuple)
 
     def test_limits_zero_one(self):
         red = (1.0, 0.0, 0.0)  # initial color red
-        _zero = plot._scale_lightness(red, 0)
-        _one = plot._scale_lightness(red, 1)
-        _oneplus = plot._scale_lightness(red, 1.5)
+        _zero = _scale_lightness(red, 0)
+        _one = _scale_lightness(red, 1)
+        _oneplus = _scale_lightness(red, 1.5)
         assert _zero[0] == pytest.approx(0)
         assert _one[0] == pytest.approx(1)
         assert _oneplus[0] == pytest.approx(1)
@@ -750,7 +763,7 @@ class TestScaleLightness:
         red = (1.0, 0.0, 0.0)  # initial color red
         scales = np.arange(1, 0, -0.05)  # from 1 to 0.05
         for s, scale in enumerate(scales):
-            darker_red = plot._scale_lightness(red, scale)
+            darker_red = _scale_lightness(red, scale)
             assert darker_red[0] == pytest.approx(scale)
 
 
@@ -764,7 +777,7 @@ class TestShowHistograms:
         _h, _b = np.histogram(
             np.random.normal(self.locs[3], self.scales[0], size=500),
             bins=self.bins, density=True)
-        plot.show_histograms((_h, _b))
+        show_histograms((_h, _b))
         plt.close()
 
     def test_one_histogram_with_ax(self):
@@ -772,7 +785,7 @@ class TestShowHistograms:
             np.random.normal(self.locs[3], self.scales[0], size=500),
             bins=self.bins, density=True)
         fig, ax = plt.subplots()
-        plot.show_histograms((_h, _b), ax=ax)
+        show_histograms((_h, _b), ax=ax)
         plt.close()
 
     def test_multiple_no_sets(self):
@@ -780,7 +793,7 @@ class TestShowHistograms:
                 bins=self.bins, density=True) for lc, s in
                 zip(self.locs, self.scales)]
         fig, ax = plt.subplots()
-        plot.show_histograms(*sets, ax=ax)
+        show_histograms(*sets, ax=ax)
         plt.close()
 
     def test_multiple_no_sets_alphakwarg(self):
@@ -788,7 +801,7 @@ class TestShowHistograms:
                 bins=self.bins, density=True) for lc, s in
                 zip(self.locs, self.scales)]
         fig, ax = plt.subplots()
-        plot.show_histograms(*sets, ax=ax, alpha=0.4)
+        show_histograms(*sets, ax=ax, alpha=0.4)
         plt.close()
 
     def test_multiple_with_sets(self):
@@ -796,11 +809,11 @@ class TestShowHistograms:
                 bins=self.bins, density=True) for lc, s in
                 zip(self.locs, self.scales)]
         fig, ax = plt.subplots()
-        plot.show_histograms(*sets, sets=[0, 0, 1, 1, 2], ax=ax)
+        show_histograms(*sets, sets=[0, 0, 1, 1, 2], ax=ax)
         plt.close()
         with pytest.raises(ValueError, match=r'Number of histogram tuples*.'):
             # input lengths must match
-            plot.show_histograms(*sets, sets=[0, 1], ax=ax)
+            show_histograms(*sets, sets=[0, 1], ax=ax)
             plt.close()
 
 
@@ -810,34 +823,34 @@ class TestAerialView:
     def test_makes_plot(self):
         _e = np.random.uniform(0, 1, size=(50, 50))
         fig, ax = plt.subplots()
-        plot.aerial_view(
+        aerial_view(
             _e, ax=ax)
         plt.close()
 
     def test_makes_plot_diffdatum(self):
         _e = np.random.uniform(0, 1, size=(50, 50))
         fig, ax = plt.subplots()
-        plot.aerial_view(
+        aerial_view(
             _e, datum=10, ax=ax)
         plt.close()
 
     def test_makes_plot_ticks(self):
         _e = np.random.uniform(0, 1, size=(50, 50))
         fig, ax = plt.subplots()
-        plot.aerial_view(
+        aerial_view(
             _e, ax=ax, ticks=True)
         plt.close()
 
     def test_makes_plot_colorbar_kw(self):
         _e = np.random.uniform(0, 1, size=(50, 50))
         fig, ax = plt.subplots()
-        plot.aerial_view(
+        aerial_view(
             _e, ax=ax, colorbar_kw={'labelsize': 6})
         plt.close()
 
     def test_makes_plot_no_ax(self):
         _e = np.random.uniform(0, 1, size=(50, 50))
-        plot.aerial_view(
+        aerial_view(
             _e)
         plt.close()
 
@@ -848,13 +861,13 @@ class TestOverlaySparseArray:
     def test_makes_plot(self):
         _e = np.random.uniform(0, 73, size=(50, 50))
         fig, ax = plt.subplots()
-        plot.overlay_sparse_array(_e, ax=ax)
+        overlay_sparse_array(_e, ax=ax)
         plt.close()
 
     def test_makes_plot_cmap_str(self):
         _e = np.random.uniform(0, 73, size=(50, 50))
         fig, ax = plt.subplots()
-        plot.overlay_sparse_array(
+        overlay_sparse_array(
             _e, cmap='Blues', ax=ax)
         plt.close()
 
@@ -862,28 +875,28 @@ class TestOverlaySparseArray:
         _e = np.random.uniform(0, 73, size=(50, 50))
         _cmap = matplotlib.colormaps['Oranges'].resampled(64)
         fig, ax = plt.subplots()
-        plot.overlay_sparse_array(
+        overlay_sparse_array(
             _e, cmap=_cmap, ax=ax)
         plt.close()
 
     def test_makes_clips(self):
         _e = np.random.uniform(0, 73, size=(50, 50))
         fig, ax = plt.subplots()
-        plot.overlay_sparse_array(
+        overlay_sparse_array(
             _e, ax=ax,
             alpha_clip=(None, None))
-        plot.overlay_sparse_array(
+        overlay_sparse_array(
             _e, ax=ax,
             alpha_clip=(20, 30))
-        plot.overlay_sparse_array(
+        overlay_sparse_array(
             _e, ax=ax,
             alpha_clip=(50, None))
         with pytest.raises(TypeError, match=r'`alpha_clip` .* type .*'):
-            plot.overlay_sparse_array(
+            overlay_sparse_array(
                 _e, ax=ax,
                 alpha_clip=50)
         with pytest.raises(ValueError, match=r'`alpha_clip` .* length .*'):
-            plot.overlay_sparse_array(
+            overlay_sparse_array(
                 _e, ax=ax,
                 alpha_clip=(50, 90, 1000))
         plt.close()
@@ -891,36 +904,36 @@ class TestOverlaySparseArray:
     def test_clip_type_option(self):
         _e = np.random.uniform(0, 73, size=(50, 50))
         fig, ax = plt.subplots()
-        plot.overlay_sparse_array(
+        overlay_sparse_array(
             _e, ax=ax,
             alpha_clip=(None, None), clip_type='value')
-        plot.overlay_sparse_array(
+        overlay_sparse_array(
             _e, ax=ax,
             alpha_clip=(20, 30), clip_type='value')
-        plot.overlay_sparse_array(
+        overlay_sparse_array(
             _e, ax=ax,
             alpha_clip=(50, None), clip_type='value')
-        plot.overlay_sparse_array(
+        overlay_sparse_array(
             _e, ax=ax,
             alpha_clip=(None, None), clip_type='percentile')
-        plot.overlay_sparse_array(
+        overlay_sparse_array(
             _e, ax=ax,
             alpha_clip=(20, 30), clip_type='percentile')
-        plot.overlay_sparse_array(
+        overlay_sparse_array(
             _e, ax=ax,
             alpha_clip=(50, None), clip_type='percentile')
         with pytest.raises(ValueError, match=r'Bad value .*'):
-            plot.overlay_sparse_array(
+            overlay_sparse_array(
                 _e, ax=ax,
                 alpha_clip=(50, None), clip_type='invalidstring')
         with pytest.raises(ValueError, match=r'Bad value .*'):
-            plot.overlay_sparse_array(
+            overlay_sparse_array(
                 _e, ax=ax,
                 alpha_clip=(50, None), clip_type=(30, 30))
         plt.close()
 
     def test_makes_plot_no_ax(self):
         _e = np.random.uniform(0, 73, size=(50, 50))
-        plot.overlay_sparse_array(
+        overlay_sparse_array(
             _e)
         plt.close()

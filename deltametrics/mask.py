@@ -13,7 +13,7 @@ import warnings
 from deltametrics.utils import is_ndarray_or_xarray
 from . import cube
 from . import plan
-from . import plot
+from deltametrics.plot import append_colorbar
 
 
 class BaseMask(abc.ABC):
@@ -263,7 +263,7 @@ class BaseMask(abc.ABC):
         im = ax.imshow(self.integer_mask, cmap=cmap, extent=_extent, **kwargs)
 
         if colorbar:
-            _ = plot.append_colorbar(im, ax)
+            append_colorbar(im, ax)
 
         if not ticks:
             ax.set_xticks([], minor=[])
