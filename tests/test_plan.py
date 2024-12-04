@@ -5,7 +5,8 @@ import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
 
-from deltametrics.sample_data import _get_rcm8_path, _get_golf_path
+from deltametrics.sample_data.sample_data import _get_golf_path
+from deltametrics.sample_data.sample_data import _get_rcm8_path
 
 from deltametrics.mask import ChannelMask
 from deltametrics.mask import ElevationMask

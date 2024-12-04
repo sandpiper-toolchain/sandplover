@@ -15,7 +15,7 @@ from deltametrics.strat import compute_boxy_stratigraphy_volume
 from deltametrics.strat import compute_net_to_gross
 from deltametrics.strat import compute_sedimentograph
 from deltametrics.strat import compute_thickness_surfaces
-from deltametrics.sample_data import _get_golf_path
+from deltametrics.sample_data.sample_data import _get_golf_path
 
 
 golf_path = _get_golf_path()

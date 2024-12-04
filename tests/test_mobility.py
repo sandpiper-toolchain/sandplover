@@ -6,7 +6,7 @@ import numpy as np
 import xarray as xr
 
 from deltametrics.cube import DataCube
-from deltametrics.sample_data import _get_rcm8_path
+from deltametrics.sample_data.sample_data import _get_rcm8_path
 from deltametrics.mask import ChannelMask
 from deltametrics.mask import LandMask
 from deltametrics.mobility import _calculate_temporal_linear_slope

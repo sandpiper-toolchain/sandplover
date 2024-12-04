@@ -14,7 +14,9 @@ from deltametrics.section import StrikeSection
 from deltametrics.plan import BasePlanform
 from deltametrics.plan import Planform
 from deltametrics.utils import NoStratigraphyError
-from deltametrics.sample_data import _get_golf_path, _get_rcm8_path, _get_landsat_path
+from deltametrics.sample_data.sample_data import _get_golf_path
+from deltametrics.sample_data.sample_data import _get_landsat_path
+from deltametrics.sample_data.sample_data import _get_rcm8_path
 
 
 rcm8_path = _get_rcm8_path()
