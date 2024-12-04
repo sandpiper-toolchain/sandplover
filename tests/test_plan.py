@@ -7,9 +7,25 @@ import matplotlib.pyplot as plt
 
 from deltametrics.sample_data import _get_rcm8_path, _get_golf_path
 
-from deltametrics import mask
-from deltametrics import cube
-from deltametrics import plan
+from deltametrics.mask import ChannelMask
+from deltametrics.mask import ElevationMask
+from deltametrics.mask import LandMask
+from deltametrics.mask import ShorelineMask
+from deltametrics.cube import DataCube
+from deltametrics.cube import StratigraphyCube
+from deltametrics.plan import _get_channel_starts_and_ends
+from deltametrics.plan import MorphologicalPlanform
+from deltametrics.plan import OpeningAnglePlanform
+from deltametrics.plan import Planform
+from deltametrics.plan import compute_channel_depth
+from deltametrics.plan import compute_channel_width
+from deltametrics.plan import compute_land_area
+from deltametrics.plan import compute_shoreline_distance
+from deltametrics.plan import compute_shoreline_length
+from deltametrics.plan import compute_shoreline_roughness
+from deltametrics.plan import compute_surface_deposit_age
+from deltametrics.plan import compute_surface_deposit_time
+from deltametrics.plan import shaw_opening_angle_method
 from deltametrics.section import CircularSection
 
 # a simple custom layout
@@ -42,7 +58,7 @@ golf_path = _get_golf_path()
 
 class TestPlanform:
     def test_Planform_without_cube(self):
-        plfrm = plan.Planform(idx=-1)
+        plfrm = Planform(idx=-1)
         assert plfrm.name is None
         assert plfrm._input_z is None
         assert plfrm._input_t is None
@@ -57,20 +73,20 @@ class TestPlanform:
     def test_Planform_bad_cube(self):
         badcube = ["some", "list"]
         with pytest.raises(TypeError, match=r"Expected type is *."):
-            _ = plan.Planform(badcube, idx=12)
+            _ = Planform(badcube, idx=12)
 
     def test_Planform_idx(self):
-        golfcube = cube.DataCube(golf_path)
-        plnfrm = plan.Planform(golfcube, idx=40)
+        golfcube = DataCube(golf_path)
+        plnfrm = Planform(golfcube, idx=40)
         assert plnfrm.name == "data"
         assert plnfrm.idx == 40
         assert plnfrm.cube == golfcube
         assert len(plnfrm.variables) > 0
 
     def test_Planform_z_t_thesame(self):
-        golfcube = cube.DataCube(golf_path)
-        plnfrm = plan.Planform(golfcube, t=3e6)
-        plnfrm2 = plan.Planform(golfcube, z=3e6)
+        golfcube = DataCube(golf_path)
+        plnfrm = Planform(golfcube, t=3e6)
+        plnfrm2 = Planform(golfcube, z=3e6)
         assert plnfrm.name == "data"
         assert plnfrm.idx == 6
         assert plnfrm.idx == plnfrm2.idx
@@ -78,23 +94,23 @@ class TestPlanform:
         assert len(plnfrm.variables) > 0
 
     def test_Planform_idx_z_t_mutual_exclusive(self):
-        golfcube = cube.DataCube(golf_path)
+        golfcube = DataCube(golf_path)
         with pytest.raises(TypeError, match=r"Cannot .* `z` and `idx`."):
-            _ = plan.Planform(golfcube, z=5e6, idx=30)
+            _ = Planform(golfcube, z=5e6, idx=30)
         with pytest.raises(TypeError, match=r"Cannot .* `t` and `idx`."):
-            _ = plan.Planform(golfcube, t=3e6, idx=30)
+            _ = Planform(golfcube, t=3e6, idx=30)
         with pytest.raises(TypeError, match=r"Cannot .* `z` and `t`."):
-            _ = plan.Planform(golfcube, t=3e6, z=5e6)
+            _ = Planform(golfcube, t=3e6, z=5e6)
 
     def test_Planform_slicing(self):
         # make the planforms
-        golfcube = cube.DataCube(golf_path)
-        golfcubestrat = cube.DataCube(golf_path)
+        golfcube = DataCube(golf_path)
+        golfcubestrat = DataCube(golf_path)
         golfcubestrat.stratigraphy_from("eta", dz=0.1)
-        golfstrat = cube.StratigraphyCube.from_DataCube(golfcube, dz=0.1)
-        plnfrm1 = plan.Planform(golfcube, idx=-1)
-        plnfrm2 = plan.Planform(golfcubestrat, z=-2)
-        plnfrm3 = plan.Planform(
+        golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+        plnfrm1 = Planform(golfcube, idx=-1)
+        plnfrm2 = Planform(golfcubestrat, z=-2)
+        plnfrm3 = Planform(
             golfstrat, z=-6
         )  # note should be deep enough for no nans
         assert np.all(plnfrm1["eta"] == golfcube["eta"][-1, :, :])
@@ -106,8 +122,8 @@ class TestPlanform:
         just checks that the function runs.
         """
         # make the planforms
-        golfcube = cube.DataCube(golf_path)
-        plnfrm = plan.Planform(golfcube, idx=-1)
+        golfcube = DataCube(golf_path)
+        plnfrm = Planform(golfcube, idx=-1)
         _field = plnfrm["eta"]
         _varinfo = golfcube.varset["eta"]
         # with axis
@@ -133,8 +149,8 @@ class TestPlanform:
         plt.close()
 
     def test_Planform_public_show(self):
-        golfcube = cube.DataCube(golf_path)
-        plnfrm = plan.Planform(golfcube, idx=-1)
+        golfcube = DataCube(golf_path)
+        plnfrm = Planform(golfcube, idx=-1)
         plnfrm._show = mock.MagicMock()
         # test with ax
         fig, ax = plt.subplots()
@@ -156,36 +172,36 @@ class TestOpeningAnglePlanform:
     simple_ocean = 1 - simple_land
 
     golf_path = _get_golf_path()
-    golfcube = cube.DataCube(golf_path)
+    golfcube = DataCube(golf_path)
 
     def test_allblack(self):
         with pytest.raises(ValueError, match=r"No pixels identified in below_mask.*"):
-            _ = plan.shaw_opening_angle_method(np.zeros((10, 10), dtype=int))
+            _ = shaw_opening_angle_method(np.zeros((10, 10), dtype=int))
 
     def test_defaults_array_int(self):
-        oap = plan.OpeningAnglePlanform(self.simple_ocean.astype(int))
+        oap = OpeningAnglePlanform(self.simple_ocean.astype(int))
         assert isinstance(oap.opening_angles, xr.core.dataarray.DataArray)
         assert oap.opening_angles.shape == self.simple_ocean.shape
         assert oap.below_mask.dtype == bool
 
     def test_defaults_array_bool(self):
-        oap = plan.OpeningAnglePlanform(self.simple_ocean.astype(bool))
+        oap = OpeningAnglePlanform(self.simple_ocean.astype(bool))
         assert isinstance(oap.opening_angles, xr.core.dataarray.DataArray)
         assert oap.opening_angles.shape == self.simple_ocean.shape
         assert oap.below_mask.dtype == bool
 
     def test_defaults_array_float_error(self):
         with pytest.raises(TypeError):
-            _ = plan.OpeningAnglePlanform(self.simple_ocean.astype(float))
+            _ = OpeningAnglePlanform(self.simple_ocean.astype(float))
 
     @pytest.mark.xfail(
         raises=NotImplementedError, strict=True, reason="Have not implemented pathway."
     )
     def test_defaults_cube(self):
-        _ = plan.OpeningAnglePlanform(self.golfcube, t=-1)
+        _ = OpeningAnglePlanform(self.golfcube, t=-1)
 
     def test_defaults_static_from_elevation_data(self):
-        oap = plan.OpeningAnglePlanform.from_elevation_data(
+        oap = OpeningAnglePlanform.from_elevation_data(
             self.golfcube["eta"][-1, :, :], elevation_threshold=0
         )
         assert isinstance(oap.opening_angles, xr.core.dataarray.DataArray)
@@ -194,25 +210,25 @@ class TestOpeningAnglePlanform:
 
     def test_defaults_static_from_elevation_data_needs_threshold(self):
         with pytest.raises(TypeError):
-            _ = plan.OpeningAnglePlanform.from_elevation_data(
+            _ = OpeningAnglePlanform.from_elevation_data(
                 self.golfcube["eta"][-1, :, :]
             )
 
     def test_defaults_static_from_ElevationMask(self):
-        _em = mask.ElevationMask(self.golfcube["eta"][-1, :, :], elevation_threshold=0)
+        _em = ElevationMask(self.golfcube["eta"][-1, :, :], elevation_threshold=0)
 
-        oap = plan.OpeningAnglePlanform.from_ElevationMask(_em)
+        oap = OpeningAnglePlanform.from_ElevationMask(_em)
 
         assert isinstance(oap.opening_angles, xr.core.dataarray.DataArray)
         assert oap.opening_angles.shape == _em.shape
         assert oap.below_mask.dtype == bool
 
     def test_defaults_static_from_elevation_data_kwargs_passed(self):
-        oap_default = plan.OpeningAnglePlanform.from_elevation_data(
+        oap_default = OpeningAnglePlanform.from_elevation_data(
             self.golfcube["eta"][-1, :, :], elevation_threshold=0
         )
 
-        oap_diff = plan.OpeningAnglePlanform.from_elevation_data(
+        oap_diff = OpeningAnglePlanform.from_elevation_data(
             self.golfcube["eta"][-1, :, :], elevation_threshold=0, numviews=10
         )
 
@@ -220,10 +236,10 @@ class TestOpeningAnglePlanform:
 
     def test_notcube_error(self):
         with pytest.raises(TypeError):
-            plan.OpeningAnglePlanform(self.golfcube["eta"][-1, :, :].data)
+            OpeningAnglePlanform(self.golfcube["eta"][-1, :, :].data)
 
     def test_show_and_errors(self):
-        oap = plan.OpeningAnglePlanform.from_elevation_data(
+        oap = OpeningAnglePlanform.from_elevation_data(
             self.golfcube["eta"][-1, :, :], elevation_threshold=0
         )
         oap._show = mock.MagicMock()  # mock the private
@@ -260,10 +276,10 @@ class TestOpeningAnglePlanform:
 class TestMorphologicalPlanform:
     simple_land = simple_land
     golf_path = _get_golf_path()
-    golfcube = cube.DataCube(golf_path)
+    golfcube = DataCube(golf_path)
 
     def test_defaults_array_int(self):
-        mpm = plan.MorphologicalPlanform(self.simple_land.astype(int), 2)
+        mpm = MorphologicalPlanform(self.simple_land.astype(int), 2)
         assert isinstance(mpm._mean_image, xr.core.dataarray.DataArray)
         assert isinstance(mpm._all_images, np.ndarray)
         assert mpm._mean_image.shape == self.simple_land.shape
@@ -271,7 +287,7 @@ class TestMorphologicalPlanform:
         assert mpm._all_images.shape[0] == 3
 
     def test_defaults_array_bool(self):
-        mpm = plan.MorphologicalPlanform(self.simple_land.astype(bool), 2)
+        mpm = MorphologicalPlanform(self.simple_land.astype(bool), 2)
         assert isinstance(mpm._mean_image, xr.core.dataarray.DataArray)
         assert isinstance(mpm._all_images, np.ndarray)
         assert mpm._mean_image.shape == self.simple_land.shape
@@ -279,7 +295,7 @@ class TestMorphologicalPlanform:
         assert mpm._all_images.shape[0] == 3
 
     def test_defaults_array_float(self):
-        mpm = plan.MorphologicalPlanform(self.simple_land.astype(float), 2.0)
+        mpm = MorphologicalPlanform(self.simple_land.astype(float), 2.0)
         assert isinstance(mpm._mean_image, xr.core.dataarray.DataArray)
         assert isinstance(mpm._all_images, np.ndarray)
         assert mpm._mean_image.shape == self.simple_land.shape
@@ -288,10 +304,10 @@ class TestMorphologicalPlanform:
 
     def test_invalid_disk_arg(self):
         with pytest.raises(TypeError):
-            plan.MorphologicalPlanform(self.simple_land.astype(int), "bad")
+            MorphologicalPlanform(self.simple_land.astype(int), "bad")
 
     def test_defaults_static_from_elevation_data(self):
-        mpm = plan.MorphologicalPlanform.from_elevation_data(
+        mpm = MorphologicalPlanform.from_elevation_data(
             self.golfcube["eta"][-1, :, :], elevation_threshold=0, max_disk=2
         )
         assert mpm.planform_type == "morphological method"
@@ -301,7 +317,7 @@ class TestMorphologicalPlanform:
         assert isinstance(mpm._all_images, np.ndarray)
 
     def test_static_from_mask(self):
-        mpm = plan.MorphologicalPlanform.from_mask(self.simple_land, 2)
+        mpm = MorphologicalPlanform.from_mask(self.simple_land, 2)
         assert isinstance(mpm._mean_image, xr.core.dataarray.DataArray)
         assert isinstance(mpm._all_images, np.ndarray)
         assert mpm._mean_image.shape == self.simple_land.shape
@@ -309,7 +325,7 @@ class TestMorphologicalPlanform:
         assert mpm._all_images.shape[0] == 3
 
     def test_static_from_mask_negative_disk(self):
-        mpm = plan.MorphologicalPlanform.from_mask(self.simple_land, -2)
+        mpm = MorphologicalPlanform.from_mask(self.simple_land, -2)
         assert isinstance(mpm.mean_image, xr.core.dataarray.DataArray)
         assert isinstance(mpm.all_images, np.ndarray)
         assert mpm.mean_image.shape == self.simple_land.shape
@@ -319,11 +335,11 @@ class TestMorphologicalPlanform:
 
     def test_empty_error(self):
         with pytest.raises(ValueError):
-            plan.MorphologicalPlanform()
+            MorphologicalPlanform()
 
     def test_bad_type(self):
         with pytest.raises(TypeError):
-            plan.MorphologicalPlanform("invalid string")
+            MorphologicalPlanform("invalid string")
 
 
 class TestShawOpeningAngleMethod:
@@ -331,10 +347,10 @@ class TestShawOpeningAngleMethod:
 
     def test_allblack(self):
         with pytest.raises(ValueError, match=r"No pixels identified in below_mask.*"):
-            _ = plan.shaw_opening_angle_method(np.zeros((10, 10), dtype=int))
+            _ = shaw_opening_angle_method(np.zeros((10, 10), dtype=int))
 
     def test_simple_case_defaults(self):
-        oam = plan.shaw_opening_angle_method(self.simple_ocean)
+        oam = shaw_opening_angle_method(self.simple_ocean)
         assert np.all(oam <= 180)
         assert np.all(oam >= 0)
         assert np.all(oam[-1, :] == 180)
@@ -345,19 +361,19 @@ class TestShawOpeningAngleMethod:
         _custom_ocean[1:3, 1:3] = 1  # add a lake
 
         # the lake should be removed (default)
-        oam1 = plan.shaw_opening_angle_method(_custom_ocean, preprocess=True)
+        oam1 = shaw_opening_angle_method(_custom_ocean, preprocess=True)
         assert np.all(oam1[1:3, 1:3] == 0)
 
         # the lake should persist
-        oam2 = plan.shaw_opening_angle_method(_custom_ocean, preprocess=False)
+        oam2 = shaw_opening_angle_method(_custom_ocean, preprocess=False)
         assert np.all(oam2[1:3, 1:3] != 0)
 
 
 class TestDeltaArea:
     golf_path = _get_golf_path()
-    golfcube = cube.DataCube(golf_path)
+    golfcube = DataCube(golf_path)
 
-    lm = mask.LandMask(
+    lm = LandMask(
         golfcube["eta"][-1, :, :],
         elevation_threshold=golfcube.meta["H_SL"][-1],
         elevation_offset=-0.5,
@@ -365,22 +381,22 @@ class TestDeltaArea:
     lm.trim_mask(length=golfcube.meta["L0"].data + 1)
 
     def test_simple_case(self):
-        land_area = plan.compute_land_area(simple_land)
+        land_area = compute_land_area(simple_land)
         assert land_area == 45
 
     def test_golf_case(self):
-        land_area = plan.compute_land_area(self.lm)
+        land_area = compute_land_area(self.lm)
         assert land_area / 1e6 == pytest.approx(14.5, abs=1)
 
     def test_golf_array_case(self):
         # calculation without dx
         lm_array = np.copy(self.lm._mask.data)
-        land_area = plan.compute_land_area(lm_array)
+        land_area = compute_land_area(lm_array)
         assert land_area == pytest.approx(14.5 * 1e6 / 50 / 50, abs=200)
 
     def test_half_circle(self):
         # circ radius is 3000
-        land_area = plan.compute_land_area(hcirc)  # does not have dimensions
+        land_area = compute_land_area(hcirc)  # does not have dimensions
         land_area = land_area * hcirc_dx * hcirc_dx / 1e6
         assert land_area == pytest.approx(0.5 * np.pi * (3000**2) / 1e6, abs=1)
 
@@ -388,23 +404,23 @@ class TestDeltaArea:
 class TestShorelineRoughness:
     rcm8_path = _get_rcm8_path()
     with pytest.warns(UserWarning):
-        rcm8 = cube.DataCube(rcm8_path)
+        rcm8 = DataCube(rcm8_path)
 
-    em = mask.ElevationMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
+    em = ElevationMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
     em.trim_mask(value=1, length=1)
-    OAP = plan.OpeningAnglePlanform(~(em.mask))
-    lm = mask.LandMask.from_Planform(OAP)
-    sm = mask.ShorelineMask.from_Planform(OAP)
-    em0 = mask.ElevationMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
+    OAP = OpeningAnglePlanform(~(em.mask))
+    lm = LandMask.from_Planform(OAP)
+    sm = ShorelineMask.from_Planform(OAP)
+    em0 = ElevationMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
     em0.trim_mask(value=1, length=1)
-    OAP0 = plan.OpeningAnglePlanform(~(em0.mask))
-    lm0 = mask.LandMask.from_Planform(OAP0)
-    sm0 = mask.ShorelineMask.from_Planform(OAP0)
+    OAP0 = OpeningAnglePlanform(~(em0.mask))
+    lm0 = LandMask.from_Planform(OAP0)
+    sm0 = ShorelineMask.from_Planform(OAP0)
 
-    # lm = mask.LandMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
-    # sm = mask.ShorelineMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
-    # lm0 = mask.LandMask(rcm8["eta"][0, :, :], elevation_threshold=0)
-    # sm0 = mask.ShorelineMask(rcm8["eta"][0, :, :], elevation_threshold=0)
+    # lm = LandMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
+    # sm = ShorelineMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
+    # lm0 = LandMask(rcm8["eta"][0, :, :], elevation_threshold=0)
+    # sm0 = ShorelineMask(rcm8["eta"][0, :, :], elevation_threshold=0)
 
     # _trim_length = 4
     # lm.trim_mask(length=_trim_length)
@@ -415,7 +431,7 @@ class TestShorelineRoughness:
     rcm8_expected = 4.476379600936939
 
     def test_simple_case(self):
-        simple_rgh = plan.compute_shoreline_roughness(simple_shore, simple_land)
+        simple_rgh = compute_shoreline_roughness(simple_shore, simple_land)
         exp_area = 45
         exp_len = (7 * 1) + (2 * 1.41421356)
         exp_rgh = exp_len / np.sqrt(exp_area)
@@ -423,19 +439,19 @@ class TestShorelineRoughness:
 
     def test_rcm8_defaults(self):
         # test it with default options
-        rgh_0 = plan.compute_shoreline_roughness(self.sm, self.lm)
+        rgh_0 = compute_shoreline_roughness(self.sm, self.lm)
         # assert rgh_0 == pytest.approx(self.rcm8_expected, abs=0.1)
         assert rgh_0 > 0
 
     def test_rcm8_ignore_return_line(self):
         # test that it ignores return_line arg
-        rgh_1 = plan.compute_shoreline_roughness(self.sm, self.lm, return_line=False)
+        rgh_1 = compute_shoreline_roughness(self.sm, self.lm, return_line=False)
         # assert rgh_1 == pytest.approx(self.rcm8_expected, abs=0.1)
         assert rgh_1 > 0
 
     def test_rcm8_defaults_opposite(self):
         # test that it is the same with opposite side origin
-        rgh_2 = plan.compute_shoreline_roughness(
+        rgh_2 = compute_shoreline_roughness(
             self.sm, self.lm, origin=[0, self.rcm8.shape[1]]
         )
         # assert rgh_2 == pytest.approx(self.rcm8_expected, abs=0.2)
@@ -444,12 +460,12 @@ class TestShorelineRoughness:
     def test_rcm8_fail_no_shoreline(self):
         # check raises error
         with pytest.raises(ValueError, match=r"No pixels in shoreline mask."):
-            plan.compute_shoreline_roughness(np.zeros((10, 10)), self.lm)
+            compute_shoreline_roughness(np.zeros((10, 10)), self.lm)
 
     def test_rcm8_fail_no_land(self):
         # check raises error
         with pytest.raises(ValueError, match=r"No pixels in land mask."):
-            plan.compute_shoreline_roughness(self.sm, np.zeros((10, 10)))
+            compute_shoreline_roughness(self.sm, np.zeros((10, 10)))
 
     def test_compute_shoreline_roughness_asarray(self):
         # test it with default options
@@ -457,7 +473,7 @@ class TestShorelineRoughness:
         _lmarr = np.copy(self.lm.mask)
         assert isinstance(_smarr, np.ndarray)
         assert isinstance(_lmarr, np.ndarray)
-        rgh_3 = plan.compute_shoreline_roughness(_smarr, _lmarr)
+        rgh_3 = compute_shoreline_roughness(_smarr, _lmarr)
         # assert rgh_3 == pytest.approx(self.rcm8_expected, abs=0.1)
         assert rgh_3 > 0
 
@@ -465,27 +481,27 @@ class TestShorelineRoughness:
 class TestShorelineLength:
     rcm8_path = _get_rcm8_path()
     with pytest.warns(UserWarning):
-        rcm8 = cube.DataCube(rcm8_path)
+        rcm8 = DataCube(rcm8_path)
 
-    sm = mask.ShorelineMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
-    sm0 = mask.ShorelineMask(rcm8["eta"][0, :, :], elevation_threshold=0)
+    sm = ShorelineMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
+    sm0 = ShorelineMask(rcm8["eta"][0, :, :], elevation_threshold=0)
 
     _trim_length = 4
     sm.trim_mask(length=_trim_length)
     sm0.trim_mask(length=_trim_length)
 
     def test_simple_case(self):
-        simple_len = plan.compute_shoreline_length(simple_shore)
+        simple_len = compute_shoreline_length(simple_shore)
         exp_len = (7 * 1) + (2 * 1.41421356)
         assert simple_len == pytest.approx(exp_len, abs=0.1)
 
     def test_simple_case_opposite(self):
-        simple_len = plan.compute_shoreline_length(simple_shore, origin=[10, 0])
+        simple_len = compute_shoreline_length(simple_shore, origin=[10, 0])
         exp_len = (7 * 1) + (2 * 1.41421356)
         assert simple_len == pytest.approx(exp_len, abs=0.1)
 
     def test_simple_case_return_line(self):
-        simple_len, simple_line = plan.compute_shoreline_length(
+        simple_len, simple_line = compute_shoreline_length(
             simple_shore, return_line=True
         )
         exp_len = (7 * 1) + (2 * 1.41421356)
@@ -494,15 +510,15 @@ class TestShorelineLength:
 
     def test_rcm8_defaults(self):
         # test that it is the same with opposite side origin
-        len_0 = plan.compute_shoreline_length(self.sm)
+        len_0 = compute_shoreline_length(self.sm)
         assert len_0 > 0
         assert len_0 > self.rcm8.shape[1]
 
     def test_rcm8_defaults_opposite(self):
         # test that it is the same with opposite side origin
-        len_0, line_0 = plan.compute_shoreline_length(self.sm, return_line=True)
+        len_0, line_0 = compute_shoreline_length(self.sm, return_line=True)
         _o = [self.rcm8.shape[2], 0]
-        len_1, line_1 = plan.compute_shoreline_length(
+        len_1, line_1 = compute_shoreline_length(
             self.sm, origin=_o, return_line=True
         )
         assert len_0 == pytest.approx(
@@ -512,29 +528,29 @@ class TestShorelineLength:
 
 class TestShorelineDistance:
     golf_path = _get_golf_path()
-    golf = cube.DataCube(golf_path)
+    golf = DataCube(golf_path)
 
-    sm = mask.ShorelineMask(
+    sm = ShorelineMask(
         golf["eta"][-1, :, :], elevation_threshold=0, elevation_offset=-0.5
     )
 
     def test_empty(self):
         _arr = np.zeros((10, 10))
         with pytest.raises(ValueError):
-            _, _ = plan.compute_shoreline_distance(_arr)
+            _, _ = compute_shoreline_distance(_arr)
 
     def test_single_point(self):
         _arr = np.zeros((10, 10))
         _arr[7, 5] = 1
-        mean00, stddev00 = plan.compute_shoreline_distance(_arr)
-        mean05, stddev05 = plan.compute_shoreline_distance(_arr, origin=[5, 0])
+        mean00, stddev00 = compute_shoreline_distance(_arr)
+        mean05, stddev05 = compute_shoreline_distance(_arr, origin=[5, 0])
         assert mean00 == np.sqrt(49 + 25)
         assert mean05 == 7
         assert stddev00 == 0
         assert stddev05 == 0
 
     def test_simple_case(self):
-        mean, stddev = plan.compute_shoreline_distance(
+        mean, stddev = compute_shoreline_distance(
             self.sm, origin=[self.golf.meta["CTR"].data, self.golf.meta["L0"].data]
         )
 
@@ -542,10 +558,10 @@ class TestShorelineDistance:
         assert stddev > 0
 
     def test_simple_case_distances(self):
-        m, s = plan.compute_shoreline_distance(
+        m, s = compute_shoreline_distance(
             self.sm, origin=[self.golf.meta["CTR"].data, self.golf.meta["L0"].data]
         )
-        m2, s2, dists = plan.compute_shoreline_distance(
+        m2, s2, dists = compute_shoreline_distance(
             self.sm,
             origin=[self.golf.meta["CTR"].data, self.golf.meta["L0"].data],
             return_distances=True,
@@ -564,9 +580,9 @@ class TestComputeChannelWidth:
     ).astype(int)
 
     golf_path = _get_golf_path()
-    golf = cube.DataCube(golf_path)
+    golf = DataCube(golf_path)
 
-    cm = mask.ChannelMask(
+    cm = ChannelMask(
         golf["eta"][-1, :, :],
         golf["velocity"][-1, :, :],
         elevation_threshold=0,
@@ -576,14 +592,14 @@ class TestComputeChannelWidth:
 
     def test_widths_simple(self):
         """Get mean and std from simple."""
-        m, s = plan.compute_channel_width(self.simple_cm, section=self.trace)
+        m, s = compute_channel_width(self.simple_cm, section=self.trace)
         assert m == (1 + 2 + 4 + 1) / 4
         assert s == pytest.approx(1.22474487)
 
     def test_widths_simple_list_equal(self):
         """Get mean, std, list from simple, check that same."""
-        m1, s1 = plan.compute_channel_width(self.simple_cm, section=self.trace)
-        m2, s2, w = plan.compute_channel_width(
+        m1, s1 = compute_channel_width(self.simple_cm, section=self.trace)
+        m2, s2, w = compute_channel_width(
             self.simple_cm, section=self.trace, return_widths=True
         )
         assert m1 == (1 + 2 + 4 + 1) / 4
@@ -597,29 +613,29 @@ class TestComputeChannelWidth:
         This test does not actually test the computation, just that something
         valid is returned, i.e., the function takes the input.
         """
-        m, s = plan.compute_channel_width(self.cm, section=self.sec)
+        m, s = compute_channel_width(self.cm, section=self.sec)
         # check valid values returned
         assert m > 0
         assert s > 0
 
     def test_bad_masktype(self):
         with pytest.raises(TypeError):
-            m, s = plan.compute_channel_width(33, section=self.sec)
+            m, s = compute_channel_width(33, section=self.sec)
         with pytest.raises(TypeError):
-            m, s = plan.compute_channel_width(True, section=self.sec)
+            m, s = compute_channel_width(True, section=self.sec)
 
     def test_no_section_make_default(self):
         with pytest.raises(NotImplementedError):
-            m, s = plan.compute_channel_width(self.cm)
+            m, s = compute_channel_width(self.cm)
 
     def test_get_channel_starts_and_ends(self):
-        _cs, _ce = plan._get_channel_starts_and_ends(self.simple_cm, self.trace)
+        _cs, _ce = _get_channel_starts_and_ends(self.simple_cm, self.trace)
         assert _cs[0] == 1
         assert _ce[0] == 2
 
     def test_wraparound(self):
         alt_cm = np.array([[1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1]])
-        _cs, _ce = plan._get_channel_starts_and_ends(alt_cm, self.trace)
+        _cs, _ce = _get_channel_starts_and_ends(alt_cm, self.trace)
         assert _cs[0] == 1
         assert _ce[0] == 2
 
@@ -634,9 +650,9 @@ class TestComputeChannelDepth:
     ).astype(int)
 
     golf_path = _get_golf_path()
-    golf = cube.DataCube(golf_path)
+    golf = DataCube(golf_path)
 
-    cm = mask.ChannelMask(
+    cm = ChannelMask(
         golf["eta"][-1, :, :],
         golf["velocity"][-1, :, :],
         elevation_threshold=0,
@@ -646,7 +662,7 @@ class TestComputeChannelDepth:
 
     def test_depths_simple_thalweg(self):
         """Get mean and std from simple."""
-        m, s = plan.compute_channel_depth(
+        m, s = compute_channel_depth(
             self.simple_cm, self.simple_depth, section=self.trace
         )
         assert m == (0.5 + 0.4 + 1 + 9) / 4
@@ -654,7 +670,7 @@ class TestComputeChannelDepth:
 
     def test_depths_simple_mean(self):
         """Get mean and std from simple."""
-        m, s = plan.compute_channel_depth(
+        m, s = compute_channel_depth(
             self.simple_cm, self.simple_depth, section=self.trace, depth_type="mean"
         )
         assert m == (0.5 + 0.3 + 1 + 9) / 4
@@ -662,10 +678,10 @@ class TestComputeChannelDepth:
 
     def test_depths_simple_list_equal(self):
         """Get mean, std, list from simple, check that same."""
-        m1, s1 = plan.compute_channel_depth(
+        m1, s1 = compute_channel_depth(
             self.simple_cm, self.simple_depth, section=self.trace
         )
-        m2, s2, w = plan.compute_channel_depth(
+        m2, s2, w = compute_channel_depth(
             self.simple_cm, self.simple_depth, section=self.trace, return_depths=True
         )
         assert m1 == (0.5 + 0.4 + 1 + 9) / 4
@@ -680,7 +696,7 @@ class TestComputeChannelDepth:
         valid is returned, i.e., the function takes the input.
         """
 
-        m, s = plan.compute_channel_depth(
+        m, s = compute_channel_depth(
             self.cm, self.golf["depth"][-1, :, :], section=self.sec
         )
         assert m > 0
@@ -688,17 +704,17 @@ class TestComputeChannelDepth:
 
     def test_bad_masktype(self):
         with pytest.raises(TypeError):
-            m, s = plan.compute_channel_depth(
+            m, s = compute_channel_depth(
                 33, self.golf["depth"][-1, :, :], section=self.sec
             )
         with pytest.raises(TypeError):
-            m, s = plan.compute_channel_depth(
+            m, s = compute_channel_depth(
                 True, self.golf["depth"][-1, :, :], section=self.sec
             )
 
     def test_bad_depth_type_arg(self):
         with pytest.raises(ValueError):
-            m, s = plan.compute_channel_depth(
+            m, s = compute_channel_depth(
                 self.cm,
                 self.golf["depth"][-1, :, :],
                 depth_type="nonsense",
@@ -707,24 +723,24 @@ class TestComputeChannelDepth:
 
     def test_no_section_make_default(self):
         with pytest.raises(NotImplementedError):
-            m, s = plan.compute_channel_depth(self.cm, self.golf["depth"][-1, :, :])
+            m, s = compute_channel_depth(self.cm, self.golf["depth"][-1, :, :])
 
 
 class TestComputeSurfaceDepositTime:
-    golfcube = cube.DataCube(golf_path)
+    golfcube = DataCube(golf_path)
 
     def test_with_diff_indices(self):
         with pytest.raises(ValueError):
             # cannot be index 0
-            _ = plan.compute_surface_deposit_time(self.golfcube, surface_idx=0)
-        sfc_date_1 = plan.compute_surface_deposit_time(self.golfcube, surface_idx=1)
+            _ = compute_surface_deposit_time(self.golfcube, surface_idx=0)
+        sfc_date_1 = compute_surface_deposit_time(self.golfcube, surface_idx=1)
         assert np.all(sfc_date_1 == 0)
-        sfc_date_m1 = plan.compute_surface_deposit_time(self.golfcube, surface_idx=-1)
+        sfc_date_m1 = compute_surface_deposit_time(self.golfcube, surface_idx=-1)
         assert np.any(sfc_date_m1 > 0)
 
         # test that cannot be above idx
         half_idx = self.golfcube.shape[0] // 2
-        sfc_date_half = plan.compute_surface_deposit_time(
+        sfc_date_half = compute_surface_deposit_time(
             self.golfcube, surface_idx=half_idx
         )
         assert np.max(sfc_date_half) <= half_idx
@@ -733,16 +749,16 @@ class TestComputeSurfaceDepositTime:
     def test_with_diff_stasis_tol(self):
         with pytest.raises(ValueError):
             # cannot be tol 0
-            _ = plan.compute_surface_deposit_time(
+            _ = compute_surface_deposit_time(
                 self.golfcube, surface_idx=-1, stasis_tol=0
             )
-        sfc_date_tol_000 = plan.compute_surface_deposit_time(
+        sfc_date_tol_000 = compute_surface_deposit_time(
             self.golfcube, surface_idx=-1, stasis_tol=1e-16
         )
-        sfc_date_tol_001 = plan.compute_surface_deposit_time(
+        sfc_date_tol_001 = compute_surface_deposit_time(
             self.golfcube, surface_idx=-1, stasis_tol=0.01
         )
-        sfc_date_tol_010 = plan.compute_surface_deposit_time(
+        sfc_date_tol_010 = compute_surface_deposit_time(
             self.golfcube, surface_idx=-1, stasis_tol=0.1
         )
         # time of deposition should always be older when threshold is greater
@@ -751,14 +767,14 @@ class TestComputeSurfaceDepositTime:
 
 
 class TestComputeSurfaceDepositAge:
-    golfcube = cube.DataCube(golf_path)
+    golfcube = DataCube(golf_path)
 
     def test_idx_minus_date(self):
         with pytest.raises(ValueError):
             # cannot be index 0
-            _ = plan.compute_surface_deposit_time(self.golfcube, surface_idx=0)
-        sfc_date_1 = plan.compute_surface_deposit_age(self.golfcube, surface_idx=1)
+            _ = compute_surface_deposit_time(self.golfcube, surface_idx=0)
+        sfc_date_1 = compute_surface_deposit_age(self.golfcube, surface_idx=1)
         assert np.all(sfc_date_1 == 1)  # 1 - 0
-        sfc_date_m1 = plan.compute_surface_deposit_time(self.golfcube, surface_idx=-1)
+        sfc_date_m1 = compute_surface_deposit_time(self.golfcube, surface_idx=-1)
         # check that the idx wrapping functionality works
         assert np.all(sfc_date_m1 >= 0)
