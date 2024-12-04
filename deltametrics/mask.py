@@ -10,7 +10,7 @@ from scipy.ndimage import binary_fill_holes
 import abc
 import warnings
 
-from . import utils
+from deltametrics.utils import is_ndarray_or_xarray
 from . import cube
 from . import plan
 from . import plot
@@ -62,11 +62,11 @@ class BaseMask(abc.ABC):
         elif (len(args) >= 1) and issubclass(type(args[0]), BaseMask):
             self._input_flag = "mask"
             self._set_shape_mask(args[0].mask)
-        elif utils.is_ndarray_or_xarray(args[0]):
+        elif is_ndarray_or_xarray(args[0]):
             # check that all arguments are xarray or numpy arrays
             self._input_flag = "array"
             for i in range(len(args)):
-                if not utils.is_ndarray_or_xarray(args[i]):
+                if not is_ndarray_or_xarray(args[i]):
                     raise TypeError(
                         "First input to mask instantiation was an array "
                         "but then a later argument was not an array. "
@@ -736,7 +736,7 @@ class ChannelMask(BaseMask):
         if isinstance(args[0], LandMask):
             lm_array = args[0]._mask.values
             fm_array = args[1]._mask.values
-        elif utils.is_ndarray_or_xarray(args[0]):
+        elif is_ndarray_or_xarray(args[0]):
             lm_array = args[0].values
             fm_array = args[1].values
         else:
@@ -958,7 +958,7 @@ class WetMask(BaseMask):
             if isinstance(args[0], LandMask):
                 lm_array = args[0]._mask
                 below_array = 1 - args[1]._mask  # go from elevation mask
-            elif utils.is_ndarray_or_xarray(args[0]):
+            elif is_ndarray_or_xarray(args[0]):
                 lm_array = args[0]
                 below_array = args[1]
             else:
@@ -1198,7 +1198,7 @@ class LandMask(BaseMask):
         if len(args) == 1:
             if isinstance(args[0], plan.BasePlanform):
                 composite_array = args[0].composite_array
-            elif utils.is_ndarray_or_xarray(args[0]):
+            elif is_ndarray_or_xarray(args[0]):
                 composite_array = args[0]
             else:
                 raise TypeError
@@ -1509,7 +1509,7 @@ class ShorelineMask(BaseMask):
         elif len(args) == 2:
             if isinstance(args[0], plan.MorphologicalPlanform):
                 _mean_image = args[0]._mean_image
-            elif utils.is_ndarray_or_xarray(args[1]):
+            elif is_ndarray_or_xarray(args[1]):
                 _mean_image = args[1]
             else:
                 raise ValueError
@@ -1798,7 +1798,7 @@ class EdgeMask(BaseMask):
             if isinstance(args[0], LandMask):
                 lm_array = args[0]._mask.astype(float)
                 wm_array = args[1]._mask.astype(float)
-            elif utils.is_ndarray_or_xarray(args[0]):
+            elif is_ndarray_or_xarray(args[0]):
                 lm_array = args[0].astype(float)
                 wm_array = args[1].astype(float)
             else:
@@ -2648,7 +2648,7 @@ class DepositMask(BaseMask):
             raise ValueError("Invalid _input_flag. Did you modify this attribute?")
 
         # process background_value into an array
-        if utils.is_ndarray_or_xarray(background_value):
+        if is_ndarray_or_xarray(background_value):
             background_array = np.array(background_value)  # strip xarray
         else:
             background_array = np.ones(self._shape) * background_value

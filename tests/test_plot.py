@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from deltametrics import plot
 from deltametrics import cube
 from deltametrics import section
-from deltametrics import utils
+from deltametrics.utils import NoStratigraphyError
 from deltametrics.sample_data import _get_golf_path
 
 
@@ -416,12 +416,12 @@ class TestGetDisplayArrays:
         assert np.all(_data == self.dsv_nostrat)
 
     def test_dsv_nostrat_get_display_arrays_preserved(self):
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             plot.get_display_arrays(self.dsv_nostrat,
                                     data='preserved')
 
     def test_dsv_nostrat_get_display_arrays_stratigraphy(self):
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             plot.get_display_arrays(self.dsv_nostrat,
                                     data='stratigraphy')
 
@@ -506,12 +506,12 @@ class TestGetDisplayLines:
         assert _segments.shape[1:] == (2, 2)
 
     def test_dsv_nostrat_get_display_lines_preserved(self):
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             plot.get_display_lines(self.dsv_nostrat,
                                    data='preserved')
 
     def test_dsv_nostrat_get_display_lines_stratigraphy(self):
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             plot.get_display_lines(self.dsv_nostrat,
                                    data='stratigraphy')
 
@@ -582,11 +582,11 @@ class TestGetDisplayLimits:
         assert len(_lims) == 4
 
     def test_dsv_nostrat_get_display_limits_preserved(self):
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             plot.get_display_limits(self.dsv_nostrat, data='preserved')
 
     def test_dsv_nostrat_get_display_limits_stratigraphy(self):
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             plot.get_display_limits(self.dsv_nostrat, data='stratigraphy')
 
     def test_dsv_get_display_limits_spacetime(self):

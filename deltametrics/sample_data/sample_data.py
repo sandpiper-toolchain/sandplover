@@ -8,11 +8,11 @@ import netCDF4
 import pooch
 
 from .. import cube
-from .. import utils
+from deltametrics.utils import _get_version
 
 
 # deltametrics version
-__version__ = utils._get_version()
+__version__ = _get_version()
 
 # enusre DeprecationWarning is shown
 warnings.simplefilter("default")

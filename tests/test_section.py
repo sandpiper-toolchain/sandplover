@@ -9,7 +9,7 @@ from deltametrics import mask
 from deltametrics import plan
 
 from deltametrics import section
-from deltametrics import utils
+from deltametrics.utils import NoStratigraphyError
 from deltametrics.sample_data import _get_rcm8_path, _get_golf_path
 
 
@@ -717,11 +717,11 @@ class TestSectionFromDataCubeNoStratigraphy:
         )
 
     def test_nostrat_nostratigraphyinfo(self):
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             _ = self.rcm8cube_nostrat.sections["test"][
                 "velocity"
             ].strat.as_stratigraphy()
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             _ = self.rcm8cube_nostrat.sections["test"]["velocity"].strat.as_preserved()
 
     def test_nostrat_SectionVariable_basic_math_comparisons(self):
@@ -768,13 +768,13 @@ class TestSectionFromDataCubeNoStratigraphy:
             sass.show("time", style="shaded", data="spacetime")
 
     def test_nostrat_show_shaded_aspreserved(self):
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             self.rcm8cube_nostrat.sections["test"].show(
                 "time", style="shaded", data="preserved"
             )
 
     def test_nostrat_show_shaded_asstratigraphy(self):
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             self.rcm8cube_nostrat.sections["test"].show(
                 "time", style="shaded", data="stratigraphy"
             )
@@ -785,13 +785,13 @@ class TestSectionFromDataCubeNoStratigraphy:
         )
 
     def test_nostrat_show_lines_aspreserved(self):
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             self.rcm8cube_nostrat.sections["test"].show(
                 "time", style="lines", data="preserved"
             )
 
     def test_nostrat_show_lines_asstratigraphy(self):
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             self.rcm8cube_nostrat.sections["test"].show(
                 "time", style="lines", data="stratigraphy"
             )
@@ -1080,15 +1080,15 @@ class TestSectionVariableNoStratigraphy:
         assert self.dsv.strat.knows_stratigraphy == self.dsv.strat._knows_stratigraphy
 
     def test_dsv__check_knows_stratigraphy(self):
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             self.dsv.strat._check_knows_stratigraphy()
 
     def test_dsv_as_preserved(self):
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             self.dsv.strat.as_preserved()
 
     def test_dsv_as_stratigraphy(self):
-        with pytest.raises(utils.NoStratigraphyError):
+        with pytest.raises(NoStratigraphyError):
             self.dsv.strat.as_stratigraphy()
 
 
