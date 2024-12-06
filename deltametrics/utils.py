@@ -36,19 +36,19 @@ class NoStratigraphyError(AttributeError):
 
     Without the optional `var` argument:
 
-    .. doctest::
+    >>> from deltametrics.utils import NoStratigraphyError
+    >>> from deltametrics.sample_data.sample_data import golf
 
-        >>> raise utils.NoStratigraphyError(golfcube) #doctest: +SKIP
-        deltametrics.utils.NoStratigraphyError: 'DataCube' object
-        has no preservation or stratigraphy information.
+    >>> golfcube = golf()
+    >>> raise NoStratigraphyError(golfcube)
+    Traceback (most recent call last):
+    deltametrics.utils.NoStratigraphyError: 'DataCube' object has no preservation or stratigraphy information.
 
     With the `var` argument given as ``'strat_attr'``:
 
-    .. doctest::
-
-        >>> raise utils.NoStratigraphyError(golfcube, 'strat_attr') #doctest: +SKIP
-        deltametrics.utils.NoStratigraphyError: 'DataCube' object
-        has no attribute 'strat_attr'.
+    >>> raise NoStratigraphyError(golfcube, 'strat_attr')
+    Traceback (most recent call last):
+    deltametrics.utils.NoStratigraphyError: 'DataCube' object has no preservation or stratigraphy information.
     """
 
     def __init__(self, obj, var=None):
@@ -304,9 +304,10 @@ def line_to_cells(*args):
     --------
 
     .. plot::
-        :include-source:
 
+        >>> import matplotlib.pyplot as plt
         >>> from deltametrics.utils import line_to_cells
+
         >>> p0 = (1, 6)
         >>> p1 = (6, 3)
         >>> x, y = line_to_cells(p0, p1)
@@ -314,9 +315,8 @@ def line_to_cells(*args):
         >>> fig, ax = plt.subplots(figsize=(2, 2))
         >>> _arr = np.zeros((10, 10))
         >>> _arr[y, x] = 1
-        >>> ax.imshow(_arr, cmap='gray')
-        >>> ax.plot([p0[0], p1[0]], [p0[1], p1[1]], 'r-')
-        >>> plt.show()
+        >>> _ = ax.imshow(_arr, cmap='gray')
+        >>> _ = ax.plot([p0[0], p1[0]], [p0[1], p1[1]], 'r-')
     """
     # process the args
     if len(args) == 1:
