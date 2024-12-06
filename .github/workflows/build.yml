@@ -58,7 +58,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements-docs.txt
-        sudo apt update -y && sudo apt install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended dvipng
+        sudo apt update -y && sudo apt install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended dvipng ffmpeg
     - name: Install DeltaMetrics
       run: |
         pip install .
