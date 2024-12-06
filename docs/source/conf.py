@@ -10,18 +10,32 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import importlib
 import os
 import sys
 
-import pyvista
 
-from deltametrics._version import __version__
+def get_version_from_file(path_to_version_file: str) -> str:
+    spec = importlib.util.spec_from_file_location("_version", path_to_version_file)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    return module.__version__
+
+
+src_dir = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), os.pardir, os.pardir)
+)
 
 # -- Project information -----------------------------------------------------
 
 project = 'DeltaMetrics'
 copyright = '2020, The DeltaRCM Team'
 author = 'The DeltaRCM Team'
+
+__version__ = get_version_from_file(
+    os.path.join(src_dir, "deltametrics", "_version.py")
+)
 
 # The full version, including alpha/beta/rc tags
 release = __version__
