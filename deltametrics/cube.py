@@ -447,16 +447,17 @@ class BaseCube(abc.ABC):
         --------
 
         .. plot::
-            :include-source:
 
-            >>> golfcube = dm.sample_data.golf()
-            >>> golfstrat = dm.cube.StratigraphyCube.from_DataCube(
+            >>> import matplotlib.pyplot as plt
+            >>> from deltametrics.sample_data.sample_data import golf
+            >>> from deltametrics.cube import StratigraphyCube
+
+            >>> golfcube = golf()
+            >>> golfstrat = StratigraphyCube.from_DataCube(
             ...     golfcube, dz=0.1)
-            ...
             >>> fig, ax = plt.subplots(2, 1)
             >>> golfcube.quick_show('eta', ax=ax[0])  # a Planform (axis=0)
             >>> golfstrat.quick_show('eta', idx=100, axis=2, ax=ax[1])  # a DipSection
-            >>> plt.show()
         """
         if axis == 0:
             # this is a planform slice
@@ -504,21 +505,20 @@ class BaseCube(abc.ABC):
             The following code snippets are not set up to actually make the
             plots in the documentation.
 
-        .. code::
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.cube import StratigraphyCube
+        >>> from deltametrics.sample_data.sample_data import golf
 
-            >>> golfcube = dm.sample_data.golf()
-            >>> golfstrat = dm.cube.StratigraphyCube.from_DataCube(
-            ...     golfcube, dz=0.1)
-            ...
-            >>> fig, ax = plt.subplots()
-            >>> golfstrat.show_cube('eta', ax=ax)
+        >>> golfcube = golf()
+        >>> golfstrat = StratigraphyCube.from_DataCube(
+        ...     golfcube, dz=0.1)
+        ...
+        >>> fig, ax = plt.subplots()
+        >>> golfstrat.show_cube('eta', ax=ax)  # doctest: +SKIP
 
-        .. code::
-
-            >>> golfcube = dm.sample_data.golf()
-            ...
-            >>> fig, ax = plt.subplots()
-            >>> golfcube.show_cube('velocity', style='fence', ax=ax)
+        >>> golfcube = golf()
+        >>> fig, ax = plt.subplots()
+        >>> golfcube.show_cube('velocity', style='fence', ax=ax)  # doctest: +SKIP
         """
         try:
             import pyvista as pv
@@ -846,8 +846,11 @@ class StratigraphyCube(BaseCube):
         --------
         Create a stratigraphy cube from the example ``golf``:
 
-        >>> golfcube = dm.sample_data.golf()
-        >>> stratcube = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
+        >>> from deltametrics.cube import StratigraphyCube
+        >>> from deltametrics.sample_data.sample_data import golf
+
+        >>> golfcube = golf()
+        >>> stratcube = StratigraphyCube.from_DataCube(golfcube, dz=0.05)
 
         Parameters
         ----------
