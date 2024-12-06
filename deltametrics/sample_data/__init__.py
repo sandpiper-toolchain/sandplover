@@ -1,14 +1,6 @@
-from .sample_data import (
-    _get_golf_path,
-    _get_xslope_path,
-    _get_aeolian_path,
-    _get_rcm8_path,
-    _get_landsat_path,
-    golf,
-    xslope,
-    aeolian,
-    rcm8,
-    landsat,
-    savi2020
-)
-from . import cube
+from deltametrics.sample_data.sample_data import aeolian
+from deltametrics.sample_data.sample_data import golf
+from deltametrics.sample_data.sample_data import landsat
+from deltametrics.sample_data.sample_data import rcm8
+from deltametrics.sample_data.sample_data import savi2020
+from deltametrics.sample_data.sample_data import xslope
