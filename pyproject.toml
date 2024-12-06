@@ -96,6 +96,7 @@ relative_files = true
 [tool.pytest.ini_options]
 minversion = "6.0"
 testpaths = [
+    "deltametrics",
     "tests",
 ]
 norecursedirs = [
@@ -109,5 +110,11 @@ addopts = [
     "--tb=native",
     "--durations=16",
     "--strict-markers",
+    "--doctest-modules",
     "-vvv",
+]
+doctest_optionflags = [
+  "NORMALIZE_WHITESPACE",
+  "IGNORE_EXCEPTION_DETAIL",
+  "ELLIPSIS",
 ]
