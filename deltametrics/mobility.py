@@ -736,9 +736,9 @@ def calculate_channelized_response_variance(
                   arr, threshold=0.2, normalize_input=False,
                   normalize_output=False):
     """
-    Calculate the Channelized Response Variance (CRV) [1]_.
+    Calculate the Channelized Response Variance (CRV).
 
-    This function takes a t-x-y array and calculates its directional CRV.
+    This function takes a t-x-y array and calculates its directional CRV [1]_.
     In short, the function does the following:
 
     1. Normalizes the array at each time slice if desired.
