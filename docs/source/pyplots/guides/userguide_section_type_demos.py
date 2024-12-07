@@ -21,7 +21,7 @@ ax0 = fig.add_subplot(spec[0, :])
 axs = [fig.add_subplot(spec[i, j]) for i, j in zip(
     np.repeat(np.arange(1, 4), 2), np.tile(np.arange(2), (4,)))]
 
-t10cmap = plt.cm.get_cmap('tab10')
+t10cmap = plt.get_cmap('tab10')
 golfcube.quick_show('eta', idx=-1, ax=ax0, ticks=True)
 for i, s in enumerate([_strike, _dip, _path, _circ, _rad]):
     s.show_trace('--', color=t10cmap(i), ax=ax0)
