@@ -57,7 +57,7 @@ Now plot
           golf.meta['N0'].data *
           golf.meta['dx'].data *
           (golf.meta['C0_percent'][0].data / 100))  # sediment input, m3/s
-    t = np.linspace(0, golf.t[time_idxs[-1]], num=100)
+    t = np.linspace(0, float(golf.t[time_idxs[-1]]), num=100)
 
     # make the figure
     fig, ax = plt.subplots()
