@@ -81,7 +81,7 @@ Using the sedimentograph to evaluate time distribution in subsurface
     :include-source:
     :context: close-figs
 
-    time_bins = np.linspace(0, golfcube.t[-1], num=7)
+    time_bins = np.linspace(0, float(golfcube.t[-1]), num=7)
     (time_sedimentograph,
         time_radii,
         _) = dm.strat.compute_sedimentograph(
