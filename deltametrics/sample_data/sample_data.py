@@ -9,7 +9,6 @@ import pooch
 
 from deltametrics._version import __version__
 from deltametrics.cube import DataCube
-from deltametrics.utils import _get_version
 
 # enusre DeprecationWarning is shown
 warnings.simplefilter("default")
