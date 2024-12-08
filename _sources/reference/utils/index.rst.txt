@@ -18,7 +18,6 @@ Utility functions
 .. autofunction:: coordinates_to_segments
 .. autofunction:: line_to_cells
 .. autofunction:: _walk_line
-.. autofunction:: _get_version
 
 
 Utility Exceptions and Warnings
