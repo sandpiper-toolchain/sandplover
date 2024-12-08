@@ -1,2 +1,0 @@
-include deltametrics/sample_data/registry.txt
-exclude *.yml

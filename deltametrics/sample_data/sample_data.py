@@ -1,14 +1,19 @@
 import sys
 import os
-import pkg_resources
 import warnings
 
 import numpy as np
 import netCDF4
 import pooch
 
+if sys.version_info >= (3, 12):  # pragma: no cover (PY12+)
+    import importlib.resources as importlib_resources
+else:  # pragma: no cover (<PY312)
+    import importlib_resources
+
 from deltametrics._version import __version__
 from deltametrics.cube import DataCube
+
 
 # enusre DeprecationWarning is shown
 warnings.simplefilter("default")
@@ -20,7 +25,8 @@ REGISTRY = pooch.create(
     base_url='https://github.com/DeltaRCM/DeltaMetrics/raw/develop/deltametrics/sample_data/files/',
     env="DELTAMETRICS_DATA_DIR",
 )
-with pkg_resources.resource_stream("deltametrics.sample_data", "registry.txt") as registry_file:
+path_to_registry = importlib_resources.files("deltametrics.sample_data").joinpath("registry.txt")
+with open(path_to_registry, "rb") as registry_file:
     REGISTRY.load_registry(registry_file)
 
 

@@ -57,14 +57,11 @@ jobs:
         python-version: '3.12'
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
         pip install -r requirements-docs.txt
         sudo apt update -y && sudo apt install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended dvipng
     - name: Install DeltaMetrics
       run: |
-        pip install setuptools
-        pip install --no-build-isolation .
+        pip install .
     - name: Build and test documentation
       run: |
         (cd docs && make docs)
