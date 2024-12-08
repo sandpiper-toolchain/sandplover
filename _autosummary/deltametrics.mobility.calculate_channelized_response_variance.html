@@ -48,11 +48,10 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="deltametrics.mobility.calculate_channelized_response_variance">
 <span class="sig-prename descclassname"><span class="pre">deltametrics.mobility.</span></span><span class="sig-name descname"><span class="pre">calculate_channelized_response_variance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize_input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#deltametrics.mobility.calculate_channelized_response_variance" title="Link to this definition">¶</a></dt>
-<dd><p>Calculate the Channelized Response Variance (CRV) <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
-<p>This function takes a t-x-y array and calculates its directional CRV.
+<dd><p>Calculate the Channelized Response Variance (CRV).</p>
+<p>This function takes a t-x-y array and calculates its directional CRV <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.
 In short, the function does the following:</p>
-<blockquote>
-<div><ol class="arabic simple">
+<ol class="arabic simple">
 <li><p>Normalizes the array at each time slice if desired.</p></li>
 <li><p>Calculates the CRV magnitude (aka variance along time-axis) and
 normalizes this array if desired.</p></li>
@@ -62,7 +61,6 @@ the slopes.</p></li>
 <li><p>Returns the CRV magnitude, slopes, and directional CRV
 values</p></li>
 </ol>
-</div></blockquote>
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="id2" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
