@@ -1,11 +1,11 @@
 #! /usr/bin/env python
 from setuptools import setup, find_packages
 
-from deltametrics import utils
+from deltametrics._version import __version__
 
 setup(
     name="DeltaMetrics",
-    version=utils._get_version(),
+    version=__version__,
     author="The DeltaRCM Team",
     license="MIT",
     description="Tools for manipulating sedimentologic data cubes.",
