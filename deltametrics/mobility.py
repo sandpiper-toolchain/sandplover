@@ -1,11 +1,11 @@
 """Functions for channel mobility metrics.
 
 Current available mobility metrics include:
-    - Dry fraction decay from [Cazanacli et al 2002]_
-    - Planform overlap from [Wickert et al 2013]_
-    - Reworking index from [Wickert et al 2013]_
-    - Channel abandonment from [Liang et al 2016]_
-    - Channelized response variance from [Jarriel et al 2019]_
+- Dry fraction decay from [Cazanacli et al 2002]_
+- Planform overlap from [Wickert et al 2013]_
+- Reworking index from [Wickert et al 2013]_
+- Channel abandonment from [Liang et al 2016]_
+- Channelized response variance from [Jarriel et al 2019]_
 
 Also included are functions to fit curves to the output from the mobility
 functions, allowing for decay constants and timescales to be quantified.
@@ -330,7 +330,7 @@ def calculate_planform_overlap(chmap, landmap,
     where :math:`K_B` and :math:`K_T` are the channel mask values at the base
     and target maps, respectively.
 
-    :math:`\Phi` is calculated as:
+    :math:`\\Phi` is calculated as:
 
     .. math::
 
@@ -736,18 +736,19 @@ def calculate_channelized_response_variance(
                   arr, threshold=0.2, normalize_input=False,
                   normalize_output=False):
     """
-    Calculate the Channelized Response Variance (CRV) [1]_.
+    Calculate the Channelized Response Variance (CRV).
 
-    This function takes a t-x-y array and calculates its directional CRV.
+    This function takes a t-x-y array and calculates its directional CRV [1]_.
     In short, the function does the following:
-        1. Normalizes the array at each time slice if desired.
-        2. Calculates the CRV magnitude (aka variance along time-axis) and
-           normalizes this array if desired.
-        3. Does linear regressions through time for each pixel and returns
-           the slopes.
-        4. Calculates the directional CRV using a slope threshold value.
-        5. Returns the CRV magnitude, slopes, and directional CRV
-           values
+
+    1. Normalizes the array at each time slice if desired.
+    2. Calculates the CRV magnitude (aka variance along time-axis) and
+       normalizes this array if desired.
+    3. Does linear regressions through time for each pixel and returns
+       the slopes.
+    4. Calculates the directional CRV using a slope threshold value.
+    5. Returns the CRV magnitude, slopes, and directional CRV
+       values
 
     .. [1] Jarriel, Teresa, Leo F. Isikdogan, Alan Bovik, and Paola
            Passalacqua. "Characterization of deltaic channel morphodynamics

@@ -155,9 +155,10 @@ def curve_fit(data, fit='harmonic'):
     fit : :obj:`str`, optional
         A string specifying the type of function to be fit. Options are as
         follows:
-          * `exponential`, which evaluates :code:`(a - b) * np.exp(-c * x) + b`
-          * `harmonic`, (default) which evaluates :code:`a / (1 + b * x)`
-          * `linear`, which evaluates :code:`a * x + b`
+
+        * `exponential`, which evaluates :code:`(a - b) * np.exp(-c * x) + b`
+        * `harmonic`, (default) which evaluates :code:`a / (1 + b * x)`
+        * `linear`, which evaluates :code:`a * x + b`
 
     Returns
     -------
