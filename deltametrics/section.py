@@ -569,27 +569,29 @@ class BaseSection(abc.ABC):
         --------
         *Example 1:* Display the `velocity` spacetime section of a DataCube.
 
-        .. doctest::
+        .. plot::
 
-            >>> golfcube = dm.sample_data.golf()
+            >>> from deltametrics.sample_data.sample_data import golf
+            >>> from deltametrics.section import StrikeSection
+
+            >>> golfcube = golf()
             >>> golfcube.register_section(
-            ...     'demo', dm.section.StrikeSection(distance_idx=5))
+            ...     'demo', StrikeSection(distance_idx=5))
             >>> golfcube.sections['demo'].show('velocity')
 
-        .. plot:: section/section_demo_spacetime.py
+            .. plot:: section/section_demo_spacetime.py
 
-        Note that the last line above is functionally equivalent to
-        ``golfcube.show_section('demo', 'velocity')``.
+            Note that the last line above is functionally equivalent to
+            ``golfcube.show_section('demo', 'velocity')``.
 
-        *Example 2:* Display a section, with "quick" stratigraphy, as the
-        `depth` attribute, displaying several different section styles.
+            *Example 2:* Display a section, with "quick" stratigraphy, as the
+            `depth` attribute, displaying several different section styles.
 
-        .. doctest::
+            >>> import matplotlib.pyplot as plt
 
-            >>> golfcube = dm.sample_data.golf()
             >>> golfcube.stratigraphy_from('eta')
             >>> golfcube.register_section(
-            ...     'demo', dm.section.StrikeSection(distance=250))
+            ...     'demo', StrikeSection(distance=250))
 
             >>> fig, ax = plt.subplots(4, 1, sharex=True, figsize=(6, 9))
             >>> golfcube.sections['demo'].show('depth', data='spacetime',
@@ -756,13 +758,16 @@ class PathSection(BaseSection):
 
     .. plot::
 
-        >>> golfcube = dm.sample_data.golf()
-        >>> golfcube.register_section('path', dm.section.PathSection(
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from deltametrics.section import PathSection
+
+        >>> golfcube = golf()
+        >>> golfcube.register_section('path', PathSection(
         ...     path_idx=np.array([[3, 50], [17, 65], [10, 130]])))
         >>> fig, ax = plt.subplots()
         >>> golfcube.quick_show('eta', idx=-1, ax=ax, ticks=True)
         >>> golfcube.sections['path'].show_trace('r--', ax=ax)
-        >>> plt.show()
 
     Parameters
     ----------
@@ -800,10 +805,13 @@ class PathSection(BaseSection):
     specified coordinates:
 
     .. plot::
-        :include-source:
 
-        >>> golfcube = dm.sample_data.golf()
-        >>> golfcube.register_section('path', dm.section.PathSection(
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from deltametrics.section import PathSection
+
+        >>> golfcube = golf()
+        >>> golfcube.register_section('path', PathSection(
         ...     path=np.array([[2000, 2000], [2000, 6000], [600, 7500]])))
         >>>
         >>> # show the location and the "velocity" variable
@@ -811,16 +819,12 @@ class PathSection(BaseSection):
         >>> golfcube.quick_show('eta', idx=-1, ax=ax[0], ticks=True)
         >>> golfcube.sections['path'].show_trace('r--', ax=ax[0])
         >>> golfcube.sections['path'].show('velocity', ax=ax[1])
-        >>> plt.show()
 
-    Create a `PathSection` that is registered to a `DataCube` at
-    specified indices:
+        Create a `PathSection` that is registered to a `DataCube` at
+        specified indices:
 
-    .. plot::
-        :include-source:
-
-        >>> golfcube = dm.sample_data.golf()
-        >>> golfcube.register_section('path', dm.section.PathSection(
+        >>> golfcube = golf()
+        >>> golfcube.register_section('path', PathSection(
         ...     path_idx=np.array([[3, 50], [17, 65], [10, 130]])))
         >>>
         >>> # show the location and the "velocity" variable
@@ -828,7 +832,6 @@ class PathSection(BaseSection):
         >>> golfcube.quick_show('eta', idx=-1, ax=ax[0], ticks=True)
         >>> golfcube.sections['path'].show_trace('r--', ax=ax[0])
         >>> golfcube.sections['path'].show('velocity', ax=ax[1])
-        >>> plt.show()
     """
 
     def __init__(self, *args, path=None, path_idx=None, **kwargs):
@@ -1022,13 +1025,16 @@ class StrikeSection(LineSection):
 
     .. plot::
 
-        >>> golfcube = dm.sample_data.golf()
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from deltametrics.section import StrikeSection
+
+        >>> golfcube = golf()
         >>> golfcube.register_section(
-        ...     'strike', dm.section.StrikeSection(distance=1500))
+        ...     'strike', StrikeSection(distance=1500))
         >>> fig, ax = plt.subplots()
         >>> golfcube.quick_show('eta', idx=-1, ax=ax, ticks=True)
         >>> golfcube.sections['strike'].show_trace('r--', ax=ax)
-        >>> plt.show()
 
     .. hint::
 
@@ -1085,52 +1091,48 @@ class StrikeSection(LineSection):
     `distance` in `dim1` coordinates, and spans the entire model domain:
 
     .. plot::
-        :include-source:
 
-        >>> golfcube = dm.sample_data.golf()
-        >>> golfcube.register_section('strike', dm.section.StrikeSection(distance=3500))
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from deltametrics.section import StrikeSection
 
-        >>> # show the location and the "velocity" variable
-        >>> fig, ax = plt.subplots(2, 1, figsize=(8, 4))
-        >>> golfcube.quick_show('eta', idx=-1, ax=ax[0], ticks=True)
-        >>> golfcube.sections['strike'].show_trace('r--', ax=ax[0])
-        >>> golfcube.sections['strike'].show('velocity', ax=ax[1])
-        >>> plt.show()
-
-    Create a `StrikeSection` that is registered to a `DataCube` at
-    specified `distance_idx` index ``=10``, and spans the entire model domain:
-
-    .. plot::
-        :include-source:
-
-        >>> golfcube = dm.sample_data.golf()
-        >>> golfcube.register_section('strike', dm.section.StrikeSection(distance_idx=10))
+        >>> golfcube = golf()
+        >>> golfcube.register_section('strike', StrikeSection(distance=3500))
 
         >>> # show the location and the "velocity" variable
         >>> fig, ax = plt.subplots(2, 1, figsize=(8, 4))
         >>> golfcube.quick_show('eta', idx=-1, ax=ax[0], ticks=True)
         >>> golfcube.sections['strike'].show_trace('r--', ax=ax[0])
         >>> golfcube.sections['strike'].show('velocity', ax=ax[1])
-        >>> plt.show()
 
-    Create a `StrikeSection` that is registered to a `StratigraphyCube` at
-    specified `distance` in `dim1` coordinates, and spans only a range in the
-    middle of the domain:
+        Create a `StrikeSection` that is registered to a `DataCube` at
+        specified `distance_idx` index ``=10``, and spans the entire model domain:
 
-    .. plot::
-        :include-source:
+        >>> golfcube = golf()
+        >>> golfcube.register_section('strike', StrikeSection(distance_idx=10))
 
-        >>> golfcube = dm.sample_data.golf()
-        >>> golfstrat = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+        >>> # show the location and the "velocity" variable
+        >>> fig, ax = plt.subplots(2, 1, figsize=(8, 4))
+        >>> golfcube.quick_show('eta', idx=-1, ax=ax[0], ticks=True)
+        >>> golfcube.sections['strike'].show_trace('r--', ax=ax[0])
+        >>> golfcube.sections['strike'].show('velocity', ax=ax[1])
+
+        Create a `StrikeSection` that is registered to a `StratigraphyCube` at
+        specified `distance` in `dim1` coordinates, and spans only a range in the
+        middle of the domain:
+
+        >>> from deltametrics.cube import StratigraphyCube
+
+        >>> golfcube = golf()
+        >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
         >>> golfstrat.register_section(
-        ...     'strike_part', dm.section.StrikeSection(distance=1500, length=(2000, 5000)))
+        ...     'strike_part', StrikeSection(distance=1500, length=(2000, 5000)))
 
         >>> # show the location and the "time" variable
         >>> fig, ax = plt.subplots(2, 1, figsize=(8, 4))
         >>> golfcube.quick_show('eta', idx=-1, ax=ax[0], ticks=True)
         >>> golfstrat.sections['strike_part'].show_trace('r--', ax=ax[0])
         >>> golfstrat.sections['strike_part'].show('time', ax=ax[1])
-        >>> plt.show()
     """
 
     def __init__(
@@ -1232,13 +1234,16 @@ class DipSection(LineSection):
 
     .. plot::
 
-        >>> golfcube = dm.sample_data.golf()
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from deltametrics.section import DipSection
+
+        >>> golfcube = golf()
         >>> golfcube.register_section(
-        ...     'dip', dm.section.DipSection(distance=3000))
+        ...     'dip', DipSection(distance=3000))
         >>> fig, ax = plt.subplots()
         >>> golfcube.quick_show('eta', idx=-1, ax=ax, ticks=True)
         >>> golfcube.sections['dip'].show_trace('r--', ax=ax)
-        >>> plt.show()
 
     .. hint::
 
@@ -1297,52 +1302,48 @@ class DipSection(LineSection):
     `distance` in `dim2` coordinates, and spans the entire model domain:
 
     .. plot::
-        :include-source:
 
-        >>> golfcube = dm.sample_data.golf()
-        >>> golfcube.register_section('dip', dm.section.DipSection(distance=3500))
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from deltametrics.section import DipSection
+
+        >>> golfcube = golf()
+        >>> golfcube.register_section('dip', DipSection(distance=3500))
 
         >>> # show the location and the "sandfrac" variable
         >>> fig, ax = plt.subplots(2, 1, figsize=(8, 4))
         >>> golfcube.quick_show('eta', idx=-1, ax=ax[0], ticks=True)
         >>> golfcube.sections['dip'].show_trace('r--', ax=ax[0])
         >>> golfcube.sections['dip'].show('sandfrac', ax=ax[1])
-        >>> plt.show()
 
-    Create a `DipSection` that is registered to a `DataCube` at
-    specified `distance_idx` index ``=75``, and spans the entire model domain:
+        Create a `DipSection` that is registered to a `DataCube` at
+        specified `distance_idx` index ``=75``, and spans the entire model domain:
 
-    .. plot::
-        :include-source:
-
-        >>> golfcube = dm.sample_data.golf()
-        >>> golfcube.register_section('dip75', dm.section.DipSection(distance_idx=75))
+        >>> golfcube = golf()
+        >>> golfcube.register_section('dip75', DipSection(distance_idx=75))
 
         >>> # show the location and the "sandfrac" variable
         >>> fig, ax = plt.subplots(2, 1, figsize=(8, 4))
         >>> golfcube.quick_show('eta', idx=-1, ax=ax[0], ticks=True)
         >>> golfcube.sections['dip75'].show_trace('r--', ax=ax[0])
         >>> golfcube.sections['dip75'].show('sandfrac', ax=ax[1])
-        >>> plt.show()
 
-    Create a `DipSection` that is registered to a `StratigraphyCube` at
-    specified `distance` in `dim2` coordinates, and spans only a range in the
-    middle of the domain:
+        Create a `DipSection` that is registered to a `StratigraphyCube` at
+        specified `distance` in `dim2` coordinates, and spans only a range in the
+        middle of the domain:
 
-    .. plot::
-        :include-source:
+        >>> from deltametrics.cube import StratigraphyCube
 
-        >>> golfcube = dm.sample_data.golf()
-        >>> golfstrat = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+        >>> golfcube = golf()
+        >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
         >>> golfstrat.register_section(
-        ...     'dip_part', dm.section.DipSection(distance=4000, length=(500, 1500)))
+        ...     'dip_part', DipSection(distance=4000, length=(500, 1500)))
 
         >>> # show the location and the "velocity" variable
         >>> fig, ax = plt.subplots(2, 1, figsize=(8, 4))
         >>> golfcube.quick_show('eta', idx=-1, ax=ax[0], ticks=True)
         >>> golfstrat.sections['dip_part'].show_trace('r--', ax=ax[0])
         >>> golfstrat.sections['dip_part'].show('velocity', ax=ax[1])
-        >>> plt.show()
     """
 
     def __init__(
@@ -1447,15 +1448,18 @@ class CircularSection(BaseSection):
 
     .. plot::
 
-        >>> golfcube = dm.sample_data.golf()
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from deltametrics.section import CircularSection
+
+        >>> golfcube = golf()
         >>> golfcube.register_section(
-        ...     'circular', dm.section.CircularSection(radius=1200))
+        ...     'circular', CircularSection(radius=1200))
 
         >>> # show the location and the "velocity" variable
         >>> fig, ax = plt.subplots()
         >>> golfcube.quick_show('eta', idx=-1, ax=ax, ticks=True)
         >>> golfcube.sections['circular'].show_trace('r--', ax=ax)
-        >>> plt.show()
 
     .. warning::
 
@@ -1512,38 +1516,37 @@ class CircularSection(BaseSection):
     radius ``=1200``, and using the default `origin` options:
 
     .. plot::
-        :include-source:
 
-        >>> golfcube = dm.sample_data.golf()
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.cube import StratigraphyCube
+        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from deltametrics.section import CircularSection
+
+        >>> golfcube = golf()
         >>> golfcube.register_section(
-        ...     'circular', dm.section.CircularSection(radius=1200))
+        ...     'circular', CircularSection(radius=1200))
 
         >>> # show the location and the "velocity" variable
         >>> fig, ax = plt.subplots(2, 1, figsize=(8, 4))
         >>> golfcube.quick_show('eta', idx=-1, ax=ax[0], ticks=True)
         >>> golfcube.sections['circular'].show_trace('r--', ax=ax[0])
         >>> golfcube.sections['circular'].show('velocity', ax=ax[1])
-        >>> plt.show()
 
-    Create a `CircularSection` that is registered to a `StratigraphyCube` with
-    radius index ``=50``, and the origin against the domain edge (using the
-    `origin_idx` option):
+        Create a `CircularSection` that is registered to a `StratigraphyCube` with
+        radius index ``=50``, and the origin against the domain edge (using the
+        `origin_idx` option):
 
-    .. plot::
-        :include-source:
-
-        >>> golfcube = dm.sample_data.golf()
-        >>> golfstrat = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+        >>> golfcube = golf()
+        >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
         >>> golfstrat.register_section(
-        ...     'circular', dm.section.CircularSection(radius_idx=50,
-        ...                                            origin_idx=(0, 100)))
+        ...     'circular', CircularSection(radius_idx=50, origin_idx=(0, 100))
+        ... )
 
         >>> # show the location and the "velocity" variable
         >>> fig, ax = plt.subplots(2, 1, figsize=(8, 4))
         >>> golfcube.quick_show('eta', idx=-1, ax=ax[0], ticks=True)
         >>> golfstrat.sections['circular'].show_trace('r--', ax=ax[0])
         >>> golfstrat.sections['circular'].show('velocity', ax=ax[1])
-        >>> plt.show()
     """
 
     def __init__(
@@ -1675,15 +1678,18 @@ class RadialSection(BaseSection):
 
     .. plot::
 
-        >>> golfcube = dm.sample_data.golf()
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from deltametrics.section import RadialSection
+
+        >>> golfcube = golf()
         >>> golfcube.register_section(
-        ...     'radial', dm.section.RadialSection(azimuth=65))
+        ...     'radial', RadialSection(azimuth=65))
 
         >>> # show the location and the "velocity" variable
         >>> fig, ax = plt.subplots()
         >>> golfcube.quick_show('eta', idx=-1, ax=ax, ticks=True)
         >>> golfcube.sections['radial'].show_trace('r--', ax=ax)
-        >>> plt.show()
 
     .. important::
 
@@ -1757,28 +1763,28 @@ class RadialSection(BaseSection):
     specified `origin` coordinate, and spans the entire domain:
 
     .. plot::
-        :include-source:
 
-        >>> golfcube = dm.sample_data.golf()
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.cube import StratigraphyCube
+        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from deltametrics.section import RadialSection
+
+        >>> golfcube = golf()
         >>> golfcube.register_section(
-        ...     'radial', dm.section.RadialSection(azimuth=45))
+        ...     'radial', RadialSection(azimuth=45))
 
         >>> # show the location and the "velocity" variable
         >>> fig, ax = plt.subplots(2, 1, figsize=(8, 4))
         >>> golfcube.quick_show('eta', idx=-1, ax=ax[0], ticks=True)
         >>> golfcube.sections['radial'].show_trace('r--', ax=ax[0])
         >>> golfcube.sections['radial'].show('velocity', ax=ax[1])
-        >>> plt.show()
 
-    Create several `RadialSection` objects, spaced out across the domain,
-    connected to a `StratigraphyCube`. Each section should be shorter than
-    the full domain width.
+        Create several `RadialSection` objects, spaced out across the domain,
+        connected to a `StratigraphyCube`. Each section should be shorter than
+        the full domain width.
 
-    .. plot::
-        :include-source:
-
-        >>> golfcube = dm.sample_data.golf()
-        >>> golfstrat = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+        >>> golfcube = golf()
+        >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
 
         >>> fig, ax = plt.subplots(2, 3, figsize=(9, 3))
         >>> ax = ax.flatten()
@@ -1788,14 +1794,12 @@ class RadialSection(BaseSection):
         >>> azims = np.linspace(0, 180, num=5)
         >>> idxs = [2, 5, 4, 3, 0]  # indices in the order to draw to match 0-->180
         >>> for i, (azim, idx) in enumerate(zip(azims, idxs)):
-        ...     sec = dm.section.RadialSection(golfstrat, azimuth=azim, length=4000)
+        ...     sec = RadialSection(golfstrat, azimuth=azim, length=4000)
         ...     sec.show_trace('r--', ax=ax[1])
-        ...     sec.show('time', ax=ax[idx], colorbar=False)
-        ...     ax[idx].text(3000, 0, 'azimuth: {0}'.format(azim), ha='center', fontsize=8)
+        ...     # sec.show('time', ax=ax[idx], colorbar=False)
+        ...     _ = ax[idx].text(3000, 0, 'azimuth: {0}'.format(azim), ha='center', fontsize=8)
         ...     ax[idx].tick_params(labelsize=8)
-        ...     ax[idx].set_ylim(-4, 1)
-
-        >>> plt.show()
+        ...     _ = ax[idx].set_ylim(-4, 1)
     """
 
     # @staticmethod
