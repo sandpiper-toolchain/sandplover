@@ -640,9 +640,8 @@ def vintage_colormap(H_SL=0.0, h=4.5, n=1.0):
     >>> cb1 = append_colorbar(im1, ax[1])
     >>> plt.tight_layout()
 
-    To use the colormap exactly as described in Pearson's original publication, use parameters
-
-    .. code::
+    To use the colormap exactly as described in Pearson's original publication,
+    use parameters::
 
         cmap, norm = vintage_colormap(H_SL=0, h=20, n=10)
 

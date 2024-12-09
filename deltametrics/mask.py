@@ -2658,11 +2658,9 @@ class DepositMask(BaseMask):
 
         This is a straightforward mask, simply checking where the
         `elevation` is greater than the `background_value`, outside
-        some tolerance:
+        some tolerance::
 
-        .. code::
-
-            np.abs(elevation - background_value) > elevation_tolerance   # noqa: E501
+            np.abs(elevation - background_value) > elevation_tolerance
 
         However, using the mask provides benefits of array tracking and
         various integrations with other masks and functions.

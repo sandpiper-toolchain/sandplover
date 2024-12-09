@@ -1128,9 +1128,7 @@ def compute_land_area(land_mask):
 
         In implementation, this is a simple 1-liner summation over the mask.
         It is implemented as a function here for convenience and consistency
-        in the api.
-
-        .. code::
+        in the api::
 
             land_area = np.sum(land_mask.integer_mask) * dx * dx
 
