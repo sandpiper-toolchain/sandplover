@@ -96,6 +96,7 @@ relative_files = true
 [tool.pytest.ini_options]
 minversion = "6.0"
 testpaths = [
+    "deltametrics/cube.py",
     "deltametrics/mobility.py",
     "deltametrics/plot.py",
     "deltametrics/utils.py",
