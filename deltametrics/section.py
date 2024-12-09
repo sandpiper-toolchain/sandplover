@@ -579,8 +579,6 @@ class BaseSection(abc.ABC):
             ...     'demo', StrikeSection(distance_idx=5))
             >>> golfcube.sections['demo'].show('velocity')
 
-            .. plot:: section/section_demo_spacetime.py
-
             Note that the last line above is functionally equivalent to
             ``golfcube.show_section('demo', 'velocity')``.
 
@@ -602,8 +600,6 @@ class BaseSection(abc.ABC):
             ...                                ax=ax[2], label='quick stratigraphy')
             >>> golfcube.sections['demo'].show('depth', style='lines', data='stratigraphy',
             ...                                ax=ax[3], label='quick stratigraphy')          # noqa: E501
-
-        .. plot:: section/section_demo_quick_strat.py
         """
         from deltametrics.cube import BaseCube
         from deltametrics.plot import VariableSet
