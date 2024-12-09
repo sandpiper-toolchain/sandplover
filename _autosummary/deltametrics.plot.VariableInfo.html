@@ -57,28 +57,33 @@ DeltaMetrics for plotting.</p>
 instantiation of the VariableInfo. For example, to set the colormap
 for a variable <code class="docutils literal notranslate"><span class="pre">vegetation_density</span></code> as a range of green shades we
 would create the VariableInfo as:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.plot</span> <span class="kn">import</span> <span class="n">VariableInfo</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">veg</span> <span class="o">=</span> <span class="n">VariableInfo</span><span class="p">(</span><span class="s1">&#39;vegetation_density&#39;</span><span class="p">,</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.plot</span> <span class="kn">import</span> <span class="n">VariableInfo</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">veg</span> <span class="o">=</span> <span class="n">VariableInfo</span><span class="p">(</span><span class="s1">&#39;vegetation_density&#39;</span><span class="p">,</span>
 <span class="gp">... </span>                   <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greens&#39;</span><span class="p">)</span>
-
-<span class="gp">&gt;&gt;&gt; </span><span class="n">veg</span><span class="o">.</span><span class="n">cmap</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">veg</span><span class="o">.</span><span class="n">cmap</span>
 <span class="go">&lt;matplotlib.colors.LinearSegmentedColormap object at 0x...&gt;</span>
-
-<span class="gp">&gt;&gt;&gt; </span><span class="n">veg</span><span class="o">.</span><span class="n">cmap</span><span class="o">.</span><span class="n">N</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">veg</span><span class="o">.</span><span class="n">cmap</span><span class="o">.</span><span class="n">N</span>
 <span class="go">64</span>
 </pre></div>
 </div>
 <p>which creates a 64 interval colormap from the matplotlib <cite>Greens</cite>
 colormap. If instead we wanted just three colors, we could specify the
 colormap manually:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">veg3</span> <span class="o">=</span> <span class="n">VariableInfo</span><span class="p">(</span><span class="s1">&#39;vegetation_density&#39;</span><span class="p">,</span>
-<span class="gp">... </span>                    <span class="n">cmap</span><span class="o">=</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">colormaps</span><span class="p">[</span><span class="s1">&#39;Greens&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resampled</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">veg3</span> <span class="o">=</span> <span class="n">VariableInfo</span><span class="p">(</span><span class="s1">&#39;vegetation_density&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">cmap</span><span class="o">=</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">colormaps</span><span class="p">[</span><span class="s1">&#39;Greens&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resampled</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">veg3</span><span class="o">.</span><span class="n">cmap</span><span class="o">.</span><span class="n">N</span>
 <span class="go">3</span>
 </pre></div>
 </div>
 <p>We can then set a more human-readable label for the variable:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">veg3</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;vegetation density&#39;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">veg3</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;vegetation density&#39;</span>
 </pre></div>
 </div>
 <dl class="py method">
