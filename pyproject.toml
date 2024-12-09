@@ -97,6 +97,7 @@ relative_files = true
 minversion = "6.0"
 testpaths = [
     "deltametrics/cube.py",
+    "deltametrics/mask.py",
     "deltametrics/mobility.py",
     "deltametrics/plot.py",
     "deltametrics/utils.py",
