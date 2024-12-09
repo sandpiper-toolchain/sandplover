@@ -80,32 +80,39 @@ def _determine_deposit_from_background(sediment_volume, background):
     a background value encoded into it (like ``-1`` or `9999`).
 
     .. plot::
-        :include-source:
-        :context: reset
 
-        golfcube = dm.sample_data.golf()
-        golfstrat = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.cube import StratigraphyCube
+        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from deltametrics.strat import _determine_deposit_from_background
 
-        # background determined from initial basin topography
-        background0 = dm.strat._determine_deposit_from_background(
-            golfcube['sandfrac'],
-            background=golfstrat.Z < golfcube['eta'][0].data)
-        # background determined from min of bed elevation timeseries
-        background1 = dm.strat._determine_deposit_from_background(
-            golfcube['sandfrac'],
-            background=(golfstrat.Z < np.min(golfcube['eta'].data, axis=0)))
-        # background determined from a fixed sandfrac value
-        background2 = dm.strat._determine_deposit_from_background(
-            golfcube['sandfrac'],
-            background=0)
+        >>> golfcube = golf()
+        >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.05)
 
-        fig, ax = plt.subplots(2, 2, figsize=(6, 4))
-        ax[0, 0].imshow(background0[59], cmap='Greys_r')  # just below initial basin depth
-        ax[0, 1].imshow(background0[60], cmap='Greys_r')  # just above initial basin depth
-        ax[1, 0].imshow(background1[59], cmap='Greys_r')  # just below initial basin depth
-        ax[1, 1].imshow(background2[59], cmap='Greys_r')  # just below initial basin depth
-        plt.tight_layout()
-        plt.show()
+        Background determined from initial basin topography
+
+        >>> background0 = _determine_deposit_from_background(
+        ...     golfcube['sandfrac'],
+        ...     background=golfstrat.Z < golfcube['eta'][0].data)
+
+        Background determined from min of bed elevation timeseries
+
+        >>> background1 = _determine_deposit_from_background(
+        ...     golfcube['sandfrac'],
+        ...     background=(golfstrat.Z < np.min(golfcube['eta'].data, axis=0)))
+
+        Background determined from a fixed sandfrac value
+
+        >>> background2 = _determine_deposit_from_background(
+        ...     golfcube['sandfrac'],
+        ...     background=0)
+
+        >>> fig, ax = plt.subplots(2, 2, figsize=(6, 4))
+        >>> _ = ax[0, 0].imshow(background0[59], cmap='Greys_r')  # just below initial basin depth
+        >>> _ = ax[0, 1].imshow(background0[60], cmap='Greys_r')  # just above initial basin depth
+        >>> _ = ax[1, 0].imshow(background1[59], cmap='Greys_r')  # just below initial basin depth
+        >>> _ = ax[1, 1].imshow(background2[59], cmap='Greys_r')  # just below initial basin depth
+        >>> plt.tight_layout()
     """
     if (background is None):
         deposit = np.ones(sediment_volume.shape, dtype=bool)
@@ -160,30 +167,35 @@ def compute_net_to_gross(
     --------
 
     .. plot::
-        :include-source:
 
-        golfcube = dm.sample_data.golf()
-        golfstrat = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.1)
-        background = (golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
+        >>> import matplotlib.pyplot as plt
+        >>> import numpy as np
+        >>> from deltametrics.cube import StratigraphyCube
+        >>> from deltametrics.plot import append_colorbar
+        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from deltametrics.strat import compute_net_to_gross
 
-        net_to_gross = dm.strat.compute_net_to_gross(
-            golfstrat['sandfrac'],
-            net_threshold=0.5,
-            background=background)
+        >>> golfcube = golf()
+        >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+        >>> background = (golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
 
-        fig, ax = plt.subplots(1, 2)
-        im0 = ax[0].imshow(
-            net_to_gross,
-            extent=golfstrat.extent)
-        dm.plot.append_colorbar(im0, ax=ax[0])
-        im1 = ax[1].imshow(
-            net_to_gross,
-            cmap=golfstrat.varset['net_to_gross'].cmap,
-            norm=golfstrat.varset['net_to_gross'].norm,
-            extent=golfstrat.extent)
-        dm.plot.append_colorbar(im1, ax=ax[1])
-        plt.tight_layout()
-        plt.show()
+        >>> net_to_gross = compute_net_to_gross(
+        ...     golfstrat['sandfrac'],
+        ...     net_threshold=0.5,
+        ...     background=background)
+
+        >>> fig, ax = plt.subplots(1, 2)
+        >>> im0 = ax[0].imshow(
+        ...     net_to_gross,
+        ...     extent=golfstrat.extent)
+        >>> _ = append_colorbar(im0, ax=ax[0])
+        >>> im1 = ax[1].imshow(
+        ...     net_to_gross,
+        ...     cmap=golfstrat.varset['net_to_gross'].cmap,
+        ...     norm=golfstrat.varset['net_to_gross'].norm,
+        ...     extent=golfstrat.extent)
+        >>> _ = append_colorbar(im1, ax=ax[1])
+        >>> plt.tight_layout()
     """
     # process the optional inputs
     if (net_threshold is None):
@@ -235,26 +247,29 @@ def compute_thickness_surfaces(top_surface, bottom_surface):
     Examples
     --------
     .. plot::
-        :include-source:
-        :context: reset
 
-        golfcube = dm.sample_data.golf()
-        deposit_thickness0 = dm.strat.compute_thickness_surfaces(
-            golfcube['eta'][-1, :, :],
-            golfcube['eta'][0, :, :])
-        deposit_thickness1 = dm.strat.compute_thickness_surfaces(
-            golfcube['eta'][-1, :, :],
-            np.min(golfcube['eta'], axis=0))
+        >>> import matplotlib.pyplot as plt
+        >>> import numpy as np
+        >>> from deltametrics.plot import append_colorbar
+        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from deltametrics.strat import compute_thickness_surfaces
 
-        fig, ax = plt.subplots(1, 2)
-        im = ax[0].imshow(deposit_thickness0)
-        dm.plot.append_colorbar(im, ax=ax[0])
-        ax[0].set_title('thickness above initial basin')
-        im = ax[1].imshow(deposit_thickness1)
-        dm.plot.append_colorbar(im, ax=ax[1])
-        ax[1].set_title('total deposit thickness')
-        plt.tight_layout()
-        plt.show()
+        >>> golfcube = golf()
+        >>> deposit_thickness0 = compute_thickness_surfaces(
+        ...     golfcube['eta'][-1, :, :],
+        ...     golfcube['eta'][0, :, :])
+        >>> deposit_thickness1 = compute_thickness_surfaces(
+        ...     golfcube['eta'][-1, :, :],
+        ...     np.min(golfcube['eta'], axis=0))
+
+        >>> fig, ax = plt.subplots(1, 2)
+        >>> im = ax[0].imshow(deposit_thickness0)
+        >>> _ = append_colorbar(im, ax=ax[0])
+        >>> _ = ax[0].set_title('thickness above initial basin')
+        >>> im = ax[1].imshow(deposit_thickness1)
+        >>> _ = append_colorbar(im, ax=ax[1])
+        >>> _ = ax[1].set_title('total deposit thickness')
+        >>> plt.tight_layout()
     """
     difference = top_surface - bottom_surface
     whr = (difference <= 0)
@@ -343,29 +358,32 @@ def compute_sedimentograph(
     fraction of the deposit for the `golf` `sandfrac` data.
 
     .. plot::
-        :include-source:
-        :context: reset
 
-        golfcube = dm.sample_data.golf()
-        golfstrat = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+        >>> import matplotlib.pyplot as plt
+        >>> import numpy as np
+        >>> from deltametrics.cube import StratigraphyCube
+        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from deltametrics.strat import compute_sedimentograph
 
-        background = (golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
+        >>> golfcube = golf()
+        >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
 
-        (sedimentograph, radii, bins) = dm.strat.compute_sedimentograph(
-            golfstrat['sandfrac'],
-            num_sections=50,
-            last_section_radius=2750,
-            background=background,
-            origin_idx=[3, 100])
+        >>> background = (golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
 
-        fig, ax = plt.subplots()
-        ax.plot(
-            radii,
-            sedimentograph[:, 1],
-            marker='o', ls='-')
-        ax.set_xlabel('section radius (m)')
-        ax.set_ylabel(f'fraction > {bins[1]}')
-        plt.show()
+        >>> (sedimentograph, radii, bins) = compute_sedimentograph(
+        ...     golfstrat['sandfrac'],
+        ...     num_sections=50,
+        ...     last_section_radius=2750,
+        ...     background=background,
+        ...     origin_idx=[3, 100])
+
+        >>> fig, ax = plt.subplots()
+        >>> _ = ax.plot(
+        ...     radii,
+        ...     sedimentograph[:, 1],
+        ...     marker='o', ls='-')
+        >>> _ = ax.set_xlabel('section radius (m)')
+        >>> _ = ax.set_ylabel(f'fraction > {bins[1]}')
 
     .. [1] Liang, M., Van Dyk, C., and Passalacqua, P. (2016), Quantifying
            the patterns and dynamics of river deltas under conditions of
