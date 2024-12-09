@@ -66,21 +66,9 @@ the parameter values and scales inherent in the supplied inputs.</p>
 data before computing the <cite>MP</cite> for an entire dataset, as choice of
 input parameters will affect the speed and quality of results!</p>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EM</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ElevationMask</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
-<span class="gp">... </span>    <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">MP</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">MorphologicalPlanform</span><span class="p">(</span><span class="n">EM</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>The MP stores information computed from the
-<a class="reference internal" href="deltametrics.plan.morphological_closing_method.html#deltametrics.plan.morphological_closing_method" title="deltametrics.plan.morphological_closing_method"><code class="xref py py-func docutils literal notranslate"><span class="pre">morphological_closing_method()</span></code></a>. See the property of the MP,
-the computed <a class="reference internal" href="#deltametrics.plan.MorphologicalPlanform.mean_image" title="deltametrics.plan.MorphologicalPlanform.mean_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean_image</span></code></a> below.</p>
-<p>(<a class="reference download internal" download="" href="../_downloads/59dd7aa7891150e55ae351fb580ba1bc/deltametrics-plan-MorphologicalPlanform-2.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/dcc590a22bf5fc72689fabe93f7534d3/deltametrics-plan-MorphologicalPlanform-2.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/7581dd2bcb6c52e941a863c7a579aaef/deltametrics-plan-MorphologicalPlanform-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/13fb4784103d99f63d47b3a7a8591924/deltametrics-plan-MorphologicalPlanform-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
 <figure class="align-default">
-<img alt="../_images/deltametrics-plan-MorphologicalPlanform-2.png" class="plot-directive" src="../_images/deltametrics-plan-MorphologicalPlanform-2.png" />
+<img alt="../_images/deltametrics-plan-MorphologicalPlanform-1.png" class="plot-directive" src="../_images/deltametrics-plan-MorphologicalPlanform-1.png" />
 </figure>
 <dl class="py method">
 <dt class="sig sig-object py" id="deltametrics.plan.MorphologicalPlanform.__init__">
@@ -224,9 +212,14 @@ turn used to create the <cite>MorphologicalPlanform</cite>.</p></li>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
-
-<span class="gp">&gt;&gt;&gt; </span><span class="n">MP</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">MorphologicalPlanform</span><span class="o">.</span><span class="n">from_elevation_data</span><span class="p">(</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.plan</span> <span class="kn">import</span> <span class="n">MorphologicalPlanform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.sample_data.sample_data</span> <span class="kn">import</span> <span class="n">golf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">MP</span> <span class="o">=</span> <span class="n">MorphologicalPlanform</span><span class="o">.</span><span class="n">from_elevation_data</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
 <span class="gp">... </span>    <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">max_disk</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>

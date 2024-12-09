@@ -61,26 +61,9 @@ many different types of masks.</p>
 elevation data (i.e., from an <a class="reference internal" href="deltametrics.mask.ElevationMask.html#deltametrics.mask.ElevationMask" title="deltametrics.mask.ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElevationMask</span></code></a>).</p>
 <p>Note that the below example is the most verbose method for creating the
 <cite>OAP</cite>. Consider available static methods.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">_EM</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ElevationMask</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
-<span class="gp">... </span>    <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># extract a mask of area below sea level as the</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1">#   inverse of the ElevationMask</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">below_mask</span> <span class="o">=</span> <span class="o">~</span><span class="p">(</span><span class="n">_EM</span><span class="o">.</span><span class="n">mask</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">OAP</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">OpeningAnglePlanform</span><span class="p">(</span><span class="n">below_mask</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>The OAP stores information computed from the
-<a class="reference internal" href="deltametrics.plan.shaw_opening_angle_method.html#deltametrics.plan.shaw_opening_angle_method" title="deltametrics.plan.shaw_opening_angle_method"><code class="xref py py-func docutils literal notranslate"><span class="pre">shaw_opening_angle_method()</span></code></a>. See the two properties of the OAP
-<a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.below_mask" title="deltametrics.plan.OpeningAnglePlanform.below_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">below_mask</span></code></a> and <a class="reference internal" href="#deltametrics.plan.OpeningAnglePlanform.opening_angles" title="deltametrics.plan.OpeningAnglePlanform.opening_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opening_angles</span></code></a>.</p>
-<p>(<a class="reference download internal" download="" href="../_downloads/dadc983f771eddf26b94fc76d1dff0ec/deltametrics-plan-OpeningAnglePlanform-2.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/8cf3689626e00f4a5dc564caa8536cc5/deltametrics-plan-OpeningAnglePlanform-2.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/b86f526e9122c1a7e27f985a041522dc/deltametrics-plan-OpeningAnglePlanform-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/805eb868cd1d2437ff529b6f36ee9829/deltametrics-plan-OpeningAnglePlanform-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
 <figure class="align-default">
-<img alt="../_images/deltametrics-plan-OpeningAnglePlanform-2.png" class="plot-directive" src="../_images/deltametrics-plan-OpeningAnglePlanform-2.png" />
+<img alt="../_images/deltametrics-plan-OpeningAnglePlanform-1.png" class="plot-directive" src="../_images/deltametrics-plan-OpeningAnglePlanform-1.png" />
 </figure>
 <dl class="py method">
 <dt class="sig sig-object py" id="deltametrics.plan.OpeningAnglePlanform.__init__">
@@ -190,12 +173,18 @@ thus passed to <a class="reference internal" href="deltametrics.plan.shaw_openin
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">_EM</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ElevationMask</span><span class="p">(</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.mask</span> <span class="kn">import</span> <span class="n">ElevationMask</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.plan</span> <span class="kn">import</span> <span class="n">OpeningAnglePlanform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.sample_data.sample_data</span> <span class="kn">import</span> <span class="n">golf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_EM</span> <span class="o">=</span> <span class="n">ElevationMask</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
 <span class="gp">... </span>    <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="gp">&gt;&gt;&gt; </span><span class="n">OAP</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">OpeningAnglePlanform</span><span class="o">.</span><span class="n">from_ElevationMask</span><span class="p">(</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">OAP</span> <span class="o">=</span> <span class="n">OpeningAnglePlanform</span><span class="o">.</span><span class="n">from_ElevationMask</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">_EM</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -236,9 +225,14 @@ turn used to create the <cite>OpeningAnglePlanform</cite>.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
-
-<span class="gp">&gt;&gt;&gt; </span><span class="n">OAP</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">OpeningAnglePlanform</span><span class="o">.</span><span class="n">from_elevation_data</span><span class="p">(</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.plan</span> <span class="kn">import</span> <span class="n">OpeningAnglePlanform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.sample_data.sample_data</span> <span class="kn">import</span> <span class="n">golf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">OAP</span> <span class="o">=</span> <span class="n">OpeningAnglePlanform</span><span class="o">.</span><span class="n">from_elevation_data</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
 <span class="gp">... </span>    <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
