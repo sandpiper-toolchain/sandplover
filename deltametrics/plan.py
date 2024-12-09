@@ -357,15 +357,16 @@ class Planform(BasePlanform):
         Display the `eta` and `velocity` planform of a DataCube.
 
         .. plot::
-            :include-source:
 
-            >>> golfcube = dm.sample_data.golf()
-            >>> planform = dm.plan.Planform(golfcube, idx=70)
-            ...
+            >>> import matplotlib.pyplot as plt
+            >>> from deltametrics.plan import Planform
+            >>> from deltametrics.sample_data.sample_data import golf
+
+            >>> golfcube = golf()
+            >>> planform = Planform(golfcube, idx=70)
             >>> fig, ax = plt.subplots(1, 2)
-            >>> planform.show('eta', ax=ax[0])
-            >>> planform.show('velocity', ax=ax[1])
-            >>> plt.show()
+            >>> _ = planform.show('eta', ax=ax[0])
+            >>> _ = planform.show('velocity', ax=ax[1])
         """
         from deltametrics.cube import BaseCube
 
@@ -554,11 +555,13 @@ class OpeningAnglePlanform(SpecialtyPlanform):
     `OAP`. Consider available static methods.
 
     .. plot::
-        :context: reset
-        :include-source:
 
-        >>> golfcube = dm.sample_data.golf()
-        >>> _EM = dm.mask.ElevationMask(
+        >>> from deltametrics.mask import ElevationMask
+        >>> from deltametrics.plan import OpeningAnglePlanform
+        >>> from deltametrics.sample_data.sample_data import golf
+
+        >>> golfcube = golf()
+        >>> _EM = ElevationMask(
         ...     golfcube['eta'][-1, :, :],
         ...     elevation_threshold=0)
 
@@ -566,28 +569,26 @@ class OpeningAnglePlanform(SpecialtyPlanform):
         >>> #   inverse of the ElevationMask
         >>> below_mask = ~(_EM.mask)
 
-        >>> OAP = dm.plan.OpeningAnglePlanform(below_mask)
+        >>> OAP = OpeningAnglePlanform(below_mask)
 
-    The OAP stores information computed from the
-    :func:`shaw_opening_angle_method`. See the two properties of the OAP
-    :obj:`below_mask` and :obj:`opening_angles`.
+        The OAP stores information computed from the
+        :func:`shaw_opening_angle_method`. See the two properties of the OAP
+        :obj:`below_mask` and :obj:`opening_angles`.
 
-    .. plot::
-        :context:
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.plot import append_colorbar
 
-        fig, ax = plt.subplots(1, 3, figsize=(10, 4))
-        golfcube.quick_show('eta', idx=-1, ax=ax[0])
-        im1 = ax[1].imshow(OAP.below_mask,
-                           cmap='Greys_r')
-        im2 = ax[2].imshow(OAP.opening_angles,
-                           cmap='jet')
-        dm.plot.append_colorbar(im2, ax=ax[2])
-        ax[0].set_title('input elevation data')
-        ax[1].set_title('OAP.below_mask')
-        ax[2].set_title('OAP.opening_angles')
-        for i in range(1, 3):
-            ax[i].set_xticks([])
-            ax[i].set_yticks([])
+        >>> fig, ax = plt.subplots(1, 3, figsize=(10, 4))
+        >>> golfcube.quick_show('eta', idx=-1, ax=ax[0])
+        >>> im1 = ax[1].imshow(OAP.below_mask, cmap='Greys_r')
+        >>> im2 = ax[2].imshow(OAP.opening_angles, cmap='jet')
+        >>> _ = append_colorbar(im2, ax=ax[2])
+        >>> _ = ax[0].set_title('input elevation data')
+        >>> _ = ax[1].set_title('OAP.below_mask')
+        >>> _ = ax[2].set_title('OAP.opening_angles')
+        >>> for i in range(1, 3):
+        ...     _ = ax[i].set_xticks([])
+        ...     _ = ax[i].set_yticks([])
     """
 
     @staticmethod
@@ -626,13 +627,14 @@ class OpeningAnglePlanform(SpecialtyPlanform):
         Examples
         --------
 
-        .. doctest::
+        >>> from deltametrics.plan import OpeningAnglePlanform
+        >>> from deltametrics.sample_data.sample_data import golf
 
-            >>> golfcube = dm.sample_data.golf()
+        >>> golfcube = golf()
 
-            >>> OAP = dm.plan.OpeningAnglePlanform.from_elevation_data(
-            ...     golfcube['eta'][-1, :, :],
-            ...     elevation_threshold=0)
+        >>> OAP = OpeningAnglePlanform.from_elevation_data(
+        ...     golfcube['eta'][-1, :, :],
+        ...     elevation_threshold=0)
         """
         # make a temporary mask
         _em = ElevationMask(elevation_data, **kwargs)
@@ -661,15 +663,17 @@ class OpeningAnglePlanform(SpecialtyPlanform):
         Examples
         --------
 
-        .. doctest::
+        >>> from deltametrics.mask import ElevationMask
+        >>> from deltametrics.plan import OpeningAnglePlanform
+        >>> from deltametrics.sample_data.sample_data import golf
 
-            >>> golfcube = dm.sample_data.golf()
-            >>> _EM = dm.mask.ElevationMask(
-            ...     golfcube['eta'][-1, :, :],
-            ...     elevation_threshold=0)
+        >>> golfcube = golf()
+        >>> _EM = ElevationMask(
+        ...     golfcube['eta'][-1, :, :],
+        ...     elevation_threshold=0)
 
-            >>> OAP = dm.plan.OpeningAnglePlanform.from_ElevationMask(
-            ...     _EM)
+        >>> OAP = OpeningAnglePlanform.from_ElevationMask(
+        ...     _EM)
         """
         if not isinstance(elevation_mask, ElevationMask):
             raise TypeError("Must be type: ElevationMask.")
@@ -877,34 +881,35 @@ class MorphologicalPlanform(SpecialtyPlanform):
         input parameters will affect the speed and quality of results!
 
     .. plot::
-        :context: reset
-        :include-source:
 
-        >>> golfcube = dm.sample_data.golf()
-        >>> EM = dm.mask.ElevationMask(
+        >>> from deltametrics.mask import ElevationMask
+        >>> from deltametrics.plan import MorphologicalPlanform
+        >>> from deltametrics.sample_data.sample_data import golf
+
+        >>> golfcube = golf()
+        >>> EM = ElevationMask(
         ...     golfcube['eta'][-1, :, :],
         ...     elevation_threshold=0)
 
-        >>> MP = dm.plan.MorphologicalPlanform(EM, 10)
+        >>> MP = MorphologicalPlanform(EM, 10)
 
-    The MP stores information computed from the
-    :func:`morphological_closing_method`. See the property of the MP,
-    the computed :obj:`mean_image` below.
+        The MP stores information computed from the
+        :func:`morphological_closing_method`. See the property of the MP,
+        the computed :obj:`mean_image` below.
 
-    .. plot::
-        :context:
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.plot import append_colorbar
 
-        fig, ax = plt.subplots(1, 2, figsize=(7.5, 4))
-        golfcube.quick_show('eta', idx=-1, ax=ax[0])
-        im1 = ax[1].imshow(MP.mean_image,
-                           cmap='cividis')
-        dm.plot.append_colorbar(im1, ax=ax[1])
-        ax[0].set_title('input elevation data')
-        ax[1].set_title('MP.mean_image')
-        for i in range(1, 2):
-            ax[i].set_xticks([])
-            ax[i].set_yticks([])
-
+        >>> fig, ax = plt.subplots(1, 2, figsize=(7.5, 4))
+        >>> golfcube.quick_show('eta', idx=-1, ax=ax[0])
+        >>> im1 = ax[1].imshow(MP.mean_image,
+        ...                    cmap='cividis')
+        >>> _ = append_colorbar(im1, ax=ax[1])
+        >>> _ = ax[0].set_title('input elevation data')
+        >>> _ = ax[1].set_title('MP.mean_image')
+        >>> for i in range(1, 2):
+        ...     _ = ax[i].set_xticks([])
+        ...     _ = ax[i].set_yticks([])
     """
 
     @staticmethod
@@ -936,14 +941,15 @@ class MorphologicalPlanform(SpecialtyPlanform):
         Examples
         --------
 
-        .. doctest::
+        >>> from deltametrics.plan import MorphologicalPlanform
+        >>> from deltametrics.sample_data.sample_data import golf
 
-            >>> golfcube = dm.sample_data.golf()
+        >>> golfcube = golf()
 
-            >>> MP = dm.plan.MorphologicalPlanform.from_elevation_data(
-            ...     golfcube['eta'][-1, :, :],
-            ...     elevation_threshold=0,
-            ...     max_disk=3)
+        >>> MP = MorphologicalPlanform.from_elevation_data(
+        ...     golfcube['eta'][-1, :, :],
+        ...     elevation_threshold=0,
+        ...     max_disk=3)
         """
         # make a temporary mask
         _em = ElevationMask(elevation_data, **kwargs)
@@ -1141,26 +1147,28 @@ def compute_land_area(land_mask):
 
     Examples
     --------
+
     .. plot::
-        :include-source:
-        :context: reset
 
-        golf = dm.sample_data.golf()
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.mask import LandMask
+        >>> from deltametrics.plan import compute_land_area
+        >>> from deltametrics.sample_data.sample_data import golf
 
-        lm = dm.mask.LandMask(
-            golf['eta'][-1, :, :],
-            elevation_threshold=golf.meta['H_SL'][-1],
-            elevation_offset=-0.5)
+        >>> golf = golf()
 
-        lm.trim_mask(length=golf.meta['L0'].data+1)
+        >>> lm = LandMask(
+        ...     golf['eta'][-1, :, :],
+        ...     elevation_threshold=golf.meta['H_SL'][-1],
+        ...     elevation_offset=-0.5)
 
-        land_area = dm.plan.compute_land_area(lm)
+        >>> lm.trim_mask(length=golf.meta['L0'].data+1)
 
-        fig, ax = plt.subplots()
-        lm.show(ax=ax, ticks=True)
-        ax.set_title(f'Land area is {land_area/1e6:.1f} km$^2$')
-        plt.show()
+        >>> land_area = compute_land_area(lm)
 
+        >>> fig, ax = plt.subplots()
+        >>> lm.show(ax=ax, ticks=True)
+        >>> _ = ax.set_title(f'Land area is {land_area/1e6:.1f} km$^2$')
     """
     # extract data from masks
     if isinstance(land_mask, LandMask):
@@ -1218,78 +1226,74 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
     topography of the `pyDeltaRCM` model results.
 
     .. plot::
-        :include-source:
-        :context: reset
 
-        golf = dm.sample_data.golf()
+        >>> from deltametrics.mask import LandMask
+        >>> from deltametrics.mask import ShorelineMask
+        >>> from deltametrics.plan import compute_land_area
+        >>> from deltametrics.sample_data.sample_data import golf
 
-        # early in model run
-        lm0 = dm.mask.LandMask(
-            golf['eta'][15, :, :],
-            elevation_threshold=0,
-            elevation_offset=-0.5)
-        sm0 = dm.mask.ShorelineMask(
-            golf['eta'][15, :, :],
-            elevation_threshold=0,
-            elevation_offset=-0.5)
+        >>> golf = golf()
 
-        # late in model run
-        lm1 = dm.mask.LandMask(
-            golf['eta'][-1, :, :],
-            elevation_threshold=0,
-            elevation_offset=-0.5)
-        sm1 = dm.mask.ShorelineMask(
-            golf['eta'][-1, :, :],
-            elevation_threshold=0,
-            elevation_offset=-0.5)
+        Early in model run
 
-    Let's take a quick peek at the masks that we have created.
+        >>> lm0 = LandMask(
+        ...     golf['eta'][15, :, :],
+        ...     elevation_threshold=0,
+        ...     elevation_offset=-0.5)
+        >>> sm0 = ShorelineMask(
+        ...     golf['eta'][15, :, :],
+        ...     elevation_threshold=0,
+        ...     elevation_offset=-0.5)
 
-    .. plot::
-        :include-source:
-        :context:
+        Late in model run
 
-        fig, ax = plt.subplots(1, 2, figsize=(8, 3))
-        lm0.show(ax=ax[0])
-        sm0.show(ax=ax[1])
-        plt.show()
+        >>> lm1 = LandMask(
+        ...     golf['eta'][-1, :, :],
+        ...     elevation_threshold=0,
+        ...     elevation_offset=-0.5)
+        >>> sm1 = ShorelineMask(
+        ...     golf['eta'][-1, :, :],
+        ...     elevation_threshold=0,
+        ...     elevation_offset=-0.5)
 
-    In order for these masks to work as expected in the shoreline roughness
-    computation, we need to modify the mask values slightly, to remove the
-    land-water boundary that is not really a part of the delta. We use the
-    :meth:`~deltametrics.mask.BaseMask.trim_mask` method to trim a mask.
+        Let's take a quick peek at the masks that we have created.
 
-    .. plot::
-        :include-source:
-        :context: close-figs
+        >>> import matplotlib.pyplot as plt
 
-        lm0.trim_mask(length=golf.meta['L0'].data+1)
-        sm0.trim_mask(length=golf.meta['L0'].data+1)
-        lm1.trim_mask(length=golf.meta['L0'].data+1)
-        sm1.trim_mask(length=golf.meta['L0'].data+1)
+        >>> fig, ax = plt.subplots(1, 2, figsize=(8, 3))
+        >>> lm0.show(ax=ax[0])
+        >>> sm0.show(ax=ax[1])
 
-        fig, ax = plt.subplots(1, 2, figsize=(8, 3))
-        lm0.show(ax=ax[0])
-        sm0.show(ax=ax[1])
-        plt.show()
+        In order for these masks to work as expected in the shoreline roughness
+        computation, we need to modify the mask values slightly, to remove the
+        land-water boundary that is not really a part of the delta. We use the
+        :meth:`~deltametrics.mask.BaseMask.trim_mask` method to trim a mask.
 
-    And now, we can proceed with the calculation.
+        >>> lm0.trim_mask(length=golf.meta['L0'].data+1)
+        >>> sm0.trim_mask(length=golf.meta['L0'].data+1)
+        >>> lm1.trim_mask(length=golf.meta['L0'].data+1)
+        >>> sm1.trim_mask(length=golf.meta['L0'].data+1)
 
-    .. plot::
-        :include-source:
-        :context: close-figs
+        >>> fig, ax = plt.subplots(1, 2, figsize=(8, 3))
+        >>> lm0.show(ax=ax[0])
+        >>> sm0.show(ax=ax[1])
 
-        # compute roughnesses
-        rgh0 = dm.plan.compute_shoreline_roughness(sm0, lm0)
-        rgh1 = dm.plan.compute_shoreline_roughness(sm1, lm1)
+        And now, we can proceed with the calculation.
 
-        # make the plot
-        fig, ax = plt.subplots(1, 2, figsize=(6, 3))
-        golf.quick_show('eta', idx=15, ax=ax[0])
-        ax[0].set_title('roughness = {:.2f}'.format(rgh0))
-        golf.quick_show('eta', idx=-1, ax=ax[1])
-        ax[1].set_title('roughness = {:.2f}'.format(rgh1))
-        plt.show()
+        Compute roughnesses
+
+        >>> from deltametrics.plan import compute_shoreline_roughness
+
+        >>> rgh0 = compute_shoreline_roughness(sm0, lm0)
+        >>> rgh1 = compute_shoreline_roughness(sm1, lm1)
+
+        Make the plot
+
+        >>> fig, ax = plt.subplots(1, 2, figsize=(6, 3))
+        >>> golf.quick_show('eta', idx=15, ax=ax[0])
+        >>> _ = ax[0].set_title('roughness = {:.2f}'.format(rgh0))
+        >>> golf.quick_show('eta', idx=-1, ax=ax[1])
+        >>> _ = ax[1].set_title('roughness = {:.2f}'.format(rgh1))
     """
     # extract data from masks
     if isinstance(land_mask, LandMask):
@@ -1367,34 +1371,42 @@ def compute_shoreline_length(shore_mask, origin=[0, 0], return_line=False):
     of the `pyDeltaRCM` model results.
 
     .. plot::
-        :include-source:
 
-        golf = dm.sample_data.golf()
+        >>> from deltametrics.mask import ShorelineMask
+        >>> from deltametrics.plan import compute_shoreline_length
+        >>> from deltametrics.sample_data.sample_data import golf
 
-        # early in model run
-        sm0 = dm.mask.ShorelineMask(
-            golf['eta'][15, :, :],
-            elevation_threshold=0,
-            elevation_offset=-0.5)
+        >>> golf = golf()
 
-        # late in model run
-        sm1 = dm.mask.ShorelineMask(
-            golf['eta'][-1, :, :],
-            elevation_threshold=0,
-            elevation_offset=-0.5)
+        Early in model run
 
-        # compute lengths
-        len0 = dm.plan.compute_shoreline_length(sm0)
-        len1, line1 = dm.plan.compute_shoreline_length(sm1, return_line=True)
+        >>> sm0 = ShorelineMask(
+        ... golf['eta'][15, :, :],
+        ... elevation_threshold=0,
+        ... elevation_offset=-0.5)
 
-        # make the plot
-        fig, ax = plt.subplots(1, 2, figsize=(6, 3))
-        golf.quick_show('eta', idx=15, ax=ax[0])
-        ax[0].set_title('length = {:.2f}'.format(len0))
-        golf.quick_show('eta', idx=-1, ax=ax[1])
-        ax[1].plot(line1[:, 0], line1[:, 1], 'r-')
-        ax[1].set_title('length = {:.2f}'.format(len1))
-        plt.show()
+        Late in model run
+
+        >>> sm1 = ShorelineMask(
+        ... golf['eta'][-1, :, :],
+        ... elevation_threshold=0,
+        ... elevation_offset=-0.5)
+
+        Compute lengths
+
+        >>> len0 = compute_shoreline_length(sm0)
+        >>> len1, line1 = compute_shoreline_length(sm1, return_line=True)
+
+        Make the plot
+
+        >>> import matplotlib.pyplot as plt
+
+        >>> fig, ax = plt.subplots(1, 2, figsize=(6, 3))
+        >>> golf.quick_show('eta', idx=15, ax=ax[0])
+        >>> _ = ax[0].set_title('length = {:.2f}'.format(len0))
+        >>> golf.quick_show('eta', idx=-1, ax=ax[1])
+        >>> _ = ax[1].plot(line1[:, 0], line1[:, 1], 'r-')
+        >>> _ = ax[1].set_title('length = {:.2f}'.format(len1))
     """
     # check if mask or already array
     if isinstance(shore_mask, ShorelineMask):
@@ -1589,24 +1601,30 @@ def compute_shoreline_distance(shore_mask, origin=[0, 0], return_distances=False
     --------
 
     .. plot::
-        :include-source:
 
-        golf = dm.sample_data.golf()
+        >>> from deltametrics.mask import ShorelineMask
+        >>> from deltametrics.plan import compute_shoreline_distance
+        >>> from deltametrics.sample_data.sample_data import golf
 
-        sm = dm.mask.ShorelineMask(
-            golf['eta'][-1, :, :],
-            elevation_threshold=0,
-            elevation_offset=-0.5)
+        >>> golf = golf()
 
-        # compute mean and stddev distance
-        mean, stddev = dm.plan.compute_shoreline_distance(
-            sm, origin=[golf.meta['CTR'].data, golf.meta['L0'].data])
+        >>> sm = ShorelineMask(
+        ...     golf['eta'][-1, :, :],
+        ...     elevation_threshold=0,
+        ...     elevation_offset=-0.5)
 
-        # make the plot
-        fig, ax = plt.subplots()
-        golf.quick_show('eta', idx=-1, ticks=True, ax=ax)
-        ax.set_title('mean = {:.2f}'.format(mean))
-        plt.show()
+        Compute mean and stddev distance
+
+        >>> mean, stddev = compute_shoreline_distance(
+        ...     sm, origin=[golf.meta['CTR'].data, golf.meta['L0'].data])
+
+        Make the plot
+
+        >>> import matplotlib.pyplot as plt
+
+        >>> fig, ax = plt.subplots()
+        >>> golf.quick_show('eta', idx=-1, ticks=True, ax=ax)
+        >>> _ = ax.set_title('mean = {:.2f}'.format(mean))
     """
     # check if mask or already array
     if isinstance(shore_mask, ShorelineMask):
@@ -1783,16 +1801,20 @@ def shaw_opening_angle_method(
     --------
 
     .. plot::
-        :include-source:
 
-        golfcube = dm.sample_data.golf()
-        EM = dm.mask.ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
+        >>> import matplotlib.pyplot as plt
+        >>> import numpy as np
+        >>> from deltametrics.mask import ElevationMask
+        >>> from deltametrics.plan import shaw_opening_angle_method
+        >>> from deltametrics.sample_data.sample_data import golf
 
-        OAM = dm.plan.shaw_opening_angle_method(np.logical_not(EM.mask))
+        >>> golfcube = golf()
+        >>> EM = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 
-        fig, ax = plt.subplots()
-        ax.imshow(OAM, vmin=0, vmax=180)
-        plt.show()
+        >>> OAM = shaw_opening_angle_method(np.logical_not(EM.mask))
+
+        >>> fig, ax = plt.subplots()
+        >>> _ = ax.imshow(OAM, vmin=0, vmax=180)
     """
     # Dev notes:
     #
@@ -2093,26 +2115,32 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
     --------
 
     .. plot::
-        :include-source:
 
-        # set up the cube, mask, and section
-        golf = dm.sample_data.golf()
-        cm = dm.mask.ChannelMask(
-            golf['eta'][-1, :, :],
-            golf['velocity'][-1, :, :],
-            elevation_threshold=0,
-            flow_threshold=0.3)
-        sec = dm.section.CircularSection(golf, radius_idx=40)
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.mask import ChannelMask
+        >>> from deltametrics.plan import compute_channel_width
+        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from deltametrics.section import CircularSection
 
-        # compute the metric
-        m, s, w = dm.plan.compute_channel_width(
-            cm, section=sec, return_widths=True)
+        Set up the cube, mask, and section
 
-        fig, ax = plt.subplots()
-        cm.show(ax=ax, ticks=True)
-        sec.show_trace('r-', ax=ax)
-        ax.set_title(f'mean: {m:.2f}; stddev: {s:.2f}')
-        plt.show()
+        >>> golf = golf()
+        >>> cm = ChannelMask(
+        ...     golf['eta'][-1, :, :],
+        ...     golf['velocity'][-1, :, :],
+        ...     elevation_threshold=0,
+        ...     flow_threshold=0.3)
+        >>> sec = CircularSection(golf, radius_idx=40)
+
+        Compute the metric
+
+        >>> m, s, w = compute_channel_width(
+        ...     cm, section=sec, return_widths=True)
+
+        >>> fig, ax = plt.subplots()
+        >>> cm.show(ax=ax, ticks=True)
+        >>> sec.show_trace('r-', ax=ax)
+        >>> _ = ax.set_title(f'mean: {m:.2f}; stddev: {s:.2f}')
     """
     if not (section is None):
         if issubclass(type(section), BaseSection):
@@ -2345,34 +2373,31 @@ def compute_surface_deposit_time(data, surface_idx=-1, **kwargs):
 
     Examples
     --------
-    .. plot::
-        :include-source:
-        :context: reset
-
-        golf = dm.sample_data.golf()
-        sfc_time = dm.plan.compute_surface_deposit_time(golf, surface_idx=-1)
-
-        fig, ax = plt.subplots()
-        im = ax.imshow(sfc_time)
-        dm.plot.append_colorbar(im, ax=ax)
-        plt.show()
-
-    The keyword argument `stasis_tol` is an important control on the resultant
-    calculation.
 
     .. plot::
-        :include-source:
-        :context: close-figs
 
-        fig, ax = plt.subplots(1, 3, figsize=(10, 3))
-        for i, tol in enumerate([1e-16, 0.01, 0.1]):
-            i_sfc_date = dm.plan.compute_surface_deposit_time(
-                golf, surface_idx=-1, stasis_tol=tol)
-            im = ax[i].imshow(i_sfc_date)
-            plt.colorbar(im, ax=ax[i], shrink=0.4)
-            ax[i].set_title(f'stasis_tol={tol}')
-        plt.show()
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.plan import compute_surface_deposit_time
+        >>> from deltametrics.plot import append_colorbar
+        >>> from deltametrics.sample_data.sample_data import golf
 
+        >>> golf = golf()
+        >>> sfc_time = compute_surface_deposit_time(golf, surface_idx=-1)
+
+        >>> fig, ax = plt.subplots()
+        >>> im = ax.imshow(sfc_time)
+        >>> _ = append_colorbar(im, ax=ax)
+
+        The keyword argument `stasis_tol` is an important control on the resultant
+        calculation.
+
+        >>> fig, ax = plt.subplots(1, 3, figsize=(10, 3))
+        >>> for i, tol in enumerate([1e-16, 0.01, 0.1]):
+        ...     i_sfc_date = compute_surface_deposit_time(
+        ...         golf, surface_idx=-1, stasis_tol=tol)
+        ...     im = ax[i].imshow(i_sfc_date)
+        ...     _ = plt.colorbar(im, ax=ax[i], shrink=0.4)
+        ...     _ = ax[i].set_title(f'stasis_tol={tol}')
     """
     from deltametrics.cube import DataCube
 
@@ -2428,14 +2453,16 @@ def compute_surface_deposit_age(data, surface_idx, **kwargs):
     --------
 
     .. plot::
-        :include-source:
 
-        golf = dm.sample_data.golf()
-        sfc_time = dm.plan.compute_surface_deposit_age(golf, surface_idx=-1)
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.plan import compute_surface_deposit_age
+        >>> from deltametrics.sample_data.sample_data import golf
 
-        fig, ax = plt.subplots()
-        ax.imshow(sfc_time, cmap='YlGn_r')
-        plt.show()
+        >>> golf = golf()
+        >>> sfc_time = compute_surface_deposit_age(golf, surface_idx=-1)
+
+        >>> fig, ax = plt.subplots()
+        >>> _ = ax.imshow(sfc_time, cmap='YlGn_r')
     """
     sfc_date = compute_surface_deposit_time(data, surface_idx, **kwargs)
     # handle indices less than 0

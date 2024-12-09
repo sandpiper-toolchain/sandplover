@@ -99,6 +99,7 @@ testpaths = [
     "deltametrics/cube.py",
     "deltametrics/mask.py",
     "deltametrics/mobility.py",
+    "deltametrics/plan.py",
     "deltametrics/plot.py",
     "deltametrics/utils.py",
     "tests",
