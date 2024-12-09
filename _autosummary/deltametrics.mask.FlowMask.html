@@ -55,20 +55,6 @@ values, and can work for velocity, depth, discharge, etc.</p>
 field from the cube, specify the <code class="xref py py-obj docutils literal notranslate"><span class="pre">cube_key</span></code> argument.</p>
 <p class="rubric">Examples</p>
 <p>Initialize one <cite>FlowMask</cite> from velocity data and one from discharge data:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
-<span class="n">fvmsk</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">FlowMask</span><span class="p">(</span>
-    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;velocity&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
-    <span class="n">flow_threshold</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-<span class="n">fdmsk</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">FlowMask</span><span class="p">(</span>
-    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;discharge&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
-    <span class="n">flow_threshold</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">fvmsk</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">fdmsk</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
 <p>(<a class="reference download internal" download="" href="../_downloads/14e89693499c22240ffc07cc87973b80/deltametrics-mask-FlowMask-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/e091b681cf2e5e716fdc21e74b10d4c5/deltametrics-mask-FlowMask-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
 <figure class="align-default">
 <img alt="../_images/deltametrics-mask-FlowMask-1.png" class="plot-directive" src="../_images/deltametrics-mask-FlowMask-1.png" />
