@@ -97,6 +97,7 @@ relative_files = true
 minversion = "6.0"
 testpaths = [
     "deltametrics/mobility.py",
+    "deltametrics/utils.py",
     "tests",
 ]
 norecursedirs = [
@@ -110,5 +111,11 @@ addopts = [
     "--tb=native",
     "--durations=16",
     "--strict-markers",
+    "--doctest-modules",
     "-vvv",
+]
+doctest_optionflags = [
+  "NORMALIZE_WHITESPACE",
+  "IGNORE_EXCEPTION_DETAIL",
+  "ELLIPSIS",
 ]
