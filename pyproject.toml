@@ -111,5 +111,11 @@ addopts = [
     "--tb=native",
     "--durations=16",
     "--strict-markers",
+    "--doctest-modules",
     "-vvv",
+]
+doctest_optionflags = [
+  "NORMALIZE_WHITESPACE",
+  "IGNORE_EXCEPTION_DETAIL",
+  "ELLIPSIS",
 ]
