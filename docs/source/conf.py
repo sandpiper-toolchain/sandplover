@@ -97,7 +97,8 @@ doctest_test_doctest_blocks = ''
 
 # mpl plots
 plot_basedir = 'pyplots'
-plot_html_show_source_link = False
+plot_html_show_source_link = True
+plot_include_source = True
 plot_formats = ['png', ('hires.png', 300)]
 plot_pre_code = '''
 import numpy as np
