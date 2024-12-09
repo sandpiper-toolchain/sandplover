@@ -37,35 +37,30 @@ class VariableInfo(object):
     for a variable ``vegetation_density`` as a range of green shades we
     would create the VariableInfo as:
 
-    .. doctest::
+    >>> import matplotlib
+    >>> from deltametrics.plot import VariableInfo
 
-        >>> from deltametrics.plot import VariableInfo
-        >>> veg = VariableInfo('vegetation_density',
-        ...                    cmap='Greens')
+    >>> veg = VariableInfo('vegetation_density',
+    ...                    cmap='Greens')
 
-        >>> veg.cmap
-        <matplotlib.colors.LinearSegmentedColormap object at 0x...>
+    >>> veg.cmap
+    <matplotlib.colors.LinearSegmentedColormap object at 0x...>
 
-        >>> veg.cmap.N
-        64
+    >>> veg.cmap.N
+    64
 
     which creates a 64 interval colormap from the matplotlib `Greens`
     colormap. If instead we wanted just three colors, we could specify the
     colormap manually:
 
-    .. doctest::
-
-        >>> veg3 = VariableInfo('vegetation_density',
-        ...                     cmap=matplotlib.colormaps['Greens'].resampled(3))
-        >>> veg3.cmap.N
-        3
+    >>> veg3 = VariableInfo('vegetation_density',
+    ...     cmap=matplotlib.colormaps['Greens'].resampled(3))
+    >>> veg3.cmap.N
+    3
 
     We can then set a more human-readable label for the variable:
 
-    .. doctest::
-
-        >>> veg3.label = 'vegetation density'
-
+    >>> veg3.label = 'vegetation density'
     """
 
     def __init__(self, name, **kwargs):
@@ -190,10 +185,10 @@ class VariableSet(object):
 
     Create a default variable set object.
 
-    .. doctest::
+    >>> from deltametrics.plot import VariableSet
 
-        >>> dm.plot.VariableSet()
-        <deltametrics.plot.VariableSet object at 0x...>
+    >>> VariableSet()
+    <deltametrics.plot.VariableSet object at 0x...>
 
     """
 
@@ -559,23 +554,24 @@ def cartographic_colormap(H_SL=0.0, h=4.5, n=1.0):
     To display with default depth and relief parameters (left) and with adjust
     parameters to highlight depth variability (right):
 
-    .. plot::
-        :include-source:
+    >>> import matplotlib.pyplot as plt
+    >>> from deltametrics.plot import cartographic_colormap
+    >>> from deltametrics.plot import append_colorbar
+    >>> from deltametrics.sample_data.sample_data import golf
 
-        golfcube = dm.sample_data.golf()
+    >>> golfcube = golf()
 
-        cmap0, norm0 = dm.plot.cartographic_colormap(H_SL=0)
-        cmap1, norm1 = dm.plot.cartographic_colormap(H_SL=0, h=5, n=0.5)
+    >>> cmap0, norm0 = cartographic_colormap(H_SL=0)
+    >>> cmap1, norm1 = cartographic_colormap(H_SL=0, h=5, n=0.5)
 
-        fig, ax = plt.subplots(1, 2, figsize=(10, 4))
-        im0 = ax[0].imshow(golfcube['eta'][-1, ...], origin='lower',
-                       cmap=cmap0, norm=norm0)
-        cb0 = dm.plot.append_colorbar(im0, ax[0])
-        im1 = ax[1].imshow(golfcube['eta'][-1, ...], origin='lower',
-                       cmap=cmap1, norm=norm1)
-        cb1 = dm.plot.append_colorbar(im1, ax[1])
-        plt.tight_layout()
-        plt.show()
+    >>> fig, ax = plt.subplots(1, 2, figsize=(10, 4))
+    >>> im0 = ax[0].imshow(golfcube['eta'][-1, ...], origin='lower',
+    ...     cmap=cmap0, norm=norm0)
+    >>> cb0 = append_colorbar(im0, ax[0])
+    >>> im1 = ax[1].imshow(golfcube['eta'][-1, ...], origin='lower',
+    ...     cmap=cmap1, norm=norm1)
+    >>> cb1 = append_colorbar(im1, ax[1])
+    >>> plt.tight_layout()
     """
     blues = mpl.colormaps["Blues_r"].resampled(64)
     greens = mpl.colormaps["YlGn_r"].resampled(64)
@@ -625,49 +621,47 @@ def vintage_colormap(H_SL=0.0, h=4.5, n=1.0):
     To display with default depth and relief parameters (left) and with adjust
     parameters to highlight depth variability (right):
 
-    .. plot::
-        :include-source:
+    >>> import matplotlib.pyplot as plt
+    >>> from deltametrics.plot import append_colorbar
+    >>> from deltametrics.plot import vintage_colormap
+    >>> from deltametrics.sample_data.sample_data import golf
 
-        golfcube = dm.sample_data.golf()
+    >>> golfcube = golf()
 
-        cmap0, norm0 = dm.plot.vintage_colormap(H_SL=0)
-        cmap1, norm1 = dm.plot.vintage_colormap(H_SL=0, h=3, n=0.25)
+    >>> cmap0, norm0 = vintage_colormap(H_SL=0)
+    >>> cmap1, norm1 = vintage_colormap(H_SL=0, h=3, n=0.25)
 
-        fig, ax = plt.subplots(1, 2, figsize=(10, 4))
-        im0 = ax[0].imshow(golfcube['eta'][-1, ...], origin='lower',
-                       cmap=cmap0, norm=norm0)
-        cb0 = dm.plot.append_colorbar(im0, ax[0])
-        im1 = ax[1].imshow(golfcube['eta'][-1, ...], origin='lower',
-                       cmap=cmap1, norm=norm1)
-        cb1 = dm.plot.append_colorbar(im1, ax[1])
-        plt.tight_layout()
-        plt.show()
+    >>> fig, ax = plt.subplots(1, 2, figsize=(10, 4))
+    >>> im0 = ax[0].imshow(golfcube['eta'][-1, ...], origin='lower',
+    ...     cmap=cmap0, norm=norm0)
+    >>> cb0 = append_colorbar(im0, ax[0])
+    >>> im1 = ax[1].imshow(golfcube['eta'][-1, ...], origin='lower',
+    ...     cmap=cmap1, norm=norm1)
+    >>> cb1 = append_colorbar(im1, ax[1])
+    >>> plt.tight_layout()
 
     To use the colormap exactly as described in Pearson's original publication, use parameters
 
     .. code::
 
-        cmap, norm = dm.plot.vintage_colormap(H_SL=0, h=20, n=10)
+        cmap, norm = vintage_colormap(H_SL=0, h=20, n=10)
 
-    .. plot::
+    >>> import numpy as np
 
-        X, Y = np.meshgrid(np.linspace(-30, 10), np.arange(10))
-        
-        cmapd, normd = dm.plot.vintage_colormap(H_SL=0, h=20, n=10)
-        
-        fig, ax = plt.subplots(
-            figsize=(4, 2),
-            gridspec_kw=dict(
-                left=0.07, right=0.85, bottom=0.25))
-        imd = ax.imshow(
-            X, extent=(-30, 10, 0, 20),
-            cmap=cmapd, norm=normd)
-        cbd = dm.plot.append_colorbar(imd, ax)
-        ax.set_yticks([])
-        ax.set_xlabel('elevation [m]')
+    >>> X, Y = np.meshgrid(np.linspace(-30, 10), np.arange(10))
 
-        plt.show()
+    >>> cmapd, normd = vintage_colormap(H_SL=0, h=20, n=10)
 
+    >>> fig, ax = plt.subplots(
+    ...     figsize=(4, 2),
+    ...     gridspec_kw=dict(
+    ...         left=0.07, right=0.85, bottom=0.25))
+    >>> imd = ax.imshow(
+    ...     X, extent=(-30, 10, 0, 20),
+    ...     cmap=cmapd, norm=normd)
+    >>> cbd = append_colorbar(imd, ax)
+    >>> _ = ax.set_yticks([])
+    >>> _ = ax.set_xlabel('elevation [m]')
     """
     # In implementation, we differ from Pearson's version. Pearson's version
     # takes in `vertSpacing`, a 10-column array with elevations of each
@@ -772,25 +766,24 @@ def style_axes_km(*args):
     Examples
     --------
 
-    .. plot::
-        :include-source:
-        :context: reset
+    >>> import matplotlib.pyplot as plt
+    >>> from deltametrics.plot import style_axes_km
+    >>> from deltametrics.sample_data.sample_data import golf
 
-        golf = dm.sample_data.golf()
+    >>> golf = golf()
 
-        fig, ax = plt.subplots(
-            3, 1,
-            gridspec_kw=dict(hspace=0.5))
-        golf.quick_show('eta', ax=ax[0], ticks=True)
+    >>> fig, ax = plt.subplots(
+    ...     3, 1,
+    ...     gridspec_kw=dict(hspace=0.5))
+    >>> golf.quick_show('eta', ax=ax[0], ticks=True)
 
-        golf.quick_show('eta', ax=ax[1], ticks=True)
-        dm.plot.style_axes_km(ax[1])
+    >>> golf.quick_show('eta', ax=ax[1], ticks=True)
+    >>> style_axes_km(ax[1])
 
-        golf.quick_show('eta', axis=1, idx=10, ax=ax[2])
-        ax[2].xaxis.set_major_formatter(dm.plot.style_axes_km)
-        # OR use: dm.plot.style_axes_km(ax[2], 'x')
+    >>> golf.quick_show('eta', axis=1, idx=10, ax=ax[2])
+    >>> ax[2].xaxis.set_major_formatter(style_axes_km)
 
-        plt.show()
+    OR use: style_axes_km(ax[2], 'x')
     """
     if isinstance(args[0], mpl.axes.Axes):
         ax = args[0]
@@ -1290,21 +1283,26 @@ def _scale_lightness(rgb, scale_l):
 
     .. plot::
 
-        fig, ax = plt.subplots(figsize=(5, 2))
+        >>> import matplotlib.pyplot as plt
+        >>> import numpy as np
+        >>> from deltametrics.plot import _scale_lightness
 
-        # initial color red
-        red = (1.0, 0.0, 0.0)
-        ax.plot(-1, 1, 'o', color=red)
+        >>> fig, ax = plt.subplots(figsize=(5, 2))
 
-        # scale from 1 to 0.05
-        scales = np.arange(1, 0, -0.05)
+        Initial color red
 
-        # loop through scales and plot
-        for s, scale in enumerate(scales):
-            darker_red = dm.plot._scale_lightness(red, scale)
-            ax.plot(s, scale, 'o', color=darker_red)
+        >>> red = (1.0, 0.0, 0.0)
+        >>> _ = ax.plot(-1, 1, 'o', color=red)
 
-        plt.show()
+        Scale from 1 to 0.05
+
+        >>> scales = np.arange(1, 0, -0.05)
+
+        Loop through scales and plot
+
+        >>> for s, scale in enumerate(scales):
+        ...     darker_red = _scale_lightness(red, scale)
+        ...     _ = ax.plot(s, scale, 'o', color=darker_red)
     """
     # https://stackoverflow.com/a/60562502/4038393
     # convert rgb to hls
@@ -1345,19 +1343,21 @@ def show_histograms(*args, sets=None, ax=None, **kwargs):
     --------
 
     .. plot::
-        :include-source:
 
-        locs = [0.25, 1, 0.5, 4, 2]
-        scales = [0.1, 0.25, 0.4, 0.5, 0.1]
-        bins = np.linspace(0, 6, num=40)
+        >>> import matplotlib.pyplot as plt
+        >>> import numpy as np
+        >>> from deltametrics.plot import show_histograms
 
-        hist_bin_sets = [np.histogram(np.random.normal(l, s, size=500), bins=bins, density=True) for l, s in zip(locs, scales)]
+        >>> locs = [0.25, 1, 0.5, 4, 2]
+        >>> scales = [0.1, 0.25, 0.4, 0.5, 0.1]
+        >>> bins = np.linspace(0, 6, num=40)
 
-        fig, ax = plt.subplots()
-        dm.plot.show_histograms(*hist_bin_sets, sets=[0, 1, 0, 1, 2], ax=ax)
-        ax.set_xlim((0, 6))
-        ax.set_ylabel('density')
-        plt.show()
+        >>> hist_bin_sets = [np.histogram(np.random.normal(l, s, size=500), bins=bins, density=True) for l, s in zip(locs, scales)]
+
+        >>> fig, ax = plt.subplots()
+        >>> show_histograms(*hist_bin_sets, sets=[0, 1, 0, 1, 2], ax=ax)
+        >>> _ = ax.set_xlim((0, 6))
+        >>> _ = ax.set_ylabel('density')
     """
     if not ax:
         fig, ax = plt.subplots()
@@ -1443,15 +1443,16 @@ def aerial_view(
     Examples
     --------
     .. plot::
-        :include-source:
 
-        golfcube = dm.sample_data.golf()
-        elevation_data = golfcube['eta'][-1, :, :]
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.plot import aerial_view
+        >>> from deltametrics.sample_data.sample_data import golf
 
-        fig, ax = plt.subplots()
-        dm.plot.aerial_view(elevation_data, ax=ax)
-        plt.show()
+        >>> golfcube = golf()
+        >>> elevation_data = golfcube['eta'][-1, :, :]
 
+        >>> fig, ax = plt.subplots()
+        >>> _ = aerial_view(elevation_data, ax=ax)
     """
     if not ax:
         fig, ax = plt.subplots()
@@ -1545,48 +1546,44 @@ def overlay_sparse_array(
     of sparse data.
 
     .. plot::
-        :include-source:
-        :context: reset
 
-        golfcube = dm.sample_data.golf()
-        elevation_data = golfcube['eta'][-1, :, :]
-        sparse_data = golfcube['discharge'][-1, ...]
+        >>> import matplotlib.pyplot as plt
+        >>> from deltametrics.plot import aerial_view
+        >>> from deltametrics.plot import overlay_sparse_array
+        >>> from deltametrics.sample_data.sample_data import golf
 
-        fig, ax = plt.subplots(1, 3, figsize=(8, 3))
-        for axi in ax.ravel():
-            dm.plot.aerial_view(elevation_data, ax=axi)
+        >>> golfcube = golf()
+        >>> elevation_data = golfcube['eta'][-1, :, :]
+        >>> sparse_data = golfcube['discharge'][-1, ...]
 
-        dm.plot.overlay_sparse_array(
-            sparse_data, ax=ax[0])  # default clip is (None, 90)
-        dm.plot.overlay_sparse_array(
-            sparse_data, alpha_clip=(None, None), ax=ax[1])
-        dm.plot.overlay_sparse_array(
-            sparse_data, alpha_clip=(70, 90), ax=ax[2])
+        >>> fig, ax = plt.subplots(1, 3, figsize=(8, 3))
+        >>> for axi in ax.ravel():
+        ...     _ = aerial_view(elevation_data, ax=axi)
 
-        plt.tight_layout()
-        plt.show()
+        >>> _ = overlay_sparse_array(
+        ...     sparse_data, ax=ax[0])  # default clip is (None, 90)
+        >>> _ = overlay_sparse_array(
+        ...     sparse_data, alpha_clip=(None, None), ax=ax[1])
+        >>> _ = overlay_sparse_array(
+        ...     sparse_data, alpha_clip=(70, 90), ax=ax[2])
 
-    .. plot::
-        :include-source:
-        :context: close-figs
+        >>> plt.tight_layout()
 
-        fig, ax = plt.subplots(1, 3, figsize=(8, 3))
-        for axi in ax.ravel():
-            dm.plot.aerial_view(elevation_data, ax=axi)
+        >>> fig, ax = plt.subplots(1, 3, figsize=(8, 3))
+        >>> for axi in ax.ravel():
+        ...     _ = aerial_view(elevation_data, ax=axi)
 
-        dm.plot.overlay_sparse_array(
-            sparse_data, ax=ax[0],
-            clip_type='value')  # default clip is (None, 90)
-        dm.plot.overlay_sparse_array(
-            sparse_data, ax=ax[1],
-            alpha_clip=(None, 0.2), clip_type='value')
-        dm.plot.overlay_sparse_array(
-            sparse_data, ax=ax[2],
-            alpha_clip=(0.4, 0.6), clip_type='value')
+        >>> _ = overlay_sparse_array(
+        ...     sparse_data, ax=ax[0],
+        ...     clip_type='value')  # default clip is (None, 90)
+        >>> _ = overlay_sparse_array(
+        ...     sparse_data, ax=ax[1],
+        ...     alpha_clip=(None, 0.2), clip_type='value')
+        >>> _ = overlay_sparse_array(
+        ...     sparse_data, ax=ax[2],
+        ...     alpha_clip=(0.4, 0.6), clip_type='value')
 
-        plt.tight_layout()
-        plt.show()
-
+        >>> plt.tight_layout()
     """
     if not ax:
         fig, ax = plt.subplots()
