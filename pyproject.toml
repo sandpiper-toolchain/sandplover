@@ -96,14 +96,7 @@ relative_files = true
 [tool.pytest.ini_options]
 minversion = "6.0"
 testpaths = [
-    "deltametrics/cube.py",
-    "deltametrics/mask.py",
-    "deltametrics/mobility.py",
-    "deltametrics/plan.py",
-    "deltametrics/plot.py",
-    "deltametrics/section.py",
-    "deltametrics/strat.py",
-    "deltametrics/utils.py",
+    "deltametrics",
     "tests",
 ]
 norecursedirs = [
