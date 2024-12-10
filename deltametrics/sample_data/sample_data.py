@@ -57,19 +57,22 @@ def golf():
 
     .. plot::
 
-        golf = dm.sample_data.golf()
-        nt = 5
-        ts = np.linspace(0, golf['eta'].shape[0]-1, num=nt, dtype=int)
+        >>> import matplotlib.pyplot as plt
+        >>> import numpy as np
+        >>> from deltametrics.sample_data.sample_data import golf
 
-        fig, ax = plt.subplots(1, nt, figsize=(12, 2))
-        for i, t in enumerate(ts):
-            ax[i].imshow(golf['eta'][t, :, :], vmin=-2, vmax=0.5)
-            ax[i].set_title('t = ' + str(t))
-            ax[i].axes.get_xaxis().set_ticks([])
-            ax[i].axes.get_yaxis().set_ticks([])
-        ax[0].set_ylabel('dim1 direction')
-        ax[0].set_xlabel('dim2 direction')
-        plt.show()
+        >>> golf = golf()
+        >>> nt = 5
+        >>> ts = np.linspace(0, golf["eta"].shape[0] - 1, num=nt, dtype=int)
+
+        >>> fig, ax = plt.subplots(1, nt, figsize=(12, 2))
+        >>> for i, t in enumerate(ts):
+        ...     _ = ax[i].imshow(golf["eta"][t, :, :], vmin=-2, vmax=0.5)
+        ...     _ = ax[i].set_title(f"t = {t}")
+        ...     _ = ax[i].axes.get_xaxis().set_ticks([])
+        ...     _ = ax[i].axes.get_yaxis().set_ticks([])
+        >>> _ = ax[0].set_ylabel("dim1 direction")
+        >>> _ = ax[0].set_xlabel("dim2 direction")
     """
     golf_path = _get_golf_path()
     return DataCube(golf_path)
@@ -114,24 +117,26 @@ def xslope():
 
     .. plot::
 
-        xslope0, xslope1 = dm.sample_data.xslope()
-        nt = 5
-        ts = np.linspace(0, xslope0['eta'].shape[0]-1, num=nt, dtype=int)
+        >>> import matplotlib.pyplot as plt
+        >>> import numpy as np
+        >>> from deltametrics.sample_data.sample_data import xslope
 
-        fig, ax = plt.subplots(2, nt, figsize=(12, 2))
-        for i, t in enumerate(ts):
-            ax[0, i].imshow(xslope0['eta'][t, :, :], vmin=-10, vmax=0.5)
-            ax[0, i].set_title('t = ' + str(t))
-            ax[1, i].imshow(xslope1['eta'][t, :, :], vmin=-10, vmax=0.5)
+        >>> xslope0, xslope1 = xslope()
+        >>> nt = 5
+        >>> ts = np.linspace(0, xslope0["eta"].shape[0] - 1, num=nt, dtype=int)
 
-        ax[1, 0].set_ylabel('dim1 direction')
-        ax[1, 0].set_xlabel('dim2 direction')
+        >>> fig, ax = plt.subplots(2, nt, figsize=(12, 2))
+        >>> for i, t in enumerate(ts):
+        ...     _ = ax[0, i].imshow(xslope0["eta"][t, :, :], vmin=-10, vmax=0.5)
+        ...     _ = ax[0, i].set_title(f"t = {t}")
+        ...     _ = ax[1, i].imshow(xslope1["eta"][t, :, :], vmin=-10, vmax=0.5)
 
-        for axi in ax.ravel():
-            axi.axes.get_xaxis().set_ticks([])
-            axi.axes.get_yaxis().set_ticks([])
+        >>> _ = ax[1, 0].set_ylabel("dim1 direction")
+        >>> _ = ax[1, 0].set_xlabel("dim2 direction")
 
-        plt.show()
+        >>> for axi in ax.ravel():
+        ...     _ = axi.axes.get_xaxis().set_ticks([])
+        ...     _ = axi.axes.get_yaxis().set_ticks([])
 
     Parameters
     ----------
@@ -190,19 +195,22 @@ def aeolian():
 
     .. plot::
 
-        aeolian = dm.sample_data.aeolian()
-        nt = 5
-        ts = np.linspace(0, aeolian['eta'].shape[0]-1, num=nt, dtype=int)
+        >>> import matplotlib.pyplot as plt
+        >>> import numpy as np
+        >>> import deltametrics as dm
 
-        fig, ax = plt.subplots(1, nt, figsize=(8, 4))
-        for i, t in enumerate(ts):
-            ax[i].imshow(aeolian['eta'][t, :, :], vmin=-5, vmax=7)
-            ax[i].set_title('t = ' + str(t))
-            ax[i].axes.get_xaxis().set_ticks([])
-            ax[i].axes.get_yaxis().set_ticks([])
-        ax[0].set_ylabel('northing')
-        ax[0].set_xlabel('easting')
-        plt.show()
+        >>> aeolian = dm.sample_data.aeolian()
+        >>> nt = 5
+        >>> ts = np.linspace(0, aeolian["eta"].shape[0] - 1, num=nt, dtype=int)
+
+        >>> fig, ax = plt.subplots(1, nt, figsize=(8, 4))
+        >>> for i, t in enumerate(ts):
+        ...     _ = ax[i].imshow(aeolian["eta"][t, :, :], vmin=-5, vmax=7)
+        ...     _ = ax[i].set_title(f"t = {t}")
+        ...     _ = ax[i].axes.get_xaxis().set_ticks([])
+        ...     _ = ax[i].axes.get_yaxis().set_ticks([])
+        >>> _ = ax[0].set_ylabel("northing")
+        >>> _ = ax[0].set_xlabel("easting")
     """
     aeolian_path = _get_aeolian_path()
     return DataCube(aeolian_path)
@@ -232,22 +240,25 @@ def rcm8():
 
     .. plot::
 
-        import warnings
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            rcm8 = dm.sample_data.rcm8()
-        nt = 5
-        ts = np.linspace(0, rcm8['eta'].shape[0]-1, num=nt, dtype=int)
+        >>> import matplotlib.pyplot as plt
+        >>> import numpy as np
+        >>> import warnings
+        >>> import deltametrics as dm
 
-        fig, ax = plt.subplots(1, nt, figsize=(12, 2))
-        for i, t in enumerate(ts):
-            ax[i].imshow(rcm8['eta'][t, :, :], vmin=-2, vmax=0.5)
-            ax[i].set_title('t = ' + str(t))
-            ax[i].axes.get_xaxis().set_ticks([])
-            ax[i].axes.get_yaxis().set_ticks([])
-        ax[0].set_ylabel('y-direction')
-        ax[0].set_xlabel('x-direction')
-        plt.show()
+        >>> with warnings.catch_warnings():
+        ...     warnings.simplefilter("ignore")
+        ...     rcm8 = dm.sample_data.rcm8()
+        >>> nt = 5
+        >>> ts = np.linspace(0, rcm8["eta"].shape[0] - 1, num=nt, dtype=int)
+
+        >>> fig, ax = plt.subplots(1, nt, figsize=(12, 2))
+        >>> for i, t in enumerate(ts):
+        ...     _ = ax[i].imshow(rcm8["eta"][t, :, :], vmin=-2, vmax=0.5)
+        ...     _ = ax[i].set_title(f"t = {t}")
+        ...     _ = ax[i].axes.get_xaxis().set_ticks([])
+        ...     _ = ax[i].axes.get_yaxis().set_ticks([])
+        >>> _ = ax[0].set_ylabel("y-direction")
+        >>> _ = ax[0].set_xlabel("x-direction")
     """
     rcm8_path = _get_rcm8_path()
     return DataCube(rcm8_path)
@@ -268,24 +279,30 @@ def landsat():
 
     .. plot::
 
-        landsat = dm.sample_data.landsat()
-        nt = landsat.shape[0]
+        >>> import matplotlib.pyplot as plt
+        >>> import numpy as np
+        >>> import deltametrics as dm
 
-        maxr = np.max(landsat['Red'][:])
-        maxg = np.max(landsat['Green'][:])
-        maxb = np.max(landsat['Blue'][:])
+        >>> landsat = dm.sample_data.landsat()
+        >>> nt = landsat.shape[0]
 
-        fig, ax = plt.subplots(1, nt, figsize=(12, 2))
-        for i in np.arange(nt):
-            _arr = np.dstack((landsat['Red'][i, :, :]/maxr,
-                              landsat['Green'][i, :, :]/maxg,
-                              landsat['Blue'][i, :, :]/maxb))
-            ax[i].imshow(_arr)
-            ax[i].set_title('year = ' + str(landsat.t[i]))
-            ax[i].axes.get_xaxis().set_ticks([])
-            ax[i].axes.get_yaxis().set_ticks([])
+        >>> maxr = np.max(landsat["Red"][:])
+        >>> maxg = np.max(landsat["Green"][:])
+        >>> maxb = np.max(landsat["Blue"][:])
 
-        plt.show()
+        >>> fig, ax = plt.subplots(1, nt, figsize=(12, 2))
+        >>> for i in np.arange(nt):
+        ...     _arr = np.dstack(
+        ...         (
+        ...             landsat["Red"][i, :, :] / maxr,
+        ...             landsat["Green"][i, :, :] / maxg,
+        ...             landsat["Blue"][i, :, :] / maxb,
+        ...         )
+        ...     )
+        ...     _ = ax[i].imshow(_arr)
+        ...     _ = ax[i].set_title(f"year = {landsat.t[i]}")
+        ...     _ = ax[i].axes.get_xaxis().set_ticks([])
+        ...     _ = ax[i].axes.get_yaxis().set_ticks([])
     """
     landsat_path = _get_landsat_path()
     return DataCube(landsat_path)
@@ -335,22 +352,24 @@ def savi2020():
 
     .. plot::
 
-        img, scans = dm.sample_data.savi2020()
-        nt = 5
-        ts_i = np.linspace(0, img['red'].shape[0]-1, num=nt, dtype=int)
-        ts_s = np.linspace(0, scans['eta'].shape[0]-1, num=nt, dtype=int)
+        >>> import matplotlib.pyplot as plt
+        >>> import numpy as np
+        >>> import deltametrics as dm
 
-        fig, ax = plt.subplots(2, nt, figsize=(9, 6))
-        for i in range(nt):
-            ax[0, i].imshow(img['red'][ts_i[i], :, :], vmin=0, vmax=1)
-            ax[0, i].set_title('t = ' + str(ts_i[i]))
-            ax[1, i].imshow(scans['eta'][ts_s[i], :, :])
-            ax[1, i].set_title('t = ' + str(ts_s[i]))
+        >>> img, scans = dm.sample_data.savi2020()
+        >>> nt = 5
+        >>> ts_i = np.linspace(0, img["red"].shape[0] - 1, num=nt, dtype=int)
+        >>> ts_s = np.linspace(0, scans["eta"].shape[0] - 1, num=nt, dtype=int)
 
-        ax[1, 0].set_ylabel('dim1 direction')
-        ax[1, 0].set_xlabel('dim2 direction')
+        >>> fig, ax = plt.subplots(2, nt, figsize=(9, 6))
+        >>> for i in range(nt):
+        ...     _ = ax[0, i].imshow(img["red"][ts_i[i], :, :], vmin=0, vmax=1)
+        ...     _ = ax[0, i].set_title(f"t = {ts_i[i]}")
+        ...     _ = ax[1, i].imshow(scans["eta"][ts_s[i], :, :])
+        ...     _ = ax[1, i].set_title(f"t = {ts_s[i]}")
 
-        plt.show()
+        >>> _ = ax[1, 0].set_ylabel("dim1 direction")
+        >>> _ = ax[1, 0].set_xlabel("dim2 direction")
 
     Parameters
     ----------
