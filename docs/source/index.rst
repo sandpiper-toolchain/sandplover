@@ -53,7 +53,7 @@ Documentation Table of Contents
    guides/examples/index
    guides/subject_guides/index
    guides/devguide
-   
+
 
 .. toctree::
    :maxdepth: 2
@@ -64,5 +64,5 @@ Documentation Table of Contents
 Project status
 ##############
 
-DeltaMetrics is currently in development, so the API is not *guaranteed* to be stable between versions; we do make an effort to maintain backwards compatibility. 
+DeltaMetrics is currently in development, so the API is not *guaranteed* to be stable between versions; we do make an effort to maintain backwards compatibility.
 This open-source software is made available without warranty or guarantee of accuracy or correctness.

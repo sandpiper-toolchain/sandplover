@@ -91,7 +91,7 @@ import matplotlib
 '''
 
 # empty string disables testing all code in any docstring
-doctest_test_doctest_blocks = ''  
+doctest_test_doctest_blocks = ''
 
 # mpl plots
 plot_basedir = 'pyplots'

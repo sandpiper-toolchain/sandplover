@@ -2,7 +2,7 @@
 Subject Guides
 ******************
 
-Guides on specific subjects and objects within DeltaMetrics. 
+Guides on specific subjects and objects within DeltaMetrics.
 These guides are intended to be supplements to explain operations and tools within areas of DeltaMetrics with more detail.
 
 .. hint::

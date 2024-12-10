@@ -54,15 +54,15 @@ And we can see what this data looks like for a comparison with the data when we 
         ax[1, i].imshow(velocity[i, :, :])
     plt.show()
 
-.. note:: 
+.. note::
 
-    You can name the spatial dimensions anything. Here, we have set the data up so that `y` is the first spatial dimension; this is opposite from `pyDeltaRCM` output data, where `x` is the downstream first spatial dimension. 
+    You can name the spatial dimensions anything. Here, we have set the data up so that `y` is the first spatial dimension; this is opposite from `pyDeltaRCM` output data, where `x` is the downstream first spatial dimension.
 
 
 Connecting with NetCDF
 ~~~~~~~~~~~~~~~~~~~~~~
 
-The standard I/O format for data used in DeltaMetrics is a NetCDF4 file, structured as sets of arrays. 
+The standard I/O format for data used in DeltaMetrics is a NetCDF4 file, structured as sets of arrays.
 NetCDF was designed with dimensional data in mind, so that we can use common dimensions to align and manipulate multiple different underlying variables.
 
 .. important::
@@ -114,7 +114,7 @@ Now, we write out the data to a netCDF file.
     :include-source:
     :context: close-figs
 
-    ## create and fill the netcdf file 
+    ## create and fill the netcdf file
     output_netcdf = Dataset(file_path, 'w',
                             format='NETCDF4')
 
@@ -123,7 +123,7 @@ Now, we write out the data to a netCDF file.
     output_netcdf.source = 'MyFakeModel v0.1'
 
     # create time and spatial netCDF dimensions
-    output_netcdf.createDimension('time', T.shape[0])  
+    output_netcdf.createDimension('time', T.shape[0])
     output_netcdf.createDimension('y', T.shape[1])
     output_netcdf.createDimension('x', T.shape[2])
 
@@ -238,8 +238,8 @@ Notice that dimensions (range of `x` from 0 to 6) are properly handled, and vari
 .. warning::
 
     The `meta` data model is not integrated into the dictionary input method.
-    
-You cannot use integrated metadata to a `DataCube` created from a dictionary; you will need to manage and integrate this metadata manually as needed. 
+
+You cannot use integrated metadata to a `DataCube` created from a dictionary; you will need to manage and integrate this metadata manually as needed.
 We do not anticipate this will affect many users, but if you need the ability to add metadata to the `DataCube` from dictionary input, please open an issue request or submit a pull request.
 
 If you want a basic workaround, you can create a dictionary inside the input dictionary, named `meta`. For example:
@@ -259,7 +259,7 @@ But be aware that dimensions will not be attached to the metadata (unless you pa
 Conventions for data and information
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-While not strictly necessary, it may be helpful to adhere to a naming convention that DeltaMetrics uses internally to define some common attributes of sedimentary systems. 
+While not strictly necessary, it may be helpful to adhere to a naming convention that DeltaMetrics uses internally to define some common attributes of sedimentary systems.
 
 
 Spatiotemporal variable conventions
@@ -275,9 +275,9 @@ Metadata variable naming conventions
 If any of the following information is available or relevant for your model, experiment, or field site, we recommend adding this information to the `meta` group in an input NetCDF file.
 
 * `H_SL`: name any basin-wide water level as `H_SL` in the metadata, and define it in the same coordinate system as `eta` (e.g., use meters and the same elevation datum).
-* `L0`: the `dim1` inlet length, number of indices from the starting edge of `dim1`. Do not include this field if inlet not located along `dim1==0` edge. 
+* `L0`: the `dim1` inlet length, number of indices from the starting edge of `dim1`. Do not include this field if inlet not located along `dim1==0` edge.
 * `CTR`: the `dim2` inlet center, number of indices from the starting edge of `dim2`. Do not include this field if inlet not located along `dim1==0` edge.
 
-.. hint:: 
+.. hint::
 
     None of these variables need to be defined; you can always manually pass them to DeltaMetrics constructors, but following the convention when creating your data file will save you many keystrokes later.

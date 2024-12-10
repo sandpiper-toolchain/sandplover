@@ -29,7 +29,7 @@ Section display types
     >>> _v = 'velocity'
 
     >>> fig, ax = plt.subplots(3, 2, sharex=True, figsize=(8, 6))
-    >>> golfcube.sections['demo'].show(_v, style='lines', 
+    >>> golfcube.sections['demo'].show(_v, style='lines',
     ...     data='spacetime', ax=ax[0,0]) #doctest: +SKIP
     >>> golfcube.sections['demo'].show(_v, style='shaded',
     ...     data='spacetime', ax=ax[0,1]) #doctest: +SKIP

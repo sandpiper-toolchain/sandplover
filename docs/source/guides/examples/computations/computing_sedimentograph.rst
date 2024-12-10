@@ -113,6 +113,6 @@ References
 ~~~~~~~~~~
 
 .. [1] Liang, M., Van Dyk, C., and Passalacqua, P. (2016), Quantifying
-       the patterns and dynamics of river deltas under conditions of 
-       steady forcing and relative sea level rise, J. Geophys. Res. 
+       the patterns and dynamics of river deltas under conditions of
+       steady forcing and relative sea level rise, J. Geophys. Res.
        Earth Surf., 121, 465– 496, doi:10.1002/2015JF003653.

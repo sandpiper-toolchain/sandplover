@@ -48,7 +48,7 @@ Then, make the animation with matplotlib's `FuncAnimation`.
     plt.show()
 
 .. code::
-    
+
     anim = animation.FuncAnimation(
         fig, update_field,
         frames=golf.shape[0]-1,
