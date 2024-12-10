@@ -105,4 +105,3 @@ Instantiating masks directly can be done as follows.
     ax.set_ylim(0, 3)
     ax.set_ylabel('shoreline roughness [-]')
     plt.show()
-

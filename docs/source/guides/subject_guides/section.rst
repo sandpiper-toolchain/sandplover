@@ -92,4 +92,3 @@ Creating sections into other data types
 You can also create `Sections` into an object other than a `Cube`, such as a `Mask` or `Planform` or arbitrary data.
 
 See the :doc:`example here <../examples/create_from/sections_into_arbitrary>` for several examples.
-

@@ -22,4 +22,3 @@ Objectives
 #. Users can extract :obj:`~dm.plan.Planform` objects from a `Cube`, which are a) single time horizon or b) single elevation horizon (i.e., a single view of the x-y plane). `Planform` objects represent the coordinate along which the data are realized, and can reflect any variable from the underlying dataset. 
 #. Users can compute statistics on these `Planform` objects. For example, finding the shoreline, or a radially averaged delta size (:doc:`../reference/plan/index`).
 #. Identifying specific areas of the `Cube` data is achieved by `mask` objects (e.g., :obj:`~deltametrics.mask.LandMask`).
-
