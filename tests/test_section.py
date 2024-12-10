@@ -1,22 +1,20 @@
-import pytest
-
-import numpy as np
-import xarray as xr
 import matplotlib.pyplot as plt
+import numpy as np
+import pytest
+import xarray as xr
 
 from deltametrics.cube import DataCube
 from deltametrics.cube import StratigraphyCube
 from deltametrics.mask import ElevationMask
 from deltametrics.plan import Planform
-
+from deltametrics.sample_data.sample_data import _get_golf_path
+from deltametrics.sample_data.sample_data import _get_rcm8_path
 from deltametrics.section import CircularSection
 from deltametrics.section import DipSection
 from deltametrics.section import PathSection
 from deltametrics.section import RadialSection
 from deltametrics.section import StrikeSection
 from deltametrics.utils import NoStratigraphyError
-from deltametrics.sample_data.sample_data import _get_golf_path
-from deltametrics.sample_data.sample_data import _get_rcm8_path
 
 
 rcm8_path = _get_rcm8_path()

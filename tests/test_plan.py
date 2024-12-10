@@ -1,23 +1,17 @@
-import pytest
 import unittest.mock as mock
 
-import numpy as np
-import xarray as xr
 import matplotlib.pyplot as plt
+import numpy as np
+import pytest
+import xarray as xr
 
-from deltametrics.sample_data.sample_data import _get_golf_path
-from deltametrics.sample_data.sample_data import _get_rcm8_path
-
+from deltametrics.cube import DataCube
+from deltametrics.cube import StratigraphyCube
 from deltametrics.mask import ChannelMask
 from deltametrics.mask import ElevationMask
 from deltametrics.mask import LandMask
 from deltametrics.mask import ShorelineMask
-from deltametrics.cube import DataCube
-from deltametrics.cube import StratigraphyCube
 from deltametrics.plan import _get_channel_starts_and_ends
-from deltametrics.plan import MorphologicalPlanform
-from deltametrics.plan import OpeningAnglePlanform
-from deltametrics.plan import Planform
 from deltametrics.plan import compute_channel_depth
 from deltametrics.plan import compute_channel_width
 from deltametrics.plan import compute_land_area
@@ -26,7 +20,12 @@ from deltametrics.plan import compute_shoreline_length
 from deltametrics.plan import compute_shoreline_roughness
 from deltametrics.plan import compute_surface_deposit_age
 from deltametrics.plan import compute_surface_deposit_time
+from deltametrics.plan import MorphologicalPlanform
+from deltametrics.plan import OpeningAnglePlanform
+from deltametrics.plan import Planform
 from deltametrics.plan import shaw_opening_angle_method
+from deltametrics.sample_data.sample_data import _get_golf_path
+from deltametrics.sample_data.sample_data import _get_rcm8_path
 from deltametrics.section import CircularSection
 
 # a simple custom layout

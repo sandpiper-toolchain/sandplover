@@ -1,11 +1,11 @@
 """Tests for the mask.py script."""
-import pytest
-
 import numpy as np
+import pytest
 import xarray as xr
 
 from deltametrics.cube import DataCube
 from deltametrics.cube import StratigraphyCube
+from deltametrics.sample_data.sample_data import _get_golf_path
 from deltametrics.strat import _adjust_elevation_by_subsidence
 from deltametrics.strat import _compute_elevation_to_preservation
 from deltametrics.strat import _compute_preservation_to_cube
@@ -15,7 +15,6 @@ from deltametrics.strat import compute_boxy_stratigraphy_volume
 from deltametrics.strat import compute_net_to_gross
 from deltametrics.strat import compute_sedimentograph
 from deltametrics.strat import compute_thickness_surfaces
-from deltametrics.sample_data.sample_data import _get_golf_path
 
 
 golf_path = _get_golf_path()
