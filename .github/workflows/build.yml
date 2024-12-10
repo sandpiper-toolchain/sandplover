@@ -33,12 +33,10 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip setuptools wheel
-        pip install pytest pytest-cov coveralls
-        pip install -r requirements.txt
+        pip install nox
     - name: Test with pytest
       run: |
-        python -m pytest --cov=deltametrics/ --cov-report=xml
+        nox -s coverage
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
       with:
@@ -61,14 +59,11 @@ jobs:
         python-version: '3.12'
     - name: Install dependencies
       run: |
-        pip install -r requirements-docs.txt
+        pip install nox
         sudo apt update -y && sudo apt install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended dvipng ffmpeg
-    - name: Install DeltaMetrics
-      run: |
-        pip install .
     - name: Build and test documentation
       run: |
-        (cd docs && make docs)
+        nox -s docs
     - name: Debug
       run: |
         echo $REF
