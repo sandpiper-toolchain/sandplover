@@ -53,7 +53,7 @@ class TestComputeBoxyStratigraphyVolume:
             self.elev, self.time, sigma_dist=1, nz=33)
         assert s.ndim == 3
         assert s.shape == e.shape
-        assert s.shape[0] == 33 + 1        
+        assert s.shape[0] == 33 + 1
 
     @pytest.mark.xfail(raises=NotImplementedError,
                        strict=True, reason='Not yet developed.')
@@ -145,7 +145,7 @@ class TestComputeBoxyStratigraphyCoordinates:
     def test_returns_sc_dc_given_subsidence(self):
         sc, dc = compute_boxy_stratigraphy_coordinates(
             self.elev, sigma_dist=1, nz=13)
-        assert np.min(sc[:, 0]) == 0        
+        assert np.min(sc[:, 0]) == 0
 
     @pytest.mark.xfail(raises=NotImplementedError,
                        strict=True, reason='Not yet developed.')
@@ -454,7 +454,7 @@ class TestDetermineStratCoordinates:
 
 
 class TestSubsidenceElevationAdjustment:
-    
+
     def test_shapes_not_matching(self):
         e = np.zeros((5, 2, 1))
         s = np.zeros((2, 4, 2))
@@ -663,7 +663,7 @@ class TestComputeSedimentograph:
 
     def test_time_variable(self):
         background = (self.golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
-        
+
         (s, r, b) = compute_sedimentograph(
             self.golfstrat['time'],
             num_sections=50,
