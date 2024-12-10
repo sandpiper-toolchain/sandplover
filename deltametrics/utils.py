@@ -9,7 +9,7 @@ from scipy import optimize
 
 def format_number(number):
     integer = int(round(number, -1))
-    string = "{:,}".format(integer)
+    string = f"{integer:,}"
     return(string)
 
 
@@ -73,7 +73,7 @@ def needs_stratigraphy(func):
     return decorator
 
 
-class AttributeChecker(object):
+class AttributeChecker:
     """Mixin attribute checker class.
 
     Registers a method to check whether ``self`` has a given attribute. I.e.,
@@ -328,7 +328,7 @@ def line_to_cells(*args):
         x0, y0, x1, y1 = args
     else:
         raise TypeError(
-            'Length of input must be 1, 2, or 4 but got: {0}'.format(args))
+            f'Length of input must be 1, 2, or 4 but got: {args}')
 
     # process the line to cells
     if np.abs(y1 - y0) < np.abs(x1 - x0):

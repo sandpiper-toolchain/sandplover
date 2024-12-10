@@ -1176,7 +1176,7 @@ class StrikeSection(LineSection):
             if len(self._input_length) != 2:
                 raise ValueError(
                     "Input `length` must be two element tuple or list, "
-                    "but was {0}".format(str(self._input_length))
+                    "but was {}".format(str(self._input_length))
                 )
             _length = self._input_length
 
@@ -1387,7 +1387,7 @@ class DipSection(LineSection):
             if len(self._input_length) != 2:
                 raise ValueError(
                     "Input `length` must be two element tuple or list, "
-                    "but was {0}".format(str(self._input_length))
+                    "but was {}".format(str(self._input_length))
                 )
             _length = self._input_length
 
