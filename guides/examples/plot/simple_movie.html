@@ -67,7 +67,19 @@
     <span class="p">)</span>
 </pre></div>
 </div>
+<p>(<a class="reference download internal" download="" href="../../../_downloads/7d5559903cffcc33693cc3dda2c1a93e/simple_movie-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
 <p>Then, make the animation with matplotlib’s <cite>FuncAnimation</cite>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">anim</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">update_field</span><span class="p">,</span>
+    <span class="n">frames</span><span class="o">=</span><span class="n">golf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">interval</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">blit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">anim</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;../../../../build/plot_directive/guides/examples/plot/simple_movie.gif&#39;</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="../../../_downloads/4abe8040097821ea04c32ee5c6851ff4/simple_movie-2.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">anim</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">update_field</span><span class="p">,</span>
     <span class="n">frames</span><span class="o">=</span><span class="n">golf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>

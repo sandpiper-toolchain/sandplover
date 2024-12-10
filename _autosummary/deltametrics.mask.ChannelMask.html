@@ -52,7 +52,25 @@
 <p>A channel mask object, helps enforce valid masking of channels.</p>
 <p class="rubric">Examples</p>
 <p>Initialize the <cite>ChannelMask</cite> from elevation and flow data:</p>
-<p>(<a class="reference download internal" download="" href="../_downloads/923e478f5bbb194f9dab4404e13ae563/deltametrics-mask-ChannelMask-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/c7b74773824dbe452c3dc1c1588306f8/deltametrics-mask-ChannelMask-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.mask</span> <span class="kn">import</span> <span class="n">ChannelMask</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.sample_data.sample_data</span> <span class="kn">import</span> <span class="n">golf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmsk</span> <span class="o">=</span> <span class="n">ChannelMask</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
+<span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;velocity&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
+<span class="gp">... </span>    <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">flow_threshold</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">quick_show</span><span class="p">(</span><span class="s1">&#39;eta&#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmsk</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="../_downloads/68405eefe5d7f1a332a40b251807a064/deltametrics-mask-ChannelMask-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/923e478f5bbb194f9dab4404e13ae563/deltametrics-mask-ChannelMask-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/c7b74773824dbe452c3dc1c1588306f8/deltametrics-mask-ChannelMask-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
 <figure class="align-default">
 <img alt="../_images/deltametrics-mask-ChannelMask-1.png" class="plot-directive" src="../_images/deltametrics-mask-ChannelMask-1.png" />
 </figure>
@@ -177,7 +195,38 @@ will be coerced to <cite>boolean</cite>.</p>
 FlowMask as input.</p>
 <p class="rubric">Examples</p>
 <p>Initialize the <cite>ChannelMask</cite> from an <cite>ElevationMask</cite> and a <cite>FlowMask</cite>:</p>
-<p>(<a class="reference download internal" download="" href="../_downloads/e74f76076249c6c0a06efc0fbae47c45/deltametrics-mask-ChannelMask-2.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/ca1b56f109495c9f1c8543c39fd76921/deltametrics-mask-ChannelMask-2.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.mask</span> <span class="kn">import</span> <span class="n">ChannelMask</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.mask</span> <span class="kn">import</span> <span class="n">ElevationMask</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.mask</span> <span class="kn">import</span> <span class="n">FlowMask</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.sample_data.sample_data</span> <span class="kn">import</span> <span class="n">golf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Create the ElevationMask</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">emsk</span> <span class="o">=</span> <span class="n">ElevationMask</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
+<span class="gp">... </span>    <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Create the FlowMask</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fmsk</span> <span class="o">=</span> <span class="n">FlowMask</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;velocity&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
+<span class="gp">... </span>    <span class="n">flow_threshold</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Make the ChannelMask from the ElevationMask and FlowMask</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cmsk</span> <span class="o">=</span> <span class="n">ChannelMask</span><span class="o">.</span><span class="n">from_mask</span><span class="p">(</span><span class="n">emsk</span><span class="p">,</span> <span class="n">fmsk</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">quick_show</span><span class="p">(</span><span class="s1">&#39;eta&#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmsk</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="../_downloads/a8724af0ca9e6dcb8323476da546e6b1/deltametrics-mask-ChannelMask-2.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/e74f76076249c6c0a06efc0fbae47c45/deltametrics-mask-ChannelMask-2.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/ca1b56f109495c9f1c8543c39fd76921/deltametrics-mask-ChannelMask-2.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
 <figure class="align-default">
 <img alt="../_images/deltametrics-mask-ChannelMask-2.png" class="plot-directive" src="../_images/deltametrics-mask-ChannelMask-2.png" />
 </figure>

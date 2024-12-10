@@ -55,7 +55,23 @@ section with <cite>radius</cite> and <cite>origin</cite> keyword parameter optio
 The circular section trace is interpolated to the nearest integer model
 domain cells, following the mid-point circle algorithm
 (<code class="xref py py-obj docutils literal notranslate"><span class="pre">circle_to_cells</span></code>).</p>
-<p>(<a class="reference download internal" download="" href="../_downloads/fc32dcd6de1b704f32035332b6e4145e/deltametrics-section-CircularSection-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/7fdb186abba306fc771ca27962fb2d2e/deltametrics-section-CircularSection-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.sample_data.sample_data</span> <span class="kn">import</span> <span class="n">golf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.section</span> <span class="kn">import</span> <span class="n">CircularSection</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">register_section</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;circular&#39;</span><span class="p">,</span> <span class="n">CircularSection</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mi">1200</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># show the location and the &quot;velocity&quot; variable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">quick_show</span><span class="p">(</span><span class="s1">&#39;eta&#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s1">&#39;circular&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">show_trace</span><span class="p">(</span><span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="../_downloads/02f3f6b2ac1978193d7ac07d445c9933/deltametrics-section-CircularSection-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/fc32dcd6de1b704f32035332b6e4145e/deltametrics-section-CircularSection-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/7fdb186abba306fc771ca27962fb2d2e/deltametrics-section-CircularSection-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
 <figure class="align-default">
 <img alt="../_images/deltametrics-section-CircularSection-1.png" class="plot-directive" src="../_images/deltametrics-section-CircularSection-1.png" />
 </figure>
@@ -103,6 +119,42 @@ during instantiation.</p>
 <p class="rubric">Examples</p>
 <p>Create a <cite>CircularSection</cite> that is registered to a <cite>DataCube</cite> with
 radius <code class="docutils literal notranslate"><span class="pre">=1200</span></code>, and using the default <cite>origin</cite> options:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.cube</span> <span class="kn">import</span> <span class="n">StratigraphyCube</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.sample_data.sample_data</span> <span class="kn">import</span> <span class="n">golf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.section</span> <span class="kn">import</span> <span class="n">CircularSection</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">register_section</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;circular&#39;</span><span class="p">,</span> <span class="n">CircularSection</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="mi">1200</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># show the location and the &quot;velocity&quot; variable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">quick_show</span><span class="p">(</span><span class="s1">&#39;eta&#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ticks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s1">&#39;circular&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">show_trace</span><span class="p">(</span><span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s1">&#39;circular&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;velocity&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Create a <cite>CircularSection</cite> that is registered to a <cite>StratigraphyCube</cite> with
+radius index <code class="docutils literal notranslate"><span class="pre">=50</span></code>, and the origin against the domain edge (using the
+<cite>origin_idx</cite> option):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfstrat</span> <span class="o">=</span> <span class="n">StratigraphyCube</span><span class="o">.</span><span class="n">from_DataCube</span><span class="p">(</span><span class="n">golfcube</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfstrat</span><span class="o">.</span><span class="n">register_section</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;circular&#39;</span><span class="p">,</span> <span class="n">CircularSection</span><span class="p">(</span><span class="n">radius_idx</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">origin_idx</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># show the location and the &quot;velocity&quot; variable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">quick_show</span><span class="p">(</span><span class="s1">&#39;eta&#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ticks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfstrat</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s1">&#39;circular&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">show_trace</span><span class="p">(</span><span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfstrat</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s1">&#39;circular&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;velocity&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="../_downloads/f515b5b958c2bdfa72b63dd3aae2d955/deltametrics-section-CircularSection-2.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
 <figure class="align-default" id="id1">
 <img alt="../_images/deltametrics-section-CircularSection-2_00.png" class="plot-directive" src="../_images/deltametrics-section-CircularSection-2_00.png" />
 <figcaption>
@@ -323,6 +375,40 @@ create a new) <cite>Axes</cite> object.</p></li>
 </dl>
 <p class="rubric">Examples</p>
 <p><em>Example 1:</em> Display the <cite>velocity</cite> spacetime section of a DataCube.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.sample_data.sample_data</span> <span class="kn">import</span> <span class="n">golf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.section</span> <span class="kn">import</span> <span class="n">StrikeSection</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">register_section</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;demo&#39;</span><span class="p">,</span> <span class="n">StrikeSection</span><span class="p">(</span><span class="n">distance_idx</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s1">&#39;demo&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;velocity&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that the last line above is functionally equivalent to
+<code class="docutils literal notranslate"><span class="pre">golfcube.show_section('demo',</span> <span class="pre">'velocity')</span></code>.</p>
+<p><em>Example 2:</em> Display a section, with “quick” stratigraphy, as the
+<cite>depth</cite> attribute, displaying several different section styles.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">stratigraphy_from</span><span class="p">(</span><span class="s1">&#39;eta&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">register_section</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;demo&#39;</span><span class="p">,</span> <span class="n">StrikeSection</span><span class="p">(</span><span class="n">distance</span><span class="o">=</span><span class="mi">250</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s1">&#39;demo&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;depth&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s1">&#39;spacetime&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;spacetime&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s1">&#39;demo&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;depth&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s1">&#39;preserved&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                               <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;preserved&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s1">&#39;demo&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;depth&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s1">&#39;stratigraphy&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                               <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;quick stratigraphy&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s1">&#39;demo&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;depth&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s1">&#39;stratigraphy&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                               <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;quick stratigraphy&#39;</span><span class="p">)</span>          <span class="c1"># noqa: E501</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="../_downloads/1652cf5d2f15dd97e0e8cd2acf288c6c/deltametrics-section-CircularSection-3.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
 <figure class="align-default" id="id3">
 <img alt="../_images/deltametrics-section-CircularSection-3_00.png" class="plot-directive" src="../_images/deltametrics-section-CircularSection-3_00.png" />
 <figcaption>
@@ -334,10 +420,6 @@ create a new) <cite>Axes</cite> object.</p></li>
 <figcaption>
 <p><span class="caption-text">(<a class="reference download internal" download="" href="../_downloads/a42955e3086c46c6d85ad49a43daf319/deltametrics-section-CircularSection-3_01.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/22caa2dc4233be7e12bc57b7a51a2fad/deltametrics-section-CircularSection-3_01.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</span><a class="headerlink" href="#id4" title="Link to this image">¶</a></p>
 </figcaption>
-</figure>
-<p>(<a class="reference download internal" download="" href="../_downloads/be8833cc8fb418da6d1a2784eadfe569/section_demo_quick_strat.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/fc1127f0408c8eaa1da78fd834369c61/section_demo_quick_strat.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
-<figure class="align-default">
-<img alt="../_images/section_demo_quick_strat.png" class="plot-directive" src="../_images/section_demo_quick_strat.png" />
 </figure>
 </dd></dl>
 
