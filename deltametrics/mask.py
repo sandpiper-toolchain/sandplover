@@ -1,17 +1,17 @@
 """Classes and methods to create masks of planform features and attributes."""
-import numpy as np
-import xarray as xr
-import matplotlib.pyplot as plt
-from skimage import feature
-from skimage import morphology
-from skimage import measure
-from scipy.ndimage import binary_fill_holes
-
 import abc
 import warnings
 
-from deltametrics.utils import is_ndarray_or_xarray
+import matplotlib.pyplot as plt
+import numpy as np
+import xarray as xr
+from scipy.ndimage import binary_fill_holes
+from skimage import feature
+from skimage import measure
+from skimage import morphology
+
 from deltametrics.plot import append_colorbar
+from deltametrics.utils import is_ndarray_or_xarray
 
 
 class BaseMask(abc.ABC):

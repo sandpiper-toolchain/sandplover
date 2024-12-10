@@ -1,19 +1,18 @@
 import abc
 import warnings
 
-import numpy as np
-from scipy import sparse
-import xarray as xr
-
 import matplotlib.pyplot as plt
+import numpy as np
+import xarray as xr
 from matplotlib.collections import LineCollection
+from scipy import sparse
 
-from deltametrics.utils import NoStratigraphyError
 from deltametrics.utils import circle_to_cells
 from deltametrics.utils import coordinates_to_segments
 from deltametrics.utils import guess_land_width_from_land
 from deltametrics.utils import is_ndarray_or_xarray
 from deltametrics.utils import line_to_cells
+from deltametrics.utils import NoStratigraphyError
 from deltametrics.utils import segments_to_cells
 
 

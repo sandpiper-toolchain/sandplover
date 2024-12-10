@@ -1,27 +1,26 @@
-import os
-import copy
 import abc
+import copy
+import os
 import warnings
 
+import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
-
-import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 
+from deltametrics.io import DictionaryIO
+from deltametrics.io import NetCDFIO
 from deltametrics.plan import BasePlanform
 from deltametrics.plan import Planform
+from deltametrics.plot import VariableSet
 from deltametrics.section import BaseSection
 from deltametrics.section import DipSection
 from deltametrics.section import StrikeSection
 from deltametrics.strat import _adjust_elevation_by_subsidence
 from deltametrics.strat import _determine_strat_coordinates
 from deltametrics.strat import BoxyStratigraphyAttributes
-from deltametrics.strat import MeshStratigraphyAttributes
 from deltametrics.strat import compute_boxy_stratigraphy_coordinates
-from deltametrics.plot import VariableSet
-from deltametrics.io import DictionaryIO
-from deltametrics.io import NetCDFIO
+from deltametrics.strat import MeshStratigraphyAttributes
 
 
 class BaseCube(abc.ABC):

@@ -1,10 +1,10 @@
+import datetime
+import time
+
 import numpy as np
 import xarray as xr
-from scipy import optimize
-import time
-import datetime
-
 from numba import njit
+from scipy import optimize
 
 
 def format_number(number):

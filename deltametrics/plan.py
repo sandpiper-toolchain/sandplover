@@ -1,31 +1,30 @@
-import numpy as np
-import xarray as xr
-import matplotlib.pyplot as plt
-
-from scipy.spatial import ConvexHull
-from scipy.signal import fftconvolve
-
-# from shapely.geometry.polygon import Polygon
-from scipy.ndimage import binary_fill_holes, generate_binary_structure
-
-from skimage import morphology
-
 import abc
 import warnings
 
-from numba import njit, prange, set_num_threads
+import matplotlib.pyplot as plt
+import numpy as np
+import xarray as xr
+from numba import njit
+from numba import prange
+from numba import set_num_threads
+from scipy.ndimage import binary_fill_holes
+from scipy.ndimage import generate_binary_structure
+from scipy.signal import fftconvolve
+from scipy.spatial import ConvexHull
+from skimage import morphology
 
 from deltametrics.mask import BaseMask
 from deltametrics.mask import ChannelMask
 from deltametrics.mask import ElevationMask
 from deltametrics.mask import LandMask
 from deltametrics.mask import ShorelineMask
-from deltametrics.section import BaseSection
+from deltametrics.plot import append_colorbar
 from deltametrics.plot import VariableInfo
 from deltametrics.plot import VariableSet
-from deltametrics.plot import append_colorbar
+from deltametrics.section import BaseSection
 from deltametrics.utils import _points_in_polygon
 from deltametrics.utils import is_ndarray_or_xarray
+# from shapely.geometry.polygon import Polygon
 
 class BasePlanform(abc.ABC):
     """Base planform object.
