@@ -8,7 +8,6 @@ from numba import njit
 from numba import prange
 from numba import set_num_threads
 from scipy.ndimage import binary_fill_holes
-from scipy.ndimage import generate_binary_structure
 from scipy.signal import fftconvolve
 from scipy.spatial import ConvexHull
 from skimage import morphology
@@ -25,6 +24,7 @@ from deltametrics.section import BaseSection
 from deltametrics.utils import _points_in_polygon
 from deltametrics.utils import is_ndarray_or_xarray
 # from shapely.geometry.polygon import Polygon
+
 
 class BasePlanform(abc.ABC):
     """Base planform object.
@@ -1988,10 +1988,8 @@ def _custom_closing(img, disksize):
     The FFT implementation is after
     https://www.cs.utep.edu/vladik/misha5.pdf
     """
-    _changed = np.inf
     disk = morphology.disk(disksize)
     r = (disksize // 2) + 1  # kernel radius, i.e. half the width of disk
-    _iter = 0  # count number of closings, cap at 100
 
     # binary_closing is dilation followed by erosion
     _dilated = _fft_dilate(img, disk)
@@ -2156,15 +2154,15 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
     # coerce the channel mask to just the raw mask values
     if is_ndarray_or_xarray(channelmask):
         if isinstance(channelmask, xr.core.dataarray.DataArray):
-            _dx = float(
+            _ = float(
                 channelmask[channelmask.dims[0]][1]
                 - channelmask[channelmask.dims[0]][0]
             )
         elif isinstance(channelmask, np.ndarray):
-            _dx = 1
+            _ = 1
     elif isinstance(channelmask, ChannelMask):
         channelmask = channelmask.mask
-        _dx = float(
+        _ = float(
             channelmask[channelmask.dims[0]][1] - channelmask[channelmask.dims[0]][0]
         )
         channelmask = np.array(channelmask)
