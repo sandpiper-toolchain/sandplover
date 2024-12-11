@@ -813,7 +813,6 @@ class TestShowHistograms:
         with pytest.raises(ValueError, match=r'Number of histogram tuples*.'):
             # input lengths must match
             show_histograms(*sets, sets=[0, 1], ax=ax)
-            plt.close()
 
 
 class TestAerialView:

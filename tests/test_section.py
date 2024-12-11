@@ -84,7 +84,7 @@ class TestStrikeSection:
             rcm8cube.register_section(
                 "testname", StrikeSection(distance_idx=5, name="TESTING")
             )
-            assert rcm8cube.sections["testname"].name == "TESTING"
+        assert rcm8cube.sections["testname"].name == "TESTING"
         _sect = rcm8cube.register_section(
             "test", StrikeSection(distance_idx=5), return_section=True
         )
@@ -238,7 +238,7 @@ class TestPathSection:
             rcm8cube.register_section(
                 "test2", PathSection(path_idx=self.test_path, name="trial")
             )
-            assert rcm8cube.sections["test2"].name == "trial"
+        assert rcm8cube.sections["test2"].name == "trial"
         _section = rcm8cube.register_section(
             "test", PathSection(path_idx=self.test_path), return_section=True
         )
@@ -372,7 +372,7 @@ class TestCircularSection:
             rcm8cube.register_section(
                 "test2", CircularSection(radius_idx=31, name="diff")
             )
-            assert rcm8cube.sections["test2"].name == "diff"
+        assert rcm8cube.sections["test2"].name == "diff"
         rcm8cube.register_section("test3", CircularSection())
         assert rcm8cube.sections["test3"]._radius_idx == rcm8cube.shape[1] // 2
         _section = rcm8cube.register_section(
@@ -498,7 +498,7 @@ class TestRadialSection:
             rcm8cube.register_section(
                 "test2", RadialSection(azimuth=30, name="notthesame")
             )
-            assert rcm8cube.sections["test2"].name == "notthesame"
+        assert rcm8cube.sections["test2"].name == "notthesame"
         _section = rcm8cube.register_section(
             "test", RadialSection(azimuth=30), return_section=True
         )
@@ -1206,7 +1206,7 @@ class TestDipSection:
             rcm8cube.register_section(
                 "testname", DipSection(distance_idx=150, name="TESTING")
             )
-            assert rcm8cube.sections["testname"].name == "TESTING"
+        assert rcm8cube.sections["testname"].name == "TESTING"
         _sect = rcm8cube.register_section(
             "test", DipSection(distance_idx=150), return_section=True
         )
