@@ -330,7 +330,7 @@ class NetCDFIO(FileIO):
     @property
     def keys(self):
         """Variable names in file."""
-        return [var for var in self.dataset.variables]
+        return list(self.dataset.variables)
 
 
 class DictionaryIO(BaseIO):
@@ -364,7 +364,7 @@ class DictionaryIO(BaseIO):
         These variables are pulled from the loaded dataset.
         """
         _vars = self.dataset.keys()
-        self.known_variables = [item for item in _vars]
+        self.known_variables = list(_vars)
 
     def get_known_coords(self, dimensions):
         """List known coordinates.
@@ -462,4 +462,4 @@ class DictionaryIO(BaseIO):
     @property
     def keys(self):
         """Variable names in file."""
-        return [var for var in self.dataset.variables]
+        return list(self.dataset.variables)
