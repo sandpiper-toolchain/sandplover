@@ -1053,11 +1053,11 @@ class MorphologicalPlanform(SpecialtyPlanform):
         elif isinstance(self.cube, BaseCube):
             try:
                 self._max_disk = self.cube.meta["N0"].data
-            except Exception:
+            except Exception as err:
                 raise TypeError(
                     "Data cube does not contain metadata, you must "
                     "specify the inlet size."
-                )
+                ) from err
         else:
             raise TypeError(
                 "Something went wrong. Check second input argument for " "inlet width."

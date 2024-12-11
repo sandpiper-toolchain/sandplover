@@ -219,7 +219,7 @@ class NetCDFIO(FileIO):
             # open the dataset
             _dataset = xr.open_dataset(self.data_path, engine=_engine)
         except Exception as e:
-            raise TypeError(f"File format out of scope for DeltaMetrics: {e}")
+            raise TypeError(f"File format out of scope for DeltaMetrics: {e}") from e
 
         # try to find if coordinates have been preconfigured
         _coords_list = list(_dataset.coords)

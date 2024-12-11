@@ -69,7 +69,7 @@ def needs_stratigraphy(func):
         try:
             return func(*args, **kwargs)
         except AttributeError as e:
-            raise NoStratigraphyError(e)
+            raise NoStratigraphyError(e) from e
     return decorator
 
 
