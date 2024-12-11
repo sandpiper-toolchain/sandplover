@@ -790,7 +790,7 @@ class TestShowHistograms:
     def test_multiple_no_sets(self):
         sets = [np.histogram(np.random.normal(lc, s, size=500),
                 bins=self.bins, density=True) for lc, s in
-                zip(self.locs, self.scales)]
+                zip(self.locs, self.scales, strict=True)]
         fig, ax = plt.subplots()
         show_histograms(*sets, ax=ax)
         plt.close()
@@ -798,7 +798,7 @@ class TestShowHistograms:
     def test_multiple_no_sets_alphakwarg(self):
         sets = [np.histogram(np.random.normal(lc, s, size=500),
                 bins=self.bins, density=True) for lc, s in
-                zip(self.locs, self.scales)]
+                zip(self.locs, self.scales, strict=True)]
         fig, ax = plt.subplots()
         show_histograms(*sets, ax=ax, alpha=0.4)
         plt.close()
@@ -806,7 +806,7 @@ class TestShowHistograms:
     def test_multiple_with_sets(self):
         sets = [np.histogram(np.random.normal(lc, s, size=500),
                 bins=self.bins, density=True) for lc, s in
-                zip(self.locs, self.scales)]
+                zip(self.locs, self.scales, strict=True)]
         fig, ax = plt.subplots()
         show_histograms(*sets, sets=[0, 0, 1, 1, 2], ax=ax)
         plt.close()

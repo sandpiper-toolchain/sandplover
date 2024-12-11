@@ -384,7 +384,7 @@ class DictionaryIO(BaseIO):
             # get the coordinates and dimensions from the data
             self.dims = under.dims
             self.coords = [under.coords[dim].data for dim in self.dims]
-            self.dimensions = dict(zip(self.dims, self.coords))
+            self.dimensions = dict(zip(self.dims, self.coords, strict=True))
         # otherwise, check for the arguments passed
         elif not (dimensions is None):
             # if dimensions was passed, it must be a dictionary
@@ -418,7 +418,7 @@ class DictionaryIO(BaseIO):
             self.coords = coords
 
         self.known_coords = self.dims
-        self.dimensions = dict(zip(self.dims, self.coords))
+        self.dimensions = dict(zip(self.dims, self.coords, strict=True))
 
     def connect(self, *args, **kwargs):
         """Connect to the data file.
