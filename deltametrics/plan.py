@@ -1896,7 +1896,7 @@ def shaw_opening_angle_method(
         test_set_points = land_points
     else:
         raise ValueError(
-            f"Invalid option '{test_set}' for `test_set` parameter was supplied."
+            f"Invalid option {test_set!r} for `test_set` parameter was supplied."
         )
 
     # Find convex hull
@@ -1929,7 +1929,7 @@ def shaw_opening_angle_method(
         outside_hull_value = 0
     else:
         raise ValueError(
-            f"Invalid option '{query_set}' for `query_set` parameter was supplied."
+            f"Invalid option {query_set!r} for `query_set` parameter was supplied."
         )
 
     # Compute opening angle
