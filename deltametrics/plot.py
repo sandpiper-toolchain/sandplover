@@ -1399,7 +1399,7 @@ def aerial_view(
     datum=0,
     ax=None,
     ticks=False,
-    colorbar_kw={},
+    colorbar_kw=None,
     return_im=False,
     **kwargs,
 ):
@@ -1457,6 +1457,7 @@ def aerial_view(
         >>> fig, ax = plt.subplots()
         >>> _ = aerial_view(elevation_data, ax=ax)
     """
+    colorbar_kw = {} if colorbar_kw is None else colorbar_kw
     if not ax:
         fig, ax = plt.subplots()
 

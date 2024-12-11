@@ -1323,7 +1323,7 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
     return rough
 
 
-def compute_shoreline_length(shore_mask, origin=[0, 0], return_line=False):
+def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
     """Compute the length of a shoreline from a mask of the shoreline.
 
     Algorithm attempts to determine the sorted coordinates of the shoreline
@@ -1554,7 +1554,7 @@ def compute_shoreline_length(shore_mask, origin=[0, 0], return_line=False):
         return length
 
 
-def compute_shoreline_distance(shore_mask, origin=[0, 0], return_distances=False):
+def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False):
     """Compute mean and stddev distance from the delta apex to the shoreline.
 
     Algorithm computes the mean distance from the delta apex/origin to all

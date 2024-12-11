@@ -40,7 +40,7 @@ class BaseCube(abc.ABC):
 
     """
 
-    def __init__(self, data, read=[], varset=None, dimensions=None):
+    def __init__(self, data, read=(), varset=None, dimensions=None):
         """Initialize the BaseCube.
 
         Parameters
@@ -644,7 +644,7 @@ class DataCube(BaseCube):
     """
 
     def __init__(
-        self, data, read=[], varset=None, stratigraphy_from=None, dimensions=None
+        self, data, read=(), varset=None, stratigraphy_from=None, dimensions=None
     ):
         """Initialize the BaseCube.
 
@@ -889,7 +889,7 @@ class StratigraphyCube(BaseCube):
     def __init__(
         self,
         data,
-        read=[],
+        read=(),
         varset=None,
         stratigraphy_from=None,
         sigma_dist=None,
