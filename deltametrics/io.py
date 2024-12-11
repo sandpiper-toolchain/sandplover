@@ -246,6 +246,7 @@ class NetCDFIO(FileIO):
                 "with DeltaMetrics. This warning may be replaced "
                 "with an Error in a future version.",
                 UserWarning,
+                stacklevel=2,
             )
         else:
             # coordinates were not found and are not being set
@@ -270,7 +271,9 @@ class NetCDFIO(FileIO):
             self.meta = _meta
         except OSError:
             warnings.warn(
-                "No associated metadata was found in the given data file.", UserWarning
+                "No associated metadata was found in the given data file.",
+                UserWarning,
+                stacklevel=2,
             )
             self.meta = None
 

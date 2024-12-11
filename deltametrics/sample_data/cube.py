@@ -18,5 +18,6 @@ def rcm8():
         "Access is maintained here for backwards compatability, "
         "but will be removed in a future release.",
         DeprecationWarning,
+        stacklevel=2,
     )
     return moved_rcm8()

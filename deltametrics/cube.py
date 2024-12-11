@@ -579,7 +579,8 @@ class BaseCube(abc.ABC):
             "alternatives. To quickly show a planform slice of a cube, you "
             "can use `quick_show()` with a similar API. The `show_planform` "
             "method implements more features, but requires instantiating a "
-            "`Planform` object first. Passing arguments to `quick_show`."
+            "`Planform` object first. Passing arguments to `quick_show`.",
+            stacklevel=2,
         )
         # pass `t` arg to `idx` for legacy
         if "t" in kwargs.keys():

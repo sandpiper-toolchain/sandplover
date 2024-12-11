@@ -279,7 +279,8 @@ class BaseMask(abc.ABC):
                 DeprecationWarning(
                     "The `is_mask` argument is deprecated. "
                     "It does not have any functionality."
-                )
+                ),
+                stacklevel=2,
             )
 
     def _check_deprecated_3d_input(self, args_0_shape):

@@ -293,7 +293,8 @@ class BaseSection(abc.ABC):
                         "`Section` object. To change the name of "
                         "a Section, you must set the attribute "
                         "directly with `section._name = 'name'`."
-                    )
+                    ),
+                    stacklevel=2,
                 )
             # do nothing
 
@@ -967,7 +968,8 @@ class LineSection(BaseSection):
                     "in a future release. Please use `distance_idx` and "
                     "`length` to continue to specify cell indices, or "
                     "use `distance` and `length` to specify "
-                    "coordinate values."
+                    "coordinate values.",
+                    stacklevel=2,
                 )
                 if direction == "strike":
                     distance_idx = y
@@ -1207,7 +1209,10 @@ class StrikeSection(LineSection):
     @property
     def y(self):
         """Deprecated. Use :obj:`distance_idx`."""
-        warnings.warn("`.y` is a deprecated attribute. Use `.distance_idx` instead.")
+        warnings.warn(
+            "`.y` is a deprecated attribute. Use `.distance_idx` instead.",
+            stacklevel=2,
+        )
         return self._distance_idx
 
     @property
@@ -1216,7 +1221,10 @@ class StrikeSection(LineSection):
 
         Start and end indices of section.
         """
-        warnings.warn("`.x` is a deprecated attribute. Use `.length_idx` instead.")
+        warnings.warn(
+            "`.x` is a deprecated attribute. Use `.length_idx` instead.",
+            stacklevel=2,
+        )
         return self._length_idx
 
 
@@ -1418,7 +1426,10 @@ class DipSection(LineSection):
     @property
     def y(self):
         """Deprecated. Use :obj:`length_idx`."""
-        warnings.warn("`.y` is a deprecated attribute. Use `.length_idx` instead.")
+        warnings.warn(
+            "`.y` is a deprecated attribute. Use `.length_idx` instead.",
+            stacklevel=2,
+        )
         return self._length_idx
 
     @property
@@ -1427,7 +1438,10 @@ class DipSection(LineSection):
 
         Start and end indices of section.
         """
-        warnings.warn("`.x` is a deprecated attribute. Use `.distance_idx` instead.")
+        warnings.warn(
+            "`.x` is a deprecated attribute. Use `.distance_idx` instead.",
+            stacklevel=2,
+        )
         return self._distance_idx
 
 
@@ -1602,8 +1616,10 @@ class CircularSection(BaseSection):
                     # try and guess the value (should issue a warning?)
                     #   if no field called 'eta'?? this will fail.
                     warnings.warn(
-                        "Trying to guess origin distance from dim1==0. "
-                        "This is unlikely to work for data not generated from pyDeltaRCM."
+                        "Trying to guess origin distance from dim1==0."
+                        " This is unlikely to work for data not generated from"
+                        " pyDeltaRCM.",
+                        stacklevel=2,
                     )
                     land_width = np.minimum(
                         guess_land_width_from_land(
@@ -1852,8 +1868,10 @@ class RadialSection(BaseSection):
                     # try and guess the value (should issue a warning?)
                     #   if no field called 'eta'?? this will fail.
                     warnings.warn(
-                        "Trying to guess origin distance from dim1==0. "
-                        "This is unlikely to work for data not generated from pyDeltaRCM."
+                        "Trying to guess origin distance from dim1==0."
+                        " This is unlikely to work for data not generated from"
+                        " pyDeltaRCM.",
+                        stacklevel=2,
                     )
                     land_width = np.minimum(
                         guess_land_width_from_land(

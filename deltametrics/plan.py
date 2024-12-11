@@ -83,7 +83,8 @@ class BasePlanform(abc.ABC):
                         "`Planform` object. To change the name of "
                         "a Planform, you must set the attribute "
                         "directly with `plan._name = 'name'`."
-                    )
+                    ),
+                    stacklevel=2,
                 )
             # do nothing
 
