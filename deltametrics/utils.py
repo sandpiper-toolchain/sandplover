@@ -188,15 +188,18 @@ def curve_fit(data, fit='harmonic'):
 
     # do fit
     if fit == 'harmonic':
-        def func_harmonic(x, a, b): return a / (1 + b * x)
+        def func_harmonic(x, a, b):
+            return a / (1 + b * x)
         popt, pcov = optimize.curve_fit(func_harmonic, xdata, data)
         yfit = func_harmonic(xdata, *popt)
     elif fit == 'exponential':
-        def func_exponential(x, a, b, c): return (a - b) * np.exp(-c * x) + b
+        def func_exponential(x, a, b, c):
+            return (a - b) * np.exp(-c * x) + b
         popt, pcov = optimize.curve_fit(func_exponential, xdata, data)
         yfit = func_exponential(xdata, *popt)
     elif fit == 'linear':
-        def func_linear(x, a, b): return a * x + b
+        def func_linear(x, a, b):
+            return a * x + b
         popt, pcov = optimize.curve_fit(func_linear, xdata, data)
         yfit = func_linear(xdata, *popt)
 
