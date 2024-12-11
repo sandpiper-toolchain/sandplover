@@ -736,7 +736,7 @@ class BaseSection(abc.ABC):
         lims = [ax.get_xlim(), ax.get_ylim()]
 
         # add the trace
-        ax.plot(_x, _y, label=_label, *args, **kwargs)
+        ax.plot(_x, _y, *args, label=_label, **kwargs)
 
         # if autscale is false, reset the axes
         if not autoscale:
