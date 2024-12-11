@@ -1,4 +1,3 @@
-import os
 import sys
 
 import numpy as np
@@ -211,7 +210,7 @@ class TestDictionaryIO:
     def test_bad_dimensions_shape_mismatch(self):
         with pytest.raises(ValueError, match=r'Shape of `dimensions` .*'):
             # note dim2 and dim1 are switchd below!
-            _ = dict_io = DictionaryIO(
+            DictionaryIO(
                 self.dict_np, dimensions={
                     'time': np.arange(self._shape[0]),
                     'x': np.arange(self._shape[2]),

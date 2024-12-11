@@ -1,6 +1,4 @@
 """Tests for the mask.py script."""
-import os
-import sys
 import unittest.mock as mock
 
 import matplotlib.pyplot as plt
@@ -67,7 +65,7 @@ class TestBaseMask:
         basemask = BaseMask("field", self.fake_input)
 
         # make a bunch of assertions
-        assert np.all(basemask._mask == False)
+        assert not np.any(basemask._mask)
         assert np.all(basemask.integer_mask == 0)
         assert basemask._mask is basemask.mask
         assert basemask.shape == self.fake_input.shape
