@@ -76,7 +76,7 @@
 <span class="n">H_SL</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="c1"># sea level</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="../../../_downloads/9c29cf99c95ffb53ecee94a3138fe065/setup_any_dataset-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
+<p>(<a class="reference download internal" download="" href="../../../_downloads/1f7eb3e5828e867c235c5fd7da0d5675/setup_any_dataset-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
 <p>And we can see what this data looks like for a comparison with the data when we eventually have it in a <cite>DataCube</cite>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># check out the data before we save it into a netcdf file</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;eta shape:&quot;</span><span class="p">,</span> <span class="n">eta</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -87,7 +87,7 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="../../../_downloads/aecea0bb8eb50c4fb16fa2378bc659cf/setup_any_dataset-2.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/4a89e1bb0b64b2d1b3caeefd105564a7/setup_any_dataset-2.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/24136250fe8a0e9d4c33ac56e99a543e/setup_any_dataset-2.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<p>(<a class="reference download internal" download="" href="../../../_downloads/6d7b46d2aa10d8ae9737df71b2b64239/setup_any_dataset-2.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/185eaeac6b9a3ee2428ec65e150d1df5/setup_any_dataset-2.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/80e3d3636bc278851c66ec692e36a26f/setup_any_dataset-2.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
 <figure class="align-default">
 <img alt="../../../_images/setup_any_dataset-2.png" class="plot-directive" src="../../../_images/setup_any_dataset-2.png" />
 </figure>
@@ -134,7 +134,7 @@ NetCDF was designed with dimensional data in mind, so that we can use common dim
 <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="s1">&#39;model_output.nc&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="../../../_downloads/b579c352b4dd438427e7d0596b430f19/setup_any_dataset-3.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
+<p>(<a class="reference download internal" download="" href="../../../_downloads/fe18307d7bc4ded0f4557a8119be8b2d/setup_any_dataset-3.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">output_folder</span> <span class="o">=</span> <span class="s1">&#39;./output&#39;</span>
 <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="s1">&#39;model_output.nc&#39;</span><span class="p">)</span>
 </pre></div>
@@ -193,7 +193,7 @@ NetCDF was designed with dimensional data in mind, so that we can use common dim
 <span class="n">output_netcdf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="../../../_downloads/7357544de4cb50005610881b9ec77c87/setup_any_dataset-4.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
+<p>(<a class="reference download internal" download="" href="../../../_downloads/5e55a926772a5edcbbc48fcbba9ec6f5/setup_any_dataset-4.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
 <p>Now, let’s load the NetCDF file with DeltaMetrics. Make a cube by pointing to the directory and file location.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nc_datacube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">DataCube</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="s1">&#39;model_output.nc&#39;</span><span class="p">))</span>
 
@@ -208,7 +208,7 @@ NetCDF was designed with dimensional data in mind, so that we can use common dim
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="../../../_downloads/2e67f13ae375f321d0c7a59f26a1c916/setup_any_dataset-5.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/172d7f33036ab2a712291128caec3e7d/setup_any_dataset-5.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/5e6116f3437e3c42a4a1ea4f50fa7e02/setup_any_dataset-5.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<p>(<a class="reference download internal" download="" href="../../../_downloads/1f73cf0f269dbf25fa6b2fc95bce9555/setup_any_dataset-5.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/9932f320c19a5010102020042e186dcd/setup_any_dataset-5.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/e08e4951355e1eafffd65bc8ff8a19d3/setup_any_dataset-5.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
 <figure class="align-default">
 <img alt="../../../_images/setup_any_dataset-5.png" class="plot-directive" src="../../../_images/setup_any_dataset-5.png" />
 </figure>
@@ -220,7 +220,7 @@ NetCDF was designed with dimensional data in mind, so that we can use common dim
     <span class="n">ticks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="../../../_downloads/858bba4b850b3a6b097c4f928ea873f9/setup_any_dataset-6.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/82cb3e4b4e991de23b2d66dcc2507628/setup_any_dataset-6.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/63b4b24b214b652f5c32e2dbfc247645/setup_any_dataset-6.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<p>(<a class="reference download internal" download="" href="../../../_downloads/3cfe0459753fb5e2412a1300f94f688a/setup_any_dataset-6.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/2febd18e139cff764b2311936c4a183d/setup_any_dataset-6.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/392aa04f9fa9199f83987b0e0518c055/setup_any_dataset-6.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
 <figure class="align-default">
 <img alt="../../../_images/setup_any_dataset-6.png" class="plot-directive" src="../../../_images/setup_any_dataset-6.png" />
 </figure>
@@ -255,7 +255,7 @@ NetCDF was designed with dimensional data in mind, so that we can use common dim
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>(<a class="reference download internal" download="" href="../../../_downloads/385aa0dfd7c1939f9a7bd29fa6a8a553/setup_any_dataset-7.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/4fb244187e15e6553e61069c1c332dab/setup_any_dataset-7.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/69094506c4b69626981c4662944fbb92/setup_any_dataset-7.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<p>(<a class="reference download internal" download="" href="../../../_downloads/5fde7b12933d043a4e258c6cbcf7885c/setup_any_dataset-7.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/042184c2635c6a1600334ce1f12640ef/setup_any_dataset-7.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/deea6aa626721c63123e04be9b8cb98c/setup_any_dataset-7.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
 <figure class="align-default">
 <img alt="../../../_images/setup_any_dataset-7.png" class="plot-directive" src="../../../_images/setup_any_dataset-7.png" />
 </figure>
