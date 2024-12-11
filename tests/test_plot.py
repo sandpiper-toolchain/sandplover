@@ -761,7 +761,7 @@ class TestScaleLightness:
     def test_scale_down_red(self):
         red = (1.0, 0.0, 0.0)  # initial color red
         scales = np.arange(1, 0, -0.05)  # from 1 to 0.05
-        for s, scale in enumerate(scales):
+        for _, scale in enumerate(scales):
             darker_red = _scale_lightness(red, scale)
             assert darker_red[0] == pytest.approx(scale)
 

@@ -110,7 +110,7 @@ class AttributeChecker:
             raise TypeError('Checklist must be of type `list`,'
                             'but was type: %s' % type(checklist))
 
-        for c, check in enumerate(checklist):
+        for _, check in enumerate(checklist):
             has = getattr(self, check, None)
             if has is None:
                 att_dict[check] = False

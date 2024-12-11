@@ -398,7 +398,7 @@ class DictionaryIO(BaseIO):
                 raise ValueError("`dimensions` must contain three dimensions!")
             # use the dimensions keys as dims and the vals as coords
             #   note, we check the size against the underlying a we go
-            for i, (k, v) in enumerate(dimensions.items()):
+            for i, k in enumerate(dimensions):
                 if not (len(dimensions[k]) == under_shp[i]):
                     raise ValueError(
                         "Shape of `dimensions` at position {} was {}, "
