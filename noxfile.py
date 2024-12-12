@@ -58,6 +58,8 @@ def lint(session: nox.Session) -> None:
     """Look for lint."""
     session.install("pre-commit")
     session.run("pre-commit", "run", "--all-files", "reorder-python-imports")
+    session.run("pre-commit", "run", "--all-files", "trailing-whitespace")
+    session.run("pre-commit", "run", "--all-files", "end-of-file-fixer")
 
 
 @nox.session
