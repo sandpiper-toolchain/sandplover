@@ -1,0 +1,66 @@
+repos:
+- repo: https://github.com/psf/black
+  rev: 24.10.0
+  hooks:
+  - id: black
+    name: black
+    description: "Black: The uncompromising Python code formatter"
+    entry: black
+    language: python
+    language_version: python3
+    minimum_pre_commit_version: 2.9.2
+    require_serial: true
+    types_or: [python, pyi]
+    exclude: .*
+
+- repo: https://github.com/keewis/blackdoc
+  rev: v0.3.9
+  hooks:
+  - id: blackdoc
+    description: "Black for doctests"
+    additional_dependencies: ["black==24.10.0"]
+    exclude: .*
+  - id: blackdoc-autoupdate-black
+
+- repo: https://github.com/pycqa/flake8
+  rev: 7.1.1
+  hooks:
+  - id: flake8
+    additional_dependencies:
+    - flake8-bugbear
+    - flake8-comprehensions
+    - flake8-simplify
+    exclude: ^docs/source/pyplots/guides/.*$
+
+- repo: https://github.com/asottile/pyupgrade
+  rev: v3.19.0
+  hooks:
+  - id: pyupgrade
+    args: [--py311-plus]
+
+- repo: https://github.com/asottile/reorder-python-imports
+  rev: v3.14.0
+  hooks:
+  - id: reorder-python-imports
+    args: [--py311-plus]
+
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v5.0.0
+  hooks:
+    - id: check-builtin-literals
+    - id: check-added-large-files
+    - id: check-case-conflict
+    - id: check-toml
+    - id: check-yaml
+    - id: debug-statements
+    - id: end-of-file-fixer
+    - id: forbid-new-submodules
+    - id: mixed-line-ending
+    - id: trailing-whitespace
+    - id: name-tests-test
+    - id: file-contents-sorter
+      files: |
+        (?x)^(
+          .*requirements(-\w+)?.(in|txt)|
+          requirements/.*\.txt
+        )

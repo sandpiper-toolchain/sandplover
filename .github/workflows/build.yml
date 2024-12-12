@@ -46,6 +46,23 @@ jobs:
         name: codecov-umbrella
         fail_ci_if_error: false
 
+  lint:
+    runs-on: "ubuntu-latest"
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+    - name: Install nox
+      run: pip install nox
+    - name: Run the linters
+      run: nox -s lint
+
   docs:
     runs-on: ubuntu-latest
     steps:
