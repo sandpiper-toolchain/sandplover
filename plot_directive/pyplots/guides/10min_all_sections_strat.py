@@ -1,5 +1,6 @@
-import deltametrics as dm
 import matplotlib.pyplot as plt
+
+import deltametrics as dm
 
 golfcube = dm.sample_data.golf()
 golfcube.stratigraphy_from('eta', dz=0.05)
