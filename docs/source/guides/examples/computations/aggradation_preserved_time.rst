@@ -1,7 +1,7 @@
 Aggradation and preserved time
 ------------------------------
 
-Suppose we want to compute the effect of background aggradation on the preservation of time in a stratigraphic section. 
+Suppose we want to compute the effect of background aggradation on the preservation of time in a stratigraphic section.
 A simple way to do this would be to determine the fraction of model time intervals that are preserved in the stratigraphic section (:math:`F_t`) as:
 
 .. math::
@@ -68,7 +68,7 @@ Using the :obj:`~deltametrics.strat.compute_boxy_stratigraphy_volume` function a
 
         # label
         ax[i].text(
-            20, 15, 
+            20, 15,
             (f'aggration rate: {ar:} m/timestep\n'
              f'fraction time preserved: {fraction_preserved:}'),
             fontsize=7)

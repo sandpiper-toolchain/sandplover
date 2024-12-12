@@ -547,7 +547,7 @@ def runtime_from_log(logname):
 
         This function was written to work with the log files output from
         `pyDeltaRCM`, it may work for other log files, if the start of each
-        line is a formatted timestamp: ``%Y-%m-%d %H:%M:%S``. 
+        line is a formatted timestamp: ``%Y-%m-%d %H:%M:%S``.
 
     Parameters
     ----------

@@ -7,7 +7,7 @@ Stratigraphy operations
 The package makes available functions relating to computing things based on
 stratigraphy.
 
-The functions are defined in ``deltametrics.strat``. 
+The functions are defined in ``deltametrics.strat``.
 
 .. currentmodule:: deltametrics.strat
 

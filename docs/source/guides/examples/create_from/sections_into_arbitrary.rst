@@ -1,7 +1,7 @@
 Creating Sections into different types of objects
 -------------------------------------------------
 
-Conventionally, we draw `Section` objects into a `Cube`. However, it is also possible to create `Section` objects into other objects, such as a `Mask` or `Planform` or any arbitrary array-like data. 
+Conventionally, we draw `Section` objects into a `Cube`. However, it is also possible to create `Section` objects into other objects, such as a `Mask` or `Planform` or any arbitrary array-like data.
 
 First, let's create a `Section` into a `Cube` and a basic `Planform` and compare.
 
@@ -11,10 +11,10 @@ First, let's create a `Section` into a `Cube` and a basic `Planform` and compare
 
     golfcube = dm.sample_data.golf()
     pl = dm.plan.Planform(golfcube, idx=-1)
-    
+
     css = dm.section.StrikeSection(golfcube, distance=1200)
     pss = dm.section.StrikeSection(pl, distance=1200)
-    
+
     fig, ax = plt.subplots()
     golfcube.quick_show('eta', idx=-1)
     css.show_trace(ax=ax)
@@ -43,7 +43,7 @@ Similarly to creating a `Section` into the `Planform`, we can use an underlying 
 .. plot::
     :include-source:
     :context:
-    
+
     EM = dm.mask.ElevationMask(
         golfcube["eta"][-1],
         elevation_threshold=0)
@@ -59,7 +59,7 @@ Similarly to creating a `Section` into the `Planform`, we can use an underlying 
     A common "gotcha" is forgetting that some `Section` types (e.g., :obj:`~deltametrics.section.CircularSection` and :obj:`~deltametrics.section.RadialSection`) will try to guess a useful `origin` during instantiation, by reading various attributes of an underlying `DataCube`. These attributes are not available during instantiation of a `Section` that reads into a `Planform` or `Mask`. This can lead to discrepencies in the locations of the Section objects!
 
     In this example, the `Section` into the `Planform` is offset by `L0`, because this attribute is not known to the `Planform`.
-    
+
     .. code::
 
         ccs = dm.section.CircularSection(golfcube, radius=1000)
@@ -70,7 +70,7 @@ Similarly to creating a `Section` into the `Planform`, we can use an underlying 
 
         ccs = dm.section.CircularSection(golfcube, radius=1000)
         pcs = dm.section.CircularSection(pl, radius=1000)
-        
+
         fig, ax = plt.subplots()
         golfcube.quick_show('eta', idx=-1)
         ccs.show_trace(ax=ax)
@@ -82,7 +82,7 @@ Similarly to creating a `Section` into the `Planform`, we can use an underlying 
 Arbitrary data
 ~~~~~~~~~~~~~~
 
-You can also create a `Section` into any array-like data. 
+You can also create a `Section` into any array-like data.
 
 .. plot::
     :include-source:

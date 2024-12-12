@@ -15,7 +15,7 @@ This reference page documents the lower-level utilities used to make this happen
 
   There is a complete :doc:`Visualization Guide </guides/subject_guides/visualization>` about the organization of this area of DeltaMetrics and examples for how to use and make visualizations.
 
-The functions are defined in ``deltametrics.plot``. 
+The functions are defined in ``deltametrics.plot``.
 
 .. _default_styling:
 
@@ -36,7 +36,7 @@ You may want to examine these to change the style of plotting across the package
 
 .. currentmodule:: deltametrics.plot
 
-.. autosummary:: 
+.. autosummary::
     :toctree: ../../_autosummary
 
     VariableInfo
@@ -61,7 +61,7 @@ DeltaMetrics plot routines
 
 These functions are similar to the convenience functions above, but mostly produce their own plots entirely, rather than adding a component of a plot.
 
-.. autosummary:: 
+.. autosummary::
     :toctree: ../../_autosummary
 
     show_one_dimensional_trajectory_to_strata

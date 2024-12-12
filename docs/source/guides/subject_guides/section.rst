@@ -4,13 +4,13 @@ Introduction to Section objects
 
 .. rubric:: Section lexicon
 
-The `Section` module defines some terms that are used throughout the code and rest of the documentation. 
+The `Section` module defines some terms that are used throughout the code and rest of the documentation.
 
 Most importantly, a Section is defined by a set of coordinates in the `dim1`-`dim2` plane of a `Cube`.
 
 .. note::
 
-    For advanced use cases, it is possible to create a `Section` into a `Mask`, `Planform` or any array-like data. For this guide, it will be helpful to focus on sections as they cut into a `Cube`. 
+    For advanced use cases, it is possible to create a `Section` into a `Mask`, `Planform` or any array-like data. For this guide, it will be helpful to focus on sections as they cut into a `Cube`.
 
 Therefore, we transform variable definitions when extracting the `Section`, and the coordinate system of the section is defined by the along-section direction :math:`s` and a vertical section coordinate, which is :math:`z` when viewing stratigraphy, and :math:`t` when viewing a spacetime section.
 
@@ -77,7 +77,7 @@ We can display the arrays using `matplotlib` to examine the spatiotemporal chang
 
     >>> golfcube.sections['demo'].show('velocity', data='preserved', ax=ax[1])
     >>> ax[1].set_ylabel('$t$ coordinate')
-    
+
     >>> ax[1].set_xlabel('$s$ coordinate')
 
 .. plot:: section/section_lexicon.py
@@ -92,4 +92,3 @@ Creating sections into other data types
 You can also create `Sections` into an object other than a `Cube`, such as a `Mask` or `Planform` or arbitrary data.
 
 See the :doc:`example here <../examples/create_from/sections_into_arbitrary>` for several examples.
-

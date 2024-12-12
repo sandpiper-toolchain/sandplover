@@ -6,7 +6,7 @@ Utility functions
 
 The package has some more miscellaneous functions and utilities that are made publicly available.
 
-The functions are defined in ``deltametrics.utils``. 
+The functions are defined in ``deltametrics.utils``.
 
 
 Utility functions
