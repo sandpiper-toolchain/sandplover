@@ -1,4 +1,4 @@
-How to create a LandMask from arbitrary data 
+How to create a LandMask from arbitrary data
 --------------------------------------------
 
 Instantiating masks directly can be done as follows.
@@ -15,7 +15,7 @@ Instantiating masks directly can be done as follows.
 
         lm = dm.mask.LandMask.from_array(
             anydata)
-        
+
         fig, ax =  plt.subplots()
         lm.show(ax=ax)
         plt.show()

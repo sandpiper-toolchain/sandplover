@@ -33,5 +33,5 @@ You could also have additional variables by adding key-value pairs to the input 
     dict_datacube.quick_show('eta', idx=-1)
 
 .. important::
-    
+
     If you decide to use DeltaMetrics, please check out the guide on how to :doc:`properly format a NetCDF file for input datasets <./setup_any_dataset>`.

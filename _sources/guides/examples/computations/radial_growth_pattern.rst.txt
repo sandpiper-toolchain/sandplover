@@ -1,7 +1,7 @@
 Radial growth of delta through time
 -----------------------------------
 
-The growth pattern of a delta can be predicted from the volume of a cylinder. 
+The growth pattern of a delta can be predicted from the volume of a cylinder.
 The expectation is that a delta's planform area grows according to a power law that is a function of basin depth, sediment input, and time.
 
 .. math::
@@ -33,7 +33,7 @@ The expectation is that a delta's planform area grows according to a power law t
             contour_threshold=0.75,
             max_disk=8)
         SM_mpm.trim_mask(length=3)
-        
+
         # compute the mean shoreline distance
         shoredist_mean[i], shoredist_std[i] = dm.plan.compute_shoreline_distance(
             SM_mpm, origin=(golf.meta['CTR'].data, golf.meta['L0'].data))
@@ -79,5 +79,5 @@ Why do the data not line up with the prediction?
 A likely possibility is that the shoreline location determined from the :obj:`~deltametrics.plan.MorphologicalPlanform` does not include the full area of the deposit.
 
 .. hint::
-    
-    Try passing the `elevation_offset` parameter to the MPM method, which is then passed along to the :obj:`~deltametrics.mask.ElevationMask`. 
+
+    Try passing the `elevation_offset` parameter to the MPM method, which is then passed along to the :obj:`~deltametrics.mask.ElevationMask`.

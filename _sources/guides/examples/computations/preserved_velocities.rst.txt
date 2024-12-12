@@ -1,7 +1,7 @@
 Compute ordinariness of preserved strata
 ----------------------------------------
 
-Several studies have discussed the "ordinariness" of stratigraphy [1]_ [2]_, which describes the observation that most fluvial outcrop exposures seem to record relatively normal river conditions, rather than extreme events. 
+Several studies have discussed the "ordinariness" of stratigraphy [1]_ [2]_, which describes the observation that most fluvial outcrop exposures seem to record relatively normal river conditions, rather than extreme events.
 
 This assertion of "ordinariness" has been examined in the context of vertical excursions of bed elevation (whereby more extreme excursions represent extreme events; [2]_).
 We can go further than this with the pyDeltaRCM model outputs, which co-locate bed elevation change with velocity, in essence recording the actual magnitude of a flow event rather than bed-elevation change.

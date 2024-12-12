@@ -95,7 +95,7 @@ Remember that `time` is ordered along the 0th dimension.
     >>> # set up indices to slice the cube
     >>> nt = 5
     >>> t_idxs = np.linspace(0, golfcube.shape[0]-1, num=nt, dtype=int)  # linearly interpolate t_idxs
-    ... 
+    ...
     >>> # make the plot
     >>> fig, ax = plt.subplots(1, nt, figsize=(12, 2))
     >>> for i, idx in enumerate(t_idxs):
@@ -121,7 +121,7 @@ For example:
     >>> # compute the change in bed elevation between the last two intervals above
     >>> diff_time = golfcube['eta'][t_idxs[-1], :, :] - golfcube['eta'][t_idxs[-2], :, :]
     >>> max_delta = abs(diff_time).max()
-    ... 
+    ...
     >>> # make the plot
     >>> fig, ax = plt.subplots(figsize=(5, 3))
     >>> im = ax.imshow(
@@ -190,11 +190,11 @@ You can visualize the data yourself, or use the built-in `show()` method of a `P
 
     Want to just slice the data directly as ``golfcube['eta'][-1, :, :]``? Go ahead and do what works for you!
 
-It is often helpful to associate a `Planform` with a `Cube`, to keep track of planform data from multiple points in time, or from multiple cubes. 
+It is often helpful to associate a `Planform` with a `Cube`, to keep track of planform data from multiple points in time, or from multiple cubes.
 Use the :meth:`~deltametrics.cube.DataCube.register_planform` method when instantiating the `Planform`, or pass the object as an argument later.
 
 .. doctest::
-    
+
     >>> golfcube.register_planform('fifty', dm.plan.Planform(idx=50))
 
 Any registered `Planform` can then be accessed via the :obj:`~deltametrics.cube.DataCube.planforms` attribute of the Cube (returns a `dict`).
@@ -216,7 +216,7 @@ These specialty calculations are beyond the scope of this basic user guide, find
 Manipulating Section data
 #########################
 
-Similar to `Planform` slices, we can make cuts *across* the `Cube` time dimension with `Section` objects. 
+Similar to `Planform` slices, we can make cuts *across* the `Cube` time dimension with `Section` objects.
 Most often, it's best to use the API to register a section of a specified type to an underlying data cube and
 assigning it a name (“demo” below).
 Registered sections are accessed via the ``sections`` attribute of the cube:
