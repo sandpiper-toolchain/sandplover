@@ -1,11 +1,11 @@
 import abc
-import os
 import copy
+import os
 import warnings
 
-import xarray as xr
-import numpy as np
 import netCDF4
+import numpy as np
+import xarray as xr
 
 
 class BaseIO(abc.ABC):

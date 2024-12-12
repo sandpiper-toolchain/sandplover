@@ -1,15 +1,14 @@
-import numpy as np
-import xarray as xr
-
 import colorsys
 
 import matplotlib as mpl
-import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
+import matplotlib.collections as coll
 import matplotlib.colors as colors
 import matplotlib.patches as ptch
-import matplotlib.collections as coll
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import mpl_toolkits.axes_grid1 as axtk
+import numpy as np
+import xarray as xr
 
 from deltametrics.strat import _adjust_elevation_by_subsidence
 from deltametrics.strat import _compute_elevation_to_preservation

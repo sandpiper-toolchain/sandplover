@@ -16,10 +16,10 @@ functions, allowing for decay constants and timescales to be quantified.
 .. [Jarriel et al 2019] Jarriel, Teresa, Leo F. Isikdogan, Alan Bovik, and Paola Passalacqua. "Characterization of deltaic channel morphodynamics from imagery time series using the channelized response variance." Journal of Geophysical Research: Earth Surface 124, no. 12 (2019): 3022-3042.
 
 """
-
 import numpy as np
-from deltametrics import mask
 import xarray as xr
+
+from deltametrics import mask
 
 
 def check_inputs(chmap, basevalues=None, basevalues_idx=None, window=None,

@@ -1,12 +1,12 @@
 """Tests for mobility.py."""
-import pytest
-import sys
 import os
+import sys
+
 import numpy as np
+import pytest
 import xarray as xr
 
 from deltametrics.cube import DataCube
-from deltametrics.sample_data.sample_data import _get_rcm8_path
 from deltametrics.mask import ChannelMask
 from deltametrics.mask import LandMask
 from deltametrics.mobility import _calculate_temporal_linear_slope
@@ -17,6 +17,7 @@ from deltametrics.mobility import calculate_planform_overlap
 from deltametrics.mobility import calculate_reworking_fraction
 from deltametrics.mobility import channel_presence
 from deltametrics.mobility import check_inputs
+from deltametrics.sample_data.sample_data import _get_rcm8_path
 
 
 rcm8_path = _get_rcm8_path()

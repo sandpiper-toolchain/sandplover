@@ -1,12 +1,12 @@
 """Tests for the mask.py script."""
-import pytest
-import sys
 import os
-import numpy as np
-import xarray as xr
-import matplotlib.pyplot as plt
-
+import sys
 import unittest.mock as mock
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pytest
+import xarray as xr
 
 from deltametrics.cube import DataCube
 from deltametrics.mask import BaseMask
@@ -20,7 +20,8 @@ from deltametrics.mask import GeometricMask
 from deltametrics.mask import LandMask
 from deltametrics.mask import ShorelineMask
 from deltametrics.mask import WetMask
-from deltametrics.plan import OpeningAnglePlanform, MorphologicalPlanform
+from deltametrics.plan import MorphologicalPlanform
+from deltametrics.plan import OpeningAnglePlanform
 from deltametrics.sample_data.sample_data import _get_golf_path
 from deltametrics.sample_data.sample_data import _get_rcm8_path
 

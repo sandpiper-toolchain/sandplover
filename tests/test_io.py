@@ -1,17 +1,16 @@
-import pytest
-
-import sys
 import os
+import sys
 
 import numpy as np
+import pytest
+import utilities
 import xarray as xr
 
 from deltametrics.io import DictionaryIO
 from deltametrics.io import NetCDFIO
-from deltametrics.sample_data.sample_data import _get_rcm8_path
 from deltametrics.sample_data.sample_data import _get_golf_path
 from deltametrics.sample_data.sample_data import _get_landsat_path
-import utilities
+from deltametrics.sample_data.sample_data import _get_rcm8_path
 
 
 rcm8_path = _get_rcm8_path()

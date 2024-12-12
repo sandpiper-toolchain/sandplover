@@ -1,9 +1,9 @@
-import sys
 import os
+import sys
 import warnings
 
-import numpy as np
 import netCDF4
+import numpy as np
 import pooch
 
 if sys.version_info >= (3, 12):  # pragma: no cover (PY12+)
