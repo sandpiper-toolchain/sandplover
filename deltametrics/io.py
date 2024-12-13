@@ -219,7 +219,7 @@ class NetCDFIO(FileIO):
             # open the dataset
             _dataset = xr.open_dataset(self.data_path, engine=_engine)
         except Exception as e:
-            raise TypeError(f"File format out of scope for DeltaMetrics: {e}")
+            raise TypeError(f"File format out of scope for DeltaMetrics: {e}") from e
 
         # try to find if coordinates have been preconfigured
         _coords_list = list(_dataset.coords)
@@ -246,6 +246,7 @@ class NetCDFIO(FileIO):
                 "with DeltaMetrics. This warning may be replaced "
                 "with an Error in a future version.",
                 UserWarning,
+                stacklevel=2,
             )
         else:
             # coordinates were not found and are not being set
@@ -270,7 +271,9 @@ class NetCDFIO(FileIO):
             self.meta = _meta
         except OSError:
             warnings.warn(
-                "No associated metadata was found in the given data file.", UserWarning
+                "No associated metadata was found in the given data file.",
+                UserWarning,
+                stacklevel=2,
             )
             self.meta = None
 
@@ -381,7 +384,7 @@ class DictionaryIO(BaseIO):
             # get the coordinates and dimensions from the data
             self.dims = under.dims
             self.coords = [under.coords[dim].data for dim in self.dims]
-            self.dimensions = dict(zip(self.dims, self.coords))
+            self.dimensions = dict(zip(self.dims, self.coords, strict=True))
         # otherwise, check for the arguments passed
         elif not (dimensions is None):
             # if dimensions was passed, it must be a dictionary
@@ -395,7 +398,7 @@ class DictionaryIO(BaseIO):
                 raise ValueError("`dimensions` must contain three dimensions!")
             # use the dimensions keys as dims and the vals as coords
             #   note, we check the size against the underlying a we go
-            for i, (k, v) in enumerate(dimensions.items()):
+            for i, k in enumerate(dimensions):
                 if not (len(dimensions[k]) == under_shp[i]):
                     raise ValueError(
                         "Shape of `dimensions` at position {} was {}, "
@@ -415,7 +418,7 @@ class DictionaryIO(BaseIO):
             self.coords = coords
 
         self.known_coords = self.dims
-        self.dimensions = dict(zip(self.dims, self.coords))
+        self.dimensions = dict(zip(self.dims, self.coords, strict=True))
 
     def connect(self, *args, **kwargs):
         """Connect to the data file.

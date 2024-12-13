@@ -1062,8 +1062,12 @@ def _determine_strat_coordinates(elev, z=None, dz=None, nz=None):
     # if nothing is supplied
     if (dz is None) and (z is None) and (nz is None):
         warnings.warn(
-            UserWarning('No specification for stratigraphy spacing '
-                        'was supplied. Default is to use `dz=0.1`'))
+            UserWarning(
+                "No specification for stratigraphy spacing"
+                " was supplied. Default is to use `dz=0.1`"
+            ),
+            stacklevel=2,
+        )
         # set the default option when nothing is supplied
         dz = 0.1
 

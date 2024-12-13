@@ -69,7 +69,7 @@ def needs_stratigraphy(func):
         try:
             return func(*args, **kwargs)
         except AttributeError as e:
-            raise NoStratigraphyError(e)
+            raise NoStratigraphyError(e) from e
     return decorator
 
 
@@ -110,7 +110,7 @@ class AttributeChecker:
             raise TypeError('Checklist must be of type `list`,'
                             'but was type: %s' % type(checklist))
 
-        for c, check in enumerate(checklist):
+        for _, check in enumerate(checklist):
             has = getattr(self, check, None)
             if has is None:
                 att_dict[check] = False
@@ -119,7 +119,7 @@ class AttributeChecker:
 
         log_list = list(att_dict.values())
         log_form = [value for string, value in
-                    zip(log_list, att_dict.keys()) if not string]
+                    zip(log_list, att_dict.keys(), strict=True) if not string]
         if not all(log_list):
             raise RuntimeError('Required attribute(s) not assigned: '
                                + str(log_form))

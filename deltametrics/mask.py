@@ -279,7 +279,8 @@ class BaseMask(abc.ABC):
                 DeprecationWarning(
                     "The `is_mask` argument is deprecated. "
                     "It does not have any functionality."
-                )
+                ),
+                stacklevel=2,
             )
 
     def _check_deprecated_3d_input(self, args_0_shape):
@@ -2107,13 +2108,11 @@ class CenterlineMask(BaseMask):
                 from rivamap.singularity_index import applyMMSI as MMSI
                 from rivamap.singularity_index import SingularityIndexFilters as SF
                 from rivamap.delineate import extractCenterlines as eCL
-            except ImportError:
+            except ImportError as err:
                 raise ImportError(
                     "You must install the optional dependency: rivamap, to "
                     "use the centerline extraction method."
-                )
-            except Exception as e:
-                raise e
+                ) from err
 
             # pop the kwargs
             self.minScale = kwargs.pop("minScale", 1.5)

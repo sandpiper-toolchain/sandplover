@@ -761,7 +761,7 @@ class TestScaleLightness:
     def test_scale_down_red(self):
         red = (1.0, 0.0, 0.0)  # initial color red
         scales = np.arange(1, 0, -0.05)  # from 1 to 0.05
-        for s, scale in enumerate(scales):
+        for _, scale in enumerate(scales):
             darker_red = _scale_lightness(red, scale)
             assert darker_red[0] == pytest.approx(scale)
 
@@ -790,7 +790,7 @@ class TestShowHistograms:
     def test_multiple_no_sets(self):
         sets = [np.histogram(np.random.normal(lc, s, size=500),
                 bins=self.bins, density=True) for lc, s in
-                zip(self.locs, self.scales)]
+                zip(self.locs, self.scales, strict=True)]
         fig, ax = plt.subplots()
         show_histograms(*sets, ax=ax)
         plt.close()
@@ -798,7 +798,7 @@ class TestShowHistograms:
     def test_multiple_no_sets_alphakwarg(self):
         sets = [np.histogram(np.random.normal(lc, s, size=500),
                 bins=self.bins, density=True) for lc, s in
-                zip(self.locs, self.scales)]
+                zip(self.locs, self.scales, strict=True)]
         fig, ax = plt.subplots()
         show_histograms(*sets, ax=ax, alpha=0.4)
         plt.close()
@@ -806,14 +806,13 @@ class TestShowHistograms:
     def test_multiple_with_sets(self):
         sets = [np.histogram(np.random.normal(lc, s, size=500),
                 bins=self.bins, density=True) for lc, s in
-                zip(self.locs, self.scales)]
+                zip(self.locs, self.scales, strict=True)]
         fig, ax = plt.subplots()
         show_histograms(*sets, sets=[0, 0, 1, 1, 2], ax=ax)
         plt.close()
         with pytest.raises(ValueError, match=r'Number of histogram tuples*.'):
             # input lengths must match
             show_histograms(*sets, sets=[0, 1], ax=ax)
-            plt.close()
 
 
 class TestAerialView:

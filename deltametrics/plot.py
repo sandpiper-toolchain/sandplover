@@ -1088,7 +1088,7 @@ def _fill_steps(where, x=1, y=1, y0=0, **kwargs):
         Collection of `Rectangle` `Patch` objects.
     """
     pl = []
-    for i, pp in enumerate(np.argwhere(where[1:]).flatten()):
+    for _, pp in enumerate(np.argwhere(where[1:]).flatten()):
         _r = ptch.Rectangle((pp, y0), x, y, **kwargs)
         pl.append(_r)
     return coll.PatchCollection(pl, match_original=True)
@@ -1399,7 +1399,7 @@ def aerial_view(
     datum=0,
     ax=None,
     ticks=False,
-    colorbar_kw={},
+    colorbar_kw=None,
     return_im=False,
     **kwargs,
 ):
@@ -1457,6 +1457,7 @@ def aerial_view(
         >>> fig, ax = plt.subplots()
         >>> _ = aerial_view(elevation_data, ax=ax)
     """
+    colorbar_kw = {} if colorbar_kw is None else colorbar_kw
     if not ax:
         fig, ax = plt.subplots()
 

@@ -83,7 +83,8 @@ class BasePlanform(abc.ABC):
                         "`Planform` object. To change the name of "
                         "a Planform, you must set the attribute "
                         "directly with `plan._name = 'name'`."
-                    )
+                    ),
+                    stacklevel=2,
                 )
             # do nothing
 
@@ -1052,11 +1053,11 @@ class MorphologicalPlanform(SpecialtyPlanform):
         elif isinstance(self.cube, BaseCube):
             try:
                 self._max_disk = self.cube.meta["N0"].data
-            except Exception:
+            except Exception as err:
                 raise TypeError(
                     "Data cube does not contain metadata, you must "
                     "specify the inlet size."
-                )
+                ) from err
         else:
             raise TypeError(
                 "Something went wrong. Check second input argument for " "inlet width."
@@ -1322,7 +1323,7 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
     return rough
 
 
-def compute_shoreline_length(shore_mask, origin=[0, 0], return_line=False):
+def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
     """Compute the length of a shoreline from a mask of the shoreline.
 
     Algorithm attempts to determine the sorted coordinates of the shoreline
@@ -1553,7 +1554,7 @@ def compute_shoreline_length(shore_mask, origin=[0, 0], return_line=False):
         return length
 
 
-def compute_shoreline_distance(shore_mask, origin=[0, 0], return_distances=False):
+def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False):
     """Compute mean and stddev distance from the delta apex to the shoreline.
 
     Algorithm computes the mean distance from the delta apex/origin to all
@@ -1895,7 +1896,7 @@ def shaw_opening_angle_method(
         test_set_points = land_points
     else:
         raise ValueError(
-            f"Invalid option '{test_set}' for `test_set` parameter was supplied."
+            f"Invalid option {test_set!r} for `test_set` parameter was supplied."
         )
 
     # Find convex hull
@@ -1928,7 +1929,7 @@ def shaw_opening_angle_method(
         outside_hull_value = 0
     else:
         raise ValueError(
-            f"Invalid option '{query_set}' for `query_set` parameter was supplied."
+            f"Invalid option {query_set!r} for `query_set` parameter was supplied."
         )
 
     # Compute opening angle

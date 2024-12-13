@@ -40,7 +40,7 @@ class BaseCube(abc.ABC):
 
     """
 
-    def __init__(self, data, read=[], varset=None, dimensions=None):
+    def __init__(self, data, read=(), varset=None, dimensions=None):
         """Initialize the BaseCube.
 
         Parameters
@@ -579,7 +579,8 @@ class BaseCube(abc.ABC):
             "alternatives. To quickly show a planform slice of a cube, you "
             "can use `quick_show()` with a similar API. The `show_planform` "
             "method implements more features, but requires instantiating a "
-            "`Planform` object first. Passing arguments to `quick_show`."
+            "`Planform` object first. Passing arguments to `quick_show`.",
+            stacklevel=2,
         )
         # pass `t` arg to `idx` for legacy
         if "t" in kwargs.keys():
@@ -643,7 +644,7 @@ class DataCube(BaseCube):
     """
 
     def __init__(
-        self, data, read=[], varset=None, stratigraphy_from=None, dimensions=None
+        self, data, read=(), varset=None, stratigraphy_from=None, dimensions=None
     ):
         """Initialize the BaseCube.
 
@@ -888,7 +889,7 @@ class StratigraphyCube(BaseCube):
     def __init__(
         self,
         data,
-        read=[],
+        read=(),
         varset=None,
         stratigraphy_from=None,
         sigma_dist=None,

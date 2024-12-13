@@ -137,14 +137,14 @@ def check_inputs(chmap, basevalues=None, basevalues_idx=None, window=None,
             basevalues = [np.argmin(
                 np.abs(out_maps['chmap'].time.data - i))
                 for i in baselist]
-        except Exception:
-            raise TypeError('basevalues was not a list or list-able obj.')
+        except Exception as err:
+            raise TypeError('basevalues was not a list or list-able obj.') from err
 
     if (basevalues_idx is not None):
         try:
             basevalues_idx = list(basevalues_idx)
-        except Exception:
-            raise TypeError('basevalues_idx was not a list or list-able obj.')
+        except Exception as err:
+            raise TypeError('basevalues_idx was not a list or list-able obj.') from err
 
     if (basevalues is not None) and (basevalues_idx is not None):
         raise Warning(
