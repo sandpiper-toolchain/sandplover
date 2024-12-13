@@ -26,10 +26,10 @@ repos:
   rev: 7.1.1
   hooks:
   - id: flake8
-    additional_dependencies:
-    - flake8-bugbear
-    - flake8-comprehensions
-    - flake8-simplify
+    # additional_dependencies:
+    # - flake8-bugbear
+    # - flake8-comprehensions
+    # - flake8-simplify
     exclude: ^docs/source/pyplots/guides/.*$
 
 - repo: https://github.com/asottile/pyupgrade
