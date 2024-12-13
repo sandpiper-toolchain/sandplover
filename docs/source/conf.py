@@ -10,7 +10,6 @@
 #
 import importlib
 import os
-import sys
 
 
 def get_version_from_file(path_to_version_file: str) -> str:

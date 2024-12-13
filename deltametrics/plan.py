@@ -8,7 +8,6 @@ from numba import njit
 from numba import prange
 from numba import set_num_threads
 from scipy.ndimage import binary_fill_holes
-from scipy.ndimage import generate_binary_structure
 from scipy.signal import fftconvolve
 from scipy.spatial import ConvexHull
 from skimage import morphology
@@ -25,6 +24,7 @@ from deltametrics.section import BaseSection
 from deltametrics.utils import _points_in_polygon
 from deltametrics.utils import is_ndarray_or_xarray
 # from shapely.geometry.polygon import Polygon
+
 
 class BasePlanform(abc.ABC):
     """Base planform object.
@@ -1826,7 +1826,7 @@ def shaw_opening_angle_method(
     #   Query set refers to the points for which the angle is calculated, test
     #   set refers to the points which bound the angle calculations.
 
-    ## Preprocess
+    # Preprocess
     if preprocess:
         # Preprocess in orginal paper: "we pre-process by filling lakes
         #   (contiguous sets of water pixels surrounded by land)"
@@ -1837,10 +1837,10 @@ def shaw_opening_angle_method(
         # Ensure array is integer binary
         below_mask = below_mask.astype(int)
 
-    ## Make padded version of below_mask and edges
+    # Make padded version of below_mask and edges
     pad_below_mask = np.pad(below_mask, 1, "edge")
 
-    ## Find land-water interface (`edges`)
+    # Find land-water interface (`edges`)
     selem = np.ones((3, 3)).astype(
         int
     )  # include diagonals in edge, another option would be a 3x3 disk (no corners)
@@ -1861,11 +1861,11 @@ def shaw_opening_angle_method(
             "Cannot compute the Opening Angle Method."
         )
 
-    ## Find set of all `sea` points to evaluate
+    # Find set of all `sea` points to evaluate
     all_sea_idxs = np.column_stack(np.where(pad_below_mask))
     all_sea_points = np.fliplr(all_sea_idxs)
 
-    ## Make test set
+    # Make test set
     edge_idxs = np.column_stack(np.where(pad_edges))
     edge_points = np.fliplr(edge_idxs)  # as columns, x-y pairs
     land_points = np.fliplr(
@@ -1898,10 +1898,10 @@ def shaw_opening_angle_method(
             f"Invalid option '{test_set}' for `test_set` parameter was supplied."
         )
 
-    ## Find convex hull
+    # Find convex hull
     hull = ConvexHull(test_set_points, qhull_options="Qc")
 
-    ## Make sea points
+    # Make sea points
     #   identify set of points in both the convex hull polygon and
     #   defined as points_to_test and put these binary points into seamap
     sea_points_in_hull_bool = _points_in_polygon(
@@ -1914,7 +1914,7 @@ def shaw_opening_angle_method(
     sea_points_in_hull = all_sea_points[sea_points_in_hull_bool]
     sea_idxs_outside_hull = all_sea_idxs[~sea_points_in_hull_bool]
 
-    ## Make query set
+    # Make query set
     # flexible processing of the query set
     if query_set == "sea":
         # all water locations inside the hull
@@ -1931,7 +1931,7 @@ def shaw_opening_angle_method(
             f"Invalid option '{query_set}' for `query_set` parameter was supplied."
         )
 
-    ## Compute opening angle
+    # Compute opening angle
     #   this is the main workhorse of the algorithm
     #   (see _compute_angles_between docstring for more information).
     if parallel > 0:
@@ -1940,7 +1940,7 @@ def shaw_opening_angle_method(
         set_num_threads(1)  # if false, 1 thread max
     theta = _compute_angles_between(test_set_points, query_set_points, numviews)
 
-    ## Cast to map shape
+    # Cast to map shape
     #   create a new array with padded shape to return and cast values into it
     pad_opening_angles = np.zeros_like(pad_below_mask)
     #   fill the query points with the value returned from theta
@@ -1988,10 +1988,8 @@ def _custom_closing(img, disksize):
     The FFT implementation is after
     https://www.cs.utep.edu/vladik/misha5.pdf
     """
-    _changed = np.inf
     disk = morphology.disk(disksize)
     r = (disksize // 2) + 1  # kernel radius, i.e. half the width of disk
-    _iter = 0  # count number of closings, cap at 100
 
     # binary_closing is dilation followed by erosion
     _dilated = _fft_dilate(img, disk)
@@ -2156,15 +2154,15 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
     # coerce the channel mask to just the raw mask values
     if is_ndarray_or_xarray(channelmask):
         if isinstance(channelmask, xr.core.dataarray.DataArray):
-            _dx = float(
+            _ = float(
                 channelmask[channelmask.dims[0]][1]
                 - channelmask[channelmask.dims[0]][0]
             )
         elif isinstance(channelmask, np.ndarray):
-            _dx = 1
+            _ = 1
     elif isinstance(channelmask, ChannelMask):
         channelmask = channelmask.mask
-        _dx = float(
+        _ = float(
             channelmask[channelmask.dims[0]][1] - channelmask[channelmask.dims[0]][0]
         )
         channelmask = np.array(channelmask)

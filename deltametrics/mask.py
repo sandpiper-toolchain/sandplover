@@ -330,7 +330,6 @@ class ThresholdValueMask(BaseMask, abc.ABC):
 
     def _compute_mask(self):
         """Provide abstract method."""
-        pass
 
 
 class ElevationMask(ThresholdValueMask):

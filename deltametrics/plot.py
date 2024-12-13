@@ -92,9 +92,7 @@ class VariableInfo:
             raise TypeError("name argument must be type `str`, but was %s" % type(name))
         self._name = name
 
-        self.cmap = kwargs.pop(
-            "cmap", mpl.colormaps["viridis"].resampled(64)
-        )  #  .get_cmap('viridis', 64))
+        self.cmap = kwargs.pop("cmap", mpl.colormaps["viridis"].resampled(64))
         self.label = kwargs.pop("label", None)
         self.norm = kwargs.pop("norm", None)
         self.vmin = kwargs.pop("vmin", None)
@@ -498,12 +496,9 @@ class VariableSet:
     @net_to_gross.setter
     def net_to_gross(self, var):
         if not var:
-            # oranges = cm.get_cmap('Oranges', 64)
-            # greys = cm.get_cmap('Greys_r', 64)
-            # whiteblack = cm.get_cmap('Greys', 2)
             oranges = mpl.colormaps["Oranges"].resampled(64)
             greys = mpl.colormaps["Greys_r"].resampled(64)
-            whiteblack = mpl.colormaps["Greys"].resampled(2)
+            # whiteblack = mpl.colormaps["Greys"].resampled(2)
             combined = np.vstack(
                 (greys(np.linspace(0.3, 0.6, 16)), oranges(np.linspace(0.2, 0.8, 48)))
             )
@@ -1181,7 +1176,7 @@ def show_one_dimensional_trajectory_to_strata(
         else:
             raise ValueError('Elevation data "e" must be one-dimensional.')
     t = np.arange(e.shape[0])  # x-axis time array
-    t3 = np.expand_dims(t, axis=(1, 2))  # 3d time, for slicing
+    # t3 = np.expand_dims(t, axis=(1, 2))  # 3d time, for slicing
     e_in = e.copy()
 
     if sigma_dist is not None:

@@ -561,7 +561,7 @@ class TestRadialSection:
     def test_autodetect_origin_85_aziumth(self):
         rcm8cube = DataCube(golf_path)
         rcm8cube.register_section("test3", RadialSection(azimuth=85))
-        _cshp, L0 = rcm8cube.shape, float(rcm8cube.meta["L0"])
+        _cshp, _ = rcm8cube.shape, float(rcm8cube.meta["L0"])
         assert isinstance(rcm8cube.sections["test3"], RadialSection)
         assert rcm8cube.sections["test3"].trace.shape[0] < _cshp[1]  # slight oblique
         assert (
@@ -575,7 +575,7 @@ class TestRadialSection:
     def test_autodetect_origin_115_aziumth(self):
         rcm8cube = DataCube(golf_path)
         rcm8cube.register_section("test4", RadialSection(azimuth=115))
-        _cshp, L0 = rcm8cube.shape, float(rcm8cube.meta["L0"])
+        _cshp, _ = rcm8cube.shape, float(rcm8cube.meta["L0"])
         assert isinstance(rcm8cube.sections["test4"], RadialSection)
         assert rcm8cube.sections["test4"].trace.shape[0] < _cshp[1]  # slight oblique
         assert (
@@ -589,7 +589,7 @@ class TestRadialSection:
     def test_autodetect_origin_165_aziumth(self):
         rcm8cube = DataCube(golf_path)
         rcm8cube.register_section("test5", RadialSection(azimuth=165))
-        _cshp, L0 = rcm8cube.shape, float(rcm8cube.meta["L0"])
+        _cshp, _ = rcm8cube.shape, float(rcm8cube.meta["L0"])
         assert isinstance(rcm8cube.sections["test5"], RadialSection)
         assert rcm8cube.sections["test5"].trace.shape[0] > _cshp[1]  # obtuse
         assert rcm8cube.sections["test5"]._dim2_idx[-1] == 0

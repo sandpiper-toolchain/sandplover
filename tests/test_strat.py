@@ -351,7 +351,7 @@ class TestOneDimStratigraphyExamples:
         z = _determine_strat_coordinates(e, dz=0.5)  # vert coordinates
         s, p = _compute_elevation_to_preservation(e)
         sc, dc = _compute_preservation_to_cube(s, z)
-        c = self.take_var_time(s, z, sc, dc)
+        self.take_var_time(s, z, sc, dc)
         assert np.all(p.nonzero()[0] == (4, 5, 9))
 
 

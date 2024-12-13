@@ -2,8 +2,6 @@ import os
 import sys
 import warnings
 
-import netCDF4
-import numpy as np
 import pooch
 
 if sys.version_info >= (3, 12):  # pragma: no cover (PY12+)
@@ -11,7 +9,6 @@ if sys.version_info >= (3, 12):  # pragma: no cover (PY12+)
 else:  # pragma: no cover (<PY312)
     import importlib_resources
 
-from deltametrics._version import __version__
 from deltametrics.cube import DataCube
 
 
