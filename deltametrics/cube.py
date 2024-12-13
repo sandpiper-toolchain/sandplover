@@ -257,11 +257,11 @@ class BaseCube(abc.ABC):
         if not issubclass(type(PlanformInstance), BasePlanform):
             raise TypeError(
                 "`PlanformInstance` was not a `Planform`. "
-                "Instead, was: {0}".format(type(PlanformInstance))
+                "Instead, was: {}".format(type(PlanformInstance))
             )
         if not isinstance(name, str):
             raise TypeError(
-                "`name` was not a string. " "Instead, was: {0}".format(type(name))
+                "`name` was not a string. " "Instead, was: {}".format(type(name))
             )
         PlanformInstance.connect(self, name=name)  # attach cube
         self._planform_set[name] = PlanformInstance
@@ -311,11 +311,11 @@ class BaseCube(abc.ABC):
         if not issubclass(type(SectionInstance), BaseSection):
             raise TypeError(
                 "`SectionInstance` was not a `Section`. "
-                "Instead, was: {0}".format(type(SectionInstance))
+                "Instead, was: {}".format(type(SectionInstance))
             )
         if not isinstance(name, str):
             raise TypeError(
-                "`name` was not a string. " "Instead, was: {0}".format(type(name))
+                "`name` was not a string. " "Instead, was: {}".format(type(name))
             )
         SectionInstance.connect(self, name=name)  # attach cube
         self._section_set[name] = SectionInstance
@@ -468,7 +468,7 @@ class BaseCube(abc.ABC):
             # this is a Dip section
             _obj = DipSection(self, distance_idx=idx)
         else:
-            raise ValueError("Invalid `axis` specified: {0}".format(axis))
+            raise ValueError(f"Invalid `axis` specified: {axis}")
 
         # use the object to handle the showing
         _obj.show(var, **kwargs)
@@ -557,7 +557,7 @@ class BaseCube(abc.ABC):
             p.add_mesh(slices, cmap=self.varset[var].cmap)
 
         else:
-            raise ValueError("Bad value for style: {0}".format(style))
+            raise ValueError(f"Bad value for style: {style}")
 
         p.show()
 
@@ -609,7 +609,7 @@ class BaseCube(abc.ABC):
         if isinstance(name, str):
             self._planform_set[name].show(variable, **kwargs)
         else:
-            raise TypeError("`name` was not a string, " "was {0}".format(type(name)))
+            raise TypeError("`name` was not a string, " "was {}".format(type(name)))
 
     def show_section(self, name, variable, **kwargs):
         """Show a registered section by name and variable.
@@ -632,7 +632,7 @@ class BaseCube(abc.ABC):
         if isinstance(name, str):
             self._section_set[name].show(variable, **kwargs)
         else:
-            raise TypeError("`name` was not a string, " "was {0}".format(type(name)))
+            raise TypeError("`name` was not a string, " "was {}".format(type(name)))
 
 
 class DataCube(BaseCube):
@@ -754,7 +754,7 @@ class DataCube(BaseCube):
 
         else:
             raise AttributeError(
-                "No variable of {cube} named {var}".format(cube=str(self), var=var)
+                f"No variable of {str(self)} named {var}"
             )
 
         # make _obj xarray if it not already
@@ -990,7 +990,7 @@ class StratigraphyCube(BaseCube):
             _var = self.dataio[var]
         else:
             raise AttributeError(
-                "No variable of {cube} named {var}".format(cube=str(self), var=var)
+                f"No variable of {str(self)} named {var}"
             )
 
         # the following lines apply the data to stratigraphy mapping

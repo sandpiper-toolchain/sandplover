@@ -74,7 +74,7 @@ class BaseMask(abc.ABC):
                     )
             self._set_shape_mask(args[0])
         else:
-            raise TypeError("Unexpected type was input: {0}".format(type(args[0])))
+            raise TypeError(f"Unexpected type was input: {type(args[0])}")
 
     def _set_shape_mask(self, array):
         """Set the mask shape.
@@ -97,7 +97,7 @@ class BaseMask(abc.ABC):
         if issubclass(type(array), BaseMask):
             raise TypeError(
                 "Input must be array-like, but was a `Mask` type: "
-                "{0}".format(type(array))
+                "{}".format(type(array))
             )
 
         # check that the input is not 3D
@@ -113,7 +113,7 @@ class BaseMask(abc.ABC):
             # this will use meshgrid to fill out with dx=1 in shape of array
             self._mask = xr.DataArray(data=np.zeros(_shape, dtype=bool))
         else:
-            raise TypeError("Invalid type {0}".format(type(array)))
+            raise TypeError(f"Invalid type {type(array)}")
 
         # set the shape attribute
         self._shape = self._mask.shape
@@ -831,7 +831,7 @@ class WetMask(BaseMask):
                     raise TypeError(
                         "Double `Mask` input types must be `ElevationMask` "
                         "and `LandMask`, but received argument of type "
-                        "`{0}`.".format(type(UnknownMask))
+                        "`{}`.".format(type(UnknownMask))
                     )
         elif len(args) == 1:
             UnknownMask = args[0]
@@ -842,12 +842,12 @@ class WetMask(BaseMask):
             else:
                 raise TypeError(
                     "Single `Mask` input was expected to be type "
-                    "`ElevationMask`, but was `{0}`".format(type(UnknownMask))
+                    "`ElevationMask`, but was `{}`".format(type(UnknownMask))
                 )
         else:
             raise ValueError(
                 "Must pass either one or two Masks to static method "
-                "`from_mask` for `WetMask`, but received {0} args".format(len(args))
+                "`from_mask` for `WetMask`, but received {} args".format(len(args))
             )
 
         # set up the empty shoreline mask
@@ -1697,12 +1697,12 @@ class EdgeMask(BaseMask):
                     raise TypeError(
                         "Paired `Mask` input types must be `WetMask` "
                         "and `LandMask`, but received argument of type "
-                        "`{0}`.".format(type(UnknownMask))
+                        "`{}`.".format(type(UnknownMask))
                     )
         else:
             raise ValueError(
                 "Must pass either one or two Masks to static method "
-                "`from_mask` for `WetMask`, but received {0} args".format(len(args))
+                "`from_mask` for `WetMask`, but received {} args".format(len(args))
             )
 
         # set up the empty shoreline mask

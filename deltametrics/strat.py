@@ -622,7 +622,7 @@ def compute_boxy_stratigraphy_coordinates(elev, sigma_dist=None,
         return strata_coords, data_coords
 
 
-class BaseStratigraphyAttributes(object):
+class BaseStratigraphyAttributes:
 
     def __init__(self, style):
         self._style = style
@@ -680,7 +680,7 @@ class BaseStratigraphyAttributes(object):
         return ...
 
 
-class BoxyStratigraphyAttributes(object):
+class BoxyStratigraphyAttributes:
     """Attribute set for boxy stratigraphy information, emebdded into a DataCube.
     """
 

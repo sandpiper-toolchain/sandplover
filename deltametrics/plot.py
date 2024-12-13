@@ -21,7 +21,7 @@ from deltametrics.strat import _determine_strat_coordinates
 # plotting utilities
 
 
-class VariableInfo(object):
+class VariableInfo:
     """Variable styling and information.
 
     This class holds information for a specific underlying data variable
@@ -166,7 +166,7 @@ class VariableInfo(object):
         self._vmax = var
 
 
-class VariableSet(object):
+class VariableSet:
     """A default set of properties for variables.
 
     This makes it easy to have consistent plots.
@@ -876,7 +876,7 @@ def get_display_arrays(VarInst, data=None):
             _z = VarInst[VarInst.dims[0]]
 
             # prepend the data with the lowest depth recorded to fill out image
-            _p = np.min(_arr_Y) * np.ones((_arr_Y.shape[1]))  # prepend base
+            _p = np.min(_arr_Y) * np.ones(_arr_Y.shape[1])  # prepend base
             _arr_Y = np.vstack((_p, _arr_Y))
             _arr_X = np.pad(_arr_X, ((0, 1), (0, 1)), mode="edge")
             return _den, _arr_X, _arr_Y
@@ -1382,7 +1382,7 @@ def show_histograms(*args, sets=None, ax=None, **kwargs):
 
     for i in range(n_sets):
         CN = "C%d" % (i)
-        match = np.where((sets == i))[0]
+        match = np.where(sets == i)[0]
         scales = np.linspace(0.8, 1.2, num=len(match))
         CNs = [_scale_lightness(colors.to_rgb(CN), sc) for s, sc in enumerate(scales)]
         for n in range(len(match)):
@@ -1603,7 +1603,7 @@ def overlay_sparse_array(
     else:  # if it is a tuple, check the length
         raise TypeError(
             "`alpha_clip` must be type `tuple`, "
-            "but was type {0}.".format(type(alpha_clip))
+            "but was type {}.".format(type(alpha_clip))
         )
 
     # check the clip_type flag
@@ -1611,7 +1611,7 @@ def overlay_sparse_array(
     if clip_type not in clip_type_allow:
         raise ValueError(
             "Bad value given for `clip_type` argument. Input argument must "
-            "be one of `{0}`, but was `{1}`".format(clip_type_allow, clip_type)
+            "be one of `{}`, but was `{}`".format(clip_type_allow, clip_type)
         )
 
     # pull the cmap out

@@ -212,7 +212,7 @@ class NetCDFIO(FileIO):
             _engine = "h5netcdf"
         else:
             TypeError(
-                "File format is not supported " "by DeltaMetrics: {0}".format(_ext)
+                "File format is not supported " "by DeltaMetrics: {}".format(_ext)
             )
 
         try:
@@ -232,7 +232,7 @@ class NetCDFIO(FileIO):
             self.dataset = _dataset.set_coords(_coords_list)
             self.coords = list(self.dataset.coords)
             self.dims = copy.deepcopy(self.coords)
-        elif set(["total_time", "length", "width"]).issubset(_dims_set):
+        elif {"total_time", "length", "width"}.issubset(_dims_set):
             # the coordinates are not set, but there are matching arrays
             # this is a legacy option, so issue a warning here
             self.dataset = _dataset.set_coords(["x", "y", "time"])
@@ -388,7 +388,7 @@ class DictionaryIO(BaseIO):
             if not isinstance(dimensions, dict):
                 raise TypeError(
                     "Input type for `dimensions` must be "
-                    "`dict` but was {0}".format(type(dimensions))
+                    "`dict` but was {}".format(type(dimensions))
                 )
             # there should be exactly 3 keys
             if not (len(dimensions.keys()) == 3):
@@ -398,9 +398,9 @@ class DictionaryIO(BaseIO):
             for i, (k, v) in enumerate(dimensions.items()):
                 if not (len(dimensions[k]) == under_shp[i]):
                     raise ValueError(
-                        "Shape of `dimensions` at position {0} was {1}, "
+                        "Shape of `dimensions` at position {} was {}, "
                         "which does not match the variables dimensions "
-                        "{2}.".format(i, len(dimensions[k]), under_shp)
+                        "{}.".format(i, len(dimensions[k]), under_shp)
                     )
             # make the assignment
             self.dims = list(dimensions.keys())
@@ -457,7 +457,7 @@ class DictionaryIO(BaseIO):
         elif var in self.known_coords:
             return self.dimensions[var]
         else:
-            raise ValueError("No variable named {0} found.".format(var))
+            raise ValueError(f"No variable named {var} found.")
 
     @property
     def keys(self):

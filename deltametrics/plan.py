@@ -520,7 +520,7 @@ class SpecialtyPlanform(BasePlanform):
             else:
                 _varinfo = self._default_varinfo
         else:
-            raise TypeError("Bad value for `var`: {0}".format(var))
+            raise TypeError(f"Bad value for `var`: {var}")
 
         self._show(
             _field,
@@ -760,7 +760,7 @@ class OpeningAnglePlanform(SpecialtyPlanform):
                     data=np.zeros(_below_mask.shape, dtype=float), name="opening_angles"
                 )
             else:
-                raise TypeError("Invalid type {0}".format(type(_below_mask)))
+                raise TypeError(f"Invalid type {type(_below_mask)}")
 
         elif issubclass(type(args[0]), BaseCube):
             raise NotImplementedError(
@@ -1038,7 +1038,7 @@ class MorphologicalPlanform(SpecialtyPlanform):
                 name="mean_image",
             )
         else:
-            raise TypeError("Invalid type {0}".format(type(self._elevation_mask)))
+            raise TypeError(f"Invalid type {type(self._elevation_mask)}")
 
         # see if the inlet width is provided, if not see if cube is avail
         if len(args) > 1:
@@ -1047,7 +1047,7 @@ class MorphologicalPlanform(SpecialtyPlanform):
             else:
                 raise TypeError(
                     "Expected single number to set max inlet size, got: "
-                    "{0}".format(args[1])
+                    "{}".format(args[1])
                 )
         elif isinstance(self.cube, BaseCube):
             try:
@@ -1179,7 +1179,7 @@ def compute_land_area(land_mask):
         _lm = land_mask
         _dx = 1
     else:
-        raise TypeError("Invalid type {0}".format(type(land_mask)))
+        raise TypeError(f"Invalid type {type(land_mask)}")
 
     return np.sum(_lm) * _dx * _dx
 
@@ -1304,7 +1304,7 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
         _lm = land_mask
         _dx = 1
     else:
-        raise TypeError("Invalid type {0}".format(type(land_mask)))
+        raise TypeError(f"Invalid type {type(land_mask)}")
 
     _ = kwargs.pop("return_line", None)  # trash this variable if passed
     shorelength = compute_shoreline_length(shore_mask, return_line=False, **kwargs)
@@ -1422,7 +1422,7 @@ def compute_shoreline_length(shore_mask, origin=[0, 0], return_line=False):
         _dx = 1
         # should we have a warning that no dx was found here?
     else:
-        raise TypeError("Invalid type {0}".format(type(shore_mask)))
+        raise TypeError(f"Invalid type {type(shore_mask)}")
 
     if not (np.sum(_sm) > 0):
         raise ValueError("No pixels in shoreline mask.")
@@ -1639,7 +1639,7 @@ def compute_shoreline_distance(shore_mask, origin=[0, 0], return_distances=False
         _sm = shore_mask
         _dx = 1
     else:
-        raise TypeError("Invalid type {0}".format(type(shore_mask)))
+        raise TypeError(f"Invalid type {type(shore_mask)}")
 
     if not (np.sum(_sm) > 0):
         raise ValueError("No pixels in shoreline mask.")
@@ -2170,7 +2170,7 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
         channelmask = np.array(channelmask)
     else:
         raise TypeError(
-            "Input for `channelmask` was wrong type: {}.".format(type(channelmask))
+            f"Input for `channelmask` was wrong type: {type(channelmask)}."
         )
 
     # get channel starts and ends
@@ -2292,7 +2292,7 @@ def compute_channel_depth(
         channelmask = np.array(channelmask.mask)
     else:
         raise TypeError(
-            "Input for `channelmask` was wrong type: {}.".format(type(channelmask))
+            f"Input for `channelmask` was wrong type: {type(channelmask)}."
         )
 
     # get channel starts and ends
@@ -2326,7 +2326,7 @@ def compute_channel_depth(
     elif depth_type == "mean":
         _channel_depth_list = _channel_depth_means
     else:
-        raise ValueError("Invalid argument to `depth_type` {}".format(str(depth_type)))
+        raise ValueError(f"Invalid argument to `depth_type` {str(depth_type)}")
 
     _m, _s = np.mean(_channel_depth_list), np.std(_channel_depth_list)
     if return_depths:
@@ -2411,7 +2411,7 @@ def compute_surface_deposit_time(data, surface_idx=-1, **kwargs):
         etas = np.array(data[:surface_idx, :, :])
     else:
         # implement other options...
-        raise TypeError("Unexpected data type input: {0}".format(type(data)))
+        raise TypeError(f"Unexpected data type input: {type(data)}")
 
     sfc_date = _compute_surface_deposit_time_from_etas(etas, **kwargs)
 
