@@ -117,7 +117,7 @@ class AttributeChecker:
             else:
                 att_dict[check] = True
 
-        log_list = [value for value in att_dict.values()]
+        log_list = list(att_dict.values())
         log_form = [value for string, value in
                     zip(log_list, att_dict.keys()) if not string]
         if not all(log_list):

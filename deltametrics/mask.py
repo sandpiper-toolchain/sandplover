@@ -1594,12 +1594,10 @@ class ShorelineMask(BaseMask):
         # breakpoint()
 
         # convert contour to the shoreline mask itself
-        flat_inds = list(
-            map(
-                lambda x: np.ravel_multi_index(x, shoremap.shape),
-                np.round(C).astype(int),
-            )
-        )
+        flat_inds = [
+            np.ravel_multi_index(x, shoremap.shape)
+            for x in np.round(C).astype(int)
+        ]
         shoremap.flat[flat_inds] = 1
 
         self._contour = C
