@@ -63,6 +63,7 @@ repos:
     - id: trailing-whitespace
     - id: name-tests-test
     - id: file-contents-sorter
+      args: [--unique]
       files: |
         (?x)^(
           .*requirements(-\w+)?.(in|txt)|
