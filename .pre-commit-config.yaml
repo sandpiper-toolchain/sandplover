@@ -66,5 +66,5 @@ repos:
       files: |
         (?x)^(
           .*requirements(-\w+)?.(in|txt)|
-          requirements/.*\.txt
+          .*registry.txt
         )
