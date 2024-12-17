@@ -62,6 +62,7 @@ def lint(session: nox.Session) -> None:
     session.run("pre-commit", "run", "--all-files", "end-of-file-fixer")
     session.run("pre-commit", "run", "--all-files", "pyupgrade")
     session.run("pre-commit", "run", "--all-files", "flake8")
+    session.run("pre-commit", "run", "--all-files", "name-tests-test")
 
 
 @nox.session

@@ -1,8 +1,8 @@
 import sys
 
+import netCDF4
 import numpy as np
 import pytest
-import utilities
 import xarray as xr
 
 from deltametrics.io import DictionaryIO
@@ -15,6 +15,24 @@ from deltametrics.sample_data.sample_data import _get_rcm8_path
 rcm8_path = _get_rcm8_path()
 golf_path = _get_golf_path()
 hdf_path = _get_landsat_path()
+
+
+@pytest.fixture
+def empty_netcdf_file(tmp_path):
+    """Create blank NetCDF4 file."""
+    p = tmp_path / "dummy.nc"
+    f = netCDF4.Dataset(p, "w", format="NETCDF4")
+    f.createVariable("test", "f4")
+    f.close()
+    return p
+
+
+@pytest.fixture
+def empty_txt_file(tmp_path):
+    """Create a dummy text file."""
+    p = tmp_path / "dummy.txt"
+    p.touch()
+    return p
 
 
 def test_netcdf_io_init():
@@ -115,16 +133,16 @@ def test_nofile():
         NetCDFIO('badpath', 'netcdf')
 
 
-def test_empty_file(tmp_path):
-    p = utilities.create_dummy_netcdf(tmp_path)
+def test_empty_file(empty_netcdf_file):
+    assert empty_netcdf_file.is_file()
     with pytest.raises(NotImplementedError):
-        NetCDFIO(p, 'netcdf')
+        NetCDFIO(empty_netcdf_file, 'netcdf')
 
 
-def test_invalid_file(tmp_path):
-    p = utilities.create_dummy_txt_file(tmp_path)
+def test_invalid_file(empty_txt_file):
+    assert empty_txt_file.is_file()
     with pytest.raises(TypeError):
-        NetCDFIO(p, 'netcdf')
+        NetCDFIO(empty_txt_file, 'netcdf')
 
 
 def test_readvar_intomemory():
