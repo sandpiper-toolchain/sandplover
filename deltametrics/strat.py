@@ -114,11 +114,11 @@ def _determine_deposit_from_background(sediment_volume, background):
         >>> _ = ax[1, 1].imshow(background2[59], cmap='Greys_r')  # just below initial basin depth
         >>> plt.tight_layout()
     """
-    if (background is None):
+    if background is None:
         deposit = np.ones(sediment_volume.shape, dtype=bool)
-    elif (isinstance(background, float) or isinstance(background, int)):
+    elif isinstance(background, (float, int)):
         deposit = (sediment_volume != background)
-    elif (isinstance(background, np.ndarray)):
+    elif isinstance(background, np.ndarray):
         deposit = ~background.astype(bool)  # ensure boolean
     else:
         raise TypeError('Invalid type for `background`.')
