@@ -1617,8 +1617,6 @@ def overlay_sparse_array(
     if isinstance(cmap, str):
         # cmap = plt.cm.get_cmap(cmap)
         cmap = mpl.colormaps[cmap]
-    else:
-        cmap = cmap
 
     # get the extent to plot
     if "extent" in kwargs:
