@@ -128,12 +128,6 @@ NetCDF was designed with dimensional data in mind, so that we can use common dim
 <p class="admonition-title">Hint</p>
 <p>You can use <cite>None</cite> as the length of the time dimension, if you want to create the NetCDF file while your model runs, and you do not know the size a priori.</p>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tempfile</span>
-
-<span class="n">output_folder</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">()</span>
-<span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="s1">&#39;model_output.nc&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
 <p>(<a class="reference download internal" download="" href="../../../_downloads/fe18307d7bc4ded0f4557a8119be8b2d/setup_any_dataset-3.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">output_folder</span> <span class="o">=</span> <span class="s1">&#39;./output&#39;</span>
 <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="s1">&#39;model_output.nc&#39;</span><span class="p">)</span>

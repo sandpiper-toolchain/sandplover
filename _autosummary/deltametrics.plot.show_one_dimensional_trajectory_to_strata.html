@@ -56,21 +56,6 @@ algorithms to compute stratigraphy, and for debugging and checking outputs
 from computations.</p>
 <p>For example, we can quickly visualize the processing of a 1D timeseries of
 bed elevations into boxy stratigraphy with this routine.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.plot</span> <span class="kn">import</span> <span class="n">show_one_dimensional_trajectory_to_strata</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.sample_data</span> <span class="kn">import</span> <span class="n">golf</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ets</span> <span class="o">=</span> <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">85</span><span class="p">]</span>  <span class="c1"># a &quot;real&quot; slice of the model</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">show_one_dimensional_trajectory_to_strata</span><span class="p">(</span><span class="n">ets</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
-</pre></div>
-</div>
 <p>(<a class="reference download internal" download="" href="../_downloads/2505a25d8a6b74c9f794d2463ab6f717/deltametrics-plot-show_one_dimensional_trajectory_to_strata-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/51178c4e93efe006307c74e77b028835/deltametrics-plot-show_one_dimensional_trajectory_to_strata-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/ace5a5f0f3a8053683bd62b2711cbb9f/deltametrics-plot-show_one_dimensional_trajectory_to_strata-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
 <figure class="align-default">
 <img alt="../_images/deltametrics-plot-show_one_dimensional_trajectory_to_strata-1.png" class="plot-directive" src="../_images/deltametrics-plot-show_one_dimensional_trajectory_to_strata-1.png" />

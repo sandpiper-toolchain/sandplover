@@ -339,42 +339,6 @@ background.</p>
 <p>The third background shows the effect of using a constant value as the
 background value; hint: this is generally a bad idea unless your data has
 a background value encoded into it (like <code class="docutils literal notranslate"><span class="pre">-1</span></code> or <cite>9999</cite>).</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.cube</span> <span class="kn">import</span> <span class="n">StratigraphyCube</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.sample_data.sample_data</span> <span class="kn">import</span> <span class="n">golf</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">deltametrics.strat</span> <span class="kn">import</span> <span class="n">_determine_deposit_from_background</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">golfstrat</span> <span class="o">=</span> <span class="n">StratigraphyCube</span><span class="o">.</span><span class="n">from_DataCube</span><span class="p">(</span><span class="n">golfcube</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Background determined from initial basin topography</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">background0</span> <span class="o">=</span> <span class="n">_determine_deposit_from_background</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;sandfrac&#39;</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="n">background</span><span class="o">=</span><span class="n">golfstrat</span><span class="o">.</span><span class="n">Z</span> <span class="o">&lt;</span> <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Background determined from min of bed elevation timeseries</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">background1</span> <span class="o">=</span> <span class="n">_determine_deposit_from_background</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;sandfrac&#39;</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="n">background</span><span class="o">=</span><span class="p">(</span><span class="n">golfstrat</span><span class="o">.</span><span class="n">Z</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)))</span>
-</pre></div>
-</div>
-<p>Background determined from a fixed sandfrac value</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">background2</span> <span class="o">=</span> <span class="n">_determine_deposit_from_background</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;sandfrac&#39;</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="n">background</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">background0</span><span class="p">[</span><span class="mi">59</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys_r&#39;</span><span class="p">)</span>  <span class="c1"># just below initial basin depth</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">background0</span><span class="p">[</span><span class="mi">60</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys_r&#39;</span><span class="p">)</span>  <span class="c1"># just above initial basin depth</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">background1</span><span class="p">[</span><span class="mi">59</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys_r&#39;</span><span class="p">)</span>  <span class="c1"># just below initial basin depth</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">background2</span><span class="p">[</span><span class="mi">59</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys_r&#39;</span><span class="p">)</span>  <span class="c1"># just below initial basin depth</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</pre></div>
-</div>
 <p>(<a class="reference download internal" download="" href="../../_downloads/3f40171dded207c3cb4efdeeb29891ac/index-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../../_downloads/da5c9cdfb530d23e2801235197151054/index-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../../_downloads/c75d0963609feae69e99b10f2a0bc475/index-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
 <figure class="align-default">
 <img alt="../../_images/index-12.png" class="plot-directive" src="../../_images/index-12.png" />
