@@ -129,9 +129,7 @@ class AttributeChecker:
 def is_ndarray_or_xarray(data):
     """Check that data is numpy array or xarray data.
     """
-    truth = (isinstance(data, xr.core.dataarray.DataArray) or
-             isinstance(data, np.ndarray))
-    return truth
+    return isinstance(data, (xr.core.dataarray.DataArray, np.ndarray))
 
 
 def curve_fit(data, fit='harmonic'):
