@@ -1596,7 +1596,7 @@ def overlay_sparse_array(
         fig, ax = plt.subplots()
 
     # check this is a tuple or list
-    if isinstance(alpha_clip, tuple) or isinstance(alpha_clip, list):
+    if isinstance(alpha_clip, (tuple, list)):
         if len(alpha_clip) != 2:
             raise ValueError("`alpha_clip` must be tuple or list of length 2.")
     else:  # if it is a tuple, check the length
