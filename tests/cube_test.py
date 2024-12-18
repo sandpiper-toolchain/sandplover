@@ -102,8 +102,8 @@ class TestDataCubeNoStratigraphy:
         golf.stratigraphy_from("eta", dz=0.1)
         golf.register_section("testsection", StrikeSection(distance_idx=10))
         assert golf.sections is golf.section_set
-        assert len(golf.sections.keys()) == 1
-        assert "testsection" in golf.sections.keys()
+        assert len(golf.sections) == 1
+        assert "testsection" in golf.sections
         with pytest.raises(TypeError, match=r"`SectionInstance` .*"):
             golf.register_section("fail1", "astring")
         with pytest.raises(TypeError, match=r"`SectionInstance` .*"):
@@ -115,7 +115,7 @@ class TestDataCubeNoStratigraphy:
         golf = DataCube(golf_path)
         golf.stratigraphy_from("eta", dz=0.1)
         golf.register_section("testsection", StrikeSection(distance_idx=10))
-        assert "testsection" in golf.sections.keys()
+        assert "testsection" in golf.sections
         slc = golf.sections["testsection"]
         assert issubclass(type(slc), BaseSection)
 
@@ -124,8 +124,8 @@ class TestDataCubeNoStratigraphy:
         golf.stratigraphy_from("eta", dz=0.1)
         golf.register_planform("testplanform", Planform(idx=10))
         assert golf.planforms is golf.planform_set
-        assert len(golf.planforms.keys()) == 1
-        assert "testplanform" in golf.planforms.keys()
+        assert len(golf.planforms) == 1
+        assert "testplanform" in golf.planforms
         with pytest.raises(TypeError, match=r"`PlanformInstance` .*"):
             golf.register_planform("fail1", "astring")
         with pytest.raises(TypeError, match=r"`PlanformInstance` .*"):
@@ -142,14 +142,14 @@ class TestDataCubeNoStratigraphy:
         golf = DataCube(golf_path)
         golf.register_plan("testplanform", Planform(idx=10))
         assert golf.planforms is golf.planform_set
-        assert len(golf.planforms.keys()) == 1
-        assert "testplanform" in golf.planforms.keys()
+        assert len(golf.planforms) == 1
+        assert "testplanform" in golf.planforms
 
     def test_planforms_slice_op(self):
         golf = DataCube(golf_path)
         golf.stratigraphy_from("eta", dz=0.1)
         golf.register_planform("testplanform", Planform(idx=10))
-        assert "testplanform" in golf.planforms.keys()
+        assert "testplanform" in golf.planforms
         slc = golf.planforms["testplanform"]
         assert issubclass(type(slc), BasePlanform)
 
