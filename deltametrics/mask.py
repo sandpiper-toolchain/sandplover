@@ -707,17 +707,12 @@ class ChannelMask(BaseMask):
             # do nothing, will need to call ._compute_mask later
             return
 
-        elif self._input_flag == "cube":
+        elif self._input_flag in ("cube", "mask"):
             raise NotImplementedError
             # _tval = kwargs.pop('t', -1)
             # _eta = args[0]['eta'][_tval, :, :]
             # _flow = args[0]['velocity'][_tval, :, :]
             # need to convert these fields to proper masks
-
-        elif self._input_flag == "mask":
-            # this pathway should allow someone to specify a combination of
-            # elevation mask, landmask, and velocity mask to make the new mask.
-            raise NotImplementedError
 
         elif self._input_flag == "array":
             # first make a landmask
@@ -927,13 +922,7 @@ class WetMask(BaseMask):
         if self._input_flag is None:
             # do nothing, will need to call ._compute_mask later
             return
-        elif self._input_flag == "cube":
-            raise NotImplementedError
-            # _tval = kwargs.pop('t', -1)
-            # _eta = args[0]['eta'][_tval, :, :]
-        elif self._input_flag == "mask":
-            # this pathway should allow someone to specify a combination of
-            #    landmask, and ocean/elevation mask
+        elif self._input_flag in ("cube", "mask"):
             raise NotImplementedError
         elif self._input_flag == "array":
             _eta = args[0]
@@ -1171,12 +1160,7 @@ class LandMask(BaseMask):
             # do nothing, will need to call ._compute_mask later
             return
 
-        elif self._input_flag == "cube":
-            raise NotImplementedError
-            # _tval = kwargs.pop('t', -1)
-            # _eta = args[0]['eta'][_tval, :, :]
-
-        elif self._input_flag == "mask":
+        elif self._input_flag in ("cube", "mask"):
             raise NotImplementedError
 
         elif self._input_flag == "array":
@@ -2020,18 +2004,7 @@ class CenterlineMask(BaseMask):
             # do nothing, will need to call ._compute_mask later
             return
 
-        elif self._input_flag == "cube":
-            raise NotImplementedError
-            # _tval = kwargs.pop('t', -1)
-            # _eta = args[0]['eta'][_tval, :, :]
-            # _flow = args[0]['velocity'][_tval, :, :]
-            # need to convert these fields to proper masks
-
-        elif self._input_flag == "mask":
-            # this pathway should allow someone to specify a combination of
-            # elevation mask, landmask, and velocity mask or channelmask
-            # directly, to make the new mask. This is basically an ambiguous
-            # definition of the static methods.
+        elif self._input_flag in ("cube", "mask"):
             raise NotImplementedError
 
         elif self._input_flag == "array":
@@ -2687,16 +2660,7 @@ class DepositMask(BaseMask):
             # do nothing, will need to call ._compute_mask later
             return
 
-        elif self._input_flag == "cube":
-            raise NotImplementedError
-            # _tval = kwargs.pop('t', -1)
-            # _eta = args[0]['eta'][_tval, :, :]
-            # _flow = args[0]['velocity'][_tval, :, :]
-            # need to convert these fields to proper masks
-
-        elif self._input_flag == "mask":
-            # this pathway should allow someone to specify a combination of
-            # elevation mask, landmask, and velocity mask to make the new mask.
+        elif self._input_flag in ("cube", "mask"):
             raise NotImplementedError
 
         elif self._input_flag == "array":
