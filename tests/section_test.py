@@ -888,14 +888,14 @@ class TestSectionFromDataCubeWithStratigraphy:
 
     def test_withstrat_strat_attr_mesh_components(self):
         sa = self.rcm8cube.sections["test"]["velocity"].strat.strat_attr
-        assert "strata" in sa.keys()
-        assert "psvd_idx" in sa.keys()
-        assert "psvd_flld" in sa.keys()
-        assert "x0" in sa.keys()
-        assert "x1" in sa.keys()
-        assert "s" in sa.keys()
-        assert "s_sp" in sa.keys()
-        assert "z_sp" in sa.keys()
+        assert "strata" in sa
+        assert "psvd_idx" in sa
+        assert "psvd_flld" in sa
+        assert "x0" in sa
+        assert "x1" in sa
+        assert "s" in sa
+        assert "s_sp" in sa
+        assert "z_sp" in sa
 
     def test_withstrat_strat_attr_shapes(self):
         sa = self.rcm8cube.sections["test"]["velocity"].strat.strat_attr
