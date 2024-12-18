@@ -746,11 +746,8 @@ class DataCube(BaseCube):
                 dims=self._view_dimensions,
             )
             _obj = _xrt
-        elif var in self._coords:
+        elif (var in self._coords) or (var in self._variables):
             # ensure coords can be called by cube[var]
-            _obj = self._dataio.dataset[var]
-
-        elif var in self._variables:
             _obj = self._dataio.dataset[var]
 
         else:
