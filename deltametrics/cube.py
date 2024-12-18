@@ -583,7 +583,7 @@ class BaseCube(abc.ABC):
             stacklevel=2,
         )
         # pass `t` arg to `idx` for legacy
-        if "t" in kwargs.keys():
+        if "t" in kwargs:
             idx = kwargs.pop("t")
             kwargs["idx"] = idx
 
