@@ -38,11 +38,17 @@ repos:
   - id: pyupgrade
     args: [--py311-plus]
 
-- repo: https://github.com/asottile/reorder-python-imports
-  rev: v3.14.0
+- repo: https://github.com/PyCQA/isort
+  rev: 5.13.2
   hooks:
-  - id: reorder-python-imports
-    args: [--py311-plus]
+  - id: isort
+    name: isort (python)
+    args: [--force-single-line-imports]
+    types: [python]
+  - id: isort
+    name: isort (cython)
+    args: [--force-single-line-imports]
+    types: [cython]
 
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v5.0.0
