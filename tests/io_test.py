@@ -38,7 +38,7 @@ def empty_txt_file(tmp_path):
 def test_netcdf_io_init():
     netcdf_io = NetCDFIO(golf_path, 'netcdf')
     assert netcdf_io.io_type == 'netcdf'
-    assert len(netcdf_io._in_memory_data.keys()) == 0
+    assert len(netcdf_io._in_memory_data) == 0
 
 
 def test_netcdf_io_init_legacy():
@@ -48,7 +48,7 @@ def test_netcdf_io_init_legacy():
     with pytest.warns(UserWarning, match=r'No associated .*'):
         netcdf_io = NetCDFIO(rcm8_path, 'netcdf')
     assert netcdf_io.io_type == 'netcdf'
-    assert len(netcdf_io._in_memory_data.keys()) == 0
+    assert len(netcdf_io._in_memory_data) == 0
 
 
 def test_netcdf_io_keys():
@@ -81,9 +81,9 @@ def test_netcdf_io_intomemory_direct():
     inmemory_size = sys.getsizeof(netcdf_io._in_memory_data)
 
     var = 'velocity'
-    assert len(netcdf_io._in_memory_data.keys()) == 0
+    assert len(netcdf_io._in_memory_data) == 0
     netcdf_io._in_memory_data[var] = np.array(netcdf_io.dataset.variables[var])
-    assert len(netcdf_io._in_memory_data.keys()) == 1
+    assert len(netcdf_io._in_memory_data) == 1
     _arr = netcdf_io._in_memory_data[var]
 
     dataset_size_after = sys.getsizeof(netcdf_io.dataset)
@@ -101,9 +101,9 @@ def test_netcdf_io_intomemory_read():
     inmemory_size = sys.getsizeof(netcdf_io._in_memory_data)
 
     var = 'velocity'
-    assert len(netcdf_io._in_memory_data.keys()) == 0
+    assert len(netcdf_io._in_memory_data) == 0
     netcdf_io.read(var)
-    assert len(netcdf_io._in_memory_data.keys()) == 1
+    assert len(netcdf_io._in_memory_data) == 1
     _arr = netcdf_io._in_memory_data[var]
 
     assert isinstance(_arr, xr.core.dataarray.DataArray)
@@ -119,7 +119,7 @@ def test_hdf5_io_init():
     with pytest.warns(UserWarning, match=r'No associated .*'):
         netcdf_io = NetCDFIO(hdf_path, 'hdf5')
     assert netcdf_io.io_type == 'hdf5'
-    assert len(netcdf_io._in_memory_data.keys()) == 0
+    assert len(netcdf_io._in_memory_data) == 0
 
 
 def test_hdf5_io_keys():
@@ -150,7 +150,7 @@ def test_readvar_intomemory():
     assert netcdf_io._in_memory_data == {}
 
     netcdf_io.read('eta')
-    assert ('eta' in netcdf_io._in_memory_data.keys()) is True
+    assert ('eta' in netcdf_io._in_memory_data) is True
 
 
 def test_readvar_intomemory_error():
@@ -164,7 +164,7 @@ def test_readvar_intomemory_error():
 def test_netcdf_no_metadata():
     # works fine, because there is no `connect` call in io init
     netcdf_io = NetCDFIO(golf_path, 'netcdf')
-    assert len(netcdf_io._in_memory_data.keys()) == 0
+    assert len(netcdf_io._in_memory_data) == 0
 
 
 class TestDictionaryIO:
@@ -176,19 +176,19 @@ class TestDictionaryIO:
 
     def test_create_from_xarray_data(self):
         dict_io = DictionaryIO(self.dict_xr)
-        assert ('eta' in dict_io._in_memory_data.keys()) is True
+        assert ('eta' in dict_io._in_memory_data) is True
         assert isinstance(dict_io['eta'], xr.core.dataarray.DataArray)
 
     def test_dimensions_ignored_if_xarray(self):
         dict_io = DictionaryIO(self.dict_xr, dimensions=(3, 4, 5))
-        assert ('eta' in dict_io._in_memory_data.keys()) is True
+        assert ('eta' in dict_io._in_memory_data) is True
         assert isinstance(dict_io['eta'], xr.core.dataarray.DataArray)
 
     def test_create_from_numpy_data_nodims(self):
         dict_io = DictionaryIO(
             self.dict_np)
-        assert ('eta' in dict_io._in_memory_data.keys()) is True
-        assert ('velocity' in dict_io._in_memory_data.keys()) is True
+        assert ('eta' in dict_io._in_memory_data) is True
+        assert ('velocity' in dict_io._in_memory_data) is True
         assert isinstance(dict_io['eta'], np.ndarray)
         assert isinstance(dict_io['dim0'], np.ndarray)
 
@@ -198,8 +198,8 @@ class TestDictionaryIO:
                 'time': np.arange(self._shape[0]),
                 'x': np.arange(self._shape[1]),
                 'y': np.arange(self._shape[2])})
-        assert ('eta' in dict_io._in_memory_data.keys()) is True
-        assert ('velocity' in dict_io._in_memory_data.keys()) is True
+        assert ('eta' in dict_io._in_memory_data) is True
+        assert ('velocity' in dict_io._in_memory_data) is True
         assert isinstance(dict_io['eta'], np.ndarray)
         assert isinstance(dict_io['time'], np.ndarray)
         assert isinstance(dict_io['x'], np.ndarray)
