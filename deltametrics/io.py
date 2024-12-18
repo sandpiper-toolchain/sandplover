@@ -325,7 +325,7 @@ class NetCDFIO(FileIO):
         raise NotImplementedError
 
     def __getitem__(self, var):
-        if var in self._in_memory_data.keys():
+        if var in self._in_memory_data:
             return self._in_memory_data[var]
         else:
             return self.dataset[var]
@@ -455,7 +455,7 @@ class DictionaryIO(BaseIO):
         Returns the variables exactly as they are: either a numpy ndarray or
         xarray.
         """
-        if var in self.dataset.keys():
+        if var in self.dataset:
             return self.dataset[var]
         elif var in self.known_coords:
             return self.dimensions[var]
