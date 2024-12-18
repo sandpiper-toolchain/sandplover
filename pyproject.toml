@@ -65,6 +65,11 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
+[tool.isort]
+combine_as_imports = true
+known_first_party = "deltametrics"
+profile = "black"
+
 [tool.setuptools]
 include-package-data = true
 
