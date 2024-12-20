@@ -990,12 +990,18 @@ class LineSection(BaseSection):
 
     @property
     def distance(self):
-        """Distance of section from reference edge, in perpendicular-reference coordinates."""
+        """Distance of section from reference edge.
+
+        This is measured in perpendicular-reference coordinates.
+        """
         return self._distance
 
     @property
     def distance_idx(self):
-        """Distance of section from from reference edge, in perpendicular-reference indices."""
+        """Distance of section from from reference edge.
+
+        This is measured in perpendicular-reference indices.
+        """
         return self._distance_idx
 
     # @property
@@ -1802,7 +1808,9 @@ class RadialSection(BaseSection):
         ...     sec = RadialSection(golfstrat, azimuth=azim, length=4000)
         ...     sec.show_trace('r--', ax=ax[1])
         ...     # sec.show('time', ax=ax[idx], colorbar=False)
-        ...     _ = ax[idx].text(3000, 0, 'azimuth: {0}'.format(azim), ha='center', fontsize=8)
+        ...     _ = ax[idx].text(
+        ...         3000, 0, 'azimuth: {0}'.format(azim), ha='center', fontsize=8
+        ...     )
         ...     ax[idx].tick_params(labelsize=8)
         ...     _ = ax[idx].set_ylim(-4, 1)
     """

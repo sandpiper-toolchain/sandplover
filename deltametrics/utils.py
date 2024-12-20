@@ -42,13 +42,15 @@ class NoStratigraphyError(AttributeError):
     >>> golfcube = golf()
     >>> raise NoStratigraphyError(golfcube)
     Traceback (most recent call last):
-    deltametrics.utils.NoStratigraphyError: 'DataCube' object has no preservation or stratigraphy information.
+    deltametrics.utils.NoStratigraphyError: 'DataCube' object has no preservation
+    or stratigraphy information.
 
     With the `var` argument given as ``'strat_attr'``:
 
     >>> raise NoStratigraphyError(golfcube, 'strat_attr')
     Traceback (most recent call last):
-    deltametrics.utils.NoStratigraphyError: 'DataCube' object has no preservation or stratigraphy information.
+    deltametrics.utils.NoStratigraphyError: 'DataCube' object has no preservation
+    or stratigraphy information.
     """
 
     def __init__(self, obj, var=None):

@@ -224,7 +224,8 @@ class NetCDFIO(FileIO):
         # try to find if coordinates have been preconfigured
         _coords_list = list(_dataset.coords)
         with warnings.catch_warnings():
-            # filter warning about Dataset.dims changing return, we use the correct use already
+            # filter warning about Dataset.dims changing return, we use the
+            # correct use already
             warnings.filterwarnings("ignore", category=FutureWarning)
             _dims_set = set(_dataset.dims.keys())
         if len(_coords_list) == 3:

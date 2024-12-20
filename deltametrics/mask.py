@@ -1323,8 +1323,9 @@ class ShorelineMask(BaseMask):
             Angle Method (:obj:`~dm.plan.shaw_opening_angle_method`) or the
             morphological closing method
             (:obj:`~dm.plan.morphological_closing_method`). Other
-            implementations can be used if manually implemented, and then the computed mask can be passed via via a `method` argument. For example, a sobel
-            edge detection and morphological thinning on a LandMask
+            implementations can be used if manually implemented, and then
+            the computed mask can be passed via via a `method` argument. For example,
+            a sobel edge detection and morphological thinning on a LandMask
             (already made from the OAM, or not) may also return a good
             approximation of the shoreline.
 
