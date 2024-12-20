@@ -50,10 +50,9 @@ Then, make the animation with matplotlib's `FuncAnimation`.
 .. code::
 
     anim = animation.FuncAnimation(
-        fig, update_field,
-        frames=golf.shape[0]-1,
-        interval=20)
-    anim.save('simple_movie.gif', fps=30)
+        fig, update_field, frames=golf.shape[0] - 1, interval=20
+    )
+    anim.save("simple_movie.gif", fps=30)
 
     plt.show()
 
