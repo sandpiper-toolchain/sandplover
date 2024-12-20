@@ -10,11 +10,21 @@ Current available mobility metrics include:
 Also included are functions to fit curves to the output from the mobility
 functions, allowing for decay constants and timescales to be quantified.
 
-.. [Cazanacli et al 2002] Cazanacli, Dan, Chris Paola, and Gary Parker. "Experimental steep, braided flow: application to flooding risk on fans." Journal of Hydraulic Engineering 128, no. 3 (2002): 322-330.
-.. [Wickert et al 2013] Wickert, Andrew D., John M. Martin, Michal Tal, Wonsuck Kim, Ben Sheets, and Chris Paola. "River channel lateral mobility: Metrics, time scales, and controls." Journal of Geophysical Research: Earth Surface 118, no. 2 (2013): 396-412.
-.. [Liang et al 2016] Liang, Man, Corey Van Dyk, and Paola Passalacqua. "Quantifying the patterns and dynamics of river deltas under conditions of steady forcing and relative sea level rise." Journal of Geophysical Research: Earth Surface 121, no. 2 (2016): 465-496.
-.. [Jarriel et al 2019] Jarriel, Teresa, Leo F. Isikdogan, Alan Bovik, and Paola Passalacqua. "Characterization of deltaic channel morphodynamics from imagery time series using the channelized response variance." Journal of Geophysical Research: Earth Surface 124, no. 12 (2019): 3022-3042.
-
+.. [Cazanacli et al 2002] Cazanacli, Dan, Chris Paola, and Gary Parker.
+   "Experimental steep, braided flow: application to flooding risk on fans."
+   Journal of Hydraulic Engineering 128, no. 3 (2002): 322-330.
+.. [Wickert et al 2013] Wickert, Andrew D., John M. Martin, Michal Tal,
+   Wonsuck Kim, Ben Sheets, and Chris Paola. "River channel lateral mobility:
+   Metrics, time scales, and controls." Journal of Geophysical Research:
+   Earth Surface 118, no. 2 (2013): 396-412.
+.. [Liang et al 2016] Liang, Man, Corey Van Dyk, and Paola Passalacqua.
+   "Quantifying the patterns and dynamics of river deltas under conditions of
+   steady forcing and relative sea level rise." Journal of Geophysical Research:
+   Earth Surface 121, no. 2 (2016): 465-496.
+.. [Jarriel et al 2019] Jarriel, Teresa, Leo F. Isikdogan, Alan Bovik, and Paola
+   Passalacqua. "Characterization of deltaic channel morphodynamics from imagery
+   time series using the channelized response variance." Journal of Geophysical
+   Research: Earth Surface 124, no. 12 (2019): 3022-3042.
 """
 
 import numpy as np
@@ -354,7 +364,8 @@ def calculate_planform_overlap(
 
     .. math::
 
-        D(B, T) = \\sum\\limits^{m_r}_{i=1} \\sum\\limits^{n_c}_{j=1} \\left| K_B - K_T \\right|
+        D(B, T) = \\sum\\limits^{m_r}_{i=1} \\sum\\limits^{n_c}_{j=1}
+                  \\left| K_B - K_T \\right|
 
     where :math:`K_B` and :math:`K_T` are the channel mask values at the base
     and target maps, respectively.
@@ -493,7 +504,12 @@ def calculate_reworking_fraction(
 
     .. math::
 
-        N'_{B,T} = \\sum_{i=1}^{m_r} \\sum_{j=1}^{n_c} \\left[ \\left(\\sum_{\\beta = B+1}^{T} K'_{\\beta} \\right) \\equiv 0 \\right]
+        N'_{B,T} = \\sum_{i=1}^{m_r} \\sum_{j=1}^{n_c} \\left[
+                       \\left(
+                           \\sum_{\\beta = B+1}^{T} K'_{\\beta}
+                       \\right) \\equiv 0
+                   \\right]
+
 
     where :math:`m_r` and :math:`n_c` are the number of rows and columns in the
     base map, :math:`K'_{\\beta}` is the channel mask at time :math:`\\beta` when
