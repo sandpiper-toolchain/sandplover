@@ -742,20 +742,24 @@ def channel_presence(chmap):
         >>> from deltametrics.sample_data.sample_data import golf
 
         >>> golfcube = golf()
-        >>> (x, y) = np.shape(golfcube['eta'][-1, ...])
+        >>> (x, y) = np.shape(golfcube["eta"][-1, ...])
 
         Calculate channel masks/presence over final 5 timesteps
 
         >>> chmap = np.zeros((5, x, y))  # initialize channel map
         >>> for i in np.arange(-5, 0):
         ...     chmap[i, ...] = ChannelMask(
-        ...         golfcube['eta'][i, ...], golfcube['velocity'][i, ...],
-        ...         elevation_threshold=0, flow_threshold=0).mask
+        ...         golfcube["eta"][i, ...],
+        ...         golfcube["velocity"][i, ...],
+        ...         elevation_threshold=0,
+        ...         flow_threshold=0,
+        ...     ).mask
+        ...
         >>>
         >>> fig, ax = plt.subplots(1, 2)
-        >>> golfcube.quick_show('eta', ax=ax[0])  # final delta
-        >>> p = ax[1].imshow(channel_presence(chmap), cmap='Blues')
-        >>> _ = append_colorbar(p, ax[1], label='Channelized Time')
+        >>> golfcube.quick_show("eta", ax=ax[0])  # final delta
+        >>> p = ax[1].imshow(channel_presence(chmap), cmap="Blues")
+        >>> _ = append_colorbar(p, ax[1], label="Channelized Time")
     """
     tmp_chans = None  # instantiate
     if isinstance(chmap, mask.ChannelMask) is True:
@@ -874,23 +878,26 @@ def calculate_channelized_response_variance(
         Calculate the CRV on the "Red" band
 
         >>> crv_mag, slopes, crv = calculate_channelized_response_variance(
-        ...    img['red'].data, threshold=0.0,
-        ...    normalize_input=True, normalize_output=True)
+        ...     img["red"].data,
+        ...     threshold=0.0,
+        ...     normalize_input=True,
+        ...     normalize_output=True,
+        ... )
 
         Plot the results
 
         >>> fig, ax = plt.subplots(1, 3, figsize=(13, 5))
         >>> i0 = ax[0].imshow(crv_mag, vmin=0, vmax=1)
-        >>> _ = ax[0].set_title('CRV Magnitude')
+        >>> _ = ax[0].set_title("CRV Magnitude")
         >>> _ = append_colorbar(i0, ax=ax[0], size=10)
         >>> s_ex = np.max([np.abs(slopes.min()), slopes.max()])
-        >>> i1 = ax[1].imshow(slopes, vmin=-1*s_ex, vmax=s_ex, cmap='PuOr')
-        >>> _ = ax[1].set_title('CRV Slopes')
+        >>> i1 = ax[1].imshow(slopes, vmin=-1 * s_ex, vmax=s_ex, cmap="PuOr")
+        >>> _ = ax[1].set_title("CRV Slopes")
         >>> _ = append_colorbar(i1, ax=ax[1], size=10)
-        >>> i2 = ax[2].imshow(crv, vmin=-1, vmax=1, cmap='seismic')
-        >>> _ = ax[2].set_title('Directional CRV')
+        >>> i2 = ax[2].imshow(crv, vmin=-1, vmax=1, cmap="seismic")
+        >>> _ = ax[2].set_title("Directional CRV")
         >>> _ = append_colorbar(i2, ax=ax[2], size=10)
-        >>> _ = fig.suptitle('CRV of Red band from imagery from Savi et al 2020')
+        >>> _ = fig.suptitle("CRV of Red band from imagery from Savi et al 2020")
     """
     # normalize the input array if desired
     if normalize_input is True:

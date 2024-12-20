@@ -10,11 +10,11 @@ Setting up your coding environment
 
 .. testsetup:: *
 
-    import deltametrics as dm
-    import numpy as np
-    import scipy as sp
-    import matplotlib.pyplot as plt
-    import matplotlib.gridspec as gs
+    >>> import deltametrics as dm
+    >>> import numpy as np
+    >>> import scipy as sp
+    >>> import matplotlib.pyplot as plt
+    >>> import matplotlib.gridspec as gs
 
 All of the documentation in this package assumes that you have imported the DeltaMetrics package as ``dm``:
 
@@ -42,7 +42,7 @@ Connecting to a netCDF file on disk is as simple as:
 
 .. code::
 
-    >>> acube = dm.cube.DataCube('/path/to/data/file.nc')
+    >>> acube = dm.cube.DataCube("/path/to/data/file.nc")
 
 .. hint::
 
@@ -73,11 +73,11 @@ For example, access variables as:
 
 .. doctest::
 
-    >>> type(golfcube['eta'])
+    >>> type(golfcube["eta"])
     <class 'xarray.core.dataarray.DataArray'>
-    >>> type(golfcube['eta'].data)
+    >>> type(golfcube["eta"].data)
     <class 'numpy.ndarray'>
-    >>> golfcube['eta'].shape
+    >>> golfcube["eta"].shape
     (101, 100, 200)
 
 Examine a timeseries of bed elevation by taking slices out of the ``eta`` variable; we can slice the underlying data directly with an index, the same as a `numpy` array.
@@ -94,17 +94,21 @@ Remember that `time` is ordered along the 0th dimension.
 
     >>> # set up indices to slice the cube
     >>> nt = 5
-    >>> t_idxs = np.linspace(0, golfcube.shape[0]-1, num=nt, dtype=int)  # linearly interpolate t_idxs
-    ...
+    >>> t_idxs = np.linspace(
+    ...     0, golfcube.shape[0] - 1, num=nt, dtype=int
+    ... )  # linearly interpolate t_idxs
     >>> # make the plot
     >>> fig, ax = plt.subplots(1, nt, figsize=(12, 2))
     >>> for i, idx in enumerate(t_idxs):
-    ...     ax[i].imshow(golfcube['eta'][idx, :, :], vmin=-2, vmax=0.5)  # show the slice
-    ...     ax[i].set_title('idx = {0}'.format(idx))
+    ...     ax[i].imshow(
+    ...         golfcube["eta"][idx, :, :], vmin=-2, vmax=0.5
+    ...     )  # show the slice
+    ...     ax[i].set_title("idx = {0}".format(idx))
     ...     ax[i].set_xticks([])
     ...     ax[i].set_yticks([])
-    >>> ax[0].set_ylabel('dim1 \n direction')
-    >>> ax[0].set_xlabel('dim2 direction')
+    ...
+    >>> ax[0].set_ylabel("dim1 \n direction")
+    >>> ax[0].set_xlabel("dim2 direction")
     >>> plt.show()
 
 .. note::
@@ -119,15 +123,13 @@ For example:
     :context: close-figs
 
     >>> # compute the change in bed elevation between the last two intervals above
-    >>> diff_time = golfcube['eta'][t_idxs[-1], :, :] - golfcube['eta'][t_idxs[-2], :, :]
+    >>> diff_time = (
+    ...     golfcube["eta"][t_idxs[-1], :, :] - golfcube["eta"][t_idxs[-2], :, :]
+    ... )
     >>> max_delta = abs(diff_time).max()
-    ...
     >>> # make the plot
     >>> fig, ax = plt.subplots(figsize=(5, 3))
-    >>> im = ax.imshow(
-    ...     diff_time, cmap='RdBu',
-    ...     vmax=max_delta,
-    ...     vmin=-max_delta)
+    >>> im = ax.imshow(diff_time, cmap="RdBu", vmax=max_delta, vmin=-max_delta)
     >>> cb = dm.plot.append_colorbar(im, ax)  # a convenience function
     >>> plt.show()
 
@@ -149,7 +151,7 @@ The data returned from the planform are an `xarray` `DataArray`, so you can cont
     >>> final = dm.plan.Planform(golfcube, idx=-1)
     >>> final.shape
     (100, 200)
-    >>> final['eta']
+    >>> final["eta"]
     <xarray.DataArray 'eta' (x: 100, y: 200)> Size: 80kB
     array([[ 0.015 ,  0.015 ,  0.015 , ...,  0.015 ,  0.015 ,  0.015 ],
            [ 0.0075,  0.0075,  0.0075, ...,  0.0075,  0.0075,  0.0075],
@@ -180,8 +182,8 @@ You can visualize the data yourself, or use the built-in `show()` method of a `P
     :context:
 
     >>> fig, ax = plt.subplots(1, 2, figsize=(7, 3))
-    >>> ax[0].imshow(final['velocity'])   # display directly
-    >>> final.show('velocity', ax=ax[1])  # use the built-in show()
+    >>> ax[0].imshow(final["velocity"])  # display directly
+    >>> final.show("velocity", ax=ax[1])  # use the built-in show()
     >>> plt.show()
 
 .. hint::
@@ -195,13 +197,13 @@ Use the :meth:`~deltametrics.cube.DataCube.register_planform` method when instan
 
 .. doctest::
 
-    >>> golfcube.register_planform('fifty', dm.plan.Planform(idx=50))
+    >>> golfcube.register_planform("fifty", dm.plan.Planform(idx=50))
 
 Any registered `Planform` can then be accessed via the :obj:`~deltametrics.cube.DataCube.planforms` attribute of the Cube (returns a `dict`).
 
 .. doctest::
 
-    >>> golfcube.planforms['fifty']
+    >>> golfcube.planforms["fifty"]
     <deltametrics.plan.Planform object at 0x...>
 
 
@@ -225,7 +227,7 @@ For a data cube, sections are most easily instantiated by the :obj:`~deltametric
 
 .. doctest::
 
-    >>> golfcube.register_section('demo', dm.section.StrikeSection(distance_idx=10))
+    >>> golfcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
 
 which creates a section across a constant y-value ``==10``.
 The path of any `Section` in the ``x-y`` plane can always be accessed via the ``.trace`` attribute.
@@ -234,10 +236,13 @@ We can plot the trace on top the the final bed elevation to see where the sectio
 .. doctest::
 
     >>> fig, ax = plt.subplots()
-    >>> golfcube.quick_show('eta', idx=-1, ax=ax, ticks=True)
-    >>> ax.plot(golfcube.sections['demo'].trace[:,0],
-    ...         golfcube.sections['demo'].trace[:,1], 'r--') #doctest: +SKIP
-    >>> plt.show() #doctest: +SKIP
+    >>> golfcube.quick_show("eta", idx=-1, ax=ax, ticks=True)
+    >>> ax.plot(
+    ...     golfcube.sections["demo"].trace[:, 0],
+    ...     golfcube.sections["demo"].trace[:, 1],
+    ...     "r--",
+    ... )  # doctest: +SKIP
+    >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_strikesection_location.py
 
@@ -245,7 +250,7 @@ Any registered section can then be accessed via the :obj:`~deltametrics.cube.Cub
 
 .. doctest::
 
-    >>> golfcube.sections['demo']
+    >>> golfcube.sections["demo"]
     <deltametrics.section.StrikeSection object at 0x...>
 
 Available section types are ``PathSection``, ``StrikeSection``,
@@ -255,8 +260,8 @@ are sliced themselves, similarly to the cube.
 
 .. doctest::
 
-    >>> golfcube.register_section('demo', dm.section.StrikeSection(distance_idx=10))
-    >>> golfcube.sections['demo']['velocity']
+    >>> golfcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
+    >>> golfcube.sections["demo"]["velocity"]
     <xarray.DataArray 'velocity' (time: 101, s: 200)> Size: 81kB
     array([[0.2   , 0.2   , 0.2   , ..., 0.2   , 0.2   , 0.2   ],
            [0.    , 0.    , 0.    , ..., 0.    , 0.    , 0.    ],
@@ -279,11 +284,11 @@ We can visualize sections:
 
 .. doctest::
 
-    >>> fig, ax = plt.subplots(3, 1, sharex=True, figsize=(12,6))
-    >>> golfcube.show_section('demo', 'eta', ax=ax[0])
-    >>> golfcube.show_section('demo', 'velocity', ax=ax[1])
-    >>> golfcube.show_section('demo', 'sandfrac', ax=ax[2])
-    >>> plt.show() #doctest: +SKIP
+    >>> fig, ax = plt.subplots(3, 1, sharex=True, figsize=(12, 6))
+    >>> golfcube.show_section("demo", "eta", ax=ax[0])
+    >>> golfcube.show_section("demo", "velocity", ax=ax[1])
+    >>> golfcube.show_section("demo", "sandfrac", ax=ax[2])
+    >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_three_spacetime_sections.py
 
@@ -293,7 +298,9 @@ You can also create a standalone section, which is not registered to the cube, b
 .. doctest::
 
     >>> sass = dm.section.StrikeSection(golfcube, distance_idx=10)
-    >>> np.all(sass['velocity'] == golfcube.sections['demo']['velocity']) #doctest: +SKIP
+    >>> np.all(
+    ...     sass["velocity"] == golfcube.sections["demo"]["velocity"]
+    ... )  # doctest: +SKIP
     True
 
 
@@ -314,13 +321,13 @@ Compute "quick stratigraphy" as:
 
 .. doctest::
 
-    >>> golfcube.stratigraphy_from('eta', dz=0.1)
+    >>> golfcube.stratigraphy_from("eta", dz=0.1)
 
 Now, the ``DataCube`` has knowledge of stratigraphy, which we can further use to visualize preservation within the spacetime, or visualize as an actual stratigraphic slice.
 
 .. doctest::
 
-    >>> golfcube.sections['demo']['velocity'].strat.as_preserved()
+    >>> golfcube.sections["demo"]["velocity"].strat.as_preserved()
     <xarray.DataArray 'velocity' (time: 101, s: 200)> Size: 81kB
     array([[0.2, 0.2, 0.2, ..., 0.2, 0.2, 0.2],
            [nan, nan, nan, ..., nan, nan, nan],
@@ -342,10 +349,10 @@ Now, the ``DataCube`` has knowledge of stratigraphy, which we can further use to
 .. doctest::
 
     >>> fig, ax = plt.subplots(3, 1, sharex=True, figsize=(12, 8))
-    >>> golfcube.show_section('demo', 'velocity', ax=ax[0])
-    >>> golfcube.show_section('demo', 'velocity', data='preserved', ax=ax[1])
-    >>> golfcube.show_section('demo', 'velocity', data='stratigraphy', ax=ax[2])
-    >>> plt.show() #doctest: +SKIP
+    >>> golfcube.show_section("demo", "velocity", ax=ax[0])
+    >>> golfcube.show_section("demo", "velocity", data="preserved", ax=ax[1])
+    >>> golfcube.show_section("demo", "velocity", data="stratigraphy", ax=ax[2])
+    >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_quick_stratigraphy_sections.py
 
@@ -356,10 +363,12 @@ Quick stratigraphy makes it easy to visualize the behavior of the model across e
 
     >>> fig, ax = plt.subplots(5, 1, sharex=True, sharey=True, figsize=(12, 12))
     >>> ax = ax.flatten()
-    >>> for i, var in enumerate(['time', 'eta', 'velocity', 'discharge', 'sandfrac']):
-    ...     golfcube.show_section('demo', var, ax=ax[i], label=True,
-    ...       style='shaded', data='stratigraphy')
-    >>> plt.show() #doctest: +SKIP
+    >>> for i, var in enumerate(["time", "eta", "velocity", "discharge", "sandfrac"]):
+    ...     golfcube.show_section(
+    ...         "demo", var, ax=ax[i], label=True, style="shaded", data="stratigraphy"
+    ...     )
+    ...
+    >>> plt.show()  # doctest: +SKIP
 
 
 .. plot:: guides/userguide_quick_stratigraphy_all_variables.py
@@ -376,7 +385,9 @@ The below figure shows each section type available and the `velocity` spacetime 
 .. doctest::
 
     >>> _strike = dm.section.StrikeSection(golfcube, distance=1200)
-    >>> _path = dm.section.PathSection(golfcube, path=np.array([[1400, 2000], [2000, 4000], [3000, 6000]]))
+    >>> _path = dm.section.PathSection(
+    ...     golfcube, path=np.array([[1400, 2000], [2000, 4000], [3000, 6000]])
+    ... )
     >>> _circ = dm.section.CircularSection(golfcube, radius=2000)
     >>> _rad = dm.section.RadialSection(golfcube, azimuth=70)
 
@@ -412,10 +423,10 @@ Here’s a simple example to demonstrate how we place data into the stratigraphy
 
 .. doctest::
 
-    >>> ets = golfcube['eta'][:, 10, 85]  # a "real" slice of the model
+    >>> ets = golfcube["eta"][:, 10, 85]  # a "real" slice of the model
     >>> fig, ax = plt.subplots(figsize=(8, 4))
     >>> dm.plot.show_one_dimensional_trajectory_to_strata(ets, ax=ax, dz=0.25)
-    >>> plt.show() #doctest: +SKIP
+    >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_1d_example.py
 
@@ -435,9 +446,9 @@ Compare the slice from the `golfcube` (left) to the `stratcube` (right):
 .. doctest::
 
     >>> fig, ax = plt.subplots(1, 2, figsize=(8, 2))
-    >>> golfcube.sections['demo'].show('velocity', ax=ax[0]) #doctest: +SKIP
-    >>> stratcube.sections['demo'].show('velocity', ax=ax[1]) #doctest: +SKIP
-    >>> plt.show() #doctest: +SKIP
+    >>> golfcube.sections["demo"].show("velocity", ax=ax[0])  # doctest: +SKIP
+    >>> stratcube.sections["demo"].show("velocity", ax=ax[1])  # doctest: +SKIP
+    >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_compare_slices.py
 
@@ -449,7 +460,7 @@ Let’s add a section at the same location as ``golfcube.sections['demo']``.
 
 .. doctest::
 
-    >>> stratcube.register_section('demo', dm.section.StrikeSection(distance_idx=10))
+    >>> stratcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
     >>> stratcube.sections
     {'demo': <deltametrics.section.StrikeSection object at 0x...>}
 
@@ -458,10 +469,12 @@ Let's examine the stratigraphy in three different visual styles.
 .. doctest::
 
     >>> fig, ax = plt.subplots(3, 1, sharex=True, sharey=True, figsize=(12, 8))
-    >>> golfcube.sections['demo'].show('time', style='lines', data='stratigraphy', ax=ax[0], label=True)
-    >>> stratcube.sections['demo'].show('time', ax=ax[1])
-    >>> golfcube.sections['demo'].show('time', data='stratigraphy', ax=ax[2])
-    >>> plt.show() #doctest: +SKIP
+    >>> golfcube.sections["demo"].show(
+    ...     "time", style="lines", data="stratigraphy", ax=ax[0], label=True
+    ... )
+    >>> stratcube.sections["demo"].show("time", ax=ax[1])
+    >>> golfcube.sections["demo"].show("time", data="stratigraphy", ax=ax[2])
+    >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_three_stratigraphy.py
 
@@ -471,10 +484,12 @@ Similar to the demonstration above, each variable (property) of the underlying c
 
     >>> fig, ax = plt.subplots(5, 1, sharex=True, sharey=True, figsize=(12, 12))
     >>> ax = ax.flatten()
-    >>> for i, var in enumerate(['time', 'eta', 'velocity', 'discharge', 'sandfrac']):
-    ...     stratcube.show_section('demo', var, ax=ax[i], label=True,
-    ...                          style='shaded', data='stratigraphy')
-    >>> plt.show() #doctest: +SKIP
+    >>> for i, var in enumerate(["time", "eta", "velocity", "discharge", "sandfrac"]):
+    ...     stratcube.show_section(
+    ...         "demo", var, ax=ax[i], label=True, style="shaded", data="stratigraphy"
+    ...     )
+    ...
+    >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_all_vars_stratigraphy.py
 
@@ -487,8 +502,7 @@ Specify `z` as the elevation of the planform slice:
     :context: reset
 
     >>> golfcube = dm.sample_data.golf()
-    >>> stratcube = dm.cube.StratigraphyCube.from_DataCube(
-    ...     golfcube, dz=0.05)
+    >>> stratcube = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
 
 .. plot::
     :include-source:
@@ -497,7 +511,7 @@ Specify `z` as the elevation of the planform slice:
     >>> minus2_slice = dm.plan.Planform(stratcube, z=-2)
 
     >>> fig, ax = plt.subplots()
-    >>> minus2_slice.show('sandfrac', ticks=True, ax=ax)
+    >>> minus2_slice.show("sandfrac", ticks=True, ax=ax)
     >>> plt.show()
 
 
@@ -509,24 +523,30 @@ speed up computations if an array is being accessed over and over.
 
 .. code::
 
-    fs = stratcube.export_frozen_variable('sandfrac')
+    fs = stratcube.export_frozen_variable("sandfrac")
     fe = stratcube.Z  # exported volume does not have coordinate information!
 
     fig, ax = plt.subplots(figsize=(10, 2))
-    pcm = ax.pcolormesh(np.tile(np.arange(fs.shape[2]), (fs.shape[0], 1)),
-       fe[:,10,:], fs[:,10,:], shading='auto',
-       cmap=golfcube.varset['sandfrac'].cmap,
-       vmin=golfcube.varset['sandfrac'].vmin,
-       vmax=golfcube.varset['sandfrac'].vmax)
+    pcm = ax.pcolormesh(
+        np.tile(np.arange(fs.shape[2]), (fs.shape[0], 1)),
+        fe[:, 10, :],
+        fs[:, 10, :],
+        shading="auto",
+        cmap=golfcube.varset["sandfrac"].cmap,
+        vmin=golfcube.varset["sandfrac"].vmin,
+        vmax=golfcube.varset["sandfrac"].vmax,
+    )
     dm.plot.append_colorbar(pcm, ax)
-    plt.show() #doctest: +SKIP
+    plt.show()  # doctest: +SKIP
 
 Note than you can also bypass the creation of a ``StratigraphyCube``,
 and just directly obtain a frozen volume with:
 
 .. doctest::
 
-   >>> fs, fe = dm.strat.compute_boxy_stratigraphy_volume(golfcube['eta'], golfcube['sandfrac'], dz=0.05)
+   >>> fs, fe = dm.strat.compute_boxy_stratigraphy_volume(
+   ...     golfcube["eta"], golfcube["sandfrac"], dz=0.05
+   ... )
 
 However, this will require recomputing the stratigraphy preservation to create another cube in the future, and because the ``StratigraphyCube`` stores data on disk, the memory footprint is relatively small, and so we recommend just computing the ``StratigraphyCube`` and using the ``export_frozen_variable)`` method.
 Finally, ``DataCubeVariable`` and ``StratigraphyCubeVariable`` support a ``.as_frozen()`` method themselves.
@@ -535,7 +555,9 @@ We should verify that the frozen cubes actually match the underlying data!
 
 .. doctest::
 
-    >>> np.all( fs[~np.isnan(fs)] == stratcube['sandfrac'][~np.isnan(stratcube['sandfrac'])] ) #doctest: +SKIP
+    >>> np.all(
+    ...     fs[~np.isnan(fs)] == stratcube["sandfrac"][~np.isnan(stratcube["sandfrac"])]
+    ... )  # doctest: +SKIP
     True
 
 The access speed of a frozen volume is **much** faster than a live cube.

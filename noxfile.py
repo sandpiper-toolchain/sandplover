@@ -55,7 +55,7 @@ def coverage(session: nox.Session) -> None:
 @nox.session
 def lint(session: nox.Session) -> None:
     """Look for lint."""
-    skip_hooks = ("blackdoc", "file-contents-sorter")
+    skip_hooks = ("file-contents-sorter",)
     session.install("pre-commit")
     session.run("pre-commit", "run", "--all-files", env={"SKIP": ",".join(skip_hooks)})
 

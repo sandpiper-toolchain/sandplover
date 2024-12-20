@@ -39,8 +39,7 @@ class VariableInfo:
     >>> import matplotlib
     >>> from deltametrics.plot import VariableInfo
 
-    >>> veg = VariableInfo('vegetation_density',
-    ...                    cmap='Greens')
+    >>> veg = VariableInfo("vegetation_density", cmap="Greens")
 
     >>> veg.cmap
     <matplotlib.colors.LinearSegmentedColormap object at 0x...>
@@ -52,14 +51,15 @@ class VariableInfo:
     colormap. If instead we wanted just three colors, we could specify the
     colormap manually:
 
-    >>> veg3 = VariableInfo('vegetation_density',
-    ...     cmap=matplotlib.colormaps['Greens'].resampled(3))
+    >>> veg3 = VariableInfo(
+    ...     "vegetation_density", cmap=matplotlib.colormaps["Greens"].resampled(3)
+    ... )
     >>> veg3.cmap.N
     3
 
     We can then set a more human-readable label for the variable:
 
-    >>> veg3.label = 'vegetation density'
+    >>> veg3.label = "vegetation density"
     """
 
     def __init__(self, name, **kwargs):
@@ -559,11 +559,13 @@ def cartographic_colormap(H_SL=0.0, h=4.5, n=1.0):
     >>> cmap1, norm1 = cartographic_colormap(H_SL=0, h=5, n=0.5)
 
     >>> fig, ax = plt.subplots(1, 2, figsize=(10, 4))
-    >>> im0 = ax[0].imshow(golfcube['eta'][-1, ...], origin='lower',
-    ...     cmap=cmap0, norm=norm0)
+    >>> im0 = ax[0].imshow(
+    ...     golfcube["eta"][-1, ...], origin="lower", cmap=cmap0, norm=norm0
+    ... )
     >>> cb0 = append_colorbar(im0, ax[0])
-    >>> im1 = ax[1].imshow(golfcube['eta'][-1, ...], origin='lower',
-    ...     cmap=cmap1, norm=norm1)
+    >>> im1 = ax[1].imshow(
+    ...     golfcube["eta"][-1, ...], origin="lower", cmap=cmap1, norm=norm1
+    ... )
     >>> cb1 = append_colorbar(im1, ax[1])
     >>> plt.tight_layout()
     """
@@ -626,11 +628,13 @@ def vintage_colormap(H_SL=0.0, h=4.5, n=1.0):
     >>> cmap1, norm1 = vintage_colormap(H_SL=0, h=3, n=0.25)
 
     >>> fig, ax = plt.subplots(1, 2, figsize=(10, 4))
-    >>> im0 = ax[0].imshow(golfcube['eta'][-1, ...], origin='lower',
-    ...     cmap=cmap0, norm=norm0)
+    >>> im0 = ax[0].imshow(
+    ...     golfcube["eta"][-1, ...], origin="lower", cmap=cmap0, norm=norm0
+    ... )
     >>> cb0 = append_colorbar(im0, ax[0])
-    >>> im1 = ax[1].imshow(golfcube['eta'][-1, ...], origin='lower',
-    ...     cmap=cmap1, norm=norm1)
+    >>> im1 = ax[1].imshow(
+    ...     golfcube["eta"][-1, ...], origin="lower", cmap=cmap1, norm=norm1
+    ... )
     >>> cb1 = append_colorbar(im1, ax[1])
     >>> plt.tight_layout()
 
@@ -646,15 +650,12 @@ def vintage_colormap(H_SL=0.0, h=4.5, n=1.0):
     >>> cmapd, normd = vintage_colormap(H_SL=0, h=20, n=10)
 
     >>> fig, ax = plt.subplots(
-    ...     figsize=(4, 2),
-    ...     gridspec_kw=dict(
-    ...         left=0.07, right=0.85, bottom=0.25))
-    >>> imd = ax.imshow(
-    ...     X, extent=(-30, 10, 0, 20),
-    ...     cmap=cmapd, norm=normd)
+    ...     figsize=(4, 2), gridspec_kw=dict(left=0.07, right=0.85, bottom=0.25)
+    ... )
+    >>> imd = ax.imshow(X, extent=(-30, 10, 0, 20), cmap=cmapd, norm=normd)
     >>> cbd = append_colorbar(imd, ax)
     >>> _ = ax.set_yticks([])
-    >>> _ = ax.set_xlabel('elevation [m]')
+    >>> _ = ax.set_xlabel("elevation [m]")
     """
     # In implementation, we differ from Pearson's version. Pearson's version
     # takes in `vertSpacing`, a 10-column array with elevations of each
@@ -765,15 +766,13 @@ def style_axes_km(*args):
 
     >>> golf = golf()
 
-    >>> fig, ax = plt.subplots(
-    ...     3, 1,
-    ...     gridspec_kw=dict(hspace=0.5))
-    >>> golf.quick_show('eta', ax=ax[0], ticks=True)
+    >>> fig, ax = plt.subplots(3, 1, gridspec_kw=dict(hspace=0.5))
+    >>> golf.quick_show("eta", ax=ax[0], ticks=True)
 
-    >>> golf.quick_show('eta', ax=ax[1], ticks=True)
+    >>> golf.quick_show("eta", ax=ax[1], ticks=True)
     >>> style_axes_km(ax[1])
 
-    >>> golf.quick_show('eta', axis=1, idx=10, ax=ax[2])
+    >>> golf.quick_show("eta", axis=1, idx=10, ax=ax[2])
     >>> ax[2].xaxis.set_major_formatter(style_axes_km)
 
     OR use: style_axes_km(ax[2], 'x')
@@ -1123,7 +1122,7 @@ def show_one_dimensional_trajectory_to_strata(
 
         >>> golfcube = golf()
 
-        >>> ets = golfcube['eta'].data[:, 10, 85]  # a "real" slice of the model
+        >>> ets = golfcube["eta"].data[:, 10, 85]  # a "real" slice of the model
 
         >>> fig, ax = plt.subplots(figsize=(8, 4))
         >>> show_one_dimensional_trajectory_to_strata(ets, ax=ax, dz=0.25)
@@ -1295,7 +1294,7 @@ def _scale_lightness(rgb, scale_l):
         Initial color red
 
         >>> red = (1.0, 0.0, 0.0)
-        >>> _ = ax.plot(-1, 1, 'o', color=red)
+        >>> _ = ax.plot(-1, 1, "o", color=red)
 
         Scale from 1 to 0.05
 
@@ -1305,7 +1304,8 @@ def _scale_lightness(rgb, scale_l):
 
         >>> for s, scale in enumerate(scales):
         ...     darker_red = _scale_lightness(red, scale)
-        ...     _ = ax.plot(s, scale, 'o', color=darker_red)
+        ...     _ = ax.plot(s, scale, "o", color=darker_red)
+        ...
     """
     # https://stackoverflow.com/a/60562502/4038393
     # convert rgb to hls
@@ -1363,7 +1363,7 @@ def show_histograms(*args, sets=None, ax=None, **kwargs):
         >>> fig, ax = plt.subplots()
         >>> show_histograms(*hist_bin_sets, sets=[0, 1, 0, 1, 2], ax=ax)
         >>> _ = ax.set_xlim((0, 6))
-        >>> _ = ax.set_ylabel('density')
+        >>> _ = ax.set_ylabel("density")
     """
     if not ax:
         fig, ax = plt.subplots()
@@ -1455,7 +1455,7 @@ def aerial_view(
         >>> from deltametrics.sample_data.sample_data import golf
 
         >>> golfcube = golf()
-        >>> elevation_data = golfcube['eta'][-1, :, :]
+        >>> elevation_data = golfcube["eta"][-1, :, :]
 
         >>> fig, ax = plt.subplots()
         >>> _ = aerial_view(elevation_data, ax=ax)
@@ -1560,35 +1560,36 @@ def overlay_sparse_array(
         >>> from deltametrics.sample_data.sample_data import golf
 
         >>> golfcube = golf()
-        >>> elevation_data = golfcube['eta'][-1, :, :]
-        >>> sparse_data = golfcube['discharge'][-1, ...]
+        >>> elevation_data = golfcube["eta"][-1, :, :]
+        >>> sparse_data = golfcube["discharge"][-1, ...]
 
         >>> fig, ax = plt.subplots(1, 3, figsize=(8, 3))
         >>> for axi in ax.ravel():
         ...     _ = aerial_view(elevation_data, ax=axi)
+        ...
 
         >>> _ = overlay_sparse_array(
-        ...     sparse_data, ax=ax[0])  # default clip is (None, 90)
-        >>> _ = overlay_sparse_array(
-        ...     sparse_data, alpha_clip=(None, None), ax=ax[1])
-        >>> _ = overlay_sparse_array(
-        ...     sparse_data, alpha_clip=(70, 90), ax=ax[2])
+        ...     sparse_data, ax=ax[0]
+        ... )  # default clip is (None, 90)
+        >>> _ = overlay_sparse_array(sparse_data, alpha_clip=(None, None), ax=ax[1])
+        >>> _ = overlay_sparse_array(sparse_data, alpha_clip=(70, 90), ax=ax[2])
 
         >>> plt.tight_layout()
 
         >>> fig, ax = plt.subplots(1, 3, figsize=(8, 3))
         >>> for axi in ax.ravel():
         ...     _ = aerial_view(elevation_data, ax=axi)
+        ...
 
         >>> _ = overlay_sparse_array(
-        ...     sparse_data, ax=ax[0],
-        ...     clip_type='value')  # default clip is (None, 90)
+        ...     sparse_data, ax=ax[0], clip_type="value"
+        ... )  # default clip is (None, 90)
         >>> _ = overlay_sparse_array(
-        ...     sparse_data, ax=ax[1],
-        ...     alpha_clip=(None, 0.2), clip_type='value')
+        ...     sparse_data, ax=ax[1], alpha_clip=(None, 0.2), clip_type="value"
+        ... )
         >>> _ = overlay_sparse_array(
-        ...     sparse_data, ax=ax[2],
-        ...     alpha_clip=(0.4, 0.6), clip_type='value')
+        ...     sparse_data, ax=ax[2], alpha_clip=(0.4, 0.6), clip_type="value"
+        ... )
 
         >>> plt.tight_layout()
     """

@@ -51,5 +51,5 @@ Paths to data files
 
 .. code::
 
-	>>> dm.sample_data._get_golf_path()
-	'<cache-path>/deltametrics/golf.zip.unzip/pyDeltaRCM_output.nc'
+    >>> dm.sample_data._get_golf_path()
+    '<cache-path>/deltametrics/golf.zip.unzip/pyDeltaRCM_output.nc'

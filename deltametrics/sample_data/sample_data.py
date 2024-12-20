@@ -72,6 +72,7 @@ def golf():
         ...     _ = ax[i].set_title(f"t = {t}")
         ...     _ = ax[i].axes.get_xaxis().set_ticks([])
         ...     _ = ax[i].axes.get_yaxis().set_ticks([])
+        ...
         >>> _ = ax[0].set_ylabel("dim1 direction")
         >>> _ = ax[0].set_xlabel("dim2 direction")
     """
@@ -131,6 +132,7 @@ def xslope():
         ...     _ = ax[0, i].imshow(xslope0["eta"][t, :, :], vmin=-10, vmax=0.5)
         ...     _ = ax[0, i].set_title(f"t = {t}")
         ...     _ = ax[1, i].imshow(xslope1["eta"][t, :, :], vmin=-10, vmax=0.5)
+        ...
 
         >>> _ = ax[1, 0].set_ylabel("dim1 direction")
         >>> _ = ax[1, 0].set_xlabel("dim2 direction")
@@ -138,6 +140,7 @@ def xslope():
         >>> for axi in ax.ravel():
         ...     _ = axi.axes.get_xaxis().set_ticks([])
         ...     _ = axi.axes.get_yaxis().set_ticks([])
+        ...
 
     Parameters
     ----------
@@ -210,6 +213,7 @@ def aeolian():
         ...     _ = ax[i].set_title(f"t = {t}")
         ...     _ = ax[i].axes.get_xaxis().set_ticks([])
         ...     _ = ax[i].axes.get_yaxis().set_ticks([])
+        ...
         >>> _ = ax[0].set_ylabel("northing")
         >>> _ = ax[0].set_xlabel("easting")
     """
@@ -249,6 +253,7 @@ def rcm8():
         >>> with warnings.catch_warnings():
         ...     warnings.simplefilter("ignore")
         ...     rcm8 = dm.sample_data.rcm8()
+        ...
         >>> nt = 5
         >>> ts = np.linspace(0, rcm8["eta"].shape[0] - 1, num=nt, dtype=int)
 
@@ -258,6 +263,7 @@ def rcm8():
         ...     _ = ax[i].set_title(f"t = {t}")
         ...     _ = ax[i].axes.get_xaxis().set_ticks([])
         ...     _ = ax[i].axes.get_yaxis().set_ticks([])
+        ...
         >>> _ = ax[0].set_ylabel("y-direction")
         >>> _ = ax[0].set_xlabel("x-direction")
     """
@@ -304,6 +310,7 @@ def landsat():
         ...     _ = ax[i].set_title(f"year = {landsat.t[i]}")
         ...     _ = ax[i].axes.get_xaxis().set_ticks([])
         ...     _ = ax[i].axes.get_yaxis().set_ticks([])
+        ...
     """
     landsat_path = _get_landsat_path()
     return DataCube(landsat_path)
@@ -368,6 +375,7 @@ def savi2020():
         ...     _ = ax[0, i].set_title(f"t = {ts_i[i]}")
         ...     _ = ax[1, i].imshow(scans["eta"][ts_s[i], :, :])
         ...     _ = ax[1, i].set_title(f"t = {ts_s[i]}")
+        ...
 
         >>> _ = ax[1, 0].set_ylabel("dim1 direction")
         >>> _ = ax[1, 0].set_xlabel("dim2 direction")

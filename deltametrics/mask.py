@@ -349,12 +349,10 @@ class ElevationMask(ThresholdValueMask):
         >>> from deltametrics.sample_data.sample_data import golf
 
         >>> golfcube = golf()
-        >>> emsk = ElevationMask(
-        ...     golfcube['eta'][-1, :, :],
-        ...     elevation_threshold=0)
+        >>> emsk = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 
         >>> fig, ax = plt.subplots(1, 2, figsize=(8, 4))
-        >>> golfcube.quick_show('eta', idx=-1, ax=ax[0])
+        >>> golfcube.quick_show("eta", idx=-1, ax=ax[0])
         >>> emsk.show(ax=ax[1])
     """
 
@@ -446,12 +444,8 @@ class FlowMask(ThresholdValueMask):
         >>> from deltametrics.sample_data.sample_data import golf
 
         >>> golfcube = golf()
-        >>> fvmsk = FlowMask(
-        ...     golfcube['velocity'][-1, :, :],
-        ...     flow_threshold=0.3)
-        >>> fdmsk = FlowMask(
-        ...     golfcube['discharge'][-1, :, :],
-        ...     flow_threshold=4)
+        >>> fvmsk = FlowMask(golfcube["velocity"][-1, :, :], flow_threshold=0.3)
+        >>> fdmsk = FlowMask(golfcube["discharge"][-1, :, :], flow_threshold=4)
 
         >>> fig, ax = plt.subplots(1, 2)
         >>> fvmsk.show(ax=ax[0])
@@ -523,13 +517,14 @@ class ChannelMask(BaseMask):
 
         >>> golfcube = golf()
         >>> cmsk = ChannelMask(
-        ...     golfcube['eta'][-1, :, :],
-        ...     golfcube['velocity'][-1, :, :],
+        ...     golfcube["eta"][-1, :, :],
+        ...     golfcube["velocity"][-1, :, :],
         ...     elevation_threshold=0,
-        ...     flow_threshold=0.3)
+        ...     flow_threshold=0.3,
+        ... )
 
         >>> fig, ax = plt.subplots(1, 2, figsize=(8, 4))
-        >>> golfcube.quick_show('eta', idx=-1, ax=ax[0])
+        >>> golfcube.quick_show("eta", idx=-1, ax=ax[0])
         >>> cmsk.show(ax=ax[1])
     """
 
@@ -589,22 +584,18 @@ class ChannelMask(BaseMask):
 
             Create the ElevationMask
 
-            >>> emsk = ElevationMask(
-            ...     golfcube['eta'][-1, :, :],
-            ...     elevation_threshold=0)
+            >>> emsk = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 
             Create the FlowMask
 
-            >>> fmsk = FlowMask(
-            ...     golfcube['velocity'][-1, :, :],
-            ...     flow_threshold=0.3)
+            >>> fmsk = FlowMask(golfcube["velocity"][-1, :, :], flow_threshold=0.3)
 
             Make the ChannelMask from the ElevationMask and FlowMask
 
             >>> cmsk = ChannelMask.from_mask(emsk, fmsk)
 
             >>> fig, ax = plt.subplots(1, 2, figsize=(8, 4))
-            >>> golfcube.quick_show('eta', idx=-1, ax=ax[0])
+            >>> golfcube.quick_show("eta", idx=-1, ax=ax[0])
             >>> cmsk.show(ax=ax[1])
         """
         if len(args) == 2:
@@ -772,12 +763,10 @@ class WetMask(BaseMask):
         >>> from deltametrics.sample_data.sample_data import golf
 
         >>> golfcube = golf()
-        >>> wmsk = WetMask(
-        ...     golfcube['eta'][-1, :, :],
-        ...     elevation_threshold=0)
+        >>> wmsk = WetMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 
         >>> fig, ax = plt.subplots(1, 2, figsize=(8, 4))
-        >>> golfcube.quick_show('eta', idx=-1, ax=ax[0])
+        >>> golfcube.quick_show("eta", idx=-1, ax=ax[0])
         >>> wmsk.show(ax=ax[1])
     """
 
@@ -988,12 +977,10 @@ class LandMask(BaseMask):
         >>> from deltametrics.sample_data.sample_data import golf
 
         >>> golfcube = golf()
-        >>> lmsk = LandMask(
-        ...     golfcube['eta'][-1, :, :],
-        ...     elevation_threshold=0)
+        >>> lmsk = LandMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 
         >>> fig, ax = plt.subplots(1, 2, figsize=(8, 4))
-        >>> golfcube.quick_show('eta', idx=-1, ax=ax[0])
+        >>> golfcube.quick_show("eta", idx=-1, ax=ax[0])
         >>> lmsk.show(ax=ax[1])
     """
 
@@ -1235,12 +1222,10 @@ class ShorelineMask(BaseMask):
         >>> from deltametrics.sample_data.sample_data import golf
 
         >>> golfcube = golf()
-        >>> smsk = ShorelineMask(
-        ...     golfcube['eta'][-1, :, :],
-        ...     elevation_threshold=0)
+        >>> smsk = ShorelineMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 
         >>> fig, ax = plt.subplots(1, 2, figsize=(8, 4))
-        >>> golfcube.quick_show('eta', idx=-1, ax=ax[0])
+        >>> golfcube.quick_show("eta", idx=-1, ax=ax[0])
         >>> smsk.show(ax=ax[1])
     """
 
@@ -1602,12 +1587,10 @@ class EdgeMask(BaseMask):
         >>> from deltametrics.sample_data.sample_data import golf
 
         >>> golfcube = golf()
-        >>> edgmsk = EdgeMask(
-        ...     golfcube['eta'][-1, :, :],
-        ...     elevation_threshold=0)
+        >>> edgmsk = EdgeMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 
         >>> fig, ax = plt.subplots(1, 2, figsize=(8, 4))
-        >>> golfcube.quick_show('eta', idx=-1, ax=ax[0])
+        >>> golfcube.quick_show("eta", idx=-1, ax=ax[0])
         >>> edgmsk.show(ax=ax[1])
     """
 
@@ -1844,13 +1827,14 @@ class CenterlineMask(BaseMask):
 
         >>> golfcube = golf()
         >>> cntmsk = CenterlineMask(
-        ...     golfcube['eta'][-1, :, :],
-        ...     golfcube['velocity'][-1, :, :],
+        ...     golfcube["eta"][-1, :, :],
+        ...     golfcube["velocity"][-1, :, :],
         ...     elevation_threshold=0,
-        ...     flow_threshold=0.3)
+        ...     flow_threshold=0.3,
+        ... )
 
         >>> fig, ax = plt.subplots(1, 2, figsize=(8, 4))
-        >>> golfcube.quick_show('eta', idx=-1, ax=ax[0])
+        >>> golfcube.quick_show("eta", idx=-1, ax=ax[0])
         >>> cntmsk.show(ax=ax[1])
     """
 
@@ -2129,12 +2113,12 @@ class GeometricMask(BaseMask):
         >>> from deltametrics.sample_data.sample_data import golf
 
         >>> golfcube = golf()
-        >>> arr = golfcube['eta'][-1, :, :]
+        >>> arr = golfcube["eta"][-1, :, :]
         >>> gmsk = GeometricMask(arr)
 
         Define an angular mask to cover part of the domain from pi/4 to pi/2.
 
-        >>> gmsk.angular(np.pi/4, np.pi/2)
+        >>> gmsk.angular(np.pi / 4, np.pi / 2)
 
         Further mask this region by defining bounds in the radial direction.
 
@@ -2144,7 +2128,7 @@ class GeometricMask(BaseMask):
 
         >>> fig, ax = plt.subplots(1, 2, figsize=(8, 4))
         >>> gmsk.show(ax=ax[0])
-        >>> _ = ax[1].imshow(golfcube['eta'][-1, :, :]*gmsk.mask)
+        >>> _ = ax[1].imshow(golfcube["eta"][-1, :, :] * gmsk.mask)
         >>> _ = ax[1].set_xticks([])
         >>> _ = ax[1].set_yticks([])
     """
@@ -2223,12 +2207,11 @@ class GeometricMask(BaseMask):
 
             >>> arr = np.random.uniform(size=(100, 200))
             >>> gmsk0 = GeometricMask(arr)
-            >>> gmsk0.angular(np.pi/4, np.pi/2)
+            >>> gmsk0.angular(np.pi / 4, np.pi / 2)
 
             >>> gmsk1 = GeometricMask(
-            ...     (100, 200), angular=dict(
-            ...         theta1=np.pi/4, theta2=np.pi/2)
-            ...     )
+            ...     (100, 200), angular=dict(theta1=np.pi / 4, theta2=np.pi / 2)
+            ... )
 
             >>> fig, ax = plt.subplots(1, 2)
             >>> gmsk0.show(ax[0])
@@ -2325,21 +2308,21 @@ class GeometricMask(BaseMask):
             >>> from deltametrics.sample_data.sample_data import golf
 
             >>> golfcube = golf()
-            >>> arr = golfcube['eta'][-1, :, :]
+            >>> arr = golfcube["eta"][-1, :, :]
             >>> gmsk = GeometricMask(arr)
 
             Define an angular mask to cover part of the domain from 0 to pi/3
 
-            >>> gmsk.angular(0, np.pi/3)
+            >>> gmsk.angular(0, np.pi / 3)
 
             Visualize the mask:
 
             >>> fig, ax = plt.subplots(1, 2, figsize=(8, 4))
-            >>> gmsk.show(ax=ax[0], title='Binary Mask')
-            >>> _ = ax[1].imshow(golfcube['eta'][-1, :, :] * gmsk.mask)
+            >>> gmsk.show(ax=ax[0], title="Binary Mask")
+            >>> _ = ax[1].imshow(golfcube["eta"][-1, :, :] * gmsk.mask)
             >>> _ = ax[1].set_xticks([])
             >>> _ = ax[1].set_yticks([])
-            >>> _ = ax[1].set_title('Mask * Topography')
+            >>> _ = ax[1].set_title("Mask * Topography")
         """
         if (self._L / self._W) > 0.5:
             raise ValueError("Width of input array must exceed 2x length.")
@@ -2387,7 +2370,7 @@ class GeometricMask(BaseMask):
             >>> from deltametrics.sample_data.sample_data import golf
 
             >>> golfcube = golf()
-            >>> arr = golfcube['eta'][-1, :, :]
+            >>> arr = golfcube["eta"][-1, :, :]
             >>> gmsk = GeometricMask(arr)
 
             Define an circular mask to exclude region near the inlet
@@ -2397,11 +2380,11 @@ class GeometricMask(BaseMask):
             Visualize the mask:
 
             >>> fig, ax = plt.subplots(1, 2, figsize=(8, 4))
-            >>> gmsk.show(ax=ax[0], title='Binary Mask')
-            >>> _ = ax[1].imshow(golfcube['eta'][-1, :, :] * gmsk.mask)
+            >>> gmsk.show(ax=ax[0], title="Binary Mask")
+            >>> _ = ax[1].imshow(golfcube["eta"][-1, :, :] * gmsk.mask)
             >>> _ = ax[1].set_xticks([])
             >>> _ = ax[1].set_yticks([])
-            >>> _ = ax[1].set_title('Mask * Topography')
+            >>> _ = ax[1].set_title("Mask * Topography")
         """
         if origin is None:
             _xc = self._xc
@@ -2453,7 +2436,7 @@ class GeometricMask(BaseMask):
             >>> from deltametrics.sample_data.sample_data import golf
 
             >>> golfcube = golf()
-            >>> arr = golfcube['eta'][-1, :, :]
+            >>> arr = golfcube["eta"][-1, :, :]
             >>> gmsk = GeometricMask(arr)
 
             Define a mask that isolates the region 20-50 pixels from the inlet
@@ -2463,11 +2446,11 @@ class GeometricMask(BaseMask):
             Visualize the mask:
 
             >>> fig, ax = plt.subplots(1, 2, figsize=(8, 4))
-            >>> gmsk.show(ax=ax[0], title='Binary Mask')
-            >>> _ = ax[1].imshow(golfcube['eta'][-1, :, :] * gmsk.mask)
+            >>> gmsk.show(ax=ax[0], title="Binary Mask")
+            >>> _ = ax[1].imshow(golfcube["eta"][-1, :, :] * gmsk.mask)
             >>> _ = ax[1].set_xticks([])
             >>> _ = ax[1].set_yticks([])
-            >>> _ = ax[1].set_title('Mask * Topography')
+            >>> _ = ax[1].set_title("Mask * Topography")
         """
         if ind2 is None:
             ind2 = self._L
@@ -2506,7 +2489,7 @@ class GeometricMask(BaseMask):
             >>> from deltametrics.sample_data.sample_data import golf
 
             >>> golfcube = golf()
-            >>> arr = golfcube['eta'][-1, :, :]
+            >>> arr = golfcube["eta"][-1, :, :]
             >>> gmsk = GeometricMask(arr)
 
             Define mask with width of 50 px. inline with the inlet
@@ -2516,11 +2499,11 @@ class GeometricMask(BaseMask):
             Visualize the mask:
 
             >>> fig, ax = plt.subplots(1, 2, figsize=(8, 4))
-            >>> gmsk.show(ax=ax[0], title='Binary Mask')
-            >>> _ = ax[1].imshow(golfcube['eta'][-1, :, :] * gmsk.mask)
+            >>> gmsk.show(ax=ax[0], title="Binary Mask")
+            >>> _ = ax[1].imshow(golfcube["eta"][-1, :, :] * gmsk.mask)
             >>> _ = ax[1].set_xticks([])
             >>> _ = ax[1].set_yticks([])
-            >>> _ = ax[1].set_title('Mask * Topography')
+            >>> _ = ax[1].set_title("Mask * Topography")
         """
         temp_mask = np.zeros_like(self._mask)
         if ind2 is None:
@@ -2579,11 +2562,11 @@ class DepositMask(BaseMask):
 
         >>> golfcube = golf()
         >>> deposit_mask = DepositMask(
-        ...     golfcube['eta'][-1, :, :],
-        ...     background_value=golfcube['eta'][0, :, :])
+        ...     golfcube["eta"][-1, :, :], background_value=golfcube["eta"][0, :, :]
+        ... )
         >>>
         >>> fig, ax = plt.subplots(1, 2)
-        >>> golfcube.quick_show('eta', ax=ax[0])
+        >>> golfcube.quick_show("eta", ax=ax[0])
         >>> deposit_mask.show(ax=ax[1])
     """
 
