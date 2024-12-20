@@ -881,9 +881,10 @@ def get_display_arrays(VarInst, data=None):
     elif VarInst.slicetype == "stratigraphy_section":
         # #  StratigraphySection  # #
         data = data or "stratigraphy"
-        if data in VarInst.strat._spacetime_names:
-            VarInst.strat._check_knows_spacetime()  # always False
-        elif data in VarInst.strat._preserved_names:
+        if (
+            (data in VarInst.strat._spacetime_names)
+            or (data in VarInst.strat._preserved_names)
+        ):
             VarInst.strat._check_knows_spacetime()  # always False
         elif data in VarInst.strat._stratigraphy_names:
             _z = VarInst[VarInst.dims[0]]
@@ -968,9 +969,10 @@ def get_display_lines(VarInst, data=None):
     elif VarInst.slicetype == "stratigraphy_section":
         # #  StratigraphySection  # #
         data = data or "stratigraphy"
-        if data in VarInst.strat._spacetime_names:
-            VarInst.strat._check_knows_spacetime()  # always False
-        elif data in VarInst.strat._preserved_names:
+        if (
+            (data in VarInst.strat._spacetime_names)
+            or (data in VarInst.strat._preserved_names)
+        ):
             VarInst.strat._check_knows_spacetime()  # always False
         elif data in VarInst.strat._stratigraphy_names:
             raise NotImplementedError  # not sure best implementation
@@ -1034,9 +1036,10 @@ def get_display_limits(VarInst, data=None, factor=1.5):
         # #  StratigraphySection  # #
         data = data or "stratigraphy"
         _S, _Z = np.meshgrid(VarInst["s"], VarInst[VarInst.dims[0]])
-        if data in VarInst.strat._spacetime_names:
-            VarInst.strat._check_knows_spacetime()  # always False
-        elif data in VarInst.strat._preserved_names:
+        if (
+            (data in VarInst.strat._spacetime_names)
+            or (data in VarInst.strat._preserved_names)
+        ):
             VarInst.strat._check_knows_spacetime()  # always False
         elif data in VarInst.strat._stratigraphy_names:
             return np.min(_S), np.max(_S), np.min(_Z), np.max(_Z) * factor
@@ -1593,7 +1596,7 @@ def overlay_sparse_array(
         fig, ax = plt.subplots()
 
     # check this is a tuple or list
-    if isinstance(alpha_clip, tuple) or isinstance(alpha_clip, list):
+    if isinstance(alpha_clip, (tuple, list)):
         if len(alpha_clip) != 2:
             raise ValueError("`alpha_clip` must be tuple or list of length 2.")
     else:  # if it is a tuple, check the length
@@ -1614,8 +1617,6 @@ def overlay_sparse_array(
     if isinstance(cmap, str):
         # cmap = plt.cm.get_cmap(cmap)
         cmap = mpl.colormaps[cmap]
-    else:
-        cmap = cmap
 
     # get the extent to plot
     if "extent" in kwargs:

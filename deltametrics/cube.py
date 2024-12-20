@@ -583,7 +583,7 @@ class BaseCube(abc.ABC):
             stacklevel=2,
         )
         # pass `t` arg to `idx` for legacy
-        if "t" in kwargs.keys():
+        if "t" in kwargs:
             idx = kwargs.pop("t")
             kwargs["idx"] = idx
 
@@ -746,11 +746,8 @@ class DataCube(BaseCube):
                 dims=self._view_dimensions,
             )
             _obj = _xrt
-        elif var in self._coords:
+        elif (var in self._coords) or (var in self._variables):
             # ensure coords can be called by cube[var]
-            _obj = self._dataio.dataset[var]
-
-        elif var in self._variables:
             _obj = self._dataio.dataset[var]
 
         else:

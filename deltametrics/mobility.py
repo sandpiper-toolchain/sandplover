@@ -185,9 +185,11 @@ def check_inputs(chmap, basevalues=None, basevalues_idx=None, window=None,
         raise ValueError('No window or window_idx supplied!')
 
     # check map shapes align
-    if out_maps['landmap'] is not None:
-        if np.shape(out_maps['chmap']) != np.shape(out_maps['landmap']):
-            raise ValueError('Shapes of chmap and landmap do not match.')
+    if (
+        (out_maps['landmap'] is not None)
+        and (np.shape(out_maps['chmap']) != np.shape(out_maps['landmap']))
+    ):
+        raise ValueError('Shapes of chmap and landmap do not match.')
 
     # check that the combined basemap + timewindow does not exceed max t-index
     Kmax = np.max(base_out) + win_out

@@ -284,13 +284,12 @@ class BaseMask(abc.ABC):
             )
 
     def _check_deprecated_3d_input(self, args_0_shape):
-        if self._input_flag == "array":
-            if len(args_0_shape) > 2:
-                raise ValueError(
-                    "Creating a `Mask` with a time dimension is deprecated. "
-                    "Please manage multiple masks manually (e.g., "
-                    "append the masks into a `list`)."
-                )
+        if (self._input_flag == "array") and (len(args_0_shape) > 2):
+            raise ValueError(
+                "Creating a `Mask` with a time dimension is deprecated. "
+                "Please manage multiple masks manually (e.g., "
+                "append the masks into a `list`)."
+            )
 
 
 class ThresholdValueMask(BaseMask, abc.ABC):
@@ -707,17 +706,12 @@ class ChannelMask(BaseMask):
             # do nothing, will need to call ._compute_mask later
             return
 
-        elif self._input_flag == "cube":
+        elif self._input_flag in ("cube", "mask"):
             raise NotImplementedError
             # _tval = kwargs.pop('t', -1)
             # _eta = args[0]['eta'][_tval, :, :]
             # _flow = args[0]['velocity'][_tval, :, :]
             # need to convert these fields to proper masks
-
-        elif self._input_flag == "mask":
-            # this pathway should allow someone to specify a combination of
-            # elevation mask, landmask, and velocity mask to make the new mask.
-            raise NotImplementedError
 
         elif self._input_flag == "array":
             # first make a landmask
@@ -927,13 +921,7 @@ class WetMask(BaseMask):
         if self._input_flag is None:
             # do nothing, will need to call ._compute_mask later
             return
-        elif self._input_flag == "cube":
-            raise NotImplementedError
-            # _tval = kwargs.pop('t', -1)
-            # _eta = args[0]['eta'][_tval, :, :]
-        elif self._input_flag == "mask":
-            # this pathway should allow someone to specify a combination of
-            #    landmask, and ocean/elevation mask
+        elif self._input_flag in ("cube", "mask"):
             raise NotImplementedError
         elif self._input_flag == "array":
             _eta = args[0]
@@ -1171,12 +1159,7 @@ class LandMask(BaseMask):
             # do nothing, will need to call ._compute_mask later
             return
 
-        elif self._input_flag == "cube":
-            raise NotImplementedError
-            # _tval = kwargs.pop('t', -1)
-            # _eta = args[0]['eta'][_tval, :, :]
-
-        elif self._input_flag == "mask":
+        elif self._input_flag in ("cube", "mask"):
             raise NotImplementedError
 
         elif self._input_flag == "array":
@@ -1440,17 +1423,16 @@ class ShorelineMask(BaseMask):
         from deltametrics.plan import OpeningAnglePlanform
 
         # handle types / input arguments
-        if len(args) <= 2:
-            if len(args) == 1:
-                if isinstance(args[0], OpeningAnglePlanform):
-                    _below_mask = args[0]._below_mask
-                    _opening_angles = args[0]._opening_angles
-                    _method = "OAM"
-                elif isinstance(args[0], MorphologicalPlanform):
-                    _elev_mask = args[0]._elevation_mask
-                    _mean_image = args[0]._mean_image
-                    _method = "MPM"
-        if len(args) >= 3:
+        if len(args) == 1:
+            if isinstance(args[0], OpeningAnglePlanform):
+                _below_mask = args[0]._below_mask
+                _opening_angles = args[0]._opening_angles
+                _method = "OAM"
+            elif isinstance(args[0], MorphologicalPlanform):
+                _elev_mask = args[0]._elevation_mask
+                _mean_image = args[0]._mean_image
+                _method = "MPM"
+        elif len(args) >= 3:
             _method = args[2]
             if _method == "OAM":
                 _below_mask = args[0]
@@ -2020,18 +2002,7 @@ class CenterlineMask(BaseMask):
             # do nothing, will need to call ._compute_mask later
             return
 
-        elif self._input_flag == "cube":
-            raise NotImplementedError
-            # _tval = kwargs.pop('t', -1)
-            # _eta = args[0]['eta'][_tval, :, :]
-            # _flow = args[0]['velocity'][_tval, :, :]
-            # need to convert these fields to proper masks
-
-        elif self._input_flag == "mask":
-            # this pathway should allow someone to specify a combination of
-            # elevation mask, landmask, and velocity mask or channelmask
-            # directly, to make the new mask. This is basically an ambiguous
-            # definition of the static methods.
+        elif self._input_flag in ("cube", "mask"):
             raise NotImplementedError
 
         elif self._input_flag == "array":
@@ -2279,13 +2250,12 @@ class GeometricMask(BaseMask):
             operation: :obj:`angular`, :obj:`circular`, :obj:`strike`,
             and :obj:`dip`.
         """
-        if len(args) > 0:
-            # most argument are fine, but we need to convert an input tuple
-            # (specific only to GeometricMask type) into an array to be the
-            # basis.
-            if isinstance(args[0], tuple):
-                # args[0] = np.zeros(args[0])
-                args = (np.zeros(args[0]),)
+        # most argument are fine, but we need to convert an input tuple
+        # (specific only to GeometricMask type) into an array to be the
+        # basis.
+        if (len(args) > 0) and isinstance(args[0], tuple):
+            # args[0] = np.zeros(args[0])
+            args = (np.zeros(args[0]),)
 
         super().__init__("geometric", *args, **kwargs)
 
@@ -2687,16 +2657,7 @@ class DepositMask(BaseMask):
             # do nothing, will need to call ._compute_mask later
             return
 
-        elif self._input_flag == "cube":
-            raise NotImplementedError
-            # _tval = kwargs.pop('t', -1)
-            # _eta = args[0]['eta'][_tval, :, :]
-            # _flow = args[0]['velocity'][_tval, :, :]
-            # need to convert these fields to proper masks
-
-        elif self._input_flag == "mask":
-            # this pathway should allow someone to specify a combination of
-            # elevation mask, landmask, and velocity mask to make the new mask.
+        elif self._input_flag in ("cube", "mask"):
             raise NotImplementedError
 
         elif self._input_flag == "array":

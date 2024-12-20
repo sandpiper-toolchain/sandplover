@@ -2047,9 +2047,7 @@ def morphological_closing_method(elevationmask, biggestdisk=None):
         )
 
     # check biggestdisk
-    if biggestdisk is None:
-        biggestdisk = 1
-    elif biggestdisk <= 0:
+    if (biggestdisk is None) or (biggestdisk <= 0):
         biggestdisk = 1
 
     # loop through and do binary closing for each disk size up to biggestdisk
