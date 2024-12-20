@@ -18,7 +18,10 @@ warnings.simplefilter("default")
 # configure the data registry
 REGISTRY = pooch.create(
     path=pooch.os_cache("deltametrics"),
-    base_url="https://github.com/DeltaRCM/DeltaMetrics/raw/develop/deltametrics/sample_data/files/",
+    base_url=(
+        "https://github.com/DeltaRCM/DeltaMetrics/raw/develop/"
+        "deltametrics/sample_data/files/"
+    ),
     env="DELTAMETRICS_DATA_DIR",
 )
 path_to_registry = importlib_resources.files("deltametrics.sample_data").joinpath(
