@@ -16,11 +16,11 @@ from deltametrics.plot import VariableSet
 from deltametrics.section import BaseSection
 from deltametrics.section import DipSection
 from deltametrics.section import StrikeSection
+from deltametrics.strat import BoxyStratigraphyAttributes
+from deltametrics.strat import MeshStratigraphyAttributes
 from deltametrics.strat import _adjust_elevation_by_subsidence
 from deltametrics.strat import _determine_strat_coordinates
-from deltametrics.strat import BoxyStratigraphyAttributes
 from deltametrics.strat import compute_boxy_stratigraphy_coordinates
-from deltametrics.strat import MeshStratigraphyAttributes
 
 
 class BaseCube(abc.ABC):
@@ -751,9 +751,7 @@ class DataCube(BaseCube):
             _obj = self._dataio.dataset[var]
 
         else:
-            raise AttributeError(
-                f"No variable of {str(self)} named {var}"
-            )
+            raise AttributeError(f"No variable of {str(self)} named {var}")
 
         # make _obj xarray if it not already
         if isinstance(_obj, np.ndarray):
@@ -786,13 +784,9 @@ class DataCube(BaseCube):
             see :obj:_determine_strat_coordinates`.
         """
         if style == "mesh":
-            self.strat_attr = MeshStratigraphyAttributes(
-                elev=self[variable], **kwargs
-            )
+            self.strat_attr = MeshStratigraphyAttributes(elev=self[variable], **kwargs)
         elif style == "boxy":
-            self.strat_attr = BoxyStratigraphyAttributes(
-                elev=self[variable], **kwargs
-            )
+            self.strat_attr = BoxyStratigraphyAttributes(elev=self[variable], **kwargs)
         else:
             raise ValueError('Bad "style" argument supplied: %s' % str(style))
         self._knows_stratigraphy = True
@@ -928,9 +922,7 @@ class StratigraphyCube(BaseCube):
 
             # set up coordinates of the array
             if sigma_dist is not None:
-                _elev_adj = _adjust_elevation_by_subsidence(
-                    _elev.data, sigma_dist
-                )
+                _elev_adj = _adjust_elevation_by_subsidence(_elev.data, sigma_dist)
             else:
                 _elev_adj = _elev.data
             _z = _determine_strat_coordinates(_elev_adj, dz=dz, z=z, nz=nz)
@@ -987,9 +979,7 @@ class StratigraphyCube(BaseCube):
             # _var = np.array(self.dataio[var], copy=True)
             _var = self.dataio[var]
         else:
-            raise AttributeError(
-                f"No variable of {str(self)} named {var}"
-            )
+            raise AttributeError(f"No variable of {str(self)} named {var}")
 
         # the following lines apply the data to stratigraphy mapping
         if isinstance(_var, xr.core.dataarray.DataArray):

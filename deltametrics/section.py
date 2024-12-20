@@ -7,12 +7,12 @@ import xarray as xr
 from matplotlib.collections import LineCollection
 from scipy import sparse
 
+from deltametrics.utils import NoStratigraphyError
 from deltametrics.utils import circle_to_cells
 from deltametrics.utils import coordinates_to_segments
 from deltametrics.utils import guess_land_width_from_land
 from deltametrics.utils import is_ndarray_or_xarray
 from deltametrics.utils import line_to_cells
-from deltametrics.utils import NoStratigraphyError
 from deltametrics.utils import segments_to_cells
 
 
@@ -637,9 +637,7 @@ class BaseSection(abc.ABC):
             )
             # main routines for plot styles
             if style in ["shade", "shaded"]:
-                _data, _X, _Y = get_display_arrays(
-                    SectionVariableInstance, data=data
-                )
+                _data, _X, _Y = get_display_arrays(SectionVariableInstance, data=data)
                 ci = ax.pcolormesh(
                     _X,
                     _Y,
@@ -652,9 +650,7 @@ class BaseSection(abc.ABC):
                     rasterized=True,
                 )
             elif style in ["line", "lines"]:
-                _data, _segments = get_display_lines(
-                    SectionVariableInstance, data=data
-                )
+                _data, _segments = get_display_lines(SectionVariableInstance, data=data)
                 lc = LineCollection(_segments, cmap=_varinfo.cmap)
                 lc.set_array(_data.flatten())
                 lc.set_linewidth(1.25)
@@ -1622,9 +1618,7 @@ class CircularSection(BaseSection):
                         stacklevel=2,
                     )
                     land_width = np.minimum(
-                        guess_land_width_from_land(
-                            self._underlying["eta"][-1, :, 0]
-                        ),
+                        guess_land_width_from_land(self._underlying["eta"][-1, :, 0]),
                         5,
                     )
                 else:
@@ -1874,9 +1868,7 @@ class RadialSection(BaseSection):
                         stacklevel=2,
                     )
                     land_width = np.minimum(
-                        guess_land_width_from_land(
-                            self._underlying["eta"][-1, :, 0]
-                        ),
+                        guess_land_width_from_land(self._underlying["eta"][-1, :, 0]),
                         5,
                     )
                 else:

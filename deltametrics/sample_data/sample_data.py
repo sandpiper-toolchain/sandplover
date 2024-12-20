@@ -11,7 +11,6 @@ else:  # pragma: no cover (<PY312)
 
 from deltametrics.cube import DataCube
 
-
 # enusre DeprecationWarning is shown
 warnings.simplefilter("default")
 
@@ -19,18 +18,20 @@ warnings.simplefilter("default")
 # configure the data registry
 REGISTRY = pooch.create(
     path=pooch.os_cache("deltametrics"),
-    base_url='https://github.com/DeltaRCM/DeltaMetrics/raw/develop/deltametrics/sample_data/files/',
+    base_url="https://github.com/DeltaRCM/DeltaMetrics/raw/develop/deltametrics/sample_data/files/",
     env="DELTAMETRICS_DATA_DIR",
 )
-path_to_registry = importlib_resources.files("deltametrics.sample_data").joinpath("registry.txt")
+path_to_registry = importlib_resources.files("deltametrics.sample_data").joinpath(
+    "registry.txt"
+)
 with open(path_to_registry, "rb") as registry_file:
     REGISTRY.load_registry(registry_file)
 
 
 def _get_golf_path():
     unpack = pooch.Unzip()
-    fnames = REGISTRY.fetch('golf.zip', processor=unpack)
-    nc_bool = [os.path.splitext(fname)[1] == '.nc' for fname in fnames]
+    fnames = REGISTRY.fetch("golf.zip", processor=unpack)
+    nc_bool = [os.path.splitext(fname)[1] == ".nc" for fname in fnames]
     nc_idx = [i for i, b in enumerate(nc_bool) if b]
     golf_path = fnames[nc_idx[0]]
     return golf_path
@@ -77,8 +78,8 @@ def golf():
 
 def _get_xslope_path():
     unpack = pooch.Unzip()
-    fnames = REGISTRY.fetch('xslope.zip', processor=unpack)
-    nc_bool = [os.path.splitext(fname)[1] == '.nc' for fname in fnames]
+    fnames = REGISTRY.fetch("xslope.zip", processor=unpack)
+    nc_bool = [os.path.splitext(fname)[1] == ".nc" for fname in fnames]
     # nc_idx = [i for i, b in enumerate(nc_bool) if b]
     fnames_idx = [fnames[i] for i, b in enumerate(nc_bool) if b]
     fnames_idx.sort()
@@ -157,7 +158,7 @@ def tdb12():
 
 
 def _get_aeolian_path():
-    aeolian_path = REGISTRY.fetch('swanson_aeolian_expt1.nc')
+    aeolian_path = REGISTRY.fetch("swanson_aeolian_expt1.nc")
     return aeolian_path
 
 
@@ -214,7 +215,7 @@ def aeolian():
 
 
 def _get_rcm8_path():
-    rcm8_path = REGISTRY.fetch('pyDeltaRCM_Output_8.nc')
+    rcm8_path = REGISTRY.fetch("pyDeltaRCM_Output_8.nc")
     return rcm8_path
 
 
@@ -262,7 +263,7 @@ def rcm8():
 
 
 def _get_landsat_path():
-    landsat_path = REGISTRY.fetch('LandsatEx.hdf5')
+    landsat_path = REGISTRY.fetch("LandsatEx.hdf5")
     return landsat_path
 
 
@@ -307,8 +308,8 @@ def landsat():
 
 def _get_savi2020_path():
     unpack = pooch.Unzip()
-    fnames = REGISTRY.fetch('savi2020.zip', processor=unpack)
-    nc_bool = [os.path.splitext(fname)[1] == '.nc' for fname in fnames]
+    fnames = REGISTRY.fetch("savi2020.zip", processor=unpack)
+    nc_bool = [os.path.splitext(fname)[1] == ".nc" for fname in fnames]
     fnames_idx = [fnames[i] for i, b in enumerate(nc_bool) if b]
     fnames_idx.sort()
     savi2020_img_path = fnames_idx[0]

@@ -687,10 +687,10 @@ def vintage_colormap(H_SL=0.0, h=4.5, n=1.0):
     bounds = np.hstack(
         (
             H_SL + (-h * np.array([20, 16, 12, 8, 5, 3, 1.2]) / 20),
-            H_SL + (n * np.array([0, 1.4, 10]) / 10)
+            H_SL + (n * np.array([0, 1.4, 10]) / 10),
         )
     )
-    norm = colors.BoundaryNorm(bounds, len(bounds)+1, extend='both')
+    norm = colors.BoundaryNorm(bounds, len(bounds) + 1, extend="both")
     return delta, norm
 
 
@@ -881,9 +881,8 @@ def get_display_arrays(VarInst, data=None):
     elif VarInst.slicetype == "stratigraphy_section":
         # #  StratigraphySection  # #
         data = data or "stratigraphy"
-        if (
-            (data in VarInst.strat._spacetime_names)
-            or (data in VarInst.strat._preserved_names)
+        if (data in VarInst.strat._spacetime_names) or (
+            data in VarInst.strat._preserved_names
         ):
             VarInst.strat._check_knows_spacetime()  # always False
         elif data in VarInst.strat._stratigraphy_names:
@@ -969,9 +968,8 @@ def get_display_lines(VarInst, data=None):
     elif VarInst.slicetype == "stratigraphy_section":
         # #  StratigraphySection  # #
         data = data or "stratigraphy"
-        if (
-            (data in VarInst.strat._spacetime_names)
-            or (data in VarInst.strat._preserved_names)
+        if (data in VarInst.strat._spacetime_names) or (
+            data in VarInst.strat._preserved_names
         ):
             VarInst.strat._check_knows_spacetime()  # always False
         elif data in VarInst.strat._stratigraphy_names:
@@ -1036,9 +1034,8 @@ def get_display_limits(VarInst, data=None, factor=1.5):
         # #  StratigraphySection  # #
         data = data or "stratigraphy"
         _S, _Z = np.meshgrid(VarInst["s"], VarInst[VarInst.dims[0]])
-        if (
-            (data in VarInst.strat._spacetime_names)
-            or (data in VarInst.strat._preserved_names)
+        if (data in VarInst.strat._spacetime_names) or (
+            data in VarInst.strat._preserved_names
         ):
             VarInst.strat._check_knows_spacetime()  # always False
         elif data in VarInst.strat._stratigraphy_names:
