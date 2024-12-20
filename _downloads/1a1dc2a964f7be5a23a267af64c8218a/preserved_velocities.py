@@ -4,7 +4,7 @@ import numpy as np
 import deltametrics as dm
 
 golfcube = dm.sample_data.golf()
-golfcube.stratigraphy_from('eta')
+golfcube.stratigraphy_from("eta")
 
 
 def pick_velocities(sect):
@@ -16,9 +16,9 @@ def pick_velocities(sect):
     Note that both extractions are limited to where sediment has been
     deposited/eroded in the model domain.
     """
-    _whr = [sect['eta'] != sect['eta'][0, :]]
-    _a = np.nanmean(sect['velocity'].data[tuple(_whr)])
-    _s = np.nanmean(sect['velocity'].strat.as_preserved().data[tuple(_whr)])
+    _whr = [sect["eta"] != sect["eta"][0, :]]
+    _a = np.nanmean(sect["velocity"].data[tuple(_whr)])
+    _s = np.nanmean(sect["velocity"].strat.as_preserved().data[tuple(_whr)])
     return _a, _s
 
 
@@ -36,9 +36,9 @@ for i, _y in enumerate(_ys):
 
 # make the plot
 fig, ax = plt.subplots()
-ax.plot(_mall, 'b-', label='all values')
-ax.plot(_mstrat, 'r-', label='preserved only')
-ax.set_xlabel('distance from channel inlet')
-ax.set_ylabel('mean velocity')
+ax.plot(_mall, "b-", label="all values")
+ax.plot(_mstrat, "r-", label="preserved only")
+ax.set_xlabel("distance from channel inlet")
+ax.set_ylabel("mean velocity")
 ax.legend()
 plt.show()

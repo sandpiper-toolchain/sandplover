@@ -62,7 +62,11 @@ number of unreworked cells in the transient map, <span class="math notranslate n
 fluvial surface, and <span class="math notranslate nohighlight">\(f_{d,B}\)</span> is the dry fraction of the base map.</p>
 <p><span class="math notranslate nohighlight">\(N'_{B,T}\)</span> is calculated as:</p>
 <div class="math notranslate nohighlight">
-\[N'_{B,T} = \sum_{i=1}^{m_r} \sum_{j=1}^{n_c} \left[ \left(\sum_{\beta = B+1}^{T} K'_{\beta} \right) \equiv 0 \right]\]</div>
+\[N'_{B,T} = \sum_{i=1}^{m_r} \sum_{j=1}^{n_c} \left[
+               \left(
+                   \sum_{\beta = B+1}^{T} K'_{\beta}
+               \right) \equiv 0
+           \right]\]</div>
 <p>where <span class="math notranslate nohighlight">\(m_r\)</span> and <span class="math notranslate nohighlight">\(n_c\)</span> are the number of rows and columns in the
 base map, <span class="math notranslate nohighlight">\(K'_{\beta}\)</span> is the channel mask at time <span class="math notranslate nohighlight">\(\beta\)</span> when
 <span class="math notranslate nohighlight">\(\beta\)</span> is used for each time step after the baseline time. This

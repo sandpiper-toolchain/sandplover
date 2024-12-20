@@ -30,6 +30,8 @@ for i, (azim, idx) in enumerate(zip(azims, idxs)):
     sec = RadialSection(golfstrat, azimuth=azim, length=4000)
     sec.show_trace('r--', ax=ax[1])
     # sec.show('time', ax=ax[idx], colorbar=False)
-    _ = ax[idx].text(3000, 0, 'azimuth: {0}'.format(azim), ha='center', fontsize=8)
+    _ = ax[idx].text(
+        3000, 0, 'azimuth: {0}'.format(azim), ha='center', fontsize=8
+    )
     ax[idx].tick_params(labelsize=8)
     _ = ax[idx].set_ylim(-4, 1)
