@@ -11,6 +11,9 @@ from deltametrics.mask import ChannelMask
 from deltametrics.mask import ElevationMask
 from deltametrics.mask import LandMask
 from deltametrics.mask import ShorelineMask
+from deltametrics.plan import MorphologicalPlanform
+from deltametrics.plan import OpeningAnglePlanform
+from deltametrics.plan import Planform
 from deltametrics.plan import _get_channel_starts_and_ends
 from deltametrics.plan import compute_channel_depth
 from deltametrics.plan import compute_channel_width
@@ -20,9 +23,6 @@ from deltametrics.plan import compute_shoreline_length
 from deltametrics.plan import compute_shoreline_roughness
 from deltametrics.plan import compute_surface_deposit_age
 from deltametrics.plan import compute_surface_deposit_time
-from deltametrics.plan import MorphologicalPlanform
-from deltametrics.plan import OpeningAnglePlanform
-from deltametrics.plan import Planform
 from deltametrics.plan import shaw_opening_angle_method
 from deltametrics.sample_data.sample_data import _get_golf_path
 from deltametrics.sample_data.sample_data import _get_rcm8_path
@@ -110,9 +110,7 @@ class TestPlanform:
         golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
         plnfrm1 = Planform(golfcube, idx=-1)
         plnfrm2 = Planform(golfcubestrat, z=-2)
-        plnfrm3 = Planform(
-            golfstrat, z=-6
-        )  # note should be deep enough for no nans
+        plnfrm3 = Planform(golfstrat, z=-6)  # note should be deep enough for no nans
         assert np.all(plnfrm1["eta"] == golfcube["eta"][-1, :, :])
         assert np.all(plnfrm2["time"] == golfcubestrat["time"][plnfrm2.idx, :, :])
         assert np.all(plnfrm3["time"] == golfstrat["time"][plnfrm3.idx, :, :])
@@ -210,9 +208,7 @@ class TestOpeningAnglePlanform:
 
     def test_defaults_static_from_elevation_data_needs_threshold(self):
         with pytest.raises(TypeError):
-            _ = OpeningAnglePlanform.from_elevation_data(
-                self.golfcube["eta"][-1, :, :]
-            )
+            _ = OpeningAnglePlanform.from_elevation_data(self.golfcube["eta"][-1, :, :])
 
     def test_defaults_static_from_ElevationMask(self):
         _em = ElevationMask(self.golfcube["eta"][-1, :, :], elevation_threshold=0)
@@ -518,9 +514,7 @@ class TestShorelineLength:
         # test that it is the same with opposite side origin
         len_0, line_0 = compute_shoreline_length(self.sm, return_line=True)
         _o = [self.rcm8.shape[2], 0]
-        len_1, line_1 = compute_shoreline_length(
-            self.sm, origin=_o, return_line=True
-        )
+        len_1, line_1 = compute_shoreline_length(self.sm, origin=_o, return_line=True)
         assert len_0 == pytest.approx(
             len_1, (len_1 * 0.5)
         )  # within 5%, not great, not terrible

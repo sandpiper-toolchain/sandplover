@@ -17,7 +17,6 @@ from deltametrics.section import BaseSection
 from deltametrics.section import StrikeSection
 from deltametrics.utils import NoStratigraphyError
 
-
 rcm8_path = _get_rcm8_path()
 golf_path = _get_golf_path()
 hdf_path = _get_landsat_path()
@@ -383,9 +382,7 @@ class TestStratigraphyCube:
 class TestStratigraphyCubeSubsidence:
     # create a cube with some uniform subsidence
     datacube = DataCube(golf_path)
-    subsstratcube = StratigraphyCube.from_DataCube(
-        datacube, dz=0.2, sigma_dist=0.005
-    )
+    subsstratcube = StratigraphyCube.from_DataCube(datacube, dz=0.2, sigma_dist=0.005)
     nosubs = StratigraphyCube.from_DataCube(datacube, dz=0.2)
 
     def test_subsidence_cube(self):

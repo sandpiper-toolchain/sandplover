@@ -4,7 +4,6 @@ import os
 
 import nox
 
-
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -56,13 +55,9 @@ def coverage(session: nox.Session) -> None:
 @nox.session
 def lint(session: nox.Session) -> None:
     """Look for lint."""
+    skip_hooks = ("blackdoc", "file-contents-sorter")
     session.install("pre-commit")
-    session.run("pre-commit", "run", "--all-files", "reorder-python-imports")
-    session.run("pre-commit", "run", "--all-files", "trailing-whitespace")
-    session.run("pre-commit", "run", "--all-files", "end-of-file-fixer")
-    session.run("pre-commit", "run", "--all-files", "pyupgrade")
-    session.run("pre-commit", "run", "--all-files", "flake8")
-    session.run("pre-commit", "run", "--all-files", "name-tests-test")
+    session.run("pre-commit", "run", "--all-files", env={"SKIP": ",".join(skip_hooks)})
 
 
 @nox.session

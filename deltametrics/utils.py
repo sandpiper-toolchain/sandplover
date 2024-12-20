@@ -10,13 +10,13 @@ from scipy import optimize
 def format_number(number):
     integer = int(round(number, -1))
     string = f"{integer:,}"
-    return(string)
+    return string
 
 
 def format_table(number):
-    integer = (round(number, 1))
+    integer = round(number, 1)
     string = str(integer)
-    return(string)
+    return string
 
 
 class NoStratigraphyError(AttributeError):
@@ -42,34 +42,41 @@ class NoStratigraphyError(AttributeError):
     >>> golfcube = golf()
     >>> raise NoStratigraphyError(golfcube)
     Traceback (most recent call last):
-    deltametrics.utils.NoStratigraphyError: 'DataCube' object has no preservation or stratigraphy information.
+    deltametrics.utils.NoStratigraphyError: 'DataCube' object has no preservation
+    or stratigraphy information.
 
     With the `var` argument given as ``'strat_attr'``:
 
     >>> raise NoStratigraphyError(golfcube, 'strat_attr')
     Traceback (most recent call last):
-    deltametrics.utils.NoStratigraphyError: 'DataCube' object has no preservation or stratigraphy information.
+    deltametrics.utils.NoStratigraphyError: 'DataCube' object has no preservation
+    or stratigraphy information.
     """
 
     def __init__(self, obj, var=None):
         """Documented in class docstring."""
         if not (var is None):
-            message = "'" + type(obj).__name__ + "'" + " object has no attribute " \
-                      "'" + var + "'."
+            message = (
+                "'" + type(obj).__name__ + "'" + " object has no attribute "
+                "'" + var + "'."
+            )
         else:
-            message = "'" + type(obj).__name__ + "'" + " object has no preservation " \
-                      "or stratigraphy information."
+            message = (
+                "'" + type(obj).__name__ + "'" + " object has no preservation "
+                "or stratigraphy information."
+            )
         super().__init__(message)
 
 
 def needs_stratigraphy(func):
-    """Decorator for properties requiring stratigraphy.
-    """
+    """Decorator for properties requiring stratigraphy."""
+
     def decorator(*args, **kwargs):
         try:
             return func(*args, **kwargs)
         except AttributeError as e:
             raise NoStratigraphyError(e) from e
+
     return decorator
 
 
@@ -107,8 +114,9 @@ class AttributeChecker:
         elif type(checklist) is str:
             checklist = [checklist]
         else:
-            raise TypeError('Checklist must be of type `list`,'
-                            'but was type: %s' % type(checklist))
+            raise TypeError(
+                "Checklist must be of type `list`," "but was type: %s" % type(checklist)
+            )
 
         for _, check in enumerate(checklist):
             has = getattr(self, check, None)
@@ -118,21 +126,22 @@ class AttributeChecker:
                 att_dict[check] = True
 
         log_list = list(att_dict.values())
-        log_form = [value for string, value in
-                    zip(log_list, att_dict.keys(), strict=True) if not string]
+        log_form = [
+            value
+            for string, value in zip(log_list, att_dict.keys(), strict=True)
+            if not string
+        ]
         if not all(log_list):
-            raise RuntimeError('Required attribute(s) not assigned: '
-                               + str(log_form))
+            raise RuntimeError("Required attribute(s) not assigned: " + str(log_form))
         return att_dict
 
 
 def is_ndarray_or_xarray(data):
-    """Check that data is numpy array or xarray data.
-    """
+    """Check that data is numpy array or xarray data."""
     return isinstance(data, (xr.core.dataarray.DataArray, np.ndarray))
 
 
-def curve_fit(data, fit='harmonic'):
+def curve_fit(data, fit="harmonic"):
     """Calculate curve fit given some data.
 
     Several functional forms are available for fitting: exponential, harmonic,
@@ -173,9 +182,9 @@ def curve_fit(data, fit='harmonic'):
     perror : :obj:`ndarray`
         One standard deviation error for the parameters (from pcov).
     """
-    avail_fits = ['exponential', 'harmonic', 'linear']
+    avail_fits = ["exponential", "harmonic", "linear"]
     if fit not in avail_fits:
-        raise ValueError('Fit specified is not valid.')
+        raise ValueError("Fit specified is not valid.")
 
     # average the mobility data if needed
     if len(data.shape) == 2:
@@ -185,19 +194,25 @@ def curve_fit(data, fit='harmonic'):
     xdata = np.array(range(0, len(data)))
 
     # do fit
-    if fit == 'harmonic':
+    if fit == "harmonic":
+
         def func_harmonic(x, a, b):
             return a / (1 + b * x)
+
         popt, pcov = optimize.curve_fit(func_harmonic, xdata, data)
         yfit = func_harmonic(xdata, *popt)
-    elif fit == 'exponential':
+    elif fit == "exponential":
+
         def func_exponential(x, a, b, c):
             return (a - b) * np.exp(-c * x) + b
+
         popt, pcov = optimize.curve_fit(func_exponential, xdata, data)
         yfit = func_exponential(xdata, *popt)
-    elif fit == 'linear':
+    elif fit == "linear":
+
         def func_linear(x, a, b):
             return a * x + b
+
         popt, pcov = optimize.curve_fit(func_linear, xdata, data)
         yfit = func_linear(xdata, *popt)
 
@@ -207,9 +222,8 @@ def curve_fit(data, fit='harmonic'):
 
 
 def determine_land_width(data, land_width_input=None):
-    """Determine the land width from a dataset.
-    """
-    if (land_width_input is None):
+    """Determine the land width from a dataset."""
+    if land_width_input is None:
         # determine the land width if not supplied explicitly
         trim_idx = guess_land_width_from_land(data)
     else:
@@ -230,7 +244,7 @@ def guess_land_width_from_land(land_col_0):
     i = 0
     delt = 10
     while i < len(land_col_0) - 1 and delt != 0:
-        delt = land_col_0[i] - land_col_0[i+1]
+        delt = land_col_0[i] - land_col_0[i + 1]
         i += 1
     trim_idx = i - 1  # assign the trimming index
     return trim_idx
@@ -250,10 +264,8 @@ def coordinates_to_segments(coordinates):
         `[(N-1), 2, 2` array of line segments with dimensions of
         `each segment x x-coordinates x y-coordinates`.
     """
-    _x = np.vstack((coordinates[:-1, 0],
-                    coordinates[1:, 0])).T.reshape(-1, 2, 1)
-    _y = np.vstack((coordinates[:-1, 1],
-                    coordinates[1:, 1])).T.reshape(-1, 2, 1)
+    _x = np.vstack((coordinates[:-1, 0], coordinates[1:, 0])).T.reshape(-1, 2, 1)
+    _y = np.vstack((coordinates[:-1, 1], coordinates[1:, 1])).T.reshape(-1, 2, 1)
     return np.concatenate([_x, _y], axis=2)
 
 
@@ -328,8 +340,7 @@ def line_to_cells(*args):
     elif len(args) == 4:
         x0, y0, x1, y1 = args
     else:
-        raise TypeError(
-            f'Length of input must be 1, 2, or 4 but got: {args}')
+        raise TypeError(f"Length of input must be 1, 2, or 4 but got: {args}")
 
     # process the line to cells
     if np.abs(y1 - y0) < np.abs(x1 - x0):
@@ -434,7 +445,7 @@ def circle_to_cells(origin, radius, remove_duplicates=True):
     y = radius
     f = 1 - radius
     dx = 1
-    dy = - 2 * radius
+    dy = -2 * radius
 
     # 7th octant -- driver
     xc[0 * octant_size] = x0 - y
@@ -481,10 +492,10 @@ def circle_to_cells(origin, radius, remove_duplicates=True):
         xyc = np.column_stack((xc, yc))
         keep = np.ones((n_points,), dtype=bool)
         for i in np.arange(1, 4):
-            prv = xyc[(i-1)*octant_size:i*octant_size, :]
-            nxt = xyc[i*octant_size:(i+1)*octant_size, :]
+            prv = xyc[(i - 1) * octant_size : i * octant_size, :]
+            nxt = xyc[i * octant_size : (i + 1) * octant_size, :]
             dupe = np.nonzero(np.all(prv == nxt[:, np.newaxis], axis=2))[0]
-            keep[(i*octant_size)+dupe] = False
+            keep[(i * octant_size) + dupe] = False
         xyc = xyc[keep]
         xc = xyc[:, 0]
         yc = xyc[:, 1]
@@ -514,15 +525,11 @@ def _point_in_polygon(x, y, polygon):
     p2y = 0.0
     xints = 0.0
     p1x, p1y = polygon[0]
-    for i in range(n+1):
+    for i in range(n + 1):
         p2x, p2y = polygon[i % n]
-        if (
-            (y > min(p1y, p2y))
-            and (y <= max(p1y, p2y))
-            and (x <= max(p1x, p2x))
-        ):
+        if (y > min(p1y, p2y)) and (y <= max(p1y, p2y)) and (x <= max(p1x, p2x)):
             if p1y != p2y:
-                xints = (y-p1y)*(p2x-p1x)/(p2y-p1y)+p1x
+                xints = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
             if p1x == p2x or x <= xints:
                 inside = not inside
         p1x, p1y = p2x, p2y
@@ -565,10 +572,10 @@ def runtime_from_log(logname):
     with open(logname) as f:
         lines = f.readlines()
         start = lines[0][:19]
-        t_start = time.strptime(start, '%Y-%m-%d %H:%M:%S')
+        t_start = time.strptime(start, "%Y-%m-%d %H:%M:%S")
         t1 = time.mktime(t_start)
         fin = lines[-1][:19]
-        t_end = time.strptime(fin, '%Y-%m-%d %H:%M:%S')
+        t_end = time.strptime(fin, "%Y-%m-%d %H:%M:%S")
         t2 = time.mktime(t_end)
-        te = datetime.timedelta(seconds=t2-t1)
+        te = datetime.timedelta(seconds=t2 - t1)
     return te.total_seconds()

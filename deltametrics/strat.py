@@ -108,28 +108,37 @@ def _determine_deposit_from_background(sediment_volume, background):
         ...     background=0)
 
         >>> fig, ax = plt.subplots(2, 2, figsize=(6, 4))
-        >>> _ = ax[0, 0].imshow(background0[59], cmap='Greys_r')  # just below initial basin depth
-        >>> _ = ax[0, 1].imshow(background0[60], cmap='Greys_r')  # just above initial basin depth
-        >>> _ = ax[1, 0].imshow(background1[59], cmap='Greys_r')  # just below initial basin depth
-        >>> _ = ax[1, 1].imshow(background2[59], cmap='Greys_r')  # just below initial basin depth
+
+        Just below initial basin depth
+
+        >>> _ = ax[0, 0].imshow(background0[59], cmap='Greys_r')
+
+        Just above initial basin depth
+
+        >>> _ = ax[0, 1].imshow(background0[60], cmap='Greys_r')
+
+        Just below initial basin depth
+
+        >>> _ = ax[1, 0].imshow(background1[59], cmap='Greys_r')
+
+        Just below initial basin depth
+
+        >>> _ = ax[1, 1].imshow(background2[59], cmap='Greys_r')
         >>> plt.tight_layout()
     """
     if background is None:
         deposit = np.ones(sediment_volume.shape, dtype=bool)
     elif isinstance(background, (float, int)):
-        deposit = (sediment_volume != background)
+        deposit = sediment_volume != background
     elif isinstance(background, np.ndarray):
         deposit = ~background.astype(bool)  # ensure boolean
     else:
-        raise TypeError('Invalid type for `background`.')
+        raise TypeError("Invalid type for `background`.")
 
     return deposit
 
 
-def compute_net_to_gross(
-    sediment_volume,
-    net_threshold=None,
-    background=None):
+def compute_net_to_gross(sediment_volume, net_threshold=None, background=None):
     """Compute net-to-gross for stratigraphy.
 
     Computes a spatially-resolved net-to-gross for a deposit. This computation
@@ -198,20 +207,20 @@ def compute_net_to_gross(
         >>> plt.tight_layout()
     """
     # process the optional inputs
-    if (net_threshold is None):
+    if net_threshold is None:
         net_threshold = (np.nanmin(sediment_volume) + np.nanmax(sediment_volume)) / 2
 
     deposit = _determine_deposit_from_background(sediment_volume, background)
 
     # determine the net and gross
-    net = (sediment_volume >= net_threshold)
-    gross = (sediment_volume >= np.nanmin(sediment_volume))  # use ~np.isnan()
+    net = sediment_volume >= net_threshold
+    gross = sediment_volume >= np.nanmin(sediment_volume)  # use ~np.isnan()
 
     net = np.nansum(np.logical_and(net, deposit), axis=0).astype(float)
     gross = np.nansum(np.logical_and(gross, deposit), axis=0).astype(float)
     gross[gross == 0] = np.nan
 
-    return (net / gross)
+    return net / gross
 
 
 def compute_thickness_surfaces(top_surface, bottom_surface):
@@ -272,7 +281,7 @@ def compute_thickness_surfaces(top_surface, bottom_surface):
         >>> plt.tight_layout()
     """
     difference = top_surface - bottom_surface
-    whr = (difference <= 0)
+    whr = difference <= 0
     if isinstance(difference, xr.DataArray):
         difference.data[whr] = np.nan
     else:
@@ -286,7 +295,8 @@ def compute_sedimentograph(
     num_sections=10,
     last_section_radius=None,
     background=None,
-    **kwargs):
+    **kwargs,
+):
     """Compute the sedimentograph.
 
     The sedimentograph [1]_ is a measure of sand fraction of delta
@@ -399,10 +409,13 @@ def compute_sedimentograph(
     # figure out the sediment_bins
     if sediment_bins is None:
         # two bins, midpoint of dataset is break
-        sediment_bins = np.array([
-            np.nanmin(sediment_volume),
-            (np.nanmin(sediment_volume) + np.nanmax(sediment_volume)) / 2,
-            np.nanmax(sediment_volume)])
+        sediment_bins = np.array(
+            [
+                np.nanmin(sediment_volume),
+                (np.nanmin(sediment_volume) + np.nanmax(sediment_volume)) / 2,
+                np.nanmax(sediment_volume),
+            ]
+        )
 
     # figure out the last section radius
     if last_section_radius is None:
@@ -410,23 +423,25 @@ def compute_sedimentograph(
         last_section_radius = float(sediment_volume[sediment_volume.dims[1]][-1]) / 2
 
     # make a list of sections to draw out
-    section_radii = np.linspace(0, last_section_radius, num=num_sections+1)[1:]
-    sedimentograph = np.zeros(shape=(len(section_radii), len(sediment_bins)-1))
+    section_radii = np.linspace(0, last_section_radius, num=num_sections + 1)[1:]
+    sedimentograph = np.zeros(shape=(len(section_radii), len(sediment_bins) - 1))
 
     # loop through the sections and compute the sediment vols
     for i, sect_rad in enumerate(section_radii):
         sect = CircularSection(
             sediment_volume[0, :, :],  # must be a 2d slice to make section
-            radius=sect_rad, **kwargs)
+            radius=sect_rad,
+            **kwargs,
+        )
         # manually slice, because not set up for sections into arbitrary 3d volume
         sect_slice = sediment_volume.data[:, sect._dim1_idx, sect._dim2_idx]
         sect_deposit = deposit[:, sect._dim1_idx, sect._dim2_idx]
         # manually loop bins
-        for b in np.arange(len(sediment_bins)-1):
+        for b in np.arange(len(sediment_bins) - 1):
             low_bin = sediment_bins[b]
-            high_bin = sediment_bins[b+1]
+            high_bin = sediment_bins[b + 1]
 
-            if b < (len(sediment_bins)-2):
+            if b < (len(sediment_bins) - 2):
                 in_bin = np.logical_and(sect_slice >= low_bin, sect_slice < high_bin)
             else:
                 in_bin = np.logical_and(sect_slice >= low_bin, sect_slice <= high_bin)
@@ -442,9 +457,9 @@ def compute_sedimentograph(
     return sedimentograph, section_radii, sediment_bins
 
 
-def compute_boxy_stratigraphy_volume(elev, prop, sigma_dist=None,
-                                     z=None, dz=None, nz=None,
-                                     return_cube=False):
+def compute_boxy_stratigraphy_volume(
+    elev, prop, sigma_dist=None, z=None, dz=None, nz=None, return_cube=False
+):
     """Process t-x-y data volume to boxy stratigraphy volume.
 
     This function returns a "frozen" cube of stratigraphy
@@ -509,7 +524,7 @@ def compute_boxy_stratigraphy_volume(elev, prop, sigma_dist=None,
     if elev.shape != prop.shape:
         raise ValueError('Mismatched input shapes "elev" and "prop".')
     if elev.ndim != 3:
-        raise ValueError('Input arrays must be three-dimensional.')
+        raise ValueError("Input arrays must be three-dimensional.")
 
     # compute preservation from low-level funcs
     if sigma_dist is not None:
@@ -522,11 +537,8 @@ def compute_boxy_stratigraphy_volume(elev, prop, sigma_dist=None,
     # copy data out and into the stratigraphy based on coordinates
     nx, ny = strata.shape[1:]
     stratigraphy = np.full((len(z), nx, ny), np.nan)  # preallocate nans
-    _cut = prop.values[data_coords[:, 0], data_coords[:, 1],
-                       data_coords[:, 2]]
-    stratigraphy[strata_coords[:, 0],
-                 strata_coords[:, 1],
-                 strata_coords[:, 2]] = _cut
+    _cut = prop.values[data_coords[:, 0], data_coords[:, 1], data_coords[:, 2]]
+    stratigraphy[strata_coords[:, 0], strata_coords[:, 1], strata_coords[:, 2]] = _cut
 
     elevations = np.tile(z, (ny, nx, 1)).T
 
@@ -536,10 +548,15 @@ def compute_boxy_stratigraphy_volume(elev, prop, sigma_dist=None,
         return stratigraphy, elevations
 
 
-def compute_boxy_stratigraphy_coordinates(elev, sigma_dist=None,
-                                          z=None, dz=None, nz=None,
-                                          return_cube=False,
-                                          return_strata=False):
+def compute_boxy_stratigraphy_coordinates(
+    elev,
+    sigma_dist=None,
+    z=None,
+    dz=None,
+    nz=None,
+    return_cube=False,
+    return_strata=False,
+):
     """Process t-x-y data volume to boxy stratigraphy coordinates.
 
     This function computes the corresponding preservation of `t-x-y`
@@ -681,13 +698,13 @@ class BaseStratigraphyAttributes:
 
 
 class BoxyStratigraphyAttributes:
-    """Attribute set for boxy stratigraphy information, emebdded into a DataCube.
-    """
+    """Attribute set for boxy stratigraphy information, emebdded into a DataCube."""
 
     def __init__(self):
-        super().__init__('boxy')
+        super().__init__("boxy")
         raise NotImplementedError(
-            'Implementation should match MeshStratigraphyAttributes')
+            "Implementation should match MeshStratigraphyAttributes"
+        )
 
 
 class MeshStratigraphyAttributes(BaseStratigraphyAttributes):
@@ -746,17 +763,17 @@ class MeshStratigraphyAttributes(BaseStratigraphyAttributes):
             stratigraphy. See :obj:`_adjust_elevation_by_subsidence` for a
             complete description.
         """
-        super().__init__('mesh')
+        super().__init__("mesh")
 
         # load or read eta field
-        load = kwargs.pop('load', True)
+        load = kwargs.pop("load", True)
         if load:
             _eta = np.array(elev)
         else:
             _eta = elev
 
         # rate of subsidence
-        sigma_dist = kwargs.pop('sigma_dist', None)
+        sigma_dist = kwargs.pop("sigma_dist", None)
         if sigma_dist is not None:
             _eta = _adjust_elevation_by_subsidence(_eta, sigma_dist)
 
@@ -774,18 +791,19 @@ class MeshStratigraphyAttributes(BaseStratigraphyAttributes):
         # These are matrices that are size n_preserved-x-y.
         #    psvd_vxl_eta : records eta for each entry in the preserved matrix.
         #    psvd_flld    : fills above with final eta entry (for pcolormesh).
-        self.psvd_vxl_eta = np.full((self.psvd_vxl_cnt_max,
-                                     *_eta.shape[1:]), np.nan)
-        self.psvd_flld = np.full((self.psvd_vxl_cnt_max,
-                                  *_eta.shape[1:]), np.nan)
+        self.psvd_vxl_eta = np.full((self.psvd_vxl_cnt_max, *_eta.shape[1:]), np.nan)
+        self.psvd_flld = np.full((self.psvd_vxl_cnt_max, *_eta.shape[1:]), np.nan)
         for i in np.arange(_eta.shape[1]):
             for j in np.arange(_eta.shape[2]):
-                self.psvd_vxl_eta[0:self.psvd_vxl_cnt[i, j], i, j] = _eta[
-                    self.psvd_idx[:, i, j], i, j].copy()
-                self.psvd_flld[0:self.psvd_vxl_cnt[i, j], i, j] = _eta[
-                    self.psvd_idx[:, i, j], i, j].copy()
-                self.psvd_flld[self.psvd_vxl_cnt[i, j]:, i, j] = self.psvd_flld[  # noqa: E501
-                    self.psvd_vxl_cnt[i, j] - 1, i, j]
+                self.psvd_vxl_eta[0 : self.psvd_vxl_cnt[i, j], i, j] = _eta[
+                    self.psvd_idx[:, i, j], i, j
+                ].copy()
+                self.psvd_flld[0 : self.psvd_vxl_cnt[i, j], i, j] = _eta[
+                    self.psvd_idx[:, i, j], i, j
+                ].copy()
+                self.psvd_flld[self.psvd_vxl_cnt[i, j] :, i, j] = self.psvd_flld[
+                    self.psvd_vxl_cnt[i, j] - 1, i, j
+                ]  # noqa: E501
 
     def __call__(self, _dir, _x0, _x1):
         """Get a slice out of the stratigraphy attributes.
@@ -808,18 +826,17 @@ class MeshStratigraphyAttributes(BaseStratigraphyAttributes):
             derived from the call.
         """
         strat_attr = {}
-        if _dir == 'section':
-            strat_attr['strata'] = self.strata[:, _x0, _x1]
-            strat_attr['psvd_idx'] = _psvd_idx = self.psvd_idx[:, _x0, _x1]
-            strat_attr['psvd_flld'] = self.psvd_flld[:, _x0, _x1]
-            strat_attr['x0'] = _i = self.psvd_vxl_idx[:, _x0, _x1]
-            strat_attr['x1'] = _j = np.tile(np.arange(_i.shape[1]),
-                                            (_i.shape[0], 1))
-            strat_attr['s'] = _j[0, :]          # along-sect coord
-            strat_attr['s_sp'] = _j[_psvd_idx]  # along-sect coord, sparse
-            strat_attr['z_sp'] = _i[_psvd_idx]  # vert coord, sparse
+        if _dir == "section":
+            strat_attr["strata"] = self.strata[:, _x0, _x1]
+            strat_attr["psvd_idx"] = _psvd_idx = self.psvd_idx[:, _x0, _x1]
+            strat_attr["psvd_flld"] = self.psvd_flld[:, _x0, _x1]
+            strat_attr["x0"] = _i = self.psvd_vxl_idx[:, _x0, _x1]
+            strat_attr["x1"] = _j = np.tile(np.arange(_i.shape[1]), (_i.shape[0], 1))
+            strat_attr["s"] = _j[0, :]  # along-sect coord
+            strat_attr["s_sp"] = _j[_psvd_idx]  # along-sect coord, sparse
+            strat_attr["z_sp"] = _i[_psvd_idx]  # vert coord, sparse
 
-        elif (_dir == 'plan') or (_dir == 'planform'):
+        elif (_dir == "plan") or (_dir == "planform"):
             pass
             # cannot be done without interpolation for mesh strata.
             # should be possible for boxy stratigraphy?
@@ -899,13 +916,10 @@ def _compute_elevation_to_preservation(elev):
 
     strata[-1, ...] = _elev[-1, ...]
     for j in np.arange(nt - 2, -1, -1):
-        strata[j, ...] = np.minimum(_elev[j, ...],
-                                    strata[j + 1, ...])
-        psvd[j + 1, ...] = np.less(strata[j, ...],
-                                   strata[j + 1, ...])
+        strata[j, ...] = np.minimum(_elev[j, ...], strata[j + 1, ...])
+        psvd[j + 1, ...] = np.less(strata[j, ...], strata[j + 1, ...])
     if nt > 1:  # allows a single-time elevation-series to return
-        psvd[0, ...] = np.less(strata[0, ...],
-                               strata[1, ...])
+        psvd[0, ...] = np.less(strata[0, ...], strata[1, ...])
 
     return strata, psvd
 
@@ -1083,16 +1097,16 @@ def _determine_strat_coordinates(elev, z=None, dz=None, nz=None):
         if dz <= 0:
             raise _valerr
         max_dos = np.max(elev.data) + dz  # max depth of section, meters
-        min_dos = np.min(elev.data)       # min dos, meters
+        min_dos = np.min(elev.data)  # min dos, meters
         return np.arange(min_dos, max_dos, step=dz)
     elif not (nz is None):
         if nz <= 0:
             raise _valerr
         max_dos = np.max(elev.data)
         min_dos = np.min(elev.data)
-        return np.linspace(min_dos, max_dos, num=nz+1, endpoint=True)
+        return np.linspace(min_dos, max_dos, num=nz + 1, endpoint=True)
     else:
-        raise RuntimeError('No coordinates determined. Check inputs.')
+        raise RuntimeError("No coordinates determined. Check inputs.")
 
 
 def _adjust_elevation_by_subsidence(elev, sigma_dist):
@@ -1154,21 +1168,23 @@ def _adjust_elevation_by_subsidence(elev, sigma_dist):
         s_arr = np.tile(sigma_dist, (elev.shape[0], 1, 1))
         s_arr[0, ...] = 0.0  # no subsidence at time 0
         s_arr = np.flip(np.cumsum(s_arr, axis=0), axis=0)  # sum up over time
-    elif len(sigma_dist.shape) == 1 and len(sigma_dist) == elev.shape[0] and \
-      len(elev.shape) == 3:
+    elif (
+        len(sigma_dist.shape) == 1
+        and len(sigma_dist) == elev.shape[0]
+        and len(elev.shape) == 3
+    ):
         # proper 1-D timeseries; flip and rename to s_arr
         s_arr = sigma_dist
         # convert to base of preserved strat at each time based on subs
         s_arr = np.max(s_arr) - s_arr
         # casting for a 1-D vector of sigma that matches elev time dimension
         s_arr = np.tile(
-            sigma_dist.reshape(len(sigma_dist), 1, 1),
-            (1, elev.shape[1], elev.shape[2]))
+            sigma_dist.reshape(len(sigma_dist), 1, 1), (1, elev.shape[1], elev.shape[2])
+        )
     else:
         # else shapes of arrays must be the same
         if np.shape(elev) != np.shape(sigma_dist):
-            raise ValueError(
-                'Shapes of input arrays elev and sigma_dist do not match.')
+            raise ValueError("Shapes of input arrays elev and sigma_dist do not match.")
         else:
             # have to change name of input sigma_dist to s_arr
             s_arr = sigma_dist

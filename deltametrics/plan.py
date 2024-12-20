@@ -17,12 +17,13 @@ from deltametrics.mask import ChannelMask
 from deltametrics.mask import ElevationMask
 from deltametrics.mask import LandMask
 from deltametrics.mask import ShorelineMask
-from deltametrics.plot import append_colorbar
 from deltametrics.plot import VariableInfo
 from deltametrics.plot import VariableSet
+from deltametrics.plot import append_colorbar
 from deltametrics.section import BaseSection
 from deltametrics.utils import _points_in_polygon
 from deltametrics.utils import is_ndarray_or_xarray
+
 # from shapely.geometry.polygon import Polygon
 
 
@@ -1947,9 +1948,9 @@ def shaw_opening_angle_method(
     #   fill the query points with the value returned from theta
     pad_opening_angles[query_set_idxs[:, 0], query_set_idxs[:, 1]] = theta
     #   fill the rest of the array
-    pad_opening_angles[
-        sea_idxs_outside_hull[:, 0], sea_idxs_outside_hull[:, 1]
-    ] = outside_hull_value  # aka 180
+    pad_opening_angles[sea_idxs_outside_hull[:, 0], sea_idxs_outside_hull[:, 1]] = (
+        outside_hull_value  # aka 180
+    )
     #   grab the data that is the same shape as the input below_mask
     opening_angles = pad_opening_angles[1:-1, 1:-1]
 
@@ -2166,9 +2167,7 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
         )
         channelmask = np.array(channelmask)
     else:
-        raise TypeError(
-            f"Input for `channelmask` was wrong type: {type(channelmask)}."
-        )
+        raise TypeError(f"Input for `channelmask` was wrong type: {type(channelmask)}.")
 
     # get channel starts and ends
     _channelstarts, _channelends = _get_channel_starts_and_ends(
@@ -2288,9 +2287,7 @@ def compute_channel_depth(
     elif isinstance(channelmask, ChannelMask):
         channelmask = np.array(channelmask.mask)
     else:
-        raise TypeError(
-            f"Input for `channelmask` was wrong type: {type(channelmask)}."
-        )
+        raise TypeError(f"Input for `channelmask` was wrong type: {type(channelmask)}.")
 
     # get channel starts and ends
     _channelstarts, _channelends = _get_channel_starts_and_ends(

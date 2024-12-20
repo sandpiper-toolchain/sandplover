@@ -16,7 +16,6 @@ from deltametrics.section import RadialSection
 from deltametrics.section import StrikeSection
 from deltametrics.utils import NoStratigraphyError
 
-
 rcm8_path = _get_rcm8_path()
 golf_path = _get_golf_path()
 
@@ -357,9 +356,7 @@ class TestCircularSection:
         with pytest.raises(ValueError, match=r".*`radius` and `radius_idx`"):
             _ = CircularSection(golfcube, radius=2500, radius_idx=30)
         with pytest.raises(ValueError, match=r".*`origin` and `origin_idx`"):
-            _ = CircularSection(
-                golfcube, origin=(2500, 1500), origin_idx=(3, 100)
-            )
+            _ = CircularSection(golfcube, origin=(2500, 1500), origin_idx=(3, 100))
 
     def test_register_section(self):
         rcm8cube = DataCube(golf_path)
@@ -444,9 +441,7 @@ class TestRadialSection:
         assert len(sars1.variables) > 0
         assert sars1.azimuth == 30
         sars2_starty = 2
-        sars2 = RadialSection(
-            rcm8cube, azimuth=103, origin_idx=(sars2_starty, 90)
-        )
+        sars2 = RadialSection(rcm8cube, azimuth=103, origin_idx=(sars2_starty, 90))
         assert sars2.name == "radial"
         assert sars2._underlying == rcm8cube
         assert sars2.trace.shape[0] == rcm8cube.shape[1] - sars2_starty
@@ -462,9 +457,7 @@ class TestRadialSection:
         assert len(sars3.variables) > 0
         assert sars3.azimuth == 178
         assert sars3._origin_idx == (18, 143)
-        sars4 = RadialSection(
-            rcm8cube, azimuth=90, origin=(200, 5000), length=2000
-        )
+        sars4 = RadialSection(rcm8cube, azimuth=90, origin=(200, 5000), length=2000)
         assert sars4._underlying == rcm8cube
         assert sars4.trace.shape[0] == 41  # 2000 // 50 = L // dx == 40
         assert sars4.azimuth == 90
@@ -651,9 +644,7 @@ class TestCubesWithManySections:
     def test_register_strike_and_path(self):
         self.rcm8cube.register_section("test1", StrikeSection(distance_idx=5))
         self.rcm8cube.register_section("test1a", StrikeSection(distance_idx=5))
-        self.rcm8cube.register_section(
-            "test2", PathSection(path=self.test_path)
-        )
+        self.rcm8cube.register_section("test2", PathSection(path=self.test_path))
         assert not self.rcm8cube.sections["test1"] is self.rcm8cube.sections["test2"]
         assert (
             self.rcm8cube.sections["test1"].trace.shape
@@ -664,12 +655,8 @@ class TestCubesWithManySections:
         assert not (t1 is t2)
 
     def test_show_trace_sections_multiple(self):
-        self.rcm8cube.register_section(
-            "show_test1", StrikeSection(distance_idx=5)
-        )
-        self.rcm8cube.register_section(
-            "show_test2", StrikeSection(distance_idx=50)
-        )
+        self.rcm8cube.register_section("show_test1", StrikeSection(distance_idx=5))
+        self.rcm8cube.register_section("show_test2", StrikeSection(distance_idx=50))
         fig, ax = plt.subplots(1, 2)
         self.rcm8cube.sections["show_test2"].show_trace("r--")
         self.rcm8cube.sections["show_test1"].show_trace("g--", ax=ax[0])
@@ -701,9 +688,7 @@ class TestSectionFromDataCubeNoStratigraphy:
             sass["velocity"]
         # make a good section, then switch to invalidcube inside section
         temp_rcm8cube_nostrat = DataCube(golf_path)
-        temp_rcm8cube_nostrat.register_section(
-            "test", StrikeSection(distance_idx=5)
-        )
+        temp_rcm8cube_nostrat.register_section("test", StrikeSection(distance_idx=5))
         temp_rcm8cube_nostrat.sections["test"]._underlying = "badvalue!"
         with pytest.raises(TypeError):
             _ = temp_rcm8cube_nostrat.sections["test"].__getitem__("velocity")
@@ -1247,9 +1232,7 @@ class TestDipSection:
         with pytest.raises(
             ValueError, match=r"Cannot specify both `distance` .*"
         ):  # noqa: E501
-            rcm8cube.register_section(
-                "test", DipSection(distance=2000, distance_idx=2)
-            )
+            rcm8cube.register_section("test", DipSection(distance=2000, distance_idx=2))
 
     def test_DipSection_register_section_deprecated(self):
         rcm8cube = DataCube(golf_path)
@@ -1280,9 +1263,7 @@ class TestDipSection:
         rcm8cube.register_section(
             "tuple", DipSection(distance_idx=150, length=(10, 50))
         )
-        rcm8cube.register_section(
-            "list", DipSection(distance_idx=150, length=(10, 40))
-        )
+        rcm8cube.register_section("list", DipSection(distance_idx=150, length=(10, 40)))
         assert len(rcm8cube.sections) == 2
         assert rcm8cube.sections["tuple"]._dim1_idx.shape[0] == 41
         assert rcm8cube.sections["list"]._dim1_idx.shape[0] == 31

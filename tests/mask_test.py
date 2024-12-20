@@ -1,4 +1,5 @@
 """Tests for the mask.py script."""
+
 import unittest.mock as mock
 
 import matplotlib.pyplot as plt
@@ -22,7 +23,6 @@ from deltametrics.plan import MorphologicalPlanform
 from deltametrics.plan import OpeningAnglePlanform
 from deltametrics.sample_data.sample_data import _get_golf_path
 from deltametrics.sample_data.sample_data import _get_rcm8_path
-
 
 rcm8_path = _get_rcm8_path()
 with pytest.warns(UserWarning):
@@ -244,9 +244,7 @@ class TestShorelineMask:
     """Tests associated with the ShorelineMask class."""
 
     # define an input mask for the mask instantiation pathway
-    _ElevationMask = ElevationMask(
-        golfcube["eta"][-1, :, :], elevation_threshold=0
-    )
+    _ElevationMask = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 
     def test_default_vals_array(self):
         """Test that instantiation works for an array."""
@@ -327,9 +325,7 @@ class TestShorelineMask:
         shoremask = ShorelineMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
         mfOAP = ShorelineMask.from_Planform(_OAP_0)
 
-        shoremask_05 = ShorelineMask(
-            golfcube["eta"][-1, :, :], elevation_threshold=0.5
-        )
+        shoremask_05 = ShorelineMask(golfcube["eta"][-1, :, :], elevation_threshold=0.5)
         mfOAP_05 = ShorelineMask.from_Planform(_OAP_05)
 
         assert np.all(shoremask._mask == mfOAP._mask)
@@ -351,9 +347,7 @@ class TestShorelineMask:
         shoremask = ShorelineMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
         mfem = ShorelineMask.from_mask(self._ElevationMask)
 
-        shoremask_05 = ShorelineMask(
-            golfcube["eta"][-1, :, :], elevation_threshold=0.5
-        )
+        shoremask_05 = ShorelineMask(golfcube["eta"][-1, :, :], elevation_threshold=0.5)
 
         assert np.all(shoremask._mask == mfem._mask)
         assert np.sum(shoremask_05.integer_mask) < np.sum(shoremask.integer_mask)
@@ -402,9 +396,7 @@ class TestElevationMask:
     def test_default_vals_array(self):
         """Test that instantiation works for an array."""
         # define the mask
-        elevationmask = ElevationMask(
-            golfcube["eta"][-1, :, :], elevation_threshold=0
-        )
+        elevationmask = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
         # make assertions
         assert elevationmask._input_flag == "array"
         assert elevationmask.mask_type == "elevation"
@@ -414,9 +406,7 @@ class TestElevationMask:
         assert elevationmask._mask.dtype == bool
 
     def test_all_below_threshold(self):
-        elevationmask = ElevationMask(
-            golfcube["eta"][-1, :, :], elevation_threshold=10
-        )
+        elevationmask = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=10)
         # make assertions
         assert elevationmask._input_flag == "array"
         assert elevationmask.mask_type == "elevation"
@@ -471,9 +461,7 @@ class TestElevationMask:
         assert np.all(elevationmask_comp.mask == elevationmask.mask)
 
         # try with a different elevation_threshold (higher)
-        elevationmask_higher = ElevationMask(
-            golfcube, t=-1, elevation_threshold=0.5
-        )
+        elevationmask_higher = ElevationMask(golfcube, t=-1, elevation_threshold=0.5)
 
         assert np.sum(elevationmask_higher.integer_mask) < np.sum(
             elevationmask.integer_mask
@@ -491,18 +479,14 @@ class TestElevationMask:
     def test_default_vals_mask_notimplemented(self):
         """Test that instantiation works for an array."""
         # define the mask
-        _ElevationMask = ElevationMask(
-            golfcube["eta"][-1, :, :], elevation_threshold=0
-        )
+        _ElevationMask = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
         with pytest.raises(NotImplementedError, match=r"Cannot instantiate .*"):
             _ = ElevationMask(_ElevationMask, elevation_threshold=0)
 
     def test_submergedLand(self):
         """Check what happens when there is no land above water."""
         # define the mask
-        elevationmask = ElevationMask(
-            rcm8cube["eta"][0, :, :], elevation_threshold=0
-        )
+        elevationmask = ElevationMask(rcm8cube["eta"][0, :, :], elevation_threshold=0)
         # assert - expect all True values should be up to a point
         _whr_land = np.where(elevationmask._mask[:, 0])
         assert _whr_land[0].size > 0  # if fails, no land found!
@@ -606,9 +590,7 @@ class TestFlowMask:
         assert velmask.mask_type == "flow"
         assert velmask._mask.dtype == bool
 
-        dismask = FlowMask(
-            rcm8cube, t=-1, cube_key="discharge", flow_threshold=0.3
-        )
+        dismask = FlowMask(rcm8cube, t=-1, cube_key="discharge", flow_threshold=0.3)
         # make assertions
         assert dismask._input_flag == "cube"
         assert dismask.mask_type == "flow"
@@ -628,9 +610,7 @@ class TestFlowMask:
         assert flowmask._mask.dtype == bool
 
         # compare with another instantiated from array
-        flowmask_comp = FlowMask(
-            golfcube["velocity"][-1, :, :], flow_threshold=0.3
-        )
+        flowmask_comp = FlowMask(golfcube["velocity"][-1, :, :], flow_threshold=0.3)
 
         assert np.all(flowmask_comp.mask == flowmask.mask)
 
@@ -655,9 +635,7 @@ class TestFlowMask:
     def test_default_vals_mask_notimplemented(self):
         """Test that instantiation works for an array."""
         # define the mask
-        _ElevationMask = ElevationMask(
-            golfcube["eta"][-1, :, :], elevation_threshold=0
-        )
+        _ElevationMask = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
         with pytest.raises(NotImplementedError, match=r"Cannot instantiate .*"):
             _ = FlowMask(_ElevationMask, flow_threshold=0.3)
 
@@ -699,9 +677,7 @@ class TestLandMask:
     """Tests associated with the LandMask class."""
 
     # define an input mask for the mask instantiation pathway
-    _ElevationMask = ElevationMask(
-        golfcube["eta"][-1, :, :], elevation_threshold=0
-    )
+    _ElevationMask = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 
     _OAP_0 = OpeningAnglePlanform.from_elevation_data(
         golfcube["eta"][-1, :, :], elevation_threshold=0
@@ -771,9 +747,7 @@ class TestLandMask:
         when instantiated.
         """
         # define the mask
-        landmask_default = LandMask(
-            rcm8cube["eta"][-1, :, :], elevation_threshold=0
-        )
+        landmask_default = LandMask(rcm8cube["eta"][-1, :, :], elevation_threshold=0)
         landmask = LandMask(
             rcm8cube["eta"][-1, :, :], elevation_threshold=0, contour_threshold=45
         )
@@ -783,7 +757,10 @@ class TestLandMask:
 
     @pytest.mark.xfail(
         strict=True,
-        reason="Breaking change to OAP leads to inlet not being classified as land. (v0.4.3).",
+        reason=(
+            "Breaking change to OAP leads to inlet not being classified as"
+            " land. (v0.4.3)."
+        ),
     )
     def test_submergedLand(self):
         """Check what happens when there is no land above water."""
@@ -892,9 +869,7 @@ class TestWetMask:
     """Tests associated with the WetMask class."""
 
     # define an input mask for the mask instantiation pathway
-    _ElevationMask = ElevationMask(
-        golfcube["eta"][-1, :, :], elevation_threshold=0
-    )
+    _ElevationMask = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 
     def test_default_vals_array(self):
         """Test that instantiation works for an array."""
@@ -963,7 +938,10 @@ class TestWetMask:
 
     @pytest.mark.xfail(
         strict=True,
-        reason="Breaking change to OAP leads to inlet not being classified as land. (v0.4.3).",
+        reason=(
+            "Breaking change to OAP leads to inlet not being classified as"
+            " land. (v0.4.3)."
+        ),
     )
     def test_submergedLand(self):
         """Check what happens when there is no land above water."""
@@ -1042,9 +1020,7 @@ class TestChannelMask:
     """Tests associated with the ChannelMask class."""
 
     # define an input mask for the mask instantiation pathway
-    _ElevationMask = ElevationMask(
-        golfcube["eta"][-1, :, :], elevation_threshold=0
-    )
+    _ElevationMask = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 
     def test_default_vals_array(self):
         """Test that instantiation works for an array."""
@@ -1143,7 +1119,10 @@ class TestChannelMask:
 
     @pytest.mark.xfail(
         strict=True,
-        reason="Breaking change to OAP leads to inlet not being classified as land. (v0.4.3).",
+        reason=(
+            "Breaking change to OAP leads to inlet not being classified as"
+            " land. (v0.4.3)."
+        ),
     )
     def test_submergedLand(self):
         """Check what happens when there is no land above water."""
@@ -1279,9 +1258,7 @@ class TestEdgeMask:
     """Tests associated with the EdgeMask class."""
 
     # define an input mask for the mask instantiation pathway
-    _ElevationMask = ElevationMask(
-        golfcube["eta"][-1, :, :], elevation_threshold=0
-    )
+    _ElevationMask = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 
     def test_default_vals_array(self):
         """Test that instantiation works for an array."""
@@ -1334,9 +1311,7 @@ class TestEdgeMask:
         when instantiated.
         """
         # define the mask
-        edgemask_default = EdgeMask(
-            rcm8cube["eta"][-1, :, :], elevation_threshold=0
-        )
+        edgemask_default = EdgeMask(rcm8cube["eta"][-1, :, :], elevation_threshold=0)
         edgemask = EdgeMask(
             rcm8cube["eta"][-1, :, :], elevation_threshold=0, contour_threshold=45
         )
@@ -1346,7 +1321,10 @@ class TestEdgeMask:
 
     @pytest.mark.xfail(
         strict=True,
-        reason="Breaking change to OAP leads to inlet not being classified as land. (v0.4.3).",
+        reason=(
+            "Breaking change to OAP leads to inlet not being classified as"
+            " land. (v0.4.3)."
+        ),
     )
     def test_submergedLand(self):
         """Check what happens when there is no land above water."""
@@ -1425,9 +1403,7 @@ class TestCenterlineMask:
     """Tests associated with the CenterlineMask class."""
 
     # define an input mask for the mask instantiation pathway
-    _ElevationMask = ElevationMask(
-        golfcube["eta"][-1, :, :], elevation_threshold=0
-    )
+    _ElevationMask = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 
     def test_default_vals_array(self):
         """Test that instantiation works for an array."""
@@ -1507,7 +1483,10 @@ class TestCenterlineMask:
 
     @pytest.mark.xfail(
         strict=True,
-        reason="Breaking change to OAP leads to inlet not being classified as land. (v0.4.3).",
+        reason=(
+            "Breaking change to OAP leads to inlet not being classified as"
+            " land. (v0.4.3)."
+        ),
     )
     def test_submergedLand(self):
         """Check what happens when there is no land above water."""

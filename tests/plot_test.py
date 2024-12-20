@@ -5,6 +5,8 @@ import pytest
 
 from deltametrics.cube import DataCube
 from deltametrics.cube import StratigraphyCube
+from deltametrics.plot import VariableInfo
+from deltametrics.plot import VariableSet
 from deltametrics.plot import _fill_steps
 from deltametrics.plot import _scale_lightness
 from deltametrics.plot import aerial_view
@@ -17,13 +19,10 @@ from deltametrics.plot import overlay_sparse_array
 from deltametrics.plot import show_histograms
 from deltametrics.plot import show_one_dimensional_trajectory_to_strata
 from deltametrics.plot import style_axes_km
-from deltametrics.plot import VariableInfo
-from deltametrics.plot import VariableSet
 from deltametrics.plot import vintage_colormap
 from deltametrics.sample_data.sample_data import _get_golf_path
 from deltametrics.section import StrikeSection
 from deltametrics.utils import NoStratigraphyError
-
 
 golf_path = _get_golf_path()
 
@@ -31,7 +30,7 @@ golf_path = _get_golf_path()
 class TestVariableInfo:
 
     def test_initialize_default_VariableInfo(self):
-        vi = VariableInfo('testinfo')
+        vi = VariableInfo("testinfo")
         assert vi.cmap.N == 64
 
     def test_initialize_default_VariableInfo_noname(self):
@@ -43,43 +42,42 @@ class TestVariableInfo:
             _ = VariableInfo(None)
 
     def test_initialize_VariableInfo_cmap_str(self):
-        vi = VariableInfo('testinfo', cmap='Blues')
+        vi = VariableInfo("testinfo", cmap="Blues")
         assert vi.cmap.N == 64
         assert vi.cmap(0)[0] == pytest.approx(0.96862745)
 
     def test_initialize_VariableInfo_cmap_spec(self):
-        vi = VariableInfo(
-            'testinfo', cmap=matplotlib.colormaps['Blues'].resampled(7))
+        vi = VariableInfo("testinfo", cmap=matplotlib.colormaps["Blues"].resampled(7))
         assert vi.cmap.N == 7
         assert vi.cmap(0)[0] == pytest.approx(0.96862745)
 
     def test_initialize_VariableInfo_cmap_tuple(self):
-        vi = VariableInfo('testinfo', cmap=('Blues', 7))
+        vi = VariableInfo("testinfo", cmap=("Blues", 7))
         assert vi.cmap.N == 7
         assert vi.cmap(0)[0] == pytest.approx(0.96862745)
 
     def test_initialize_VariableInfo_label_str(self):
-        vi = VariableInfo('testinfo', label='Test Information')
-        assert vi.label == 'Test Information'
-        assert vi.name == 'testinfo'
+        vi = VariableInfo("testinfo", label="Test Information")
+        assert vi.label == "Test Information"
+        assert vi.name == "testinfo"
 
     def test_VariableInfo_change_label(self):
-        vi = VariableInfo('testinfo')
-        vi.label = 'Test Information'
-        assert vi.label == 'Test Information'
-        assert vi.name == 'testinfo'
+        vi = VariableInfo("testinfo")
+        vi.label = "Test Information"
+        assert vi.label == "Test Information"
+        assert vi.name == "testinfo"
         with pytest.raises(TypeError):
             vi.label = True
         with pytest.raises(TypeError):
             vi.label = 19
 
     def test_VariableInfo_change_cmap(self):
-        vi = VariableInfo('testinfo')
-        _jet = matplotlib.colormaps['jet'].resampled(21)
+        vi = VariableInfo("testinfo")
+        _jet = matplotlib.colormaps["jet"].resampled(21)
         vi.cmap = _jet
         assert vi.cmap == _jet
         assert vi.cmap.N == 21
-        vi.cmap = ('Blues', 7)
+        vi.cmap = ("Blues", 7)
         assert vi.cmap.N == 7
         assert vi.cmap(0)[0] == pytest.approx(0.96862745)
         with pytest.raises(TypeError):
@@ -92,8 +90,8 @@ class TestVariableSet:
 
     def test_initialize_default_VariableSet(self):
         vs = VariableSet()
-        assert 'eta' in vs.known_list
-        assert vs['depth'].vmin == 0
+        assert "eta" in vs.known_list
+        assert vs["depth"].vmin == 0
         assert vs.variables == vs.known_list
         # get returns from some properties anc check types
         assert isinstance(vs.variables, list)
@@ -108,48 +106,48 @@ class TestVariableSet:
         assert isinstance(vs.sedflux, VariableInfo)
 
     def test_initialize_VariableSet_override_known_VariableInfo(self):
-        vi = VariableInfo('depth')
-        od = {'depth': vi}
+        vi = VariableInfo("depth")
+        od = {"depth": vi}
         vs = VariableSet(override_dict=od)
-        assert vs['depth'].vmin is None
+        assert vs["depth"].vmin is None
 
     def test_initialize_VariableSet_override_unknown_VariableInfo(self):
-        vi = VariableInfo('fakevariable', vmin=-9999)
-        od = {'fakevariable': vi}
+        vi = VariableInfo("fakevariable", vmin=-9999)
+        od = {"fakevariable": vi}
         vs = VariableSet(override_dict=od)
-        assert vs['fakevariable'].vmin == -9999
+        assert vs["fakevariable"].vmin == -9999
 
     def test_initialize_VariableSet_override_known_badtype(self):
-        vi = VariableInfo('depth')
-        od = ('depth', vi)
+        vi = VariableInfo("depth")
+        od = ("depth", vi)
         with pytest.raises(TypeError):
             _ = VariableSet(override_dict=od)
 
     def test_VariableSet_add_known_VariableInfo(self):
         vs = VariableSet()
-        vi = VariableInfo('depth', vmin=-9999)
+        vi = VariableInfo("depth", vmin=-9999)
         vs.depth = vi
         assert vs.depth.vmin == -9999
-        assert vs['depth'].vmin == -9999
+        assert vs["depth"].vmin == -9999
 
     def test_VariableSet_add_unknown_VariableInfo(self):
         vs = VariableSet()
-        vi = VariableInfo('fakevariable', vmin=-9999)
+        vi = VariableInfo("fakevariable", vmin=-9999)
         vs.fakevariable = vi
         assert vs.fakevariable.vmin == -9999
-        assert 'fakevariable' in vs.variables
-        assert vs['fakevariable'].vmin == -9999
+        assert "fakevariable" in vs.variables
+        assert vs["fakevariable"].vmin == -9999
 
     def test_VariableSet_set_known_VariableInfo_direct(self):
         vs = VariableSet()
         vs.depth.vmin = -9999
         assert vs.depth.vmin == -9999
-        assert vs['depth'].vmin == -9999
+        assert vs["depth"].vmin == -9999
 
     def test_VariableSet_change_then_default(self):
         vs = VariableSet()
         _first = vs.depth.cmap(0)[0]
-        vi = VariableInfo('depth', vmin=-9999)
+        vi = VariableInfo("depth", vmin=-9999)
         vs.depth = vi
         assert vs.depth.vmin == -9999
         vs.depth = None  # reset to default
@@ -159,18 +157,18 @@ class TestVariableSet:
     def test_VariableSet_add_known_badtype(self):
         vs = VariableSet()
         with pytest.raises(TypeError):
-            vs.depth = 'Yellow!'
+            vs.depth = "Yellow!"
 
     def test_VariableSet_add_unknown_badtype(self):
         vs = VariableSet()
         with pytest.raises(TypeError):
-            vs.fakevariable = 'Yellow!'
+            vs.fakevariable = "Yellow!"
 
     def test_get_unknown_notadded_variable(self):
         # should return a default VariableInfo with name field
         vs = VariableSet()
-        got = vs['fakevariable']
-        assert got.name == 'fakevariable'
+        got = vs["fakevariable"]
+        assert got.name == "fakevariable"
         # NOTE: this does not work with attribute accessing
         with pytest.raises(AttributeError):
             _ = vs.fakevariable
@@ -214,32 +212,32 @@ class TestStyleAxesKm:
     def test_style_axes_km_ax(self):
 
         fig, ax = plt.subplots(1, 6)
-        style_axes_km(ax[0]) # both
-        style_axes_km(ax[1], 'x')  # x only
-        style_axes_km(ax[2], 'y')  # y only
-        style_axes_km(ax[3], 'xy') # both
-        style_axes_km(ax[4], 'z')  # do nothing
+        style_axes_km(ax[0])  # both
+        style_axes_km(ax[1], "x")  # x only
+        style_axes_km(ax[2], "y")  # y only
+        style_axes_km(ax[3], "xy")  # both
+        style_axes_km(ax[4], "z")  # do nothing
         ax[5].xaxis.set_major_formatter(style_axes_km)  # x only
 
         # check that the formatter has been set (or not)
         #   note, returns '' if formatter not changed
-        assert ax[0].xaxis.get_major_formatter()(1000) == '1'
-        assert ax[0].yaxis.get_major_formatter()(1000) == '1'
+        assert ax[0].xaxis.get_major_formatter()(1000) == "1"
+        assert ax[0].yaxis.get_major_formatter()(1000) == "1"
 
-        assert ax[1].xaxis.get_major_formatter()(1000) == '1'
-        assert ax[1].yaxis.get_major_formatter()(1000) == ''
+        assert ax[1].xaxis.get_major_formatter()(1000) == "1"
+        assert ax[1].yaxis.get_major_formatter()(1000) == ""
 
-        assert ax[2].xaxis.get_major_formatter()(1000) == ''
-        assert ax[2].yaxis.get_major_formatter()(1000) == '1'
+        assert ax[2].xaxis.get_major_formatter()(1000) == ""
+        assert ax[2].yaxis.get_major_formatter()(1000) == "1"
 
-        assert ax[3].xaxis.get_major_formatter()(1000) == '1'
-        assert ax[3].yaxis.get_major_formatter()(1000) == '1'
+        assert ax[3].xaxis.get_major_formatter()(1000) == "1"
+        assert ax[3].yaxis.get_major_formatter()(1000) == "1"
 
-        assert ax[4].xaxis.get_major_formatter()(1000) == ''
-        assert ax[4].yaxis.get_major_formatter()(1000) == ''
+        assert ax[4].xaxis.get_major_formatter()(1000) == ""
+        assert ax[4].yaxis.get_major_formatter()(1000) == ""
 
-        assert ax[5].xaxis.get_major_formatter()(1000) == '1'
-        assert ax[5].yaxis.get_major_formatter()(1000) == ''
+        assert ax[5].xaxis.get_major_formatter()(1000) == "1"
+        assert ax[5].yaxis.get_major_formatter()(1000) == ""
 
         plt.close()
 
@@ -247,12 +245,13 @@ class TestStyleAxesKm:
 class TestFillSteps:
     """Test the `_fill_steps` function."""
 
-    arr = np.array([False, False, True, True, False, True,
-                    True, True, True, False, True])
+    arr = np.array(
+        [False, False, True, True, False, True, True, True, True, False, True]
+    )
 
     def num_patches(self, pc):
         """hacky util to get length of PatchCollection."""
-        return len(pc.properties()['facecolor'])
+        return len(pc.properties()["facecolor"])
 
     def test_return_type(self):
         pc = _fill_steps(self.arr)
@@ -284,22 +283,22 @@ class TestFillSteps:
         assert self.num_patches(pc) == 2
 
     def test_return_length_three_get_five(self):
-        _arr = np.array([False, True, True, False, False, False,
-                         True, True, False, True])
+        _arr = np.array(
+            [False, True, True, False, False, False, True, True, False, True]
+        )
         pc = _fill_steps(_arr)
         assert self.num_patches(pc) == 5
 
     def test_kwargs_default(self):
         pc = _fill_steps(self.arr)
         assert self.num_patches(pc) == 7
-        _exp = pytest.approx(np.array([0.12156863, 0.46666667,
-                                       0.70588235, 1.]))
+        _exp = pytest.approx(np.array([0.12156863, 0.46666667, 0.70588235, 1.0]))
         assert np.all(pc.get_facecolors()[0] == _exp)
 
     def test_kwargs_facecolor(self):
-        pc = _fill_steps(self.arr, facecolor='green')
+        pc = _fill_steps(self.arr, facecolor="green")
         assert self.num_patches(pc) == 7
-        _exp = pytest.approx(np.array([0., 0.50196078, 0., 1.]))
+        _exp = pytest.approx(np.array([0.0, 0.50196078, 0.0, 1.0]))
         assert np.all(pc.get_facecolors()[0] == _exp)
 
 
@@ -309,60 +308,63 @@ class TestSODTTST:
     def test_sodttst_makes_plot(self):
         _e = np.random.randint(0, 10, size=(50,))
         fig, ax = plt.subplots()
-        show_one_dimensional_trajectory_to_strata(
-            _e, ax=ax, dz=0.1)
+        show_one_dimensional_trajectory_to_strata(_e, ax=ax, dz=0.1)
         plt.close()
 
     def test_sodttst_makes_labeled_strata(self):
         _e = np.random.randint(0, 10, size=(50,))
         fig, ax = plt.subplots()
-        show_one_dimensional_trajectory_to_strata(
-            _e, ax=ax, dz=0.1, label_strata=False)
+        show_one_dimensional_trajectory_to_strata(_e, ax=ax, dz=0.1, label_strata=False)
         plt.close()
 
     def test_sodttst_makes_plot_lims_positives(self):
         _e = np.array([0, 1, 4, 5, 4, 10])
         fig, ax = plt.subplots()
-        show_one_dimensional_trajectory_to_strata(
-            _e, ax=ax, dz=0.1)
+        show_one_dimensional_trajectory_to_strata(_e, ax=ax, dz=0.1)
         assert ax.get_ylim() == (0, 12)
         plt.close()
 
     def test_sodttst_makes_plot_lims_negative(self):
         _e = np.array([10, -1, -4, -5, -4, -10])
         fig, ax = plt.subplots()
-        show_one_dimensional_trajectory_to_strata(
-            _e, ax=ax, dz=0.1)
+        show_one_dimensional_trajectory_to_strata(_e, ax=ax, dz=0.1)
         assert ax.get_ylim() == (-12, 12)
         plt.close()
 
     def test_sodttst_makes_plot_lims_negative_zero(self):
         _e = np.array([-1, -1, -4, -5, -4, -10])
         fig, ax = plt.subplots()
-        show_one_dimensional_trajectory_to_strata(
-            _e, ax=ax, dz=0.1)
+        show_one_dimensional_trajectory_to_strata(_e, ax=ax, dz=0.1)
         assert ax.get_ylim() == (-12, 0)
         plt.close()
 
     def test_sodttst_makes_plot_lims_equal(self):
         _e = np.array([-1, -1, -1, -1, -1, -1])
         fig, ax = plt.subplots()
-        show_one_dimensional_trajectory_to_strata(
-            _e, ax=ax, dz=0.1)
+        show_one_dimensional_trajectory_to_strata(_e, ax=ax, dz=0.1)
         assert ax.get_ylim() == (-1.2, 0)
         plt.close()
 
     def test_sodttst_makes_plot_sample_data(self):
         rcm8cube = DataCube(golf_path)
-        locs = np.array([[48, 152], [8, 63], [14, 102],
-                         [92, 118], [92, 168], [26, 114],
-                         [62, 135], [61, 171], [65, 193],
-                         [23, 175]])
+        locs = np.array(
+            [
+                [48, 152],
+                [8, 63],
+                [14, 102],
+                [92, 118],
+                [92, 168],
+                [26, 114],
+                [62, 135],
+                [61, 171],
+                [65, 193],
+                [23, 175],
+            ]
+        )
         for i in range(10):
-            _e = rcm8cube['eta'][:, locs[i, 0], locs[i, 1]]
+            _e = rcm8cube["eta"][:, locs[i, 0], locs[i, 1]]
             fig, ax = plt.subplots()
-            show_one_dimensional_trajectory_to_strata(
-                _e, ax=ax, dz=0.1)
+            show_one_dimensional_trajectory_to_strata(_e, ax=ax, dz=0.1)
             plt.close()
 
     def test_sodttst_makes_plot_no_ax(self):
@@ -385,16 +387,14 @@ class TestSODTTST:
         _e = np.array([0, 1, 4, 5, 4, 10])
         _s = np.array([0, 0, 0, 0, 0, 0])
         fig, ax = plt.subplots()
-        show_one_dimensional_trajectory_to_strata(
-            _e, sigma_dist=_s, ax=ax, dz=0.1)
+        show_one_dimensional_trajectory_to_strata(_e, sigma_dist=_s, ax=ax, dz=0.1)
         assert ax.get_ylim() == (0, 12)
         plt.close()
 
     def test_sodttst_makes_plot_lims_equal_via_subs(self):
         _e = np.arange(0, 6)
         fig, ax = plt.subplots()
-        show_one_dimensional_trajectory_to_strata(
-            _e, sigma_dist=1.0, ax=ax, dz=0.1)
+        show_one_dimensional_trajectory_to_strata(_e, sigma_dist=1.0, ax=ax, dz=0.1)
         assert ax.get_ylim()[0] < 0
         assert ax.get_ylim()[1] > 0
         plt.close()
@@ -403,239 +403,203 @@ class TestSODTTST:
 class TestGetDisplayArrays:
 
     rcm8cube_nostrat = DataCube(golf_path)
-    rcm8cube_nostrat.register_section(
-        'test', StrikeSection(distance_idx=5))
-    dsv_nostrat = rcm8cube_nostrat.sections['test']['velocity']
+    rcm8cube_nostrat.register_section("test", StrikeSection(distance_idx=5))
+    dsv_nostrat = rcm8cube_nostrat.sections["test"]["velocity"]
 
     rcm8cube = DataCube(golf_path)
-    rcm8cube.stratigraphy_from('eta', dz=0.1)
-    rcm8cube.register_section(
-        'test', StrikeSection(distance_idx=5))
-    dsv = rcm8cube.sections['test']['velocity']
+    rcm8cube.stratigraphy_from("eta", dz=0.1)
+    rcm8cube.register_section("test", StrikeSection(distance_idx=5))
+    dsv = rcm8cube.sections["test"]["velocity"]
 
     sc8cube = StratigraphyCube.from_DataCube(rcm8cube, dz=0.1)
-    sc8cube.register_section(
-        'test', StrikeSection(distance_idx=5))
-    ssv = sc8cube.sections['test']['velocity']
+    sc8cube.register_section("test", StrikeSection(distance_idx=5))
+    ssv = sc8cube.sections["test"]["velocity"]
 
     def test_dsv_nostrat_get_display_arrays_spacetime(self):
-        _data, _X, _Y = get_display_arrays(self.dsv_nostrat,
-                                                data='spacetime')
-        assert (_data.shape[0] == _X.shape[0] - 1)
-        assert (_data.shape[1] == _Y.shape[1] - 1)
-        assert (_data.shape[0] == _X.shape[0] - 1)
-        assert (_data.shape[1] == _Y.shape[1] - 1)
+        _data, _X, _Y = get_display_arrays(self.dsv_nostrat, data="spacetime")
+        assert _data.shape[0] == _X.shape[0] - 1
+        assert _data.shape[1] == _Y.shape[1] - 1
+        assert _data.shape[0] == _X.shape[0] - 1
+        assert _data.shape[1] == _Y.shape[1] - 1
         assert np.all(_data == self.dsv_nostrat)
 
     def test_dsv_nostrat_get_display_arrays_preserved(self):
         with pytest.raises(NoStratigraphyError):
-            get_display_arrays(self.dsv_nostrat,
-                                    data='preserved')
+            get_display_arrays(self.dsv_nostrat, data="preserved")
 
     def test_dsv_nostrat_get_display_arrays_stratigraphy(self):
         with pytest.raises(NoStratigraphyError):
-            get_display_arrays(self.dsv_nostrat,
-                                    data='stratigraphy')
+            get_display_arrays(self.dsv_nostrat, data="stratigraphy")
 
     def test_dsv_get_display_arrays_spacetime(self):
-        _data, _X, _Y = get_display_arrays(self.dsv,
-                                                data='spacetime')
-        assert (_data.shape[0] == _X.shape[0] - 1)
-        assert (_data.shape[1] == _Y.shape[1] - 1)
-        assert (_data.shape[0] == _X.shape[0] - 1)
-        assert (_data.shape[1] == _Y.shape[1] - 1)
+        _data, _X, _Y = get_display_arrays(self.dsv, data="spacetime")
+        assert _data.shape[0] == _X.shape[0] - 1
+        assert _data.shape[1] == _Y.shape[1] - 1
+        assert _data.shape[0] == _X.shape[0] - 1
+        assert _data.shape[1] == _Y.shape[1] - 1
         assert np.all(_data == self.dsv)
 
     def test_dsv_get_display_arrays_preserved(self):
-        _data, _X, _Y = get_display_arrays(self.dsv,
-                                                data='preserved')
-        assert (_data.shape[0] == _X.shape[0] - 1)
-        assert (_data.shape[1] == _Y.shape[1] - 1)
-        assert (_data.shape[0] == _X.shape[0] - 1)
-        assert (_data.shape[1] == _Y.shape[1] - 1)
+        _data, _X, _Y = get_display_arrays(self.dsv, data="preserved")
+        assert _data.shape[0] == _X.shape[0] - 1
+        assert _data.shape[1] == _Y.shape[1] - 1
+        assert _data.shape[0] == _X.shape[0] - 1
+        assert _data.shape[1] == _Y.shape[1] - 1
         assert np.any(np.isnan(_data))  # check that some are False
 
     def test_dsv_get_display_arrays_stratigraphy(self):
-        _data, _X, _Y = get_display_arrays(self.dsv,
-                                                data='stratigraphy')
-        assert (_data.shape[0] == _X.shape[0] - 1)
-        assert (_data.shape[1] == _Y.shape[1] - 1)
-        assert (_data.shape[0] == _X.shape[0] - 1)
-        assert (_data.shape[1] == _Y.shape[1] - 1)
+        _data, _X, _Y = get_display_arrays(self.dsv, data="stratigraphy")
+        assert _data.shape[0] == _X.shape[0] - 1
+        assert _data.shape[1] == _Y.shape[1] - 1
+        assert _data.shape[0] == _X.shape[0] - 1
+        assert _data.shape[1] == _Y.shape[1] - 1
 
     def test_dsv_get_display_arrays_badstring(self):
-        with pytest.raises(ValueError, match=r'Bad data *.'):
-            _data, _X, _Y = get_display_arrays(
-                self.dsv, data='badstring')
+        with pytest.raises(ValueError, match=r"Bad data *."):
+            _data, _X, _Y = get_display_arrays(self.dsv, data="badstring")
 
     def test_ssv_get_display_arrays_spacetime(self):
-        with pytest.raises(AttributeError,
-                           match=r'No "spacetime" or "preserved"*.'):
-            _data, _X, _Y = get_display_arrays(
-                self.ssv, data='spacetime')
+        with pytest.raises(AttributeError, match=r'No "spacetime" or "preserved"*.'):
+            _data, _X, _Y = get_display_arrays(self.ssv, data="spacetime")
 
     def test_ssv_get_display_arrays_preserved(self):
-        with pytest.raises(AttributeError,
-                           match=r'No "spacetime" or "preserved"*.'):
-            _data, _X, _Y = get_display_arrays(self.ssv,
-                                                    data='preserved')
+        with pytest.raises(AttributeError, match=r'No "spacetime" or "preserved"*.'):
+            _data, _X, _Y = get_display_arrays(self.ssv, data="preserved")
 
     def test_ssv_get_display_arrays_stratigraphy(self):
-        _data, _X, _Y = get_display_arrays(
-            self.ssv, data='stratigraphy')
-        assert (_data.shape[0] == _X.shape[0] - 1)
-        assert (_data.shape[1] == _Y.shape[1] - 1)
-        assert (_data.shape[0] == _X.shape[0] - 1)
-        assert (_data.shape[1] == _Y.shape[1] - 1)
+        _data, _X, _Y = get_display_arrays(self.ssv, data="stratigraphy")
+        assert _data.shape[0] == _X.shape[0] - 1
+        assert _data.shape[1] == _Y.shape[1] - 1
+        assert _data.shape[0] == _X.shape[0] - 1
+        assert _data.shape[1] == _Y.shape[1] - 1
 
     def test_ssv_get_display_arrays_badstring(self):
-        with pytest.raises(ValueError, match=r'Bad data *.'):
-            _data, _X, _Y = get_display_arrays(
-                self.ssv, data='badstring')
+        with pytest.raises(ValueError, match=r"Bad data *."):
+            _data, _X, _Y = get_display_arrays(self.ssv, data="badstring")
 
 
 class TestGetDisplayLines:
 
     rcm8cube_nostrat = DataCube(golf_path)
-    rcm8cube_nostrat.register_section(
-        'test', StrikeSection(distance_idx=5))
-    dsv_nostrat = rcm8cube_nostrat.sections['test']['velocity']
+    rcm8cube_nostrat.register_section("test", StrikeSection(distance_idx=5))
+    dsv_nostrat = rcm8cube_nostrat.sections["test"]["velocity"]
 
     rcm8cube = DataCube(golf_path)
-    rcm8cube.stratigraphy_from('eta', dz=0.1)
-    rcm8cube.register_section(
-        'test', StrikeSection(distance_idx=5))
-    dsv = rcm8cube.sections['test']['velocity']
+    rcm8cube.stratigraphy_from("eta", dz=0.1)
+    rcm8cube.register_section("test", StrikeSection(distance_idx=5))
+    dsv = rcm8cube.sections["test"]["velocity"]
 
     sc8cube = StratigraphyCube.from_DataCube(rcm8cube, dz=0.1)
-    sc8cube.register_section(
-        'test', StrikeSection(distance_idx=5))
-    ssv = sc8cube.sections['test']['velocity']
+    sc8cube.register_section("test", StrikeSection(distance_idx=5))
+    ssv = sc8cube.sections["test"]["velocity"]
 
     def test_dsv_nostrat_get_display_lines_spacetime(self):
-        _data, _segments = get_display_lines(self.dsv_nostrat,
-                                                  data='spacetime')
+        _data, _segments = get_display_lines(self.dsv_nostrat, data="spacetime")
         assert _segments.shape[1:] == (2, 2)
 
     def test_dsv_nostrat_get_display_lines_preserved(self):
         with pytest.raises(NoStratigraphyError):
-            get_display_lines(self.dsv_nostrat,
-                                   data='preserved')
+            get_display_lines(self.dsv_nostrat, data="preserved")
 
     def test_dsv_nostrat_get_display_lines_stratigraphy(self):
         with pytest.raises(NoStratigraphyError):
-            get_display_lines(self.dsv_nostrat,
-                                   data='stratigraphy')
+            get_display_lines(self.dsv_nostrat, data="stratigraphy")
 
     def test_dsv_get_display_lines_spacetime(self):
-        _data, _segments = get_display_lines(self.dsv,
-                                                  data='spacetime')
+        _data, _segments = get_display_lines(self.dsv, data="spacetime")
         assert _segments.shape[1:] == (2, 2)
 
     def test_dsv_get_display_lines_preserved(self):
-        _data, _segments = get_display_lines(self.dsv,
-                                                  data='preserved')
+        _data, _segments = get_display_lines(self.dsv, data="preserved")
         assert _segments.shape[1:] == (2, 2)
 
     def test_dsv_get_display_lines_stratigraphy(self):
-        _data, _segments = get_display_lines(self.dsv,
-                                                  data='stratigraphy')
+        _data, _segments = get_display_lines(self.dsv, data="stratigraphy")
         assert _segments.shape[1:] == (2, 2)
 
     def test_dsv_get_display_lines_badstring(self):
-        with pytest.raises(ValueError, match=r'Bad data*.'):
-            get_display_lines(self.dsv,
-                                   data='badstring')
+        with pytest.raises(ValueError, match=r"Bad data*."):
+            get_display_lines(self.dsv, data="badstring")
 
     def test_ssv_get_display_lines_spacetime(self):
-        with pytest.raises(AttributeError,
-                           match=r'No "spacetime" or "preserved"*.'):
-            _data, _segments = get_display_lines(self.ssv,
-                                                      data='spacetime')
+        with pytest.raises(AttributeError, match=r'No "spacetime" or "preserved"*.'):
+            _data, _segments = get_display_lines(self.ssv, data="spacetime")
 
     def test_ssv_get_display_lines_preserved(self):
-        with pytest.raises(AttributeError,
-                           match=r'No "spacetime" or "preserved"*.'):
-            get_display_lines(self.ssv,
-                                   data='preserved')
+        with pytest.raises(AttributeError, match=r'No "spacetime" or "preserved"*.'):
+            get_display_lines(self.ssv, data="preserved")
 
     def test_ssv_get_display_lines_badstring(self):
-        with pytest.raises(ValueError, match=r'Bad data*.'):
-            get_display_lines(self.ssv,
-                                   data='badstring')
+        with pytest.raises(ValueError, match=r"Bad data*."):
+            get_display_lines(self.ssv, data="badstring")
 
-    @pytest.mark.xfail(raises=NotImplementedError, strict=True,
-                       reason='Have not determined how to implement yet.')
+    @pytest.mark.xfail(
+        raises=NotImplementedError,
+        strict=True,
+        reason="Have not determined how to implement yet.",
+    )
     def test_ssv_get_display_lines_stratigraphy(self):
-        get_display_lines(self.ssv,
-                               data='stratigraphy')
+        get_display_lines(self.ssv, data="stratigraphy")
 
 
 class TestGetDisplayLimits:
 
     rcm8cube_nostrat = DataCube(golf_path)
-    rcm8cube_nostrat.register_section(
-        'test', StrikeSection(distance_idx=5))
-    dsv_nostrat = rcm8cube_nostrat.sections['test']['velocity']
+    rcm8cube_nostrat.register_section("test", StrikeSection(distance_idx=5))
+    dsv_nostrat = rcm8cube_nostrat.sections["test"]["velocity"]
 
     rcm8cube = DataCube(golf_path)
-    rcm8cube.stratigraphy_from('eta', dz=0.1)
-    rcm8cube.register_section(
-        'test', StrikeSection(distance_idx=5))
-    dsv = rcm8cube.sections['test']['velocity']
+    rcm8cube.stratigraphy_from("eta", dz=0.1)
+    rcm8cube.register_section("test", StrikeSection(distance_idx=5))
+    dsv = rcm8cube.sections["test"]["velocity"]
 
     sc8cube = StratigraphyCube.from_DataCube(rcm8cube, dz=0.1)
-    sc8cube.register_section(
-        'test', StrikeSection(distance_idx=5))
-    ssv = sc8cube.sections['test']['velocity']
+    sc8cube.register_section("test", StrikeSection(distance_idx=5))
+    ssv = sc8cube.sections["test"]["velocity"]
 
     def test_dsv_nostrat_get_display_limits_spacetime(self):
-        _lims = get_display_limits(self.dsv_nostrat, data='spacetime')
+        _lims = get_display_limits(self.dsv_nostrat, data="spacetime")
         assert len(_lims) == 4
 
     def test_dsv_nostrat_get_display_limits_preserved(self):
         with pytest.raises(NoStratigraphyError):
-            get_display_limits(self.dsv_nostrat, data='preserved')
+            get_display_limits(self.dsv_nostrat, data="preserved")
 
     def test_dsv_nostrat_get_display_limits_stratigraphy(self):
         with pytest.raises(NoStratigraphyError):
-            get_display_limits(self.dsv_nostrat, data='stratigraphy')
+            get_display_limits(self.dsv_nostrat, data="stratigraphy")
 
     def test_dsv_get_display_limits_spacetime(self):
-        _lims = get_display_limits(self.dsv, data='spacetime')
+        _lims = get_display_limits(self.dsv, data="spacetime")
         assert len(_lims) == 4
 
     def test_dsv_get_display_limits_preserved(self):
-        _lims = get_display_limits(self.dsv, data='preserved')
+        _lims = get_display_limits(self.dsv, data="preserved")
         assert len(_lims) == 4
 
     def test_dsv_get_display_limits_stratigraphy(self):
-        _lims = get_display_limits(self.dsv, data='stratigraphy')
+        _lims = get_display_limits(self.dsv, data="stratigraphy")
         assert len(_lims) == 4
 
     def test_dsv_get_display_limits_badstring(self):
-        with pytest.raises(ValueError, match=r'Bad data*.'):
-            get_display_limits(self.dsv,
-                                    data='badstring')
+        with pytest.raises(ValueError, match=r"Bad data*."):
+            get_display_limits(self.dsv, data="badstring")
 
     def test_ssv_get_display_limits_spacetime(self):
-        with pytest.raises(AttributeError,
-                           match=r'No "spacetime" or "preserved"*.'):
-            _ = get_display_limits(self.ssv, data='spacetime')
+        with pytest.raises(AttributeError, match=r'No "spacetime" or "preserved"*.'):
+            _ = get_display_limits(self.ssv, data="spacetime")
 
     def test_ssv_get_display_limits_preserved(self):
-        with pytest.raises(AttributeError,
-                           match=r'No "spacetime" or "preserved"*.'):
-            _ = get_display_limits(self.ssv, data='preserved')
+        with pytest.raises(AttributeError, match=r'No "spacetime" or "preserved"*.'):
+            _ = get_display_limits(self.ssv, data="preserved")
 
     def test_ssv_get_display_limits_stratigraphy(self):
-        _lims = get_display_limits(self.ssv, data='stratigraphy')
+        _lims = get_display_limits(self.ssv, data="stratigraphy")
         assert len(_lims) == 4
 
     def test_ssv_get_display_limits_badstring(self):
-        with pytest.raises(ValueError, match=r'Bad data*.'):
-            get_display_limits(self.ssv,
-                                    data='badstring')
+        with pytest.raises(ValueError, match=r"Bad data*."):
+            get_display_limits(self.ssv, data="badstring")
 
 
 class TestColorMapFunctions:
@@ -648,8 +612,8 @@ class TestColorMapFunctions:
         cmap, norm = cartographic_colormap(H_SL)
 
         assert cmap.colors.shape == (10, 4)
-        assert norm.boundaries[0] == H_SL-4.5
-        assert norm.boundaries[-1] == H_SL+1
+        assert norm.boundaries[0] == H_SL - 4.5
+        assert norm.boundaries[-1] == H_SL + 1
 
     def test_cartographic_SL0_h(self):
         H_SL = 0
@@ -657,8 +621,8 @@ class TestColorMapFunctions:
         cmap, norm = cartographic_colormap(H_SL, h=_h)
 
         assert cmap.colors.shape == (10, 4)
-        assert norm.boundaries[0] == H_SL-_h
-        assert norm.boundaries[-1] == H_SL+1
+        assert norm.boundaries[0] == H_SL - _h
+        assert norm.boundaries[-1] == H_SL + 1
 
     def test_cartographic_SL0_n(self):
         H_SL = 0
@@ -666,16 +630,16 @@ class TestColorMapFunctions:
         cmap, norm = cartographic_colormap(H_SL, n=_n)
 
         assert cmap.colors.shape == (10, 4)
-        assert norm.boundaries[0] == H_SL-4.5
-        assert norm.boundaries[-1] == H_SL+(_n)
+        assert norm.boundaries[0] == H_SL - 4.5
+        assert norm.boundaries[-1] == H_SL + (_n)
 
     def test_cartographic_SLn1_defaults(self):
         H_SL = -1
         cmap, norm = cartographic_colormap(H_SL)
 
         assert cmap.colors.shape == (10, 4)
-        assert norm.boundaries[0] == H_SL-4.5
-        assert norm.boundaries[-1] == H_SL+1
+        assert norm.boundaries[0] == H_SL - 4.5
+        assert norm.boundaries[-1] == H_SL + 1
 
     def test_cartographic_SL1_hn(self):
         H_SL = -1
@@ -684,16 +648,16 @@ class TestColorMapFunctions:
         cmap, norm = cartographic_colormap(H_SL, h=_h, n=_n)
 
         assert cmap.colors.shape == (10, 4)
-        assert norm.boundaries[0] == H_SL-_h
-        assert norm.boundaries[-1] == H_SL+(_n)
+        assert norm.boundaries[0] == H_SL - _h
+        assert norm.boundaries[-1] == H_SL + (_n)
 
     def test_vintage_SL0_defaults(self):
         H_SL = 0
         cmap, norm = vintage_colormap(H_SL)
 
         assert cmap.colors.shape == (10, 3)
-        assert norm.boundaries[0] == H_SL-4.5
-        assert norm.boundaries[-1] == H_SL+1
+        assert norm.boundaries[0] == H_SL - 4.5
+        assert norm.boundaries[-1] == H_SL + 1
 
     def test_vintage_SL0_h(self):
         H_SL = 0
@@ -701,8 +665,8 @@ class TestColorMapFunctions:
         cmap, norm = vintage_colormap(H_SL, h=_h)
 
         assert cmap.colors.shape == (10, 3)
-        assert norm.boundaries[0] == H_SL-_h
-        assert norm.boundaries[-1] == H_SL+1
+        assert norm.boundaries[0] == H_SL - _h
+        assert norm.boundaries[-1] == H_SL + 1
 
     def test_vintage_SL0_n(self):
         H_SL = 0
@@ -710,15 +674,15 @@ class TestColorMapFunctions:
         cmap, norm = vintage_colormap(H_SL, n=_n)
 
         assert cmap.colors.shape == (10, 3)
-        assert norm.boundaries[0] == H_SL-4.5
-        assert norm.boundaries[-1] == H_SL+(_n)
+        assert norm.boundaries[0] == H_SL - 4.5
+        assert norm.boundaries[-1] == H_SL + (_n)
 
     def test_vintage_SLn1_defaults(self):
         H_SL = -1
         cmap, norm = vintage_colormap(H_SL)
 
         assert cmap.colors.shape == (10, 3)
-        assert norm.boundaries[0] == H_SL-4.5
+        assert norm.boundaries[0] == H_SL - 4.5
         assert norm.boundaries[-1] == 0  # default n=1 H_SL+1=0
 
     def test_vintage_SL1_hn(self):
@@ -728,8 +692,8 @@ class TestColorMapFunctions:
         cmap, norm = vintage_colormap(H_SL, h=_h, n=_n)
 
         assert cmap.colors.shape == (10, 3)
-        assert norm.boundaries[0] == H_SL-_h
-        assert norm.boundaries[-1] == H_SL+(_n)
+        assert norm.boundaries[0] == H_SL - _h
+        assert norm.boundaries[-1] == H_SL + (_n)
 
     def test_vintage_pearson_recovered(self):
         # use pearsons bounds to recover the original
@@ -738,7 +702,9 @@ class TestColorMapFunctions:
         assert cmap.colors.shape == (10, 3)
         assert norm.boundaries[0] == -20
         assert norm.boundaries[-1] == 10
-        assert np.all(norm.boundaries == np.array([-20, -16, -12, -8, -5, -3, -1.2, 0, 1.4, 10]))
+        assert np.all(
+            norm.boundaries == np.array([-20, -16, -12, -8, -5, -3, -1.2, 0, 1.4, 10])
+        )
 
 
 class TestScaleLightness:
@@ -775,42 +741,55 @@ class TestShowHistograms:
     def test_one_histogram(self):
         _h, _b = np.histogram(
             np.random.normal(self.locs[3], self.scales[0], size=500),
-            bins=self.bins, density=True)
+            bins=self.bins,
+            density=True,
+        )
         show_histograms((_h, _b))
         plt.close()
 
     def test_one_histogram_with_ax(self):
         _h, _b = np.histogram(
             np.random.normal(self.locs[3], self.scales[0], size=500),
-            bins=self.bins, density=True)
+            bins=self.bins,
+            density=True,
+        )
         fig, ax = plt.subplots()
         show_histograms((_h, _b), ax=ax)
         plt.close()
 
     def test_multiple_no_sets(self):
-        sets = [np.histogram(np.random.normal(lc, s, size=500),
-                bins=self.bins, density=True) for lc, s in
-                zip(self.locs, self.scales, strict=True)]
+        sets = [
+            np.histogram(
+                np.random.normal(lc, s, size=500), bins=self.bins, density=True
+            )
+            for lc, s in zip(self.locs, self.scales, strict=True)
+        ]
         fig, ax = plt.subplots()
         show_histograms(*sets, ax=ax)
         plt.close()
 
     def test_multiple_no_sets_alphakwarg(self):
-        sets = [np.histogram(np.random.normal(lc, s, size=500),
-                bins=self.bins, density=True) for lc, s in
-                zip(self.locs, self.scales, strict=True)]
+        sets = [
+            np.histogram(
+                np.random.normal(lc, s, size=500), bins=self.bins, density=True
+            )
+            for lc, s in zip(self.locs, self.scales, strict=True)
+        ]
         fig, ax = plt.subplots()
         show_histograms(*sets, ax=ax, alpha=0.4)
         plt.close()
 
     def test_multiple_with_sets(self):
-        sets = [np.histogram(np.random.normal(lc, s, size=500),
-                bins=self.bins, density=True) for lc, s in
-                zip(self.locs, self.scales, strict=True)]
+        sets = [
+            np.histogram(
+                np.random.normal(lc, s, size=500), bins=self.bins, density=True
+            )
+            for lc, s in zip(self.locs, self.scales, strict=True)
+        ]
         fig, ax = plt.subplots()
         show_histograms(*sets, sets=[0, 0, 1, 1, 2], ax=ax)
         plt.close()
-        with pytest.raises(ValueError, match=r'Number of histogram tuples*.'):
+        with pytest.raises(ValueError, match=r"Number of histogram tuples*."):
             # input lengths must match
             show_histograms(*sets, sets=[0, 1], ax=ax)
 
@@ -821,35 +800,30 @@ class TestAerialView:
     def test_makes_plot(self):
         _e = np.random.uniform(0, 1, size=(50, 50))
         fig, ax = plt.subplots()
-        aerial_view(
-            _e, ax=ax)
+        aerial_view(_e, ax=ax)
         plt.close()
 
     def test_makes_plot_diffdatum(self):
         _e = np.random.uniform(0, 1, size=(50, 50))
         fig, ax = plt.subplots()
-        aerial_view(
-            _e, datum=10, ax=ax)
+        aerial_view(_e, datum=10, ax=ax)
         plt.close()
 
     def test_makes_plot_ticks(self):
         _e = np.random.uniform(0, 1, size=(50, 50))
         fig, ax = plt.subplots()
-        aerial_view(
-            _e, ax=ax, ticks=True)
+        aerial_view(_e, ax=ax, ticks=True)
         plt.close()
 
     def test_makes_plot_colorbar_kw(self):
         _e = np.random.uniform(0, 1, size=(50, 50))
         fig, ax = plt.subplots()
-        aerial_view(
-            _e, ax=ax, colorbar_kw={'labelsize': 6})
+        aerial_view(_e, ax=ax, colorbar_kw={"labelsize": 6})
         plt.close()
 
     def test_makes_plot_no_ax(self):
         _e = np.random.uniform(0, 1, size=(50, 50))
-        aerial_view(
-            _e)
+        aerial_view(_e)
         plt.close()
 
 
@@ -865,73 +839,46 @@ class TestOverlaySparseArray:
     def test_makes_plot_cmap_str(self):
         _e = np.random.uniform(0, 73, size=(50, 50))
         fig, ax = plt.subplots()
-        overlay_sparse_array(
-            _e, cmap='Blues', ax=ax)
+        overlay_sparse_array(_e, cmap="Blues", ax=ax)
         plt.close()
 
     def test_makes_plot_cmap_obj(self):
         _e = np.random.uniform(0, 73, size=(50, 50))
-        _cmap = matplotlib.colormaps['Oranges'].resampled(64)
+        _cmap = matplotlib.colormaps["Oranges"].resampled(64)
         fig, ax = plt.subplots()
-        overlay_sparse_array(
-            _e, cmap=_cmap, ax=ax)
+        overlay_sparse_array(_e, cmap=_cmap, ax=ax)
         plt.close()
 
     def test_makes_clips(self):
         _e = np.random.uniform(0, 73, size=(50, 50))
         fig, ax = plt.subplots()
-        overlay_sparse_array(
-            _e, ax=ax,
-            alpha_clip=(None, None))
-        overlay_sparse_array(
-            _e, ax=ax,
-            alpha_clip=(20, 30))
-        overlay_sparse_array(
-            _e, ax=ax,
-            alpha_clip=(50, None))
-        with pytest.raises(TypeError, match=r'`alpha_clip` .* type .*'):
-            overlay_sparse_array(
-                _e, ax=ax,
-                alpha_clip=50)
-        with pytest.raises(ValueError, match=r'`alpha_clip` .* length .*'):
-            overlay_sparse_array(
-                _e, ax=ax,
-                alpha_clip=(50, 90, 1000))
+        overlay_sparse_array(_e, ax=ax, alpha_clip=(None, None))
+        overlay_sparse_array(_e, ax=ax, alpha_clip=(20, 30))
+        overlay_sparse_array(_e, ax=ax, alpha_clip=(50, None))
+        with pytest.raises(TypeError, match=r"`alpha_clip` .* type .*"):
+            overlay_sparse_array(_e, ax=ax, alpha_clip=50)
+        with pytest.raises(ValueError, match=r"`alpha_clip` .* length .*"):
+            overlay_sparse_array(_e, ax=ax, alpha_clip=(50, 90, 1000))
         plt.close()
 
     def test_clip_type_option(self):
         _e = np.random.uniform(0, 73, size=(50, 50))
         fig, ax = plt.subplots()
-        overlay_sparse_array(
-            _e, ax=ax,
-            alpha_clip=(None, None), clip_type='value')
-        overlay_sparse_array(
-            _e, ax=ax,
-            alpha_clip=(20, 30), clip_type='value')
-        overlay_sparse_array(
-            _e, ax=ax,
-            alpha_clip=(50, None), clip_type='value')
-        overlay_sparse_array(
-            _e, ax=ax,
-            alpha_clip=(None, None), clip_type='percentile')
-        overlay_sparse_array(
-            _e, ax=ax,
-            alpha_clip=(20, 30), clip_type='percentile')
-        overlay_sparse_array(
-            _e, ax=ax,
-            alpha_clip=(50, None), clip_type='percentile')
-        with pytest.raises(ValueError, match=r'Bad value .*'):
+        overlay_sparse_array(_e, ax=ax, alpha_clip=(None, None), clip_type="value")
+        overlay_sparse_array(_e, ax=ax, alpha_clip=(20, 30), clip_type="value")
+        overlay_sparse_array(_e, ax=ax, alpha_clip=(50, None), clip_type="value")
+        overlay_sparse_array(_e, ax=ax, alpha_clip=(None, None), clip_type="percentile")
+        overlay_sparse_array(_e, ax=ax, alpha_clip=(20, 30), clip_type="percentile")
+        overlay_sparse_array(_e, ax=ax, alpha_clip=(50, None), clip_type="percentile")
+        with pytest.raises(ValueError, match=r"Bad value .*"):
             overlay_sparse_array(
-                _e, ax=ax,
-                alpha_clip=(50, None), clip_type='invalidstring')
-        with pytest.raises(ValueError, match=r'Bad value .*'):
-            overlay_sparse_array(
-                _e, ax=ax,
-                alpha_clip=(50, None), clip_type=(30, 30))
+                _e, ax=ax, alpha_clip=(50, None), clip_type="invalidstring"
+            )
+        with pytest.raises(ValueError, match=r"Bad value .*"):
+            overlay_sparse_array(_e, ax=ax, alpha_clip=(50, None), clip_type=(30, 30))
         plt.close()
 
     def test_makes_plot_no_ax(self):
         _e = np.random.uniform(0, 73, size=(50, 50))
-        overlay_sparse_array(
-            _e)
+        overlay_sparse_array(_e)
         plt.close()
