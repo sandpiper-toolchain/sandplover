@@ -1,4 +1,5 @@
 """Tests for the mask.py script."""
+
 import numpy as np
 import pytest
 import xarray as xr
@@ -16,113 +17,115 @@ from deltametrics.strat import compute_net_to_gross
 from deltametrics.strat import compute_sedimentograph
 from deltametrics.strat import compute_thickness_surfaces
 
-
 golf_path = _get_golf_path()
 golfcube = DataCube(golf_path)
 
 
 class TestComputeBoxyStratigraphyVolume:
 
-    elev = golfcube['eta']
-    time = golfcube['time']
+    elev = golfcube["eta"]
+    time = golfcube["time"]
 
     def test_returns_volume_and_elevations_given_dz(self):
-        s, e = compute_boxy_stratigraphy_volume(
-            self.elev, self.time, dz=0.05)
+        s, e = compute_boxy_stratigraphy_volume(self.elev, self.time, dz=0.05)
         assert s.ndim == 3
         assert s.shape == e.shape
         assert e[1, 0, 0] - e[0, 0, 0] == pytest.approx(0.05, rel=1e-3)
 
     def test_returns_volume_and_elevations_given_z(self):
         z = np.linspace(-20, 500, 200)
-        s, e = compute_boxy_stratigraphy_volume(
-            self.elev, self.time, z=z)
+        s, e = compute_boxy_stratigraphy_volume(self.elev, self.time, z=z)
         assert s.ndim == 3
         assert s.shape == e.shape
         assert np.all(e[:, 0, 0] == z)
 
     def test_returns_volume_and_elevations_given_nz(self):
-        s, e = compute_boxy_stratigraphy_volume(
-            self.elev, self.time, nz=33)
+        s, e = compute_boxy_stratigraphy_volume(self.elev, self.time, nz=33)
         assert s.ndim == 3
         assert s.shape == e.shape
         assert s.shape[0] == 33 + 1
 
     def test_returns_volume_and_elevations_given_subsidence(self):
         s, e = compute_boxy_stratigraphy_volume(
-            self.elev, self.time, sigma_dist=1, nz=33)
+            self.elev, self.time, sigma_dist=1, nz=33
+        )
         assert s.ndim == 3
         assert s.shape == e.shape
         assert s.shape[0] == 33 + 1
 
-    @pytest.mark.xfail(raises=NotImplementedError,
-                       strict=True, reason='Not yet developed.')
+    @pytest.mark.xfail(
+        raises=NotImplementedError, strict=True, reason="Not yet developed."
+    )
     def test_return_cube(self):
         s, e = compute_boxy_stratigraphy_volume(
-            self.elev, self.time,
-            dz=0.05, return_cube=True)
+            self.elev, self.time, dz=0.05, return_cube=True
+        )
 
     def test_lessthan3d_error(self):
-        with pytest.raises(ValueError,
-                           match=r'Input arrays must be three-dimensional.'):
+        with pytest.raises(
+            ValueError, match=r"Input arrays must be three-dimensional."
+        ):
             compute_boxy_stratigraphy_volume(
                 self.elev[:, 10, 120].squeeze(),
                 self.time[:, 10, 120].squeeze(),
-                dz=0.05)
-        with pytest.raises(ValueError,
-                           match=r'Input arrays must be three-dimensional.'):
+                dz=0.05,
+            )
+        with pytest.raises(
+            ValueError, match=r"Input arrays must be three-dimensional."
+        ):
             compute_boxy_stratigraphy_volume(
-                self.elev[:, 10, :].squeeze(),
-                self.time[:, 10, :].squeeze(),
-                dz=0.05)
+                self.elev[:, 10, :].squeeze(), self.time[:, 10, :].squeeze(), dz=0.05
+            )
 
     def test_bad_shape_error(self):
-        with pytest.raises(ValueError,
-                           match=r'Input arrays must be three-dimensional.'):
+        with pytest.raises(
+            ValueError, match=r"Input arrays must be three-dimensional."
+        ):
             compute_boxy_stratigraphy_volume(
                 self.elev[:, 10, 120].squeeze(),
                 self.time[:, 10, 120].squeeze(),
-                dz=0.05)
+                dz=0.05,
+            )
 
     def test_mismatch_shape_error(self):
-        with pytest.raises(ValueError,
-                           match=r'Mismatched input shapes "elev" and "prop".'):
+        with pytest.raises(
+            ValueError, match=r'Mismatched input shapes "elev" and "prop".'
+        ):
             compute_boxy_stratigraphy_volume(
                 self.elev[:, 10:12, 120].squeeze(),
                 self.time[:, 10, 120].squeeze(),
-                dz=0.05)
+                dz=0.05,
+            )
 
     def test_no_z_options(self):
-        with pytest.warns(UserWarning, match=r'No specification .*'):
+        with pytest.warns(UserWarning, match=r"No specification .*"):
             compute_boxy_stratigraphy_volume(self.elev, self.time)
 
 
 class TestComputeBoxyStratigraphyCoordinates:
 
-    elev = golfcube['eta']
-    time = golfcube['time']
+    elev = golfcube["eta"]
+    time = golfcube["time"]
 
     def test_returns_sc_dc_given_dz(self):
         # check for the warning when no option passed
         with pytest.warns(UserWarning):
-            sc, dc = compute_boxy_stratigraphy_coordinates(
-                self.elev)
+            sc, dc = compute_boxy_stratigraphy_coordinates(self.elev)
         # now specify dz
-        sc, dc = compute_boxy_stratigraphy_coordinates(
-            self.elev, dz=0.05)
+        sc, dc = compute_boxy_stratigraphy_coordinates(self.elev, dz=0.05)
         assert sc.shape == dc.shape
         assert sc.shape[1] == 3
         assert sc.shape[0] > 1  # don't know how big it will be
 
     def test_returns_sc_dc(self):
-        sc, dc = compute_boxy_stratigraphy_coordinates(
-            self.elev, dz=0.05)
+        sc, dc = compute_boxy_stratigraphy_coordinates(self.elev, dz=0.05)
         assert sc.shape == dc.shape
         assert sc.shape[1] == 3
 
     def test_returns_sc_dc_return_strata(self):
         sc, dc, s = compute_boxy_stratigraphy_coordinates(
-            self.elev, dz=0.05, return_strata=True)
+            self.elev, dz=0.05, return_strata=True
+        )
         assert s.ndim == 3
         assert s.shape == self.elev.shape
         assert sc.shape == dc.shape
@@ -143,20 +146,20 @@ class TestComputeBoxyStratigraphyCoordinates:
         assert np.unique(sc[:, 0]).shape[0] == 13
 
     def test_returns_sc_dc_given_subsidence(self):
-        sc, dc = compute_boxy_stratigraphy_coordinates(
-            self.elev, sigma_dist=1, nz=13)
+        sc, dc = compute_boxy_stratigraphy_coordinates(self.elev, sigma_dist=1, nz=13)
         assert np.min(sc[:, 0]) == 0
 
-    @pytest.mark.xfail(raises=NotImplementedError,
-                       strict=True, reason='Not yet developed.')
+    @pytest.mark.xfail(
+        raises=NotImplementedError, strict=True, reason="Not yet developed."
+    )
     def test_return_cube(self):
         s, sc, dc = compute_boxy_stratigraphy_coordinates(
-            self.elev, dz=0.05, return_cube=True)
+            self.elev, dz=0.05, return_cube=True
+        )
 
     def test_no_z_options(self):
-        with pytest.warns(UserWarning, match=r'No specification .*'):
-            compute_boxy_stratigraphy_coordinates(
-                self.elev[:, 10, 120].squeeze())
+        with pytest.warns(UserWarning, match=r"No specification .*"):
+            compute_boxy_stratigraphy_coordinates(self.elev[:, 10, 120].squeeze())
 
 
 class TestComputeElevationToPreservation:
@@ -175,90 +178,80 @@ class TestComputeElevationToPreservation:
         assert np.all(p3 == np.array([True, True, True]))
 
     def test_1d_all_zeros(self):
-        s, p = _compute_elevation_to_preservation(
-            np.array([0, 0, 0, 0]))
+        s, p = _compute_elevation_to_preservation(np.array([0, 0, 0, 0]))
         assert np.all(s == np.array([0, 0, 0, 0]))
         assert np.all(p == np.array([False, False, False, False]))
 
     def test_1d_all_ones(self):
-        s, p = _compute_elevation_to_preservation(
-            np.array([1, 1, 1, 1]))
+        s, p = _compute_elevation_to_preservation(np.array([1, 1, 1, 1]))
         assert np.all(s == np.array([1, 1, 1, 1]))
         assert np.all(p == np.array([False, False, False, False]))
 
     def test_1d_all_aggrade(self):
-        s, p = _compute_elevation_to_preservation(
-            np.array([0, 1, 2, 3]))
+        s, p = _compute_elevation_to_preservation(np.array([0, 1, 2, 3]))
         assert np.all(s == np.array([0, 1, 2, 3]))
         assert np.all(p == np.array([True, True, True, True]))
         assert np.all(s[1:] - s[:-1] == 1)
 
     def test_1d_all_erode_positive(self):
-        s, p = _compute_elevation_to_preservation(
-            np.array([3, 2, 1, 0]))
+        s, p = _compute_elevation_to_preservation(np.array([3, 2, 1, 0]))
         assert np.all(s == np.array([0, 0, 0, 0]))
         assert np.all(p == np.array([False, False, False, False]))
 
     def test_1d_all_erode_negative(self):
-        s, p = _compute_elevation_to_preservation(
-            np.array([0, -1, -2, -3]))
+        s, p = _compute_elevation_to_preservation(np.array([0, -1, -2, -3]))
         assert np.all(s == np.array([-3, -3, -3, -3]))
         assert np.all(p == np.array([False, False, False, False]))
 
     def test_1d_up_down(self):
-        s, p = _compute_elevation_to_preservation(
-            np.array([0, 1, 2, 1]))
+        s, p = _compute_elevation_to_preservation(np.array([0, 1, 2, 1]))
         assert np.all(s == np.array([0, 1, 1, 1]))
         assert np.all(p == np.array([True, True, False, False]))
 
     def test_1d_up_down_flat(self):
-        s, p = _compute_elevation_to_preservation(
-            np.array([0, 1, 2, 1, 1]))
+        s, p = _compute_elevation_to_preservation(np.array([0, 1, 2, 1, 1]))
         assert np.all(s == np.array([0, 1, 1, 1, 1]))
         assert np.all(p == np.array([True, True, False, False, False]))
 
     def test_1d_up_down_up(self):
-        s, p = _compute_elevation_to_preservation(
-            np.array([0, 1, 2, 1, 2]))
+        s, p = _compute_elevation_to_preservation(np.array([0, 1, 2, 1, 2]))
         assert np.all(s == np.array([0, 1, 1, 1, 2]))
         assert np.all(p == np.array([True, True, False, False, True]))
 
     def test_1d_up_down_down(self):
-        s, p = _compute_elevation_to_preservation(
-            np.array([0, 1, 2, 1, 0]))
+        s, p = _compute_elevation_to_preservation(np.array([0, 1, 2, 1, 0]))
         assert np.all(s == np.array([0, 0, 0, 0, 0]))
         assert np.all(p == np.array([False, False, False, False, False]))
 
     def test_2d_all_zeros(self):
-        s, p = _compute_elevation_to_preservation(
-            np.zeros((6, 4)))
+        s, p = _compute_elevation_to_preservation(np.zeros((6, 4)))
         assert np.all(s == np.zeros((6, 4)))
         assert np.all(p == np.zeros((6, 4), dtype=bool))
 
     def test_2d_all_aggrade(self):
         e = np.tile(np.arange(0, 3), (2, 1)).T
-        s, p = _compute_elevation_to_preservation(
-            e)
+        s, p = _compute_elevation_to_preservation(e)
         assert np.all(s == np.array([[0, 0], [1, 1], [2, 2]]))
         assert np.all(p == np.ones((3, 2), dtype=bool))
 
     def test_2d_different_walks(self):
-        e = np.array([[0, 3,   4],
-                      [1, 3,   3],
-                      [1, 4,   4],
-                      [2, 4.5, 3],
-                      [3, 5,   4.5]])
+        e = np.array([[0, 3, 4], [1, 3, 3], [1, 4, 4], [2, 4.5, 3], [3, 5, 4.5]])
         s, p = _compute_elevation_to_preservation(e)
-        assert np.all(s == np.array([[0, 3,   3],
-                                     [1, 3,   3],
-                                     [1, 4,   3],
-                                     [2, 4.5, 3],
-                                     [3, 5,   4.5]]))
-        assert np.all(p == np.array([[True,  False, False],
-                                     [True,  False, False],
-                                     [False, True,  False],
-                                     [True,  True,  False],
-                                     [True,  True,  True]]))
+        assert np.all(
+            s == np.array([[0, 3, 3], [1, 3, 3], [1, 4, 3], [2, 4.5, 3], [3, 5, 4.5]])
+        )
+        assert np.all(
+            p
+            == np.array(
+                [
+                    [True, False, False],
+                    [True, False, False],
+                    [False, True, False],
+                    [True, True, False],
+                    [True, True, True],
+                ]
+            )
+        )
 
     def test_3d_all_zeros(self):
         s, p = _compute_elevation_to_preservation(np.zeros((6, 4, 4)))
@@ -268,9 +261,9 @@ class TestComputeElevationToPreservation:
     def test_3d_all_aggrade(self):
         e = np.tile(np.arange(0, 3), (2, 2, 1)).T
         s, p = _compute_elevation_to_preservation(e)
-        assert np.all(s == np.array([[[0, 0], [0, 0]],
-                                     [[1, 1], [1, 1]],
-                                     [[2, 2], [2, 2]]]))
+        assert np.all(
+            s == np.array([[[0, 0], [0, 0]], [[1, 1], [1, 1]], [[2, 2], [2, 2]]])
+        )
         assert np.all(p == np.ones((3, 2, 2), dtype=bool))
 
     def test_3d_different_walks_return_valid_only_check(self):
@@ -359,7 +352,7 @@ class TestDetermineStratCoordinates:
 
     def test_given_none_chooses_default(self):
         e = np.array([0, 1, 1, 2, 1])
-        with pytest.warns(UserWarning, match=r'No specification *.'):
+        with pytest.warns(UserWarning, match=r"No specification *."):
             _ = _determine_strat_coordinates(e)
 
     def test_given_z(self):
@@ -516,72 +509,69 @@ class TestComputeNetToGross:
 
     def test_net_to_gross_nobg(self):
         net_to_gross = compute_net_to_gross(
-            self.golfstrat['sandfrac'],
-            net_threshold=0.5,
-            background=None)
+            self.golfstrat["sandfrac"], net_threshold=0.5, background=None
+        )
         assert np.all(net_to_gross) <= 1
         assert np.all(net_to_gross) >= 0
 
     def test_net_to_gross(self):
-        background = (self.golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
+        background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
         net_to_gross = compute_net_to_gross(
-            self.golfstrat['sandfrac'],
-            net_threshold=0.5,
-            background=background)
+            self.golfstrat["sandfrac"], net_threshold=0.5, background=background
+        )
         assert np.all(net_to_gross) <= 1
         assert np.all(net_to_gross) >= 0
 
     def test_net_to_gross_thresh0(self):
-        background = (self.golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
+        background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
         net_to_gross = compute_net_to_gross(
-            self.golfstrat['sandfrac'],
-            net_threshold=0.01,
-            background=background)
+            self.golfstrat["sandfrac"], net_threshold=0.01, background=background
+        )
         assert np.all(net_to_gross) <= 1
         assert np.all(net_to_gross) >= 0
 
     def test_net_to_gross_nothresh_default_is_half(self):
-        background = (self.golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
+        background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
         net_to_gross_05 = compute_net_to_gross(
-            self.golfstrat['sandfrac'],
-            net_threshold=0.5,
-            background=background)
+            self.golfstrat["sandfrac"], net_threshold=0.5, background=background
+        )
         net_to_gross_def = compute_net_to_gross(
-            self.golfstrat['sandfrac'],
-            background=background)
+            self.golfstrat["sandfrac"], background=background
+        )
         assert np.all(net_to_gross_def) <= 1
         assert np.all(net_to_gross_def) >= 0
         assert np.all(
             net_to_gross_def[~np.isnan(net_to_gross_def)]
-            == net_to_gross_05[~np.isnan(net_to_gross_05)])
+            == net_to_gross_05[~np.isnan(net_to_gross_05)]
+        )
 
 
 class TestComputeThicknessSurfaces:
 
     def test_compute_thickness_0(self):
         deposit_thickness0 = compute_thickness_surfaces(
-            golfcube['eta'][0, :, :],
-            golfcube['eta'][0, :, :])
-        zeros = (deposit_thickness0 == 0)
+            golfcube["eta"][0, :, :], golfcube["eta"][0, :, :]
+        )
+        zeros = deposit_thickness0 == 0
         nans = np.isnan(deposit_thickness0)
         assert np.all(np.logical_or(zeros, nans))  # all 0 or nan
 
     def test_compute_thickness_1(self):
         deposit_thickness1 = compute_thickness_surfaces(
-            golfcube['eta'][0, :, :],
-            golfcube['eta'][1, :, :])
-        zeros = (deposit_thickness1 == 0)
+            golfcube["eta"][0, :, :], golfcube["eta"][1, :, :]
+        )
+        zeros = deposit_thickness1 == 0
         nans = np.isnan(deposit_thickness1)
         assert np.any(~np.logical_or(zeros, nans))  # any not nan or 0
 
     def test_compute_thickness_total(self):
         deposit_thickness = compute_thickness_surfaces(
-            golfcube['eta'][-1, :, :],
-            np.min(golfcube['eta'], axis=0))
+            golfcube["eta"][-1, :, :], np.min(golfcube["eta"], axis=0)
+        )
         # zeros = (deposit_thickness == 0)
-        gtr_hb = (deposit_thickness > golfcube.meta['hb'].data)
+        gtr_hb = deposit_thickness > golfcube.meta["hb"].data
         # nans = np.isnan(deposit_thickness)
-        assert np.any(gtr_hb) # any greater than thickness
+        assert np.any(gtr_hb)  # any greater than thickness
 
 
 class TestComputeSedimentograph:
@@ -589,10 +579,10 @@ class TestComputeSedimentograph:
     golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
 
     def test_two_bins(self):
-        background = (self.golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
+        background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
         (s, r, b) = compute_sedimentograph(
-            self.golfstrat['sandfrac'],
-            background=background)
+            self.golfstrat["sandfrac"], background=background
+        )
         assert np.all(np.logical_or(s <= 1, np.isnan(s)))
         assert s.shape[0] == 10  # default is 10 sections
         assert s.shape[1] == 2  # default is 2 bins
@@ -601,60 +591,63 @@ class TestComputeSedimentograph:
         assert b.shape[0] - 1 == s.shape[1]  # edges - 1 is shape of sedgraph
 
     def test_two_bins_with_origin(self):
-        background = (self.golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
+        background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
         (s, r, b) = compute_sedimentograph(
-            self.golfstrat['sandfrac'],
-            background=background,
-            origin_idx=[3, 100])
+            self.golfstrat["sandfrac"], background=background, origin_idx=[3, 100]
+        )
         assert np.all(np.logical_or(s <= 1, np.isnan(s)))
         assert s.shape[0] == 10  # default is 10 sections
         assert r.shape[0] == s.shape[0]
         assert b.shape[0] - 1 == s.shape[1]  # edges - 1 is shape of sedgraph
 
     def test_two_bins_more_sects(self):
-        background = (self.golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
+        background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
         (s, r, b) = compute_sedimentograph(
-            self.golfstrat['sandfrac'],
+            self.golfstrat["sandfrac"],
             num_sections=50,
             background=background,
-            origin_idx=[3, 100])
+            origin_idx=[3, 100],
+        )
         assert np.all(np.logical_or(s <= 1, np.isnan(s)))
         assert s.shape[0] == 50  # match input
         assert r.shape[0] == s.shape[0]
         assert b.shape[0] - 1 == s.shape[1]  # edges - 1 is shape of sedgraph
 
     def test_two_bins_cust_rad(self):
-        background = (self.golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
+        background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
         (s, r, b) = compute_sedimentograph(
-            self.golfstrat['sandfrac'],
+            self.golfstrat["sandfrac"],
             last_section_radius=2750,
             background=background,
-            origin_idx=[3, 100])
+            origin_idx=[3, 100],
+        )
         assert np.all(np.logical_or(s <= 1, np.isnan(s)))
         assert r.shape[0] == s.shape[0]
         assert b.shape[0] - 1 == s.shape[1]  # edges - 1 is shape of sedgraph
         assert r[-1] == 2750
 
     def test_two_bins_cust_rad_long(self):
-        background = (self.golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
+        background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
         (s, r, b) = compute_sedimentograph(
-            self.golfstrat['sandfrac'],
+            self.golfstrat["sandfrac"],
             last_section_radius=4000,
             background=background,
-            origin_idx=[3, 100])
+            origin_idx=[3, 100],
+        )
         assert np.all(np.logical_or(s <= 1, np.isnan(s)))
         assert r.shape[0] == s.shape[0]
         assert b.shape[0] - 1 == s.shape[1]  # edges - 1 is shape of sedgraph
         assert r[-1] == 4000
-        assert np.any(np.isnan(s))# should be some nan
+        assert np.any(np.isnan(s))  # should be some nan
 
     def test_five_bins(self):
-        background = (self.golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
+        background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
         (s, r, b) = compute_sedimentograph(
-            self.golfstrat['sandfrac'],
+            self.golfstrat["sandfrac"],
             sediment_bins=np.linspace(0, 1, num=6, endpoint=True),
             background=background,
-            origin_idx=[3, 100])
+            origin_idx=[3, 100],
+        )
         assert np.all(np.logical_or(s <= 1, np.isnan(s)))
         assert s.shape[1] == 5  # default is 2 bins
         assert b.shape[0] == 6  # default is 2 bins, 3 edges
@@ -662,13 +655,14 @@ class TestComputeSedimentograph:
         assert b.shape[0] - 1 == s.shape[1]  # edges - 1 is shape of sedgraph
 
     def test_time_variable(self):
-        background = (self.golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
+        background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
 
         (s, r, b) = compute_sedimentograph(
-            self.golfstrat['time'],
+            self.golfstrat["time"],
             num_sections=50,
             last_section_radius=2750,
             sediment_bins=np.linspace(0, float(golfcube.t[-1]), num=5),
             background=background,
-            origin_idx=[3, 100])
+            origin_idx=[3, 100],
+        )
         assert np.all(np.logical_or(s <= 1, np.isnan(s)))
