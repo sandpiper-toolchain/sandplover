@@ -452,11 +452,10 @@ class BaseCube(abc.ABC):
             >>> from deltametrics.sample_data.sample_data import golf
 
             >>> golfcube = golf()
-            >>> golfstrat = StratigraphyCube.from_DataCube(
-            ...     golfcube, dz=0.1)
+            >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
             >>> fig, ax = plt.subplots(2, 1)
-            >>> golfcube.quick_show('eta', ax=ax[0])  # a Planform (axis=0)
-            >>> golfstrat.quick_show('eta', idx=100, axis=2, ax=ax[1])  # a DipSection
+            >>> golfcube.quick_show("eta", ax=ax[0])  # a Planform (axis=0)
+            >>> golfstrat.quick_show("eta", idx=100, axis=2, ax=ax[1])  # a DipSection
         """
         if axis == 0:
             # this is a planform slice
@@ -509,15 +508,13 @@ class BaseCube(abc.ABC):
         >>> from deltametrics.sample_data.sample_data import golf
 
         >>> golfcube = golf()
-        >>> golfstrat = StratigraphyCube.from_DataCube(
-        ...     golfcube, dz=0.1)
-        ...
+        >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
         >>> fig, ax = plt.subplots()
-        >>> golfstrat.show_cube('eta', ax=ax)  # doctest: +SKIP
+        >>> golfstrat.show_cube("eta", ax=ax)  # doctest: +SKIP
 
         >>> golfcube = golf()
         >>> fig, ax = plt.subplots()
-        >>> golfcube.show_cube('velocity', style='fence', ax=ax)  # doctest: +SKIP
+        >>> golfcube.show_cube("velocity", style="fence", ax=ax)  # doctest: +SKIP
         """
         try:
             import pyvista as pv

@@ -47,7 +47,7 @@ class NoStratigraphyError(AttributeError):
 
     With the `var` argument given as ``'strat_attr'``:
 
-    >>> raise NoStratigraphyError(golfcube, 'strat_attr')
+    >>> raise NoStratigraphyError(golfcube, "strat_attr")
     Traceback (most recent call last):
     deltametrics.utils.NoStratigraphyError: 'DataCube' object has no preservation
     or stratigraphy information.
@@ -328,8 +328,8 @@ def line_to_cells(*args):
         >>> fig, ax = plt.subplots(figsize=(2, 2))
         >>> _arr = np.zeros((10, 10))
         >>> _arr[y, x] = 1
-        >>> _ = ax.imshow(_arr, cmap='gray')
-        >>> _ = ax.plot([p0[0], p1[0]], [p0[1], p1[1]], 'r-')
+        >>> _ = ax.imshow(_arr, cmap="gray")
+        >>> _ = ax.plot([p0[0], p1[0]], [p0[1], p1[1]], "r-")
     """
     # process the args
     if len(args) == 1:
