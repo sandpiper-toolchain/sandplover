@@ -20,7 +20,7 @@ The data that make up the section can view the section as a `spacetime` section 
 
     >>> rcm8cube = dm.sample_data.golf()
     >>> strike = dm.section.StrikeSection(rcm8cube, distance_idx=10)
-    >>> strike['velocity']
+    >>> strike["velocity"]
     <xarray.DataArray 'velocity' (time: 101, s: 200)> Size: 81kB
     array([[0.2   , 0.2   , 0.2   , ..., 0.2   , 0.2   , 0.2   ],
            [0.    , 0.    , 0.    , ..., 0.    , 0.    , 0.    ],
@@ -45,8 +45,8 @@ The same `spacetime` data can be requested in the "preserved" form, where non-pr
 
 .. doctest::
 
-    >>> rcm8cube.stratigraphy_from('eta')
-    >>> strike['velocity'].strat.as_preserved()
+    >>> rcm8cube.stratigraphy_from("eta")
+    >>> strike["velocity"].strat.as_preserved()
     <xarray.DataArray 'velocity' (time: 101, s: 200)> Size: 81kB
     array([[0.2, 0.2, 0.2, ..., 0.2, 0.2, 0.2],
            [nan, nan, nan, ..., nan, nan, nan],
@@ -72,13 +72,13 @@ We can display the arrays using `matplotlib` to examine the spatiotemporal chang
 .. code::
 
     >>> fig, ax = plt.subplots(2, 1, sharex=True, figsize=(6, 3.5))
-    >>> golfcube.sections['demo'].show('velocity', ax=ax[0])
-    >>> ax[0].set_ylabel('$t$ coordinate')
+    >>> golfcube.sections["demo"].show("velocity", ax=ax[0])
+    >>> ax[0].set_ylabel("$t$ coordinate")
 
-    >>> golfcube.sections['demo'].show('velocity', data='preserved', ax=ax[1])
-    >>> ax[1].set_ylabel('$t$ coordinate')
+    >>> golfcube.sections["demo"].show("velocity", data="preserved", ax=ax[1])
+    >>> ax[1].set_ylabel("$t$ coordinate")
 
-    >>> ax[1].set_xlabel('$s$ coordinate')
+    >>> ax[1].set_xlabel("$s$ coordinate")
 
 .. plot:: section/section_lexicon.py
 

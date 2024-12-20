@@ -1,11 +1,7 @@
 golfcube = dm.sample_data.golf()
 #
-m0 = dm.mask.LandMask(
-    golfcube['eta'][-1, :, :],
-    elevation_threshold=0)
-m1 = dm.mask.LandMask(
-    golfcube['eta'][-1, :, :],
-    elevation_threshold=0)
+m0 = dm.mask.LandMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
+m1 = dm.mask.LandMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 #
 m1.trim_mask(length=3)
 #

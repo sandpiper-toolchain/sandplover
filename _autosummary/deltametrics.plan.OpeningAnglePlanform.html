@@ -179,13 +179,10 @@ thus passed to <a class="reference internal" href="deltametrics.plan.shaw_openin
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">_EM</span> <span class="o">=</span> <span class="n">ElevationMask</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
-<span class="gp">... </span>    <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_EM</span> <span class="o">=</span> <span class="n">ElevationMask</span><span class="p">(</span><span class="n">golfcube</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">OAP</span> <span class="o">=</span> <span class="n">OpeningAnglePlanform</span><span class="o">.</span><span class="n">from_ElevationMask</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">_EM</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">OAP</span> <span class="o">=</span> <span class="n">OpeningAnglePlanform</span><span class="o">.</span><span class="n">from_ElevationMask</span><span class="p">(</span><span class="n">_EM</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -233,8 +230,8 @@ turn used to create the <cite>OpeningAnglePlanform</cite>.</p>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">OAP</span> <span class="o">=</span> <span class="n">OpeningAnglePlanform</span><span class="o">.</span><span class="n">from_elevation_data</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
-<span class="gp">... </span>    <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span>
+<span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>

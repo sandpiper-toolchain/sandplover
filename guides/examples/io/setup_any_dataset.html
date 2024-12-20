@@ -129,8 +129,8 @@ NetCDF was designed with dimensional data in mind, so that we can use common dim
 <p>You can use <cite>None</cite> as the length of the time dimension, if you want to create the NetCDF file while your model runs, and you do not know the size a priori.</p>
 </div>
 <p>(<a class="reference download internal" download="" href="../../../_downloads/fe18307d7bc4ded0f4557a8119be8b2d/setup_any_dataset-3.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">output_folder</span> <span class="o">=</span> <span class="s1">&#39;./output&#39;</span>
-<span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="s1">&#39;model_output.nc&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">output_folder</span> <span class="o">=</span> <span class="s2">&quot;./output&quot;</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="s2">&quot;model_output.nc&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">## create and fill the netcdf file</span>
@@ -262,11 +262,8 @@ NetCDF was designed with dimensional data in mind, so that we can use common dim
 We do not anticipate this will affect many users, but if you need the ability to add metadata to the <cite>DataCube</cite> from dictionary input, please open an issue request or submit a pull request.</p>
 <p>If you want a basic workaround, you can create a dictionary inside the input dictionary, named <cite>meta</cite>. For example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dict_datacube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">DataCube</span><span class="p">(</span>
-    <span class="n">data_dict</span><span class="p">,</span>
-    <span class="n">dimensions</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span>
-                <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span>
-                <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
-                <span class="s1">&#39;meta&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;H_SL&#39;</span><span class="p">:</span> <span class="n">H_SL</span><span class="p">}})</span>
+    <span class="n">data_dict</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;meta&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;H_SL&quot;</span><span class="p">:</span> <span class="n">H_SL</span><span class="p">}}</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p>But be aware that dimensions will not be attached to the metadata (unless you pass in a <cite>DataArray</cite>), and you cannot use the <cite>.meta</cite> accessor, and instead would need to use <code class="docutils literal notranslate"><span class="pre">dict_datacube['meta']['H_SL']</span></code>.</p>

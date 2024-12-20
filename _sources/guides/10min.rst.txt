@@ -7,8 +7,8 @@ For a more in depth guide, be sure to check out the :doc:`userguide`.
 
 .. testsetup:: *
 
-   import deltametrics as dm
-   import numpy as np
+   >>> import deltametrics as dm
+   >>> import numpy as np
 
 All of the documentation in this package assumes that you have imported the DeltaMetrics package as ``dm``:
 
@@ -56,17 +56,17 @@ Slicing a cube returns an instance of :obj:`~deltametrics.cube.CubeVariable`, wh
 
 .. doctest::
 
-    >>> type(golfcube['velocity'])
+    >>> type(golfcube["velocity"])
     <class 'xarray.core.dataarray.DataArray'>
 
-    >>> type(golfcube['velocity'].data)
+    >>> type(golfcube["velocity"].data)
     <class 'numpy.ndarray'>
 
 The underlying xarray object can be directly accessed by using a ``.data`` attribute, however, this is not necessary, and you can slice the `CubeVariable` directly with any valid `numpy` slicing style. For example, we could determine how much the average bed elevation changed at a specific location in the model domain (43, 123), by slicing the ``eta`` variable, and differencing timesteps.
 
 .. doctest::
 
-    >>> np.mean( golfcube['eta'][1:,43,123] - golfcube['eta'][:-1,43,123] )
+    >>> np.mean(golfcube["eta"][1:, 43, 123] - golfcube["eta"][:-1, 43, 123])
     <xarray.DataArray 'eta' ()> Size: 4B
     array(0., dtype=float32)
     Coordinates:
@@ -99,10 +99,10 @@ of the Cube at the fortieth (40th) timestep:
     >>> import matplotlib.pyplot as plt
 
     >>> fig, ax = plt.subplots(1, 3)
-    >>> golfcube.quick_show('eta', idx=40, ax=ax[0])
-    >>> golfcube.quick_show('velocity', idx=40, ax=ax[1], ticks=True)
-    >>> golfcube.quick_show('sandfrac', idx=40, ax=ax[2])
-    >>> plt.show() #doctest: +SKIP
+    >>> golfcube.quick_show("eta", idx=40, ax=ax[0])
+    >>> golfcube.quick_show("velocity", idx=40, ax=ax[1], ticks=True)
+    >>> golfcube.quick_show("sandfrac", idx=40, ax=ax[2])
+    >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/10min_three_plans.py
 
@@ -118,7 +118,7 @@ We must directly tell the Cube instance to compute stratigraphy by specifying wh
 
 .. doctest::
 
-    >>> golfcube.stratigraphy_from('eta', dz=0.1)
+    >>> golfcube.stratigraphy_from("eta", dz=0.1)
 
 For this example, the stratigraphic computation is relatively fast (< one second), but for large data domains covering a large amount of time, this computation may not be as fast.
 The stratigraphy computed via `stratigraphy_from` is often referred to as "quick" stratigraphy, and may be helpful for visualizing cross sections of the deposit, but we recommend creating a :obj:`~deltametrics.cube.StratigraphyCube` from a `DataCube` for thorough analysis of stratigraphy.
@@ -129,23 +129,26 @@ For a data cube, sections are most easily instantiated by the :obj:`~deltametric
 
 .. doctest::
 
-    >>> golfcube.register_section('demo', dm.section.StrikeSection(distance_idx=10))
+    >>> golfcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
 
 which can then be accessed via the :obj:`~deltametrics.cube.Cube.sections` attribute of the Cube.
 
 .. doctest::
 
-    >>> golfcube.sections['demo']
+    >>> golfcube.sections["demo"]
     <deltametrics.section.StrikeSection object at 0x...>
 
 Using the "quick" stratigraphy, we can visualize a few of the available data variables as stratigraphy:
 
 .. doctest::
 
-    >>> fig, ax = plt.subplots(5, 1, sharex=True, figsize=(8,5))
+    >>> fig, ax = plt.subplots(5, 1, sharex=True, figsize=(8, 5))
     >>> ax = ax.flatten()
-    >>> for i, var in enumerate(['time', 'eta', 'velocity', 'discharge', 'sandfrac']):
-    ...    golfcube.show_section('demo', var, data='stratigraphy', ax=ax[i], label=True)
-    >>> plt.show() #doctest: +SKIP
+    >>> for i, var in enumerate(["time", "eta", "velocity", "discharge", "sandfrac"]):
+    ...     golfcube.show_section(
+    ...         "demo", var, data="stratigraphy", ax=ax[i], label=True
+    ...     )
+    ...
+    >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/10min_all_sections_strat.py

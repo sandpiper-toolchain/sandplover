@@ -107,8 +107,8 @@ Now, we write out the data to a netCDF file.
 
 .. code::
 
-    output_folder = './output'
-    file_path = os.path.join(output_folder, 'model_output.nc')
+    output_folder = "./output"
+    file_path = os.path.join(output_folder, "model_output.nc")
 
 .. plot::
     :include-source:
@@ -247,11 +247,8 @@ If you want a basic workaround, you can create a dictionary inside the input dic
 .. code::
 
     dict_datacube = dm.cube.DataCube(
-        data_dict,
-        dimensions={'time': t,
-                    'y': y,
-                    'x': x,
-                    'meta': {'H_SL': H_SL}})
+        data_dict, dimensions={"time": t, "y": y, "x": x, "meta": {"H_SL": H_SL}}
+    )
 
 But be aware that dimensions will not be attached to the metadata (unless you pass in a `DataArray`), and you cannot use the `.meta` accessor, and instead would need to use ``dict_datacube['meta']['H_SL']``.
 

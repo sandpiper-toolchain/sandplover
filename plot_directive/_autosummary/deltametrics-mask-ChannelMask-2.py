@@ -8,20 +8,16 @@ golfcube = golf()
 #
 # Create the ElevationMask
 #
-emsk = ElevationMask(
-    golfcube['eta'][-1, :, :],
-    elevation_threshold=0)
+emsk = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 #
 # Create the FlowMask
 #
-fmsk = FlowMask(
-    golfcube['velocity'][-1, :, :],
-    flow_threshold=0.3)
+fmsk = FlowMask(golfcube["velocity"][-1, :, :], flow_threshold=0.3)
 #
 # Make the ChannelMask from the ElevationMask and FlowMask
 #
 cmsk = ChannelMask.from_mask(emsk, fmsk)
 #
 fig, ax = plt.subplots(1, 2, figsize=(8, 4))
-golfcube.quick_show('eta', idx=-1, ax=ax[0])
+golfcube.quick_show("eta", idx=-1, ax=ax[0])
 cmsk.show(ax=ax[1])

@@ -3,10 +3,8 @@ from deltametrics.mask import LandMask
 from deltametrics.sample_data.sample_data import golf
 #
 golfcube = golf()
-lmsk = LandMask(
-    golfcube['eta'][-1, :, :],
-    elevation_threshold=0)
+lmsk = LandMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 #
 fig, ax = plt.subplots(1, 2, figsize=(8, 4))
-golfcube.quick_show('eta', idx=-1, ax=ax[0])
+golfcube.quick_show("eta", idx=-1, ax=ax[0])
 lmsk.show(ax=ax[1])

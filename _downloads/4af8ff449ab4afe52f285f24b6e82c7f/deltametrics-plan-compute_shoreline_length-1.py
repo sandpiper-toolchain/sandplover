@@ -7,16 +7,14 @@ golf = golf()
 # Early in model run
 #
 sm0 = ShorelineMask(
-golf['eta'][15, :, :],
-elevation_threshold=0,
-elevation_offset=-0.5)
+    golf["eta"][15, :, :], elevation_threshold=0, elevation_offset=-0.5
+)
 #
 # Late in model run
 #
 sm1 = ShorelineMask(
-golf['eta'][-1, :, :],
-elevation_threshold=0,
-elevation_offset=-0.5)
+    golf["eta"][-1, :, :], elevation_threshold=0, elevation_offset=-0.5
+)
 #
 # Compute lengths
 #
@@ -28,8 +26,8 @@ len1, line1 = compute_shoreline_length(sm1, return_line=True)
 import matplotlib.pyplot as plt
 #
 fig, ax = plt.subplots(1, 2, figsize=(6, 3))
-golf.quick_show('eta', idx=15, ax=ax[0])
-_ = ax[0].set_title('length = {:.2f}'.format(len0))
-golf.quick_show('eta', idx=-1, ax=ax[1])
-_ = ax[1].plot(line1[:, 0], line1[:, 1], 'r-')
-_ = ax[1].set_title('length = {:.2f}'.format(len1))
+golf.quick_show("eta", idx=15, ax=ax[0])
+_ = ax[0].set_title("length = {:.2f}".format(len0))
+golf.quick_show("eta", idx=-1, ax=ax[1])
+_ = ax[1].plot(line1[:, 0], line1[:, 1], "r-")
+_ = ax[1].set_title("length = {:.2f}".format(len1))

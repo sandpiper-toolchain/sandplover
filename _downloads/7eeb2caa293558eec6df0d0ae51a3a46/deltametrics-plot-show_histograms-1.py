@@ -14,4 +14,4 @@ hist_bin_sets = [
 fig, ax = plt.subplots()
 show_histograms(*hist_bin_sets, sets=[0, 1, 0, 1, 2], ax=ax)
 _ = ax.set_xlim((0, 6))
-_ = ax.set_ylabel('density')
+_ = ax.set_ylabel("density")
