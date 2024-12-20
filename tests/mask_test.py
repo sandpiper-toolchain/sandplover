@@ -757,7 +757,10 @@ class TestLandMask:
 
     @pytest.mark.xfail(
         strict=True,
-        reason="Breaking change to OAP leads to inlet not being classified as land. (v0.4.3).",
+        reason=(
+            "Breaking change to OAP leads to inlet not being classified as"
+            " land. (v0.4.3)."
+        ),
     )
     def test_submergedLand(self):
         """Check what happens when there is no land above water."""
@@ -935,7 +938,10 @@ class TestWetMask:
 
     @pytest.mark.xfail(
         strict=True,
-        reason="Breaking change to OAP leads to inlet not being classified as land. (v0.4.3).",
+        reason=(
+            "Breaking change to OAP leads to inlet not being classified as"
+            " land. (v0.4.3)."
+        ),
     )
     def test_submergedLand(self):
         """Check what happens when there is no land above water."""
@@ -1113,7 +1119,10 @@ class TestChannelMask:
 
     @pytest.mark.xfail(
         strict=True,
-        reason="Breaking change to OAP leads to inlet not being classified as land. (v0.4.3).",
+        reason=(
+            "Breaking change to OAP leads to inlet not being classified as"
+            " land. (v0.4.3)."
+        ),
     )
     def test_submergedLand(self):
         """Check what happens when there is no land above water."""
@@ -1312,7 +1321,10 @@ class TestEdgeMask:
 
     @pytest.mark.xfail(
         strict=True,
-        reason="Breaking change to OAP leads to inlet not being classified as land. (v0.4.3).",
+        reason=(
+            "Breaking change to OAP leads to inlet not being classified as"
+            " land. (v0.4.3)."
+        ),
     )
     def test_submergedLand(self):
         """Check what happens when there is no land above water."""
@@ -1471,7 +1483,10 @@ class TestCenterlineMask:
 
     @pytest.mark.xfail(
         strict=True,
-        reason="Breaking change to OAP leads to inlet not being classified as land. (v0.4.3).",
+        reason=(
+            "Breaking change to OAP leads to inlet not being classified as"
+            " land. (v0.4.3)."
+        ),
     )
     def test_submergedLand(self):
         """Check what happens when there is no land above water."""
