@@ -721,7 +721,7 @@ class ChannelMask(BaseMask):
         """Compute the ChannelMask.
 
         Note that this method in implementation should rely only on *array*
-        masks, not on the dm.mask objects.
+        masks, not on the spl.mask objects.
 
         For this Mask, we require a landmask array and a flowmask array.
         """
@@ -796,7 +796,7 @@ class WetMask(BaseMask):
 
         Needs both an ElevationMask and a LandMask, or just an ElevationMask
         and will make a LandMask internally (creates a
-        `~dm.plan.OpeningAnglePlanform`); consider alternative static method
+        `~spl.plan.OpeningAnglePlanform`); consider alternative static method
         :obj:`from_OAP_and_ElevationMask` if you are computing many masks.
 
         Examples
@@ -1093,7 +1093,7 @@ class LandMask(BaseMask):
         .. note::
 
             This class currently computes the mask via the Shaw opening
-            angle method (:obj:`~dm.plan.shaw_opening_angle_method`). However,
+            angle method (:obj:`~spl.plan.shaw_opening_angle_method`). However,
             it could/should be generalized to support multiple implementations
             via a `method` argument. Then, the `contour_threshold` might not be
             a property any longer, and should be treated just as any keyword
@@ -1305,9 +1305,9 @@ class ShorelineMask(BaseMask):
         .. note::
 
             This class currently computes the mask by either the Shaw Opening
-            Angle Method (:obj:`~dm.plan.shaw_opening_angle_method`) or the
+            Angle Method (:obj:`~spl.plan.shaw_opening_angle_method`) or the
             morphological closing method
-            (:obj:`~dm.plan.morphological_closing_method`). Other
+            (:obj:`~spl.plan.morphological_closing_method`). Other
             implementations can be used if manually implemented, and then
             the computed mask can be passed via via a `method` argument. For example,
             a sobel edge detection and morphological thinning on a LandMask

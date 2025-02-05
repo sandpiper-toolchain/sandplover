@@ -303,7 +303,7 @@ class BaseCube(abc.ABC):
         When the API for instantiation of the different section types is
         settled, we should enable the ability to pass section kwargs to this
         method, and then instantiate the section internally. This avoids the
-        user having to specify ``dm.section.StrikeSection(distance=2000)`` in
+        user having to specify ``spl.section.StrikeSection(distance=2000)`` in
         the ``register_section()`` call, and instead can do something like
         ``golf.register_section('trial', trace='strike',
         distance=2000)``.

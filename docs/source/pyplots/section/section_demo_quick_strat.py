@@ -2,9 +2,9 @@ import matplotlib.pyplot as plt
 
 import sandplover as spl
 
-golfcube = dm.sample_data.golf()
+golfcube = spl.sample_data.golf()
 golfcube.stratigraphy_from("eta")
-golfcube.register_section("demo", dm.section.StrikeSection(distance=250))
+golfcube.register_section("demo", spl.section.StrikeSection(distance=250))
 
 fig, ax = plt.subplots(4, 1, sharex=True, figsize=(8, 6))
 golfcube.sections["demo"].show("depth", data="spacetime", ax=ax[0], label="spacetime")

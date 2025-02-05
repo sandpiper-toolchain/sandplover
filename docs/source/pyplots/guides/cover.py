@@ -2,11 +2,11 @@ import matplotlib.pyplot as plt
 
 import sandplover as spl
 
-golfcube = dm.sample_data.golf()
-golfstrat = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
+golfcube = spl.sample_data.golf()
+golfstrat = spl.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
 
-plan = dm.plan.Planform(golfcube, idx=-1)
-sect = dm.section.StrikeSection(golfstrat, distance_idx=20)
+plan = spl.plan.Planform(golfcube, idx=-1)
+sect = spl.section.StrikeSection(golfstrat, distance_idx=20)
 
 _labelsize = 7
 _ticksize = 7

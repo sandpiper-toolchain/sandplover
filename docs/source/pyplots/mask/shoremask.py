@@ -3,6 +3,6 @@
 import sandplover as spl
 from sandplover.mask import ShorelineMask
 
-golfcube = dm.sample_data.golf()
+golfcube = spl.sample_data.golf()
 shore_mask = ShorelineMask(golfcube["eta"].data[-1, :, :])
 shore_mask.show()

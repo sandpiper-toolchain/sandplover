@@ -1,14 +1,14 @@
 import matplotlib.gridspec as gs
 
-golfcube = dm.sample_data.golf()
+golfcube = spl.sample_data.golf()
 
-_strike = dm.section.StrikeSection(golfcube, distance=1200)
-_dip = dm.section.DipSection(golfcube, distance=3000)
-_path = dm.section.PathSection(
+_strike = spl.section.StrikeSection(golfcube, distance=1200)
+_dip = spl.section.DipSection(golfcube, distance=3000)
+_path = spl.section.PathSection(
     golfcube, path=np.array([[1400, 2000], [2000, 4000], [3000, 6000]])
 )
-_circ = dm.section.CircularSection(golfcube, radius=2000)
-_rad = dm.section.RadialSection(golfcube, azimuth=70)
+_circ = spl.section.CircularSection(golfcube, radius=2000)
+_rad = spl.section.RadialSection(golfcube, azimuth=70)
 
 fig = plt.figure(constrained_layout=False, figsize=(10, 9))
 spec = gs.GridSpec(

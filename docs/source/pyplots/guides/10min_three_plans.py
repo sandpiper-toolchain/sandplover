@@ -1,4 +1,4 @@
-golfcube = dm.sample_data.golf()
+golfcube = spl.sample_data.golf()
 
 fig, ax = plt.subplots(1, 3, figsize=(10, 3))
 golfcube.quick_show("eta", idx=40, ax=ax[0])

@@ -1,11 +1,11 @@
 import matplotlib.gridspec as gs
 
-golfcube = dm.sample_data.golf()
+golfcube = spl.sample_data.golf()
 golfcube.stratigraphy_from("eta")
-golfcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
+golfcube.register_section("demo", spl.section.StrikeSection(distance_idx=10))
 
-stratcube = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
-stratcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
+stratcube = spl.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
+stratcube.register_section("demo", spl.section.StrikeSection(distance_idx=10))
 
 fs = stratcube.export_frozen_variable("sandfrac")
 fe = stratcube.Z  # exported volume does not have coordinate information!
@@ -20,4 +20,4 @@ pcm = ax.pcolormesh(
     vmin=golfcube.varset["sandfrac"].vmin,
     vmax=golfcube.varset["sandfrac"].vmax,
 )
-dm.plot.append_colorbar(pcm, ax)
+spl.plot.append_colorbar(pcm, ax)

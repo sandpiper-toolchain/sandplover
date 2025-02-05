@@ -104,7 +104,7 @@ def xslope():
     .. important::
 
         This sample data provides **two** datasets. Calling this function
-        returns two :obj:`~dm.cube.DataCube`.
+        returns two :obj:`~spl.cube.DataCube`.
 
     Models were run on 02/21/2022, at the University of Texas at Austin.
 
@@ -148,10 +148,10 @@ def xslope():
     Returns
     -------
     xslope0
-        First return, a :obj:`~dm.cube.DataCube` with flat basin.
+        First return, a :obj:`~spl.cube.DataCube` with flat basin.
 
     xslope1
-        Second return, a :obj:`~dm.cube.DataCube` with sloped basin in the
+        Second return, a :obj:`~spl.cube.DataCube` with sloped basin in the
         cross-stream direction. Slope is 0.001 m/m, with elevation centered
         at channel inlet.
     """
@@ -203,7 +203,7 @@ def aeolian():
         >>> import numpy as np
         >>> import sandplover as spl
 
-        >>> aeolian = dm.sample_data.aeolian()
+        >>> aeolian = spl.sample_data.aeolian()
         >>> nt = 5
         >>> ts = np.linspace(0, aeolian["eta"].shape[0] - 1, num=nt, dtype=int)
 
@@ -252,7 +252,7 @@ def rcm8():
 
         >>> with warnings.catch_warnings():
         ...     warnings.simplefilter("ignore")
-        ...     rcm8 = dm.sample_data.rcm8()
+        ...     rcm8 = spl.sample_data.rcm8()
         ...
         >>> nt = 5
         >>> ts = np.linspace(0, rcm8["eta"].shape[0] - 1, num=nt, dtype=int)
@@ -290,7 +290,7 @@ def landsat():
         >>> import numpy as np
         >>> import sandplover as spl
 
-        >>> landsat = dm.sample_data.landsat()
+        >>> landsat = spl.sample_data.landsat()
         >>> nt = landsat.shape[0]
 
         >>> maxr = np.max(landsat["Red"][:])
@@ -350,7 +350,7 @@ def savi2020():
     .. important::
 
         This sample data provides **two** datasets. Calling this function
-        returns two :obj:`~dm.cube.DataCube` objects.
+        returns two :obj:`~spl.cube.DataCube` objects.
 
     Data available at Zenodo, version 1.1: https://doi.org/10.5281/zenodo.7080126
 
@@ -364,7 +364,7 @@ def savi2020():
         >>> import numpy as np
         >>> import sandplover as spl
 
-        >>> img, scans = dm.sample_data.savi2020()
+        >>> img, scans = spl.sample_data.savi2020()
         >>> nt = 5
         >>> ts_i = np.linspace(0, img["red"].shape[0] - 1, num=nt, dtype=int)
         >>> ts_s = np.linspace(0, scans["eta"].shape[0] - 1, num=nt, dtype=int)
@@ -386,10 +386,10 @@ def savi2020():
     Returns
     -------
     img
-        First return, a :obj:`~dm.cube.DataCube` with subset overhead imagery.
+        First return, a :obj:`~spl.cube.DataCube` with subset overhead imagery.
 
     scans
-        Second return, a :obj:`~dm.cube.DataCube` with topographic scan data.
+        Second return, a :obj:`~spl.cube.DataCube` with topographic scan data.
 
     """
     savi2020_img_path, savi2020_scan_path = _get_savi2020_path()

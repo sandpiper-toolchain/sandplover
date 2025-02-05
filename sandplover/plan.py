@@ -1318,7 +1318,7 @@ def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
     """Compute the length of a shoreline from a mask of the shoreline.
 
     Algorithm attempts to determine the sorted coordinates of the shoreline
-    from a :obj:`~dm.mask.ShorelineMask`.
+    from a :obj:`~spl.mask.ShorelineMask`.
 
     .. warning::
 
@@ -2057,7 +2057,7 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
 
     In essence, this processing implicitly assumes that the section cuts each
     channel perpendicularly. We therefore recommend using this function with
-    a `~dm.section.CircularSection` type, unless you know what you are doing.
+    a `~spl.section.CircularSection` type, unless you know what you are doing.
     By default, only the mean and standard deviation are returned, but the
     list of widths can be returned with `return_widths=True`.
 
