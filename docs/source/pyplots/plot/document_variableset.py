@@ -2,7 +2,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
-import deltametrics as dm
+import sandplover as dm
 
 vs = dm.plot.VariableSet()
 

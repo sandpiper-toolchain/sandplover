@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-import deltametrics as dm
+import sandplover as dm
 
 golfcube = dm.sample_data.golf()
 golfcube.stratigraphy_from("eta")

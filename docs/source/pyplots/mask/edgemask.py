@@ -1,7 +1,7 @@
 """Visual for EdgeMask."""
 
-import deltametrics as dm
-from deltametrics.mask import EdgeMask
+import sandplover as dm
+from sandplover.mask import EdgeMask
 
 golfcube = dm.sample_data.golf()
 edge_mask = EdgeMask(golfcube["eta"].data[-1, :, :])

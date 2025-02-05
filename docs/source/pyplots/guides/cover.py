@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-import deltametrics as dm
+import sandplover as dm
 
 golfcube = dm.sample_data.golf()
 golfstrat = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)

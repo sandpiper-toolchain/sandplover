@@ -1,7 +1,7 @@
 """Visual for ChannelMask."""
 
-import deltametrics as dm
-from deltametrics.mask import ChannelMask
+import sandplover as dm
+from sandplover.mask import ChannelMask
 
 golfcube = dm.sample_data.golf()
 channel_mask = ChannelMask(
