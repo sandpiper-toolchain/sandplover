@@ -1,5 +1,5 @@
 [project]
-name = "DeltaMetrics"
+name = "sandplover"
 requires-python = ">=3.11"
 description = "Tools for manipulating sedimentologic data cubes."
 keywords = []
@@ -44,9 +44,9 @@ dynamic = [
 text = "MIT"
 
 [project.urls]
-documentation = "https://deltarcm.github.io/deltametrics"
-homepage = "https://github.com/DeltaRCM/DeltaMetrics"
-repository = "https://github.com/DeltaRCM/DeltaMetrics"
+documentation = "https://sandpiper-toolchain.github.io/sandplover"
+homepage = "https://github.com/sandpiper-toolchain/sandplover"
+repository = "https://github.com/sandpiper-toolchain/sandplover"
 
 [project.optional-dependencies]
 docs = [
@@ -67,7 +67,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.isort]
 combine_as_imports = true
-known_first_party = "deltametrics"
+known_first_party = "sandplover"
 profile = "black"
 
 [tool.setuptools]
@@ -78,10 +78,10 @@ file = "README.rst"
 content-type = "text/x-rst"
 
 [tool.setuptools.dynamic.version]
-attr = "deltametrics._version.__version__"
+attr = "sandplover._version.__version__"
 
 [tool.setuptools.package-data]
-deltametrics = [
+sandplover = [
     "sample_data/registry.txt",
 ]
 
@@ -90,7 +90,7 @@ where = [
     ".",
 ]
 include = [
-    "deltametrics*",
+    "sandplover*",
 ]
 
 [tool.coverage.run]
@@ -99,7 +99,7 @@ relative_files = true
 [tool.pytest.ini_options]
 minversion = "6.0"
 testpaths = [
-    "deltametrics",
+    "sandplover",
     "tests",
 ]
 norecursedirs = [
