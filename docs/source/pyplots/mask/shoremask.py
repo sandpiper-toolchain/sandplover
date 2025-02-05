@@ -1,6 +1,6 @@
 """Visual for ShoreMask."""
 
-import sandplover as dm
+import sandplover as spl
 from sandplover.mask import ShorelineMask
 
 golfcube = dm.sample_data.golf()

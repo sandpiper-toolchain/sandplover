@@ -1,6 +1,6 @@
 """Visual for WetMask."""
 
-import sandplover as dm
+import sandplover as spl
 from sandplover.mask import WetMask
 
 golfcube = dm.sample_data.golf()

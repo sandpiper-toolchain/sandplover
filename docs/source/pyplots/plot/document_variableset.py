@@ -2,7 +2,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
-import sandplover as dm
+import sandplover as spl
 
 vs = dm.plot.VariableSet()
 

@@ -1,6 +1,6 @@
 """Visual for CenterlineMask."""
 
-import sandplover as dm
+import sandplover as spl
 from sandplover.mask import CenterlineMask
 from sandplover.mask import ChannelMask
 

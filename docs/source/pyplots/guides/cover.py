@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-import sandplover as dm
+import sandplover as spl
 
 golfcube = dm.sample_data.golf()
 golfstrat = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)

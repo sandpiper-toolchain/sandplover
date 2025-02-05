@@ -201,7 +201,7 @@ def aeolian():
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> import sandplover as dm
+        >>> import sandplover as spl
 
         >>> aeolian = dm.sample_data.aeolian()
         >>> nt = 5
@@ -248,7 +248,7 @@ def rcm8():
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
         >>> import warnings
-        >>> import sandplover as dm
+        >>> import sandplover as spl
 
         >>> with warnings.catch_warnings():
         ...     warnings.simplefilter("ignore")
@@ -288,7 +288,7 @@ def landsat():
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> import sandplover as dm
+        >>> import sandplover as spl
 
         >>> landsat = dm.sample_data.landsat()
         >>> nt = landsat.shape[0]
@@ -362,7 +362,7 @@ def savi2020():
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> import sandplover as dm
+        >>> import sandplover as spl
 
         >>> img, scans = dm.sample_data.savi2020()
         >>> nt = 5

@@ -1,6 +1,6 @@
 """Visual for EdgeMask."""
 
-import sandplover as dm
+import sandplover as spl
 from sandplover.mask import EdgeMask
 
 golfcube = dm.sample_data.golf()

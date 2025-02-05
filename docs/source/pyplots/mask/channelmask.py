@@ -1,6 +1,6 @@
 """Visual for ChannelMask."""
 
-import sandplover as dm
+import sandplover as spl
 from sandplover.mask import ChannelMask
 
 golfcube = dm.sample_data.golf()

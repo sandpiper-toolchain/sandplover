@@ -1,6 +1,6 @@
 """Visual for LandMask."""
 
-import sandplover as dm
+import sandplover as spl
 from sandplover.mask import LandMask
 
 golfcube = dm.sample_data.golf()

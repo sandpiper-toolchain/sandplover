@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-import sandplover as dm
+import sandplover as spl
 
 golfcube = dm.sample_data.golf()
 golfcube.stratigraphy_from("eta")

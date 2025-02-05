@@ -84,7 +84,7 @@ autodoc_default_options = {
 
 # doctest
 doctest_global_setup = """
-import sandplover as dm
+import sandplover as spl
 import numpy as np
 from matplotlib import pyplot as plt
 import matplotlib
@@ -101,7 +101,7 @@ plot_formats = ["png", ("hires.png", 300)]
 plot_pre_code = """
 import numpy as np
 from matplotlib import pyplot as plt
-import sandplover as dm
+import sandplover as spl
 """
 
 # img math
