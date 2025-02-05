@@ -10,7 +10,7 @@ Setting up your coding environment
 
 .. testsetup:: *
 
-    >>> import deltametrics as dm
+    >>> import sandplover as dm
     >>> import numpy as np
     >>> import scipy as sp
     >>> import matplotlib.pyplot as plt
@@ -20,7 +20,7 @@ All of the documentation in this package assumes that you have imported the Delt
 
 .. doctest::
 
-    >>> import deltametrics as dm
+    >>> import sandplover as dm
 
 Additionally, we frequently rely on the `numpy` package, and `matplotlib`. We will assume you have imported these packages by their common shorthand as well; if we import other packages, or other modules from `matplotlib`, these imports will be declared!
 
@@ -54,7 +54,7 @@ For this guide to be easy to follow along with, we will use some sample data tha
 
     >>> golfcube = dm.sample_data.golf()
     >>> golfcube
-    <deltametrics.cube.DataCube object at 0x...>
+    <sandplover.cube.DataCube object at 0x...>
 
 Creating the ``golfcube`` connects to a dataset on your computer (the file is downloaded if it has not already been downloaded).
 Creating the `DataCube` though, does not read any of the data into memory, allowing for efficient computation on large datasets.
@@ -193,18 +193,18 @@ You can visualize the data yourself, or use the built-in `show()` method of a `P
     Want to just slice the data directly as ``golfcube['eta'][-1, :, :]``? Go ahead and do what works for you!
 
 It is often helpful to associate a `Planform` with a `Cube`, to keep track of planform data from multiple points in time, or from multiple cubes.
-Use the :meth:`~deltametrics.cube.DataCube.register_planform` method when instantiating the `Planform`, or pass the object as an argument later.
+Use the :meth:`~sandplover.cube.DataCube.register_planform` method when instantiating the `Planform`, or pass the object as an argument later.
 
 .. doctest::
 
     >>> golfcube.register_planform("fifty", dm.plan.Planform(idx=50))
 
-Any registered `Planform` can then be accessed via the :obj:`~deltametrics.cube.DataCube.planforms` attribute of the Cube (returns a `dict`).
+Any registered `Planform` can then be accessed via the :obj:`~sandplover.cube.DataCube.planforms` attribute of the Cube (returns a `dict`).
 
 .. doctest::
 
     >>> golfcube.planforms["fifty"]
-    <deltametrics.plan.Planform object at 0x...>
+    <sandplover.plan.Planform object at 0x...>
 
 
 Specialty Planform objects
@@ -223,7 +223,7 @@ Most often, it's best to use the API to register a section of a specified type t
 assigning it a name (“demo” below).
 Registered sections are accessed via the ``sections`` attribute of the cube:
 
-For a data cube, sections are most easily instantiated by the :obj:`~deltametrics.cube.Cube.register_section` method:
+For a data cube, sections are most easily instantiated by the :obj:`~sandplover.cube.Cube.register_section` method:
 
 .. doctest::
 
@@ -246,12 +246,12 @@ We can plot the trace on top the the final bed elevation to see where the sectio
 
 .. plot:: guides/userguide_strikesection_location.py
 
-Any registered section can then be accessed via the :obj:`~deltametrics.cube.Cube.sections` attribute of the Cube (returns a `dict`).
+Any registered section can then be accessed via the :obj:`~sandplover.cube.Cube.sections` attribute of the Cube (returns a `dict`).
 
 .. doctest::
 
     >>> golfcube.sections["demo"]
-    <deltametrics.section.StrikeSection object at 0x...>
+    <sandplover.section.StrikeSection object at 0x...>
 
 Available section types are ``PathSection``, ``StrikeSection``,
 ``DipSection``, and ``RadialSection``.
@@ -398,7 +398,7 @@ Default Colors in DeltaMetrics
 ##############################
 
 You may have noticed the beautiful colors above, and be wondering: "how are the colors set?"
-We use a custom object (:obj:`~deltametrics.plot.VariableSet`) to define common plotting properties for all plots.
+We use a custom object (:obj:`~sandplover.plot.VariableSet`) to define common plotting properties for all plots.
 The `VariableSet` supports all kinds of other controls, such as custom colormaps for any variable, addition of new defined variables, fixed color limits, color normalizations, and more.
 You can also use these attributes of the `VariableSet` in your own plotting routines.
 
@@ -462,7 +462,7 @@ Let’s add a section at the same location as ``golfcube.sections['demo']``.
 
     >>> stratcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
     >>> stratcube.sections
-    {'demo': <deltametrics.section.StrikeSection object at 0x...>}
+    {'demo': <sandplover.section.StrikeSection object at 0x...>}
 
 Let's examine the stratigraphy in three different visual styles.
 
@@ -598,7 +598,7 @@ See the :doc:`reference page for each mask type </reference/mask/index>` if you 
     import matplotlib.pyplot as plt
     import matplotlib.gridspec as gs
     import numpy as np
-    import deltametrics as dm
+    import sandplover as dm
 
 .. plot::
     :context:

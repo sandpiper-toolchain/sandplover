@@ -56,7 +56,7 @@ Similarly to creating a `Section` into the `Planform`, we can use an underlying 
 
 .. important::
 
-    A common "gotcha" is forgetting that some `Section` types (e.g., :obj:`~deltametrics.section.CircularSection` and :obj:`~deltametrics.section.RadialSection`) will try to guess a useful `origin` during instantiation, by reading various attributes of an underlying `DataCube`. These attributes are not available during instantiation of a `Section` that reads into a `Planform` or `Mask`. This can lead to discrepencies in the locations of the Section objects!
+    A common "gotcha" is forgetting that some `Section` types (e.g., :obj:`~sandplover.section.CircularSection` and :obj:`~sandplover.section.RadialSection`) will try to guess a useful `origin` during instantiation, by reading various attributes of an underlying `DataCube`. These attributes are not available during instantiation of a `Section` that reads into a `Planform` or `Mask`. This can lead to discrepencies in the locations of the Section objects!
 
     In this example, the `Section` into the `Planform` is offset by `L0`, because this attribute is not known to the `Planform`.
 

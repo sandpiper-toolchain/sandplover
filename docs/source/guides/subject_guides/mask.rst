@@ -10,7 +10,7 @@ Introduction to Masking objects
 Computing masks efficiently
 ---------------------------
 
-If you are creating multiple masks for the same planform data (e.g., for the same time slice of data for the physical domain), it is computationally advantageous to create a single :obj:`~deltametrics.plan.OpeningAnglePlanform`, and use this `OAP` to create other masks.
+If you are creating multiple masks for the same planform data (e.g., for the same time slice of data for the physical domain), it is computationally advantageous to create a single :obj:`~sandplover.plan.OpeningAnglePlanform`, and use this `OAP` to create other masks.
 
 For example:
 
@@ -37,7 +37,7 @@ For example:
 Trimming masks before input
 ---------------------------
 
-Sometimes it is helpful to :meth:`trim a mask <~deltametrics.mask.BaseMask.trim_mask>`, essentially replacing values with a different value, before using the mask for analysis or input to functions.
+Sometimes it is helpful to :meth:`trim a mask <~sandplover.mask.BaseMask.trim_mask>`, essentially replacing values with a different value, before using the mask for analysis or input to functions.
 
 .. plot::
     :include-source:

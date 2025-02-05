@@ -6,7 +6,7 @@ Planview operations
 
 The package makes available functions relating to planview operations on data.
 
-The functions are defined in ``deltametrics.plan``.
+The functions are defined in ``sandplover.plan``.
 
 .. hint::
 
@@ -16,7 +16,7 @@ The functions are defined in ``deltametrics.plan``.
 Planform types
 ==============
 
-.. currentmodule:: deltametrics.plan
+.. currentmodule:: sandplover.plan
 
 .. rubric:: Basic data Planform
 

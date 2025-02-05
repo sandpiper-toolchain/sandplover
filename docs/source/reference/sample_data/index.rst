@@ -9,15 +9,15 @@ API. You do not *need* to get your data into the same format as these data, but
 doing so will likely make it simpler to use DeltaMetrics, and to get the most
 benefit from the tools included here.
 
-The sample data are defined in ``deltametrics.sample_data``.
+The sample data are defined in ``sandplover.sample_data``.
 
-.. currentmodule:: deltametrics.sample_data
+.. currentmodule:: sandplover.sample_data
 
 The sample data cubes can be accessed as, for example:
 
 .. doctest::
 
-    >>> import deltametrics as dm
+    >>> import sandplover as dm
     >>> golfcube = dm.sample_data.golf()
 
 .. note::
@@ -52,4 +52,4 @@ Paths to data files
 .. code::
 
     >>> dm.sample_data._get_golf_path()
-    '<cache-path>/deltametrics/golf.zip.unzip/pyDeltaRCM_output.nc'
+    '<cache-path>/sandplover/golf.zip.unzip/pyDeltaRCM_output.nc'

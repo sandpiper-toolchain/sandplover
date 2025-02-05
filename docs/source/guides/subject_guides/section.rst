@@ -40,7 +40,7 @@ The data that make up the section can view the section as a `spacetime` section 
 
 
 
-If a `DataCube` has preservation information (i.e., if the :meth:`~deltametrics.cube.DataCube.stratigraphy_from()` method has been called), then the `xarray` object that is returned has this information too.
+If a `DataCube` has preservation information (i.e., if the :meth:`~sandplover.cube.DataCube.stratigraphy_from()` method has been called), then the `xarray` object that is returned has this information too.
 The same `spacetime` data can be requested in the "preserved" form, where non-preserved t-x-y points are masked with ``np.nan``.
 
 .. doctest::

@@ -76,8 +76,8 @@ Now plot
     plt.show()
 
 Why do the data not line up with the prediction?
-A likely possibility is that the shoreline location determined from the :obj:`~deltametrics.plan.MorphologicalPlanform` does not include the full area of the deposit.
+A likely possibility is that the shoreline location determined from the :obj:`~sandplover.plan.MorphologicalPlanform` does not include the full area of the deposit.
 
 .. hint::
 
-    Try passing the `elevation_offset` parameter to the MPM method, which is then passed along to the :obj:`~deltametrics.mask.ElevationMask`.
+    Try passing the `elevation_offset` parameter to the MPM method, which is then passed along to the :obj:`~sandplover.mask.ElevationMask`.

@@ -9,7 +9,7 @@ Inputs to these functions are some sort of binary channel masks, and maps defini
 Functionality for fitting linear, harmonic, and exponential curves
 to the results of these functions is provided as well.
 
-The functions are defined in ``deltametrics.mobility``.
+The functions are defined in ``sandplover.mobility``.
 
 .. hint::
 
@@ -18,7 +18,7 @@ The functions are defined in ``deltametrics.mobility``.
 Mobility functions
 ==================
 
-.. currentmodule:: deltametrics.mobility
+.. currentmodule:: sandplover.mobility
 
 .. autosummary::
   :toctree: ../../_autosummary

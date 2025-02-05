@@ -21,7 +21,7 @@ First, let's make some sample data:
     from netCDF4 import Dataset
     import os
 
-    import deltametrics as dm
+    import sandplover as dm
 
     ## create the model data
     # some spatial information

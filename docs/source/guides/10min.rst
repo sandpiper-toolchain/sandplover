@@ -7,14 +7,14 @@ For a more in depth guide, be sure to check out the :doc:`userguide`.
 
 .. testsetup:: *
 
-   >>> import deltametrics as dm
+   >>> import sandplover as dm
    >>> import numpy as np
 
 All of the documentation in this package assumes that you have imported the DeltaMetrics package as ``dm``:
 
 .. doctest::
 
-    >>> import deltametrics as dm
+    >>> import sandplover as dm
 
 Additionally, we frequently rely on the `numpy` package, and `matplotlib`. We will assume you have imported these packages by their common shorthand as well; if we import other packages, or other modules from `matplotlib`, these imports will be declared!
 
@@ -34,9 +34,9 @@ For now, let's use a sample dataset that is distributed with DeltaMetrics.
 
     >>> golfcube = dm.sample_data.golf()
     >>> type(golfcube)
-    <class 'deltametrics.cube.DataCube'>
+    <class 'sandplover.cube.DataCube'>
 
-This creates an instance of a :obj:`~deltametrics.cube.DataCube` object, which is the simplest and most commonly used type of cube.
+This creates an instance of a :obj:`~sandplover.cube.DataCube` object, which is the simplest and most commonly used type of cube.
 "Cubes" in DeltaMetrics language are the central office that connects all the different modules and workflows together.
 Creating the ``golfcube`` connects to a dataset, but does not read any of the data into memory, allowing for efficient computation on large datasets.
 
@@ -51,8 +51,8 @@ Inspect which variables are available in the ``golfcube``.
 Accessing data from a DataCube
 ==============================
 
-A :obj:`~deltametrics.cube.DataCube` can be sliced directly by variable name.
-Slicing a cube returns an instance of :obj:`~deltametrics.cube.CubeVariable`, which is an xarray "accessor"; this means that it contains an xarray object in addition to custom functions.
+A :obj:`~sandplover.cube.DataCube` can be sliced directly by variable name.
+Slicing a cube returns an instance of :obj:`~sandplover.cube.CubeVariable`, which is an xarray "accessor"; this means that it contains an xarray object in addition to custom functions.
 
 .. doctest::
 
@@ -121,22 +121,22 @@ We must directly tell the Cube instance to compute stratigraphy by specifying wh
     >>> golfcube.stratigraphy_from("eta", dz=0.1)
 
 For this example, the stratigraphic computation is relatively fast (< one second), but for large data domains covering a large amount of time, this computation may not be as fast.
-The stratigraphy computed via `stratigraphy_from` is often referred to as "quick" stratigraphy, and may be helpful for visualizing cross sections of the deposit, but we recommend creating a :obj:`~deltametrics.cube.StratigraphyCube` from a `DataCube` for thorough analysis of stratigraphy.
+The stratigraphy computed via `stratigraphy_from` is often referred to as "quick" stratigraphy, and may be helpful for visualizing cross sections of the deposit, but we recommend creating a :obj:`~sandplover.cube.StratigraphyCube` from a `DataCube` for thorough analysis of stratigraphy.
 
-For the sake of simplicity, this documentation uses the :obj:`~deltametrics.section.StrikeSection` as an example `Section` type, but the following lexicon generalizes across all of the Section classes.
+For the sake of simplicity, this documentation uses the :obj:`~sandplover.section.StrikeSection` as an example `Section` type, but the following lexicon generalizes across all of the Section classes.
 
-For a data cube, sections are most easily instantiated by the :obj:`~deltametrics.cube.Cube.register_section` method:
+For a data cube, sections are most easily instantiated by the :obj:`~sandplover.cube.Cube.register_section` method:
 
 .. doctest::
 
     >>> golfcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
 
-which can then be accessed via the :obj:`~deltametrics.cube.Cube.sections` attribute of the Cube.
+which can then be accessed via the :obj:`~sandplover.cube.Cube.sections` attribute of the Cube.
 
 .. doctest::
 
     >>> golfcube.sections["demo"]
-    <deltametrics.section.StrikeSection object at 0x...>
+    <sandplover.section.StrikeSection object at 0x...>
 
 Using the "quick" stratigraphy, we can visualize a few of the available data variables as stratigraphy:
 

@@ -8,7 +8,7 @@ The package makes available models for vertical sections of deposits and strata.
 
 All classes inherit from :obj:`BaseSection`, and redefine methods and attributes for their own types.
 
-The classes are defined in ``deltametrics.section``.
+The classes are defined in ``sandplover.section``.
 
 .. hint::
 
@@ -17,7 +17,7 @@ The classes are defined in ``deltametrics.section``.
 Section classes
 ===============
 
-.. currentmodule:: deltametrics.section
+.. currentmodule:: sandplover.section
 
 .. autosummary::
     :toctree: ../../_autosummary

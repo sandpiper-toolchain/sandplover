@@ -6,7 +6,7 @@ In this example, we explore the sedimentograph [1]_.
 The sedimentograph is a measure of sand fraction of delta stratigraphy. In this implementation, a series of concentric CircularSection are drawn with increasing radius, so the sedimentograph is a function of space.
 
 
-First, a simple example of computing the sedimentograph, using the :obj:`~deltametrics.strat.compute_sedimentograph` function.
+First, a simple example of computing the sedimentograph, using the :obj:`~sandplover.strat.compute_sedimentograph` function.
 
 By default, the function will generate two bins for the data input for the ``sediment_volume`` argument, with the bin divider in the data-range midpoint (i.e., ``0.5`` for ``sandfrac`` data).
 

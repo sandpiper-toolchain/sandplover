@@ -10,7 +10,7 @@ Make a simple gif movie
     import matplotlib.pyplot as plt
     from matplotlib import animation
 
-    import deltametrics as dm
+    import sandplover as dm
 
     def update_field(i):
         im.set_data(golf['eta'][i, :, :])

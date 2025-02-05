@@ -1,4 +1,4 @@
-.. deltametrics documentation master file
+.. sandplover documentation master file
 
 ************
 DeltaMetrics
@@ -16,7 +16,7 @@ The package has robust objects and routines designed to help organize, visualize
 
 .. plot:: guides/cover.py
 
-   A :obj:`~deltametrics.plan.Planform` view of bed elevation in a modeled deltaic deposit, and a cross-:obj:`~deltametrics.section.StrikeSection` view of sediment deposition timing in stratigraphy.
+   A :obj:`~sandplover.plan.Planform` view of bed elevation in a modeled deltaic deposit, and a cross-:obj:`~sandplover.section.StrikeSection` view of sediment deposition timing in stratigraphy.
 
 
 DeltaMetrics documentation

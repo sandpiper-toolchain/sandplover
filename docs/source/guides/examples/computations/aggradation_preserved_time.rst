@@ -10,7 +10,7 @@ A simple way to do this would be to determine the fraction of model time interva
 
 where :math:`t` is a time interval in the total number of intervals :math:`T` from the model time series, and :math:`I` is an indicator function taking a value of 1 if time interval :math:`t` is present in the section, and otherwise 0.
 
-We'll use the :obj:`~deltametrics.sample_data.aeolian` data set as an example here, and do stratigraphic calculation using the :obj:`~deltametrics.strat.compute_boxy_stratigraphy_volume` function.
+We'll use the :obj:`~sandplover.sample_data.aeolian` data set as an example here, and do stratigraphic calculation using the :obj:`~sandplover.strat.compute_boxy_stratigraphy_volume` function.
 
 .. plot::
     :include-source:
@@ -28,7 +28,7 @@ We'll use the :obj:`~deltametrics.sample_data.aeolian` data set as an example he
 
 
 
-Using the :obj:`~deltametrics.strat.compute_boxy_stratigraphy_volume` function allows us to augment the bed elevation time series with a background aggradation.
+Using the :obj:`~sandplover.strat.compute_boxy_stratigraphy_volume` function allows us to augment the bed elevation time series with a background aggradation.
 
 .. plot::
     :include-source:

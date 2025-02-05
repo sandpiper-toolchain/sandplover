@@ -6,13 +6,13 @@ Utility functions
 
 The package has some more miscellaneous functions and utilities that are made publicly available.
 
-The functions are defined in ``deltametrics.utils``.
+The functions are defined in ``sandplover.utils``.
 
 
 Utility functions
 =================
 
-.. currentmodule:: deltametrics.utils
+.. currentmodule:: sandplover.utils
 
 .. autofunction:: curve_fit
 .. autofunction:: coordinates_to_segments

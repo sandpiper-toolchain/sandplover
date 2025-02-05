@@ -5,7 +5,7 @@ Masking operations
 The package makes available routines for masking out attributes of
 the delta.
 
-This class is defined in ``deltametrics.mask``.
+This class is defined in ``sandplover.mask``.
 
 
 .. hint::
@@ -16,7 +16,7 @@ This class is defined in ``deltametrics.mask``.
 Mask classes
 ============
 
-.. currentmodule:: deltametrics.mask
+.. currentmodule:: sandplover.mask
 
 .. autosummary::
     :toctree: ../../_autosummary

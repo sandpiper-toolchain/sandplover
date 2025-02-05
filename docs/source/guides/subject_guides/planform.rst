@@ -5,7 +5,7 @@ Multiple definitions of the delta planform are supported.
 These planform objects can be used as starting points for binary mask computation.
 If not specified explicitly, they are often implicitly part of binary mask creation.
 
-Below we demonstrate instantiation of both the :obj:`~deltametrics.plan.OpeningAnglePlanform` and the :obj:`~deltametrics.plan.MorphologicalPlanform` objects.
+Below we demonstrate instantiation of both the :obj:`~sandplover.plan.OpeningAnglePlanform` and the :obj:`~sandplover.plan.MorphologicalPlanform` objects.
 
 For each we start with the same example dataset, and use the elevation data at the end of the simulation.
 
