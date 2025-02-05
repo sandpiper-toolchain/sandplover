@@ -5,28 +5,28 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from deltametrics.cube import DataCube
-from deltametrics.cube import StratigraphyCube
-from deltametrics.mask import ChannelMask
-from deltametrics.mask import ElevationMask
-from deltametrics.mask import LandMask
-from deltametrics.mask import ShorelineMask
-from deltametrics.plan import MorphologicalPlanform
-from deltametrics.plan import OpeningAnglePlanform
-from deltametrics.plan import Planform
-from deltametrics.plan import _get_channel_starts_and_ends
-from deltametrics.plan import compute_channel_depth
-from deltametrics.plan import compute_channel_width
-from deltametrics.plan import compute_land_area
-from deltametrics.plan import compute_shoreline_distance
-from deltametrics.plan import compute_shoreline_length
-from deltametrics.plan import compute_shoreline_roughness
-from deltametrics.plan import compute_surface_deposit_age
-from deltametrics.plan import compute_surface_deposit_time
-from deltametrics.plan import shaw_opening_angle_method
-from deltametrics.sample_data.sample_data import _get_golf_path
-from deltametrics.sample_data.sample_data import _get_rcm8_path
-from deltametrics.section import CircularSection
+from sandplover.cube import DataCube
+from sandplover.cube import StratigraphyCube
+from sandplover.mask import ChannelMask
+from sandplover.mask import ElevationMask
+from sandplover.mask import LandMask
+from sandplover.mask import ShorelineMask
+from sandplover.plan import MorphologicalPlanform
+from sandplover.plan import OpeningAnglePlanform
+from sandplover.plan import Planform
+from sandplover.plan import _get_channel_starts_and_ends
+from sandplover.plan import compute_channel_depth
+from sandplover.plan import compute_channel_width
+from sandplover.plan import compute_land_area
+from sandplover.plan import compute_shoreline_distance
+from sandplover.plan import compute_shoreline_length
+from sandplover.plan import compute_shoreline_roughness
+from sandplover.plan import compute_surface_deposit_age
+from sandplover.plan import compute_surface_deposit_time
+from sandplover.plan import shaw_opening_angle_method
+from sandplover.sample_data.sample_data import _get_golf_path
+from sandplover.sample_data.sample_data import _get_rcm8_path
+from sandplover.section import CircularSection
 
 # a simple custom layout
 simple_land = np.zeros((10, 10))

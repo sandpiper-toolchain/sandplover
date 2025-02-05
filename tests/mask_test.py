@@ -7,22 +7,22 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from deltametrics.cube import DataCube
-from deltametrics.mask import BaseMask
-from deltametrics.mask import CenterlineMask
-from deltametrics.mask import ChannelMask
-from deltametrics.mask import DepositMask
-from deltametrics.mask import EdgeMask
-from deltametrics.mask import ElevationMask
-from deltametrics.mask import FlowMask
-from deltametrics.mask import GeometricMask
-from deltametrics.mask import LandMask
-from deltametrics.mask import ShorelineMask
-from deltametrics.mask import WetMask
-from deltametrics.plan import MorphologicalPlanform
-from deltametrics.plan import OpeningAnglePlanform
-from deltametrics.sample_data.sample_data import _get_golf_path
-from deltametrics.sample_data.sample_data import _get_rcm8_path
+from sandplover.cube import DataCube
+from sandplover.mask import BaseMask
+from sandplover.mask import CenterlineMask
+from sandplover.mask import ChannelMask
+from sandplover.mask import DepositMask
+from sandplover.mask import EdgeMask
+from sandplover.mask import ElevationMask
+from sandplover.mask import FlowMask
+from sandplover.mask import GeometricMask
+from sandplover.mask import LandMask
+from sandplover.mask import ShorelineMask
+from sandplover.mask import WetMask
+from sandplover.plan import MorphologicalPlanform
+from sandplover.plan import OpeningAnglePlanform
+from sandplover.sample_data.sample_data import _get_golf_path
+from sandplover.sample_data.sample_data import _get_rcm8_path
 
 rcm8_path = _get_rcm8_path()
 with pytest.warns(UserWarning):
@@ -53,7 +53,7 @@ class TestBaseMask:
 
     fake_input = np.ones((100, 200))
 
-    @mock.patch("deltametrics.mask.BaseMask._set_shape_mask")
+    @mock.patch("sandplover.mask.BaseMask._set_shape_mask")
     def test_name_setter(self, patched):
         basemask = BaseMask("somename", self.fake_input)
         assert basemask.mask_type == "somename"

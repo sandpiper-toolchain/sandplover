@@ -4,18 +4,18 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from deltametrics.cube import DataCube
-from deltametrics.mask import ChannelMask
-from deltametrics.mask import LandMask
-from deltametrics.mobility import _calculate_temporal_linear_slope
-from deltametrics.mobility import calculate_channel_abandonment
-from deltametrics.mobility import calculate_channel_decay
-from deltametrics.mobility import calculate_channelized_response_variance
-from deltametrics.mobility import calculate_planform_overlap
-from deltametrics.mobility import calculate_reworking_fraction
-from deltametrics.mobility import channel_presence
-from deltametrics.mobility import check_inputs
-from deltametrics.sample_data.sample_data import _get_rcm8_path
+from sandplover.cube import DataCube
+from sandplover.mask import ChannelMask
+from sandplover.mask import LandMask
+from sandplover.mobility import _calculate_temporal_linear_slope
+from sandplover.mobility import calculate_channel_abandonment
+from sandplover.mobility import calculate_channel_decay
+from sandplover.mobility import calculate_channelized_response_variance
+from sandplover.mobility import calculate_planform_overlap
+from sandplover.mobility import calculate_reworking_fraction
+from sandplover.mobility import channel_presence
+from sandplover.mobility import check_inputs
+from sandplover.sample_data.sample_data import _get_rcm8_path
 
 rcm8_path = _get_rcm8_path()
 with pytest.warns(UserWarning):
@@ -79,7 +79,7 @@ for i in range(3):
 
 
 def test_check_input_list_of_mask():
-    """Test that a deltametrics.mask.BaseMask type can be used."""
+    """Test that a sandplover.mask.BaseMask type can be used."""
     # call checker function
     assert isinstance(chmask, list)
     chmap, landmap, basevalues, time_window, dim0 = check_inputs(
@@ -96,7 +96,7 @@ def test_check_input_list_of_mask():
 
 
 def test_check_input_single_mask_error():
-    """Test that a deltametrics.mask.BaseMask type can be used."""
+    """Test that a sandplover.mask.BaseMask type can be used."""
     # call checker function
     with pytest.raises(TypeError, match=r"Cannot input a Mask .*"):
         chmap, landmap, basevalues, time_window, dim0 = check_inputs(

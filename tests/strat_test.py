@@ -4,18 +4,18 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from deltametrics.cube import DataCube
-from deltametrics.cube import StratigraphyCube
-from deltametrics.sample_data.sample_data import _get_golf_path
-from deltametrics.strat import _adjust_elevation_by_subsidence
-from deltametrics.strat import _compute_elevation_to_preservation
-from deltametrics.strat import _compute_preservation_to_cube
-from deltametrics.strat import _determine_strat_coordinates
-from deltametrics.strat import compute_boxy_stratigraphy_coordinates
-from deltametrics.strat import compute_boxy_stratigraphy_volume
-from deltametrics.strat import compute_net_to_gross
-from deltametrics.strat import compute_sedimentograph
-from deltametrics.strat import compute_thickness_surfaces
+from sandplover.cube import DataCube
+from sandplover.cube import StratigraphyCube
+from sandplover.sample_data.sample_data import _get_golf_path
+from sandplover.strat import _adjust_elevation_by_subsidence
+from sandplover.strat import _compute_elevation_to_preservation
+from sandplover.strat import _compute_preservation_to_cube
+from sandplover.strat import _determine_strat_coordinates
+from sandplover.strat import compute_boxy_stratigraphy_coordinates
+from sandplover.strat import compute_boxy_stratigraphy_volume
+from sandplover.strat import compute_net_to_gross
+from sandplover.strat import compute_sedimentograph
+from sandplover.strat import compute_thickness_surfaces
 
 golf_path = _get_golf_path()
 golfcube = DataCube(golf_path)
