@@ -7,13 +7,13 @@ import xarray as xr
 from matplotlib.collections import LineCollection
 from scipy import sparse
 
-from deltametrics.utils import NoStratigraphyError
-from deltametrics.utils import circle_to_cells
-from deltametrics.utils import coordinates_to_segments
-from deltametrics.utils import guess_land_width_from_land
-from deltametrics.utils import is_ndarray_or_xarray
-from deltametrics.utils import line_to_cells
-from deltametrics.utils import segments_to_cells
+from sandplover.utils import NoStratigraphyError
+from sandplover.utils import circle_to_cells
+from sandplover.utils import coordinates_to_segments
+from sandplover.utils import guess_land_width_from_land
+from sandplover.utils import is_ndarray_or_xarray
+from sandplover.utils import line_to_cells
+from sandplover.utils import segments_to_cells
 
 
 @xr.register_dataarray_accessor("strat")
@@ -153,7 +153,7 @@ class BaseSection(abc.ABC):
     Defines common attributes and methods of a section object.
 
     This object should wrap around many of the functions available from
-    :obj:`~deltametrics.strat`.
+    :obj:`~sandplover.strat`.
 
     """
 
@@ -166,7 +166,7 @@ class BaseSection(abc.ABC):
         section_type : :obj:`str`
             String identifying the *type* of `Section` being instantiated.
 
-        CubeInstance : :obj:`~deltametrics.cube.BaseCube` subclass, optional
+        CubeInstance : :obj:`~sandplover.cube.BaseCube` subclass, optional
             Connect to this cube. No connection is made if cube is not
             provided.
 
@@ -215,9 +215,9 @@ class BaseSection(abc.ABC):
 
     def connect(self, InputInstance, name=None):
         """Connect this Section instance to a Cube instance."""
-        from deltametrics.cube import BaseCube
-        from deltametrics.mask import BaseMask
-        from deltametrics.plan import Planform
+        from sandplover.cube import BaseCube
+        from sandplover.mask import BaseMask
+        from sandplover.plan import Planform
 
         if issubclass(type(InputInstance), BaseCube):
             self._underlying = InputInstance
@@ -431,8 +431,8 @@ class BaseSection(abc.ABC):
             The underlying data returned as an xarray `DataArray`, maintaining
             coordinates.
         """
-        from deltametrics.cube import DataCube
-        from deltametrics.cube import StratigraphyCube
+        from sandplover.cube import DataCube
+        from sandplover.cube import StratigraphyCube
 
         if self._underlying_type == "cube":
             if isinstance(self._underlying, DataCube):
@@ -537,9 +537,9 @@ class BaseSection(abc.ABC):
 
         data : :obj:`str`, optional
             Argument passed to
-            :obj:`~deltametrics.section.DataSectionVariable.get_display_arrays`
+            :obj:`~sandplover.section.DataSectionVariable.get_display_arrays`
             or
-            :obj:`~deltametrics.section.DataSectionVariable.get_display_lines`.
+            :obj:`~sandplover.section.DataSectionVariable.get_display_lines`.
             Supported options are `'spacetime'`, `'preserved'`, and
             `'stratigraphy'`. Default is to display full spacetime plot for
             section generated from a `DataCube`, and stratigraphy for a
@@ -548,7 +548,7 @@ class BaseSection(abc.ABC):
         label : :obj:`bool`, `str`, optional
             Display a label of the variable name on the plot. Default is
             False, display nothing. If ``label=True``, the label name from the
-            :obj:`~deltametrics.plot.VariableSet` is used. Other arguments are
+            :obj:`~sandplover.plot.VariableSet` is used. Other arguments are
             attempted to coerce to `str`, and the literal is diplayed.
 
         colorbar : :obj:`bool`, optional
@@ -557,7 +557,7 @@ class BaseSection(abc.ABC):
         colorbar_label : :obj:`bool`, `str`, optional
             Display a label of the variable name along the colorbar. Default is
             False, display nothing. If ``label=True``, the label name from the
-            :obj:`~deltametrics.plot.VariableSet` is used. Other arguments are
+            :obj:`~sandplover.plot.VariableSet` is used. Other arguments are
             attempted to coerce to `str`, and the literal is diplayed.
 
         ax : :obj:`~matplotlib.pyplot.Axes` object, optional
@@ -571,8 +571,8 @@ class BaseSection(abc.ABC):
 
         .. plot::
 
-            >>> from deltametrics.sample_data.sample_data import golf
-            >>> from deltametrics.section import StrikeSection
+            >>> from sandplover.sample_data.sample_data import golf
+            >>> from sandplover.section import StrikeSection
 
             >>> golfcube = golf()
             >>> golfcube.register_section("demo", StrikeSection(distance_idx=5))
@@ -607,12 +607,12 @@ class BaseSection(abc.ABC):
             ...     label="quick stratigraphy",
             ... )  # noqa: E501
         """
-        from deltametrics.cube import BaseCube
-        from deltametrics.plot import VariableSet
-        from deltametrics.plot import append_colorbar
-        from deltametrics.plot import get_display_arrays
-        from deltametrics.plot import get_display_limits
-        from deltametrics.plot import get_display_lines
+        from sandplover.cube import BaseCube
+        from sandplover.plot import VariableSet
+        from sandplover.plot import append_colorbar
+        from sandplover.plot import get_display_arrays
+        from sandplover.plot import get_display_limits
+        from sandplover.plot import get_display_lines
 
         # check that someting is attached
         if self._underlying is None:
@@ -757,8 +757,8 @@ class PathSection(BaseSection):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.sample_data.sample_data import golf
-        >>> from deltametrics.section import PathSection
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.section import PathSection
 
         >>> golfcube = golf()
         >>> golfcube.register_section(
@@ -806,8 +806,8 @@ class PathSection(BaseSection):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.sample_data.sample_data import golf
-        >>> from deltametrics.section import PathSection
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.section import PathSection
 
         >>> golfcube = golf()
         >>> golfcube.register_section(
@@ -1035,8 +1035,8 @@ class StrikeSection(LineSection):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.sample_data.sample_data import golf
-        >>> from deltametrics.section import StrikeSection
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.section import StrikeSection
 
         >>> golfcube = golf()
         >>> golfcube.register_section("strike", StrikeSection(distance=1500))
@@ -1101,8 +1101,8 @@ class StrikeSection(LineSection):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.sample_data.sample_data import golf
-        >>> from deltametrics.section import StrikeSection
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.section import StrikeSection
 
         >>> golfcube = golf()
         >>> golfcube.register_section("strike", StrikeSection(distance=3500))
@@ -1129,7 +1129,7 @@ class StrikeSection(LineSection):
         specified `distance` in `dim1` coordinates, and spans only a range in the
         middle of the domain:
 
-        >>> from deltametrics.cube import StratigraphyCube
+        >>> from sandplover.cube import StratigraphyCube
 
         >>> golfcube = golf()
         >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
@@ -1250,8 +1250,8 @@ class DipSection(LineSection):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.sample_data.sample_data import golf
-        >>> from deltametrics.section import DipSection
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.section import DipSection
 
         >>> golfcube = golf()
         >>> golfcube.register_section("dip", DipSection(distance=3000))
@@ -1318,8 +1318,8 @@ class DipSection(LineSection):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.sample_data.sample_data import golf
-        >>> from deltametrics.section import DipSection
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.section import DipSection
 
         >>> golfcube = golf()
         >>> golfcube.register_section("dip", DipSection(distance=3500))
@@ -1346,7 +1346,7 @@ class DipSection(LineSection):
         specified `distance` in `dim2` coordinates, and spans only a range in the
         middle of the domain:
 
-        >>> from deltametrics.cube import StratigraphyCube
+        >>> from sandplover.cube import StratigraphyCube
 
         >>> golfcube = golf()
         >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
@@ -1465,13 +1465,13 @@ class CircularSection(BaseSection):
     section with `radius` and `origin` keyword parameter options.
     The circular section trace is interpolated to the nearest integer model
     domain cells, following the mid-point circle algorithm
-    (:obj:`~deltametrics.utils.circle_to_cells`).
+    (:obj:`~sandplover.utils.circle_to_cells`).
 
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.sample_data.sample_data import golf
-        >>> from deltametrics.section import CircularSection
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.section import CircularSection
 
         >>> golfcube = golf()
         >>> golfcube.register_section("circular", CircularSection(radius=1200))
@@ -1538,9 +1538,9 @@ class CircularSection(BaseSection):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.cube import StratigraphyCube
-        >>> from deltametrics.sample_data.sample_data import golf
-        >>> from deltametrics.section import CircularSection
+        >>> from sandplover.cube import StratigraphyCube
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.section import CircularSection
 
         >>> golfcube = golf()
         >>> golfcube.register_section("circular", CircularSection(radius=1200))
@@ -1693,13 +1693,13 @@ class RadialSection(BaseSection):
     the location of the radial section with `azimuth` and `origin`
     keyword parameter options. The radial section trace is interpolated to the
     nearest integer model domain cells, following the a line-walking algorithm
-    (:obj:`~deltametrics.utils.line_to_cells`).
+    (:obj:`~sandplover.utils.line_to_cells`).
 
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.sample_data.sample_data import golf
-        >>> from deltametrics.section import RadialSection
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.section import RadialSection
 
         >>> golfcube = golf()
         >>> golfcube.register_section("radial", RadialSection(azimuth=65))
@@ -1783,9 +1783,9 @@ class RadialSection(BaseSection):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.cube import StratigraphyCube
-        >>> from deltametrics.sample_data.sample_data import golf
-        >>> from deltametrics.section import RadialSection
+        >>> from sandplover.cube import StratigraphyCube
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.section import RadialSection
 
         >>> golfcube = golf()
         >>> golfcube.register_section("radial", RadialSection(azimuth=45))

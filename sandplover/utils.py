@@ -36,20 +36,20 @@ class NoStratigraphyError(AttributeError):
 
     Without the optional `var` argument:
 
-    >>> from deltametrics.utils import NoStratigraphyError
-    >>> from deltametrics.sample_data.sample_data import golf
+    >>> from sandplover.utils import NoStratigraphyError
+    >>> from sandplover.sample_data.sample_data import golf
 
     >>> golfcube = golf()
     >>> raise NoStratigraphyError(golfcube)
     Traceback (most recent call last):
-    deltametrics.utils.NoStratigraphyError: 'DataCube' object has no preservation
+    sandplover.utils.NoStratigraphyError: 'DataCube' object has no preservation
     or stratigraphy information.
 
     With the `var` argument given as ``'strat_attr'``:
 
     >>> raise NoStratigraphyError(golfcube, "strat_attr")
     Traceback (most recent call last):
-    deltametrics.utils.NoStratigraphyError: 'DataCube' object has no preservation
+    sandplover.utils.NoStratigraphyError: 'DataCube' object has no preservation
     or stratigraphy information.
     """
 
@@ -319,7 +319,7 @@ def line_to_cells(*args):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.utils import line_to_cells
+        >>> from sandplover.utils import line_to_cells
 
         >>> p0 = (1, 6)
         >>> p1 = (6, 3)

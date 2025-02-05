@@ -30,7 +30,7 @@ functions, allowing for decay constants and timescales to be quantified.
 import numpy as np
 import xarray as xr
 
-from deltametrics import mask
+from sandplover import mask
 
 
 def check_inputs(
@@ -45,12 +45,12 @@ def check_inputs(
     Check the input variable values.
 
     Ensures compatibility with mobility functions. Tries to convert from some
-    potential input types (xarray data arrays, deltametrics masks) if possible.
+    potential input types (xarray data arrays, sandplover masks) if possible.
 
     Parameters
     ----------
     chmap : list, xarray.DataArray, numpy.ndarray
-        Either a list of 2-D deltametrics.mask, xarray.DataArray, or
+        Either a list of 2-D sandplover.mask, xarray.DataArray, or
         numpy.ndarray objects, or a t-x-y 3-D xarray.DataArray or numpy.ndarray
         with channel mask values.
 
@@ -69,7 +69,7 @@ def check_inputs(
         time lag.
 
     landmap : list, xarray.DataArray, numpy.ndarray, optional
-        Either a list of 2-D deltametrics.mask, xarray.DataArray, or
+        Either a list of 2-D sandplover.mask, xarray.DataArray, or
         numpy.ndarray objects, or a t-x-y 3-D xarray.DataArray or numpy.ndarray
         with land mask values.
 
@@ -266,12 +266,12 @@ def calculate_channel_decay(
     Parameters
     ----------
     chmap : list, xarray.DataArray, numpy.ndarray
-        Either a list of 2-D deltametrics.mask, xarray.DataArray, or
+        Either a list of 2-D sandplover.mask, xarray.DataArray, or
         numpy.ndarray objects, or a t-x-y 3-D xarray.DataArray or numpy.ndarray
         with channel mask values.
 
     landmap : list, xarray.DataArray, numpy.ndarray
-        Either a list of 2-D deltametrics.mask, xarray.DataArray, or
+        Either a list of 2-D sandplover.mask, xarray.DataArray, or
         numpy.ndarray objects, or a t-x-y 3-D xarray.DataArray or numpy.ndarray
         with land mask values.
 
@@ -397,12 +397,12 @@ def calculate_planform_overlap(
     Parameters
     ----------
     chmap : list, xarray.DataArray, numpy.ndarray
-        Either a list of 2-D deltametrics.mask, xarray.DataArray, or
+        Either a list of 2-D sandplover.mask, xarray.DataArray, or
         numpy.ndarray objects, or a t-x-y 3-D xarray.DataArray or numpy.ndarray
         with channel mask values.
 
     landmap : list, xarray.DataArray, numpy.ndarray
-        Either a list of 2-D deltametrics.mask, xarray.DataArray, or
+        Either a list of 2-D sandplover.mask, xarray.DataArray, or
         numpy.ndarray objects, or a t-x-y 3-D xarray.DataArray or numpy.ndarray
         with land mask values.
 
@@ -526,12 +526,12 @@ def calculate_reworking_fraction(
     Parameters
     ----------
     chmap : list, xarray.DataArray, numpy.ndarray
-        Either a list of 2-D deltametrics.mask, xarray.DataArray, or
+        Either a list of 2-D sandplover.mask, xarray.DataArray, or
         numpy.ndarray objects, or a t-x-y 3-D xarray.DataArray or numpy.ndarray
         with channel mask values.
 
     landmap : list, xarray.DataArray, numpy.ndarray
-        Either a list of 2-D deltametrics.mask, xarray.DataArray, or
+        Either a list of 2-D sandplover.mask, xarray.DataArray, or
         numpy.ndarray objects, or a t-x-y 3-D xarray.DataArray or numpy.ndarray
         with land mask values.
 
@@ -642,7 +642,7 @@ def calculate_channel_abandonment(
     Parameters
     ----------
     chmap : list, xarray.DataArray, numpy.ndarray
-        Either a list of 2-D deltametrics.mask, xarray.DataArray, or
+        Either a list of 2-D sandplover.mask, xarray.DataArray, or
         numpy.ndarray objects, or a t-x-y 3-D xarray.DataArray or numpy.ndarray
         with channel mask values.
 
@@ -736,10 +736,10 @@ def channel_presence(chmap):
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> from deltametrics.mask import ChannelMask
-        >>> from deltametrics.mobility import channel_presence
-        >>> from deltametrics.plot import append_colorbar
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import ChannelMask
+        >>> from sandplover.mobility import channel_presence
+        >>> from sandplover.plot import append_colorbar
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> (x, y) = np.shape(golfcube["eta"][-1, ...])
@@ -867,9 +867,9 @@ def calculate_channelized_response_variance(
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> from deltametrics.mobility import calculate_channelized_response_variance
-        >>> from deltametrics.plot import append_colorbar
-        >>> from deltametrics.sample_data.sample_data import savi2020
+        >>> from sandplover.mobility import calculate_channelized_response_variance
+        >>> from sandplover.plot import append_colorbar
+        >>> from sandplover.sample_data.sample_data import savi2020
 
         Load overhead imagery sample data from Savi et al 2020
 

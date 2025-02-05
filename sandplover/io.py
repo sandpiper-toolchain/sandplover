@@ -142,7 +142,7 @@ class FileIO(BaseIO):
     def write(self):
         """Should write the data to file.
 
-        Take a :obj:`~deltametrics.cube.Cube` and write it to file.
+        Take a :obj:`~sandplover.cube.Cube` and write it to file.
         """
         return
 
@@ -153,7 +153,7 @@ class NetCDFIO(FileIO):
     This module wraps calls to the netCDF4 python module in a consistent API,
     so the user can work seamlessly with either netCDF4 files or HDF5 files.
     The public methods of this class are consistent with
-    :obj:`~deltametrics.utils.HDFIO`.
+    :obj:`~sandplover.utils.HDFIO`.
 
     Note that the netCDF4, netCDF4-classic, and HDF5 file standards are very
     similar and (almost) interchangable. This means that the same data loader
@@ -300,7 +300,7 @@ class NetCDFIO(FileIO):
         """Read variable from file and into memory.
 
         Converts `variables` in data file to `xarray` objects for coersion
-        into a :obj:`~deltametrics.cube.Cube` instance.
+        into a :obj:`~sandplover.cube.Cube` instance.
 
         Parameters
         ----------
@@ -317,7 +317,7 @@ class NetCDFIO(FileIO):
     def write(self):
         """Write data to file.
 
-        Take a :obj:`~deltametrics.cube.Cube` and write it to file.
+        Take a :obj:`~sandplover.cube.Cube` and write it to file.
 
         .. warning::
             Not Implemented.
@@ -442,7 +442,7 @@ class DictionaryIO(BaseIO):
     def write(self):
         """Write data to file.
 
-        Take a :obj:`~deltametrics.cube.Cube` and write it to file.
+        Take a :obj:`~sandplover.cube.Cube` and write it to file.
 
         .. warning::
             Not Implemented.

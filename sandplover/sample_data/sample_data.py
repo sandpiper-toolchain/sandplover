@@ -9,7 +9,7 @@ if sys.version_info >= (3, 12):  # pragma: no cover (PY12+)
 else:  # pragma: no cover (<PY312)
     import importlib_resources
 
-from deltametrics.cube import DataCube
+from sandplover.cube import DataCube
 
 # enusre DeprecationWarning is shown
 warnings.simplefilter("default")
@@ -17,14 +17,14 @@ warnings.simplefilter("default")
 
 # configure the data registry
 REGISTRY = pooch.create(
-    path=pooch.os_cache("deltametrics"),
+    path=pooch.os_cache("sandplover"),
     base_url=(
         "https://github.com/DeltaRCM/DeltaMetrics/raw/develop/"
-        "deltametrics/sample_data/files/"
+        "sandplover/sample_data/files/"
     ),
     env="DELTAMETRICS_DATA_DIR",
 )
-path_to_registry = importlib_resources.files("deltametrics.sample_data").joinpath(
+path_to_registry = importlib_resources.files("sandplover.sample_data").joinpath(
     "registry.txt"
 )
 with open(path_to_registry, "rb") as registry_file:
@@ -60,7 +60,7 @@ def golf():
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golf = golf()
         >>> nt = 5
@@ -121,7 +121,7 @@ def xslope():
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> from deltametrics.sample_data.sample_data import xslope
+        >>> from sandplover.sample_data.sample_data import xslope
 
         >>> xslope0, xslope1 = xslope()
         >>> nt = 5
@@ -201,7 +201,7 @@ def aeolian():
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> import deltametrics as dm
+        >>> import sandplover as dm
 
         >>> aeolian = dm.sample_data.aeolian()
         >>> nt = 5
@@ -248,7 +248,7 @@ def rcm8():
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
         >>> import warnings
-        >>> import deltametrics as dm
+        >>> import sandplover as dm
 
         >>> with warnings.catch_warnings():
         ...     warnings.simplefilter("ignore")
@@ -288,7 +288,7 @@ def landsat():
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> import deltametrics as dm
+        >>> import sandplover as dm
 
         >>> landsat = dm.sample_data.landsat()
         >>> nt = landsat.shape[0]
@@ -362,7 +362,7 @@ def savi2020():
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> import deltametrics as dm
+        >>> import sandplover as dm
 
         >>> img, scans = dm.sample_data.savi2020()
         >>> nt = 5
