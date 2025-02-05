@@ -7,14 +7,14 @@ For a more in depth guide, be sure to check out the :doc:`userguide`.
 
 .. testsetup:: *
 
-   >>> import sandplover as dm
+   >>> import sandplover as spl
    >>> import numpy as np
 
-All of the documentation in this package assumes that you have imported the sandplover package as ``dm``:
+All of the documentation in this package assumes that you have imported the sandplover package as ``spl``:
 
 .. doctest::
 
-    >>> import sandplover as dm
+    >>> import sandplover as spl
 
 Additionally, we frequently rely on the `numpy` package, and `matplotlib`. We will assume you have imported these packages by their common shorthand as well; if we import other packages, or other modules from `matplotlib`, these imports will be declared!
 

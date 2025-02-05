@@ -10,7 +10,7 @@ Make a simple gif movie
     import matplotlib.pyplot as plt
     from matplotlib import animation
 
-    import sandplover as dm
+    import sandplover as spl
 
     def update_field(i):
         im.set_data(golf['eta'][i, :, :])

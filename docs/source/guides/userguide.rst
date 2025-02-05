@@ -10,17 +10,17 @@ Setting up your coding environment
 
 .. testsetup:: *
 
-    >>> import sandplover as dm
+    >>> import sandplover as spl
     >>> import numpy as np
     >>> import scipy as sp
     >>> import matplotlib.pyplot as plt
     >>> import matplotlib.gridspec as gs
 
-All of the documentation in this package assumes that you have imported the sandplover package as ``dm``:
+All of the documentation in this package assumes that you have imported the sandplover package as ``spl``:
 
 .. doctest::
 
-    >>> import sandplover as dm
+    >>> import sandplover as spl
 
 Additionally, we frequently rely on the `numpy` package, and `matplotlib`. We will assume you have imported these packages by their common shorthand as well; if we import other packages, or other modules from `matplotlib`, these imports will be declared!
 
@@ -598,7 +598,7 @@ See the :doc:`reference page for each mask type </reference/mask/index>` if you 
     import matplotlib.pyplot as plt
     import matplotlib.gridspec as gs
     import numpy as np
-    import sandplover as dm
+    import sandplover as spl
 
 .. plot::
     :context:

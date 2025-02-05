@@ -17,7 +17,7 @@ The sample data cubes can be accessed as, for example:
 
 .. doctest::
 
-    >>> import sandplover as dm
+    >>> import sandplover as spl
     >>> golfcube = dm.sample_data.golf()
 
 .. note::

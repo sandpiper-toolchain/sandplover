@@ -21,7 +21,7 @@ First, let's make some sample data:
     from netCDF4 import Dataset
     import os
 
-    import sandplover as dm
+    import sandplover as spl
 
     ## create the model data
     # some spatial information
