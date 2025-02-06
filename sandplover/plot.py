@@ -10,11 +10,11 @@ import mpl_toolkits.axes_grid1 as axtk
 import numpy as np
 import xarray as xr
 
-from deltametrics.strat import _adjust_elevation_by_subsidence
-from deltametrics.strat import _compute_elevation_to_preservation
-from deltametrics.strat import _compute_preservation_to_cube
-from deltametrics.strat import _compute_preservation_to_time_intervals
-from deltametrics.strat import _determine_strat_coordinates
+from sandplover.strat import _adjust_elevation_by_subsidence
+from sandplover.strat import _compute_elevation_to_preservation
+from sandplover.strat import _compute_preservation_to_cube
+from sandplover.strat import _compute_preservation_to_time_intervals
+from sandplover.strat import _determine_strat_coordinates
 
 # from . import section
 
@@ -26,7 +26,7 @@ class VariableInfo:
 
     This class holds information for a specific underlying data variable
     (e.g., ``eta`` or ``velocity``). Properties are used throughout
-    DeltaMetrics for plotting.
+    sandplover for plotting.
 
     Examples
     --------
@@ -37,7 +37,7 @@ class VariableInfo:
     would create the VariableInfo as:
 
     >>> import matplotlib
-    >>> from deltametrics.plot import VariableInfo
+    >>> from sandplover.plot import VariableInfo
 
     >>> veg = VariableInfo("vegetation_density", cmap="Greens")
 
@@ -174,7 +174,7 @@ class VariableSet:
     plotting.
 
     Additionally, you can create a VariableSet, and assign it to multiple
-    :obj:`~deltametrics.cube.Cube` instances, so that each shares the same
+    :obj:`~sandplover.cube.Cube` instances, so that each shares the same
     colormaps, etc.
 
     Examples
@@ -182,10 +182,10 @@ class VariableSet:
 
     Create a default variable set object.
 
-    >>> from deltametrics.plot import VariableSet
+    >>> from sandplover.plot import VariableSet
 
     >>> VariableSet()
-    <deltametrics.plot.VariableSet object at 0x...>
+    <sandplover.plot.VariableSet object at 0x...>
 
     """
 
@@ -217,7 +217,7 @@ class VariableSet:
         override_dict : :obj:`dict`, optional
             Dictionary defining variable-property sets. Dictionary key should
             set the  must be either a string (and then match defined colormaps
-            in matplotlib or DeltaMetrics), a new matplotlib Colormap object,
+            in matplotlib or sandplover), a new matplotlib Colormap object,
             or an Mx3 numpy array that can be coerced into a linear colormap.
         """
 
@@ -549,9 +549,9 @@ def cartographic_colormap(H_SL=0.0, h=4.5, n=1.0):
     parameters to highlight depth variability (right):
 
     >>> import matplotlib.pyplot as plt
-    >>> from deltametrics.plot import cartographic_colormap
-    >>> from deltametrics.plot import append_colorbar
-    >>> from deltametrics.sample_data.sample_data import golf
+    >>> from sandplover.plot import cartographic_colormap
+    >>> from sandplover.plot import append_colorbar
+    >>> from sandplover.sample_data.sample_data import golf
 
     >>> golfcube = golf()
 
@@ -618,9 +618,9 @@ def vintage_colormap(H_SL=0.0, h=4.5, n=1.0):
     parameters to highlight depth variability (right):
 
     >>> import matplotlib.pyplot as plt
-    >>> from deltametrics.plot import append_colorbar
-    >>> from deltametrics.plot import vintage_colormap
-    >>> from deltametrics.sample_data.sample_data import golf
+    >>> from sandplover.plot import append_colorbar
+    >>> from sandplover.plot import vintage_colormap
+    >>> from sandplover.sample_data.sample_data import golf
 
     >>> golfcube = golf()
 
@@ -761,8 +761,8 @@ def style_axes_km(*args):
     --------
 
     >>> import matplotlib.pyplot as plt
-    >>> from deltametrics.plot import style_axes_km
-    >>> from deltametrics.sample_data.sample_data import golf
+    >>> from sandplover.plot import style_axes_km
+    >>> from sandplover.sample_data.sample_data import golf
 
     >>> golf = golf()
 
@@ -805,10 +805,10 @@ def get_display_arrays(VarInst, data=None):
 
     Parameters
     ----------
-    VarInst : :obj:`~deltametrics.section.BaseSectionVariable` subclass
+    VarInst : :obj:`~sandplover.section.BaseSectionVariable` subclass
         The `Variable` instance to visualize. May be any subclass of
-        :obj:`~deltametrics.section.BaseSectionVariable` or
-        :obj:`~deltametrics.plan.BasePlanformVariable`.
+        :obj:`~sandplover.section.BaseSectionVariable` or
+        :obj:`~sandplover.plan.BasePlanformVariable`.
 
     data : :obj:`str`, optional
         The type of data to visualize. Supported options are `'spacetime'`,
@@ -910,10 +910,10 @@ def get_display_lines(VarInst, data=None):
 
     Parameters
     ----------
-    VarInst : :obj:`~deltametrics.section.BaseSectionVariable` subclass
+    VarInst : :obj:`~sandplover.section.BaseSectionVariable` subclass
         The `Variable` instance to visualize. May be any subclass of
-        :obj:`~deltametrics.section.BaseSectionVariable` or
-        :obj:`~deltametrics.plan.BasePlanformVariable`.
+        :obj:`~sandplover.section.BaseSectionVariable` or
+        :obj:`~sandplover.plan.BasePlanformVariable`.
 
     data : :obj:`str`, optional
         The type of data to visualize. Supported options are `'spacetime'`,
@@ -992,10 +992,10 @@ def get_display_limits(VarInst, data=None, factor=1.5):
 
     Parameters
     ----------
-    VarInst : :obj:`~deltametrics.section.BaseSectionVariable` subclass
+    VarInst : :obj:`~sandplover.section.BaseSectionVariable` subclass
         The `Variable` instance to visualize. May be any subclass of
-        :obj:`~deltametrics.section.BaseSectionVariable` or
-        :obj:`~deltametrics.plan.BasePlanformVariable`.
+        :obj:`~sandplover.section.BaseSectionVariable` or
+        :obj:`~sandplover.plan.BasePlanformVariable`.
 
     data : :obj:`str`, optional
         The type of data to compute limits for. Typically this will be the
@@ -1059,7 +1059,7 @@ def _fill_steps(where, x=1, y=1, y0=0, **kwargs):
     This utility function is utilized internally. Most often, it is used to
     highlight where time has been preserved (or eliminated) in a timeseries of
     data. For example, see
-    :obj:`~deltametrics.plot.show_one_dimensional_trajectory_to_strata`.
+    :obj:`~sandplover.plot.show_one_dimensional_trajectory_to_strata`.
 
     Parameters
     ----------
@@ -1117,8 +1117,8 @@ def show_one_dimensional_trajectory_to_strata(
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.plot import show_one_dimensional_trajectory_to_strata
-        >>> from deltametrics.sample_data import golf
+        >>> from sandplover.plot import show_one_dimensional_trajectory_to_strata
+        >>> from sandplover.sample_data import golf
 
         >>> golfcube = golf()
 
@@ -1287,7 +1287,7 @@ def _scale_lightness(rgb, scale_l):
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> from deltametrics.plot import _scale_lightness
+        >>> from sandplover.plot import _scale_lightness
 
         >>> fig, ax = plt.subplots(figsize=(5, 2))
 
@@ -1349,7 +1349,7 @@ def show_histograms(*args, sets=None, ax=None, **kwargs):
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> from deltametrics.plot import show_histograms
+        >>> from sandplover.plot import show_histograms
 
         >>> locs = [0.25, 1, 0.5, 4, 2]
         >>> scales = [0.1, 0.25, 0.4, 0.5, 0.1]
@@ -1451,8 +1451,8 @@ def aerial_view(
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.plot import aerial_view
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.plot import aerial_view
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> elevation_data = golfcube["eta"][-1, :, :]
@@ -1555,9 +1555,9 @@ def overlay_sparse_array(
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.plot import aerial_view
-        >>> from deltametrics.plot import overlay_sparse_array
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.plot import aerial_view
+        >>> from sandplover.plot import overlay_sparse_array
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> elevation_data = golfcube["eta"][-1, :, :]

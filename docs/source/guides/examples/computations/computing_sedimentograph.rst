@@ -6,7 +6,7 @@ In this example, we explore the sedimentograph [1]_.
 The sedimentograph is a measure of sand fraction of delta stratigraphy. In this implementation, a series of concentric CircularSection are drawn with increasing radius, so the sedimentograph is a function of space.
 
 
-First, a simple example of computing the sedimentograph, using the :obj:`~deltametrics.strat.compute_sedimentograph` function.
+First, a simple example of computing the sedimentograph, using the :obj:`~sandplover.strat.compute_sedimentograph` function.
 
 By default, the function will generate two bins for the data input for the ``sediment_volume`` argument, with the bin divider in the data-range midpoint (i.e., ``0.5`` for ``sandfrac`` data).
 
@@ -15,15 +15,15 @@ By default, the function will generate two bins for the data input for the ``sed
     :context: reset
 
     # set up the data source
-    golfcube = dm.sample_data.golf()
-    golfstrat = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
+    golfcube = spl.sample_data.golf()
+    golfstrat = spl.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
 
     background = (golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
     frozen_sand = golfstrat.export_frozen_variable('sandfrac')
 
     (sedimentograph,
         section_radii,
-        sediment_bins) = dm.strat.compute_sedimentograph(
+        sediment_bins) = spl.strat.compute_sedimentograph(
         frozen_sand,
         num_sections=50,
         last_section_radius=2750,
@@ -47,7 +47,7 @@ The result is a (only slightly) different sedimentograph.
     :include-source:
     :context:
 
-    GM = dm.mask.GeometricMask(
+    GM = spl.mask.GeometricMask(
         golfcube['eta'][-1],
         angular=dict(
             theta1=np.pi/8,
@@ -58,7 +58,7 @@ The result is a (only slightly) different sedimentograph.
 
     (sedimentograph2,
         section_radii2,
-        sediment_bins2) = dm.strat.compute_sedimentograph(
+        sediment_bins2) = spl.strat.compute_sedimentograph(
         frozen_sand_mask,
         num_sections=50,
         # last_section_radius=2750,
@@ -84,7 +84,7 @@ Using the sedimentograph to evaluate time distribution in subsurface
     time_bins = np.linspace(0, float(golfcube.t[-1]), num=7)
     (time_sedimentograph,
         time_radii,
-        _) = dm.strat.compute_sedimentograph(
+        _) = spl.strat.compute_sedimentograph(
         golfstrat['time'],
         num_sections=50,
         last_section_radius=2750,

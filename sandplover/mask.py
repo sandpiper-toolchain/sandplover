@@ -11,8 +11,8 @@ from skimage import feature
 from skimage import measure
 from skimage import morphology
 
-from deltametrics.plot import append_colorbar
-from deltametrics.utils import is_ndarray_or_xarray
+from sandplover.plot import append_colorbar
+from sandplover.utils import is_ndarray_or_xarray
 
 
 class BaseMask(abc.ABC):
@@ -31,7 +31,7 @@ class BaseMask(abc.ABC):
 
         *args
         """
-        from deltametrics.cube import BaseCube
+        from sandplover.cube import BaseCube
 
         # add mask type as attribute
         self._mask_type = mask_type
@@ -345,8 +345,8 @@ class ElevationMask(ThresholdValueMask):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.mask import ElevationMask
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import ElevationMask
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> emsk = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
@@ -440,8 +440,8 @@ class FlowMask(ThresholdValueMask):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.mask import FlowMask
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import FlowMask
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> fvmsk = FlowMask(golfcube["velocity"][-1, :, :], flow_threshold=0.3)
@@ -512,8 +512,8 @@ class ChannelMask(BaseMask):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.mask import ChannelMask
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import ChannelMask
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> cmsk = ChannelMask(
@@ -575,10 +575,10 @@ class ChannelMask(BaseMask):
         .. plot::
 
             >>> import matplotlib.pyplot as plt
-            >>> from deltametrics.mask import ChannelMask
-            >>> from deltametrics.mask import ElevationMask
-            >>> from deltametrics.mask import FlowMask
-            >>> from deltametrics.sample_data.sample_data import golf
+            >>> from sandplover.mask import ChannelMask
+            >>> from sandplover.mask import ElevationMask
+            >>> from sandplover.mask import FlowMask
+            >>> from sandplover.sample_data.sample_data import golf
 
             >>> golfcube = golf()
 
@@ -721,7 +721,7 @@ class ChannelMask(BaseMask):
         """Compute the ChannelMask.
 
         Note that this method in implementation should rely only on *array*
-        masks, not on the dm.mask objects.
+        masks, not on the spl.mask objects.
 
         For this Mask, we require a landmask array and a flowmask array.
         """
@@ -759,8 +759,8 @@ class WetMask(BaseMask):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.mask import WetMask
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import WetMask
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> wmsk = WetMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
@@ -796,7 +796,7 @@ class WetMask(BaseMask):
 
         Needs both an ElevationMask and a LandMask, or just an ElevationMask
         and will make a LandMask internally (creates a
-        `~dm.plan.OpeningAnglePlanform`); consider alternative static method
+        `~spl.plan.OpeningAnglePlanform`); consider alternative static method
         :obj:`from_OAP_and_ElevationMask` if you are computing many masks.
 
         Examples
@@ -973,8 +973,8 @@ class LandMask(BaseMask):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.mask import LandMask
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import LandMask
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> lmsk = LandMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
@@ -1028,8 +1028,8 @@ class LandMask(BaseMask):
         -------
         LandMask : :obj:`LandMask`
         """
-        from deltametrics.plan import MorphologicalPlanform
-        from deltametrics.plan import OpeningAnglePlanform
+        from sandplover.plan import MorphologicalPlanform
+        from sandplover.plan import OpeningAnglePlanform
 
         if isinstance(UnknownMask, ElevationMask):
             if "method" in kwargs:
@@ -1093,7 +1093,7 @@ class LandMask(BaseMask):
         .. note::
 
             This class currently computes the mask via the Shaw opening
-            angle method (:obj:`~dm.plan.shaw_opening_angle_method`). However,
+            angle method (:obj:`~spl.plan.shaw_opening_angle_method`). However,
             it could/should be generalized to support multiple implementations
             via a `method` argument. Then, the `contour_threshold` might not be
             a property any longer, and should be treated just as any keyword
@@ -1130,8 +1130,8 @@ class LandMask(BaseMask):
             Keyword arguments for :obj:`compute_shoremask`.
 
         """
-        from deltametrics.plan import MorphologicalPlanform
-        from deltametrics.plan import OpeningAnglePlanform
+        from sandplover.plan import MorphologicalPlanform
+        from sandplover.plan import OpeningAnglePlanform
 
         super().__init__("land", *args, **kwargs)
 
@@ -1178,7 +1178,7 @@ class LandMask(BaseMask):
               (matching shape of mask)
 
         """
-        from deltametrics.plan import BasePlanform
+        from sandplover.plan import BasePlanform
 
         # for landmask, we need the shore image field of the OAP
         if len(args) == 1:
@@ -1218,8 +1218,8 @@ class ShorelineMask(BaseMask):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.mask import ShorelineMask
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import ShorelineMask
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> smsk = ShorelineMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
@@ -1248,8 +1248,8 @@ class ShorelineMask(BaseMask):
             Optionally, use the `method` flag to control how the
             mask is created.
         """
-        from deltametrics.plan import MorphologicalPlanform
-        from deltametrics.plan import OpeningAnglePlanform
+        from sandplover.plan import MorphologicalPlanform
+        from sandplover.plan import OpeningAnglePlanform
 
         if not isinstance(UnknownMask, ElevationMask):
             # make intermediate shoreline mask
@@ -1305,9 +1305,9 @@ class ShorelineMask(BaseMask):
         .. note::
 
             This class currently computes the mask by either the Shaw Opening
-            Angle Method (:obj:`~dm.plan.shaw_opening_angle_method`) or the
+            Angle Method (:obj:`~spl.plan.shaw_opening_angle_method`) or the
             morphological closing method
-            (:obj:`~dm.plan.morphological_closing_method`). Other
+            (:obj:`~spl.plan.morphological_closing_method`). Other
             implementations can be used if manually implemented, and then
             the computed mask can be passed via via a `method` argument. For example,
             a sobel edge detection and morphological thinning on a LandMask
@@ -1340,11 +1340,11 @@ class ShorelineMask(BaseMask):
 
         kwargs : optional
             Keyword arguments for
-            :obj:`~deltametrics.plan.shaw_opening_angle_method`.
+            :obj:`~sandplover.plan.shaw_opening_angle_method`.
 
         """
-        from deltametrics.plan import MorphologicalPlanform
-        from deltametrics.plan import OpeningAnglePlanform
+        from sandplover.plan import MorphologicalPlanform
+        from sandplover.plan import OpeningAnglePlanform
 
         super().__init__("shoreline", *args, **kwargs)
 
@@ -1401,8 +1401,8 @@ class ShorelineMask(BaseMask):
 
     def _compute_mask(self, *args, **kwargs):
         """Internally call either the OAM or MPM method."""
-        from deltametrics.plan import MorphologicalPlanform
-        from deltametrics.plan import OpeningAnglePlanform
+        from sandplover.plan import MorphologicalPlanform
+        from sandplover.plan import OpeningAnglePlanform
 
         # handle types / input arguments
         if len(args) == 1:
@@ -1438,7 +1438,7 @@ class ShorelineMask(BaseMask):
 
         Applies the Opening Angle Method to compute the shoreline mask.
         Implementation of the OAM is in
-        :obj:`~deltametrics.plan.shaw_opening_angle_method`.
+        :obj:`~sandplover.plan.shaw_opening_angle_method`.
 
         Parameters
         ----------
@@ -1452,7 +1452,7 @@ class ShorelineMask(BaseMask):
             Defines the number of times to 'look' for the OAM. Default is 3.
 
         """
-        from deltametrics.plan import OpeningAnglePlanform
+        from sandplover.plan import OpeningAnglePlanform
 
         if len(args) == 1:
             if not isinstance(args[0], OpeningAnglePlanform):
@@ -1483,7 +1483,7 @@ class ShorelineMask(BaseMask):
 
         Applies the Morphological Planform Method to compute the shoreline
         mask. Implementation of the MPM is in
-        :obj:`~deltametrics.plan.morphological_closing_method`.
+        :obj:`~sandplover.plan.morphological_closing_method`.
 
         Parameters
         ----------
@@ -1498,7 +1498,7 @@ class ShorelineMask(BaseMask):
             Default is 3.
 
         """
-        from deltametrics.plan import MorphologicalPlanform
+        from sandplover.plan import MorphologicalPlanform
 
         if len(args) == 1:
             if not isinstance(args[0], MorphologicalPlanform):
@@ -1583,8 +1583,8 @@ class EdgeMask(BaseMask):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.mask import EdgeMask
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import EdgeMask
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> edgmsk = EdgeMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
@@ -1736,8 +1736,8 @@ class EdgeMask(BaseMask):
             Keyword arguments for :obj:`compute_shoremask`.
 
         """
-        from deltametrics.plan import MorphologicalPlanform
-        from deltametrics.plan import OpeningAnglePlanform
+        from sandplover.plan import MorphologicalPlanform
+        from sandplover.plan import OpeningAnglePlanform
 
         super().__init__("edge", *args, **kwargs)
 
@@ -1822,8 +1822,8 @@ class CenterlineMask(BaseMask):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.mask import CenterlineMask
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import CenterlineMask
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> cntmsk = CenterlineMask(
@@ -2109,8 +2109,8 @@ class GeometricMask(BaseMask):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.mask import GeometricMask
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import GeometricMask
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> arr = golfcube["eta"][-1, :, :]
@@ -2203,7 +2203,7 @@ class GeometricMask(BaseMask):
 
             >>> import matplotlib.pyplot as plt
             >>> import numpy as np
-            >>> from deltametrics.mask import GeometricMask
+            >>> from sandplover.mask import GeometricMask
 
             >>> arr = np.random.uniform(size=(100, 200))
             >>> gmsk0 = GeometricMask(arr)
@@ -2304,8 +2304,8 @@ class GeometricMask(BaseMask):
 
             >>> import matplotlib.pyplot as plt
             >>> import numpy as np
-            >>> from deltametrics.mask import GeometricMask
-            >>> from deltametrics.sample_data.sample_data import golf
+            >>> from sandplover.mask import GeometricMask
+            >>> from sandplover.sample_data.sample_data import golf
 
             >>> golfcube = golf()
             >>> arr = golfcube["eta"][-1, :, :]
@@ -2366,8 +2366,8 @@ class GeometricMask(BaseMask):
         .. plot::
 
             >>> import matplotlib.pyplot as plt
-            >>> from deltametrics.mask import GeometricMask
-            >>> from deltametrics.sample_data.sample_data import golf
+            >>> from sandplover.mask import GeometricMask
+            >>> from sandplover.sample_data.sample_data import golf
 
             >>> golfcube = golf()
             >>> arr = golfcube["eta"][-1, :, :]
@@ -2432,8 +2432,8 @@ class GeometricMask(BaseMask):
         .. plot::
 
             >>> import matplotlib.pyplot as plt
-            >>> from deltametrics.mask import GeometricMask
-            >>> from deltametrics.sample_data.sample_data import golf
+            >>> from sandplover.mask import GeometricMask
+            >>> from sandplover.sample_data.sample_data import golf
 
             >>> golfcube = golf()
             >>> arr = golfcube["eta"][-1, :, :]
@@ -2485,8 +2485,8 @@ class GeometricMask(BaseMask):
         .. plot::
 
             >>> import matplotlib.pyplot as plt
-            >>> from deltametrics.mask import GeometricMask
-            >>> from deltametrics.sample_data.sample_data import golf
+            >>> from sandplover.mask import GeometricMask
+            >>> from sandplover.sample_data.sample_data import golf
 
             >>> golfcube = golf()
             >>> arr = golfcube["eta"][-1, :, :]
@@ -2557,8 +2557,8 @@ class DepositMask(BaseMask):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.mask import DepositMask
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import DepositMask
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> deposit_mask = DepositMask(

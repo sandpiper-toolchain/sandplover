@@ -3,13 +3,13 @@
 Quick connect to your own  data
 -------------------------------
 
-If you are considering DeltaMetrics for your project, it may be helpful to use some of your data and see how DeltaMetrics works with that data, before committing to formatting a NetCDF file.
+If you are considering sandplover for your project, it may be helpful to use some of your data and see how DeltaMetrics works with that data, before committing to formatting a NetCDF file.
 
-This guide covers how to connect to non-standard data with DeltaMetrics
+This guide covers how to connect to non-standard data with sandplover
 
 .. note::
 
-    The preferred approach to using DeltaMetrics is to :doc:`properly format a NetCDF file for input datasets <./setup_any_dataset>`.
+    The preferred approach to using sandplover is to :doc:`properly format a NetCDF file for input datasets <./setup_any_dataset>`.
 
 First, use `numpy` to manipulate each variable in your dataset into a 3D array with "time" on the first axis, and the two spatial dimensions on the next two axes.
 In the following example, the data is from a 100x200 domain with 51 saved data intervals.
@@ -20,10 +20,10 @@ In the following example, the data is from a 100x200 domain with 51 saved data i
 
     eta = np.random.uniform(0, 1, size=(51, 100, 200))
 
-    dict_datacube = dm.cube.DataCube(
+    dict_datacube = spl.cube.DataCube(
         {'eta': eta})
 
-That is all you need to get your data into DeltaMetrics to test the package out.
+That is all you need to get your data into sandplover to test the package out.
 You could also have additional variables by adding key-value pairs to the input dictionary.
 
 .. plot::
@@ -34,4 +34,4 @@ You could also have additional variables by adding key-value pairs to the input 
 
 .. important::
 
-    If you decide to use DeltaMetrics, please check out the guide on how to :doc:`properly format a NetCDF file for input datasets <./setup_any_dataset>`.
+    If you decide to use sandplover, please check out the guide on how to :doc:`properly format a NetCDF file for input datasets <./setup_any_dataset>`.

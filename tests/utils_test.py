@@ -6,14 +6,14 @@ import time
 import numpy as np
 import pytest
 
-from deltametrics.mobility import calculate_channel_abandonment
-from deltametrics.sample_data.sample_data import _get_golf_path
-from deltametrics.utils import NoStratigraphyError
-from deltametrics.utils import curve_fit
-from deltametrics.utils import format_number
-from deltametrics.utils import format_table
-from deltametrics.utils import line_to_cells
-from deltametrics.utils import runtime_from_log
+from sandplover.mobility import calculate_channel_abandonment
+from sandplover.sample_data.sample_data import _get_golf_path
+from sandplover.utils import NoStratigraphyError
+from sandplover.utils import curve_fit
+from sandplover.utils import format_number
+from sandplover.utils import format_table
+from sandplover.utils import line_to_cells
+from sandplover.utils import runtime_from_log
 
 
 class TestNoStratigraphyError:

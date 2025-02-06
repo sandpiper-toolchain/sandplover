@@ -8,19 +8,19 @@ import numpy as np
 import xarray as xr
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 
-from deltametrics.io import DictionaryIO
-from deltametrics.io import NetCDFIO
-from deltametrics.plan import BasePlanform
-from deltametrics.plan import Planform
-from deltametrics.plot import VariableSet
-from deltametrics.section import BaseSection
-from deltametrics.section import DipSection
-from deltametrics.section import StrikeSection
-from deltametrics.strat import BoxyStratigraphyAttributes
-from deltametrics.strat import MeshStratigraphyAttributes
-from deltametrics.strat import _adjust_elevation_by_subsidence
-from deltametrics.strat import _determine_strat_coordinates
-from deltametrics.strat import compute_boxy_stratigraphy_coordinates
+from sandplover.io import DictionaryIO
+from sandplover.io import NetCDFIO
+from sandplover.plan import BasePlanform
+from sandplover.plan import Planform
+from sandplover.plot import VariableSet
+from sandplover.section import BaseSection
+from sandplover.section import DipSection
+from sandplover.section import StrikeSection
+from sandplover.strat import BoxyStratigraphyAttributes
+from sandplover.strat import MeshStratigraphyAttributes
+from sandplover.strat import _adjust_elevation_by_subsidence
+from sandplover.strat import _determine_strat_coordinates
+from sandplover.strat import compute_boxy_stratigraphy_coordinates
 
 
 class BaseCube(abc.ABC):
@@ -56,8 +56,8 @@ class BaseCube(abc.ABC):
             Which variables to read from dataset into memory. Special option
             for ``read=True`` to read all available variables into memory.
 
-        varset : :class:`~deltametrics.plot.VariableSet`, optional
-            Pass a `~deltametrics.plot.VariableSet` instance if you wish
+        varset : :class:`~sandplover.plot.VariableSet`, optional
+            Pass a `~sandplover.plot.VariableSet` instance if you wish
             to style this cube similarly to another cube.
 
         dimensions : `dict`, optional
@@ -182,11 +182,11 @@ class BaseCube(abc.ABC):
 
     @property
     def varset(self):
-        """:class:`~deltametrics.plot.VariableSet` : Variable styling for plotting.
+        """:class:`~sandplover.plot.VariableSet` : Variable styling for plotting.
 
         Can be set with :code:`cube.varset = VariableSetInstance` where
         ``VariableSetInstance`` is a valid instance of
-        :class:`~deltametrics.plot.VariableSet`.
+        :class:`~sandplover.plot.VariableSet`.
         """
         return self._varset
 
@@ -208,7 +208,7 @@ class BaseCube(abc.ABC):
 
     @property
     def dataio(self):
-        """:obj:`~deltametrics.io.BaseIO` subclass : Data I/O handler."""
+        """:obj:`~sandplover.io.BaseIO` subclass : Data I/O handler."""
         return self._dataio
 
     @property
@@ -248,7 +248,7 @@ class BaseCube(abc.ABC):
         name : :obj:`str`
             The name to register the `Planform`.
 
-        PlanformInstance : :obj:`~deltametrics.planform.BasePlanform` subclass instance
+        PlanformInstance : :obj:`~sandplover.planform.BasePlanform` subclass instance
             The planform instance that will be registered.
 
         return_planform : :obj:`bool`
@@ -291,7 +291,7 @@ class BaseCube(abc.ABC):
         name : :obj:`str`
             The name to register the section.
 
-        SectionInstance : :obj:`~deltametrics.section.BaseSection` subclass instance
+        SectionInstance : :obj:`~sandplover.section.BaseSection` subclass instance
             The section instance that will be registered.
 
         return_section : :obj:`bool`
@@ -303,7 +303,7 @@ class BaseCube(abc.ABC):
         When the API for instantiation of the different section types is
         settled, we should enable the ability to pass section kwargs to this
         method, and then instantiate the section internally. This avoids the
-        user having to specify ``dm.section.StrikeSection(distance=2000)`` in
+        user having to specify ``spl.section.StrikeSection(distance=2000)`` in
         the ``register_section()`` call, and instead can do something like
         ``golf.register_section('trial', trace='strike',
         distance=2000)``.
@@ -438,9 +438,9 @@ class BaseCube(abc.ABC):
 
         **kwargs
             Keyword arguments are passed
-            to :meth:`~deltametrics.plan.Planform.show` if `axis` is ``0``,
+            to :meth:`~sandplover.plan.Planform.show` if `axis` is ``0``,
             otherwise passed
-            to :meth:`~deltametrics.section.BaseSection.show`.
+            to :meth:`~sandplover.section.BaseSection.show`.
 
         Examples
         --------
@@ -448,8 +448,8 @@ class BaseCube(abc.ABC):
         .. plot::
 
             >>> import matplotlib.pyplot as plt
-            >>> from deltametrics.cube import StratigraphyCube
-            >>> from deltametrics.sample_data.sample_data import golf
+            >>> from sandplover.cube import StratigraphyCube
+            >>> from sandplover.sample_data.sample_data import golf
 
             >>> golfcube = golf()
             >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
@@ -504,8 +504,8 @@ class BaseCube(abc.ABC):
             plots in the documentation.
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.cube import StratigraphyCube
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.cube import StratigraphyCube
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
@@ -601,7 +601,7 @@ class BaseCube(abc.ABC):
 
         **kwargs
             Keyword arguments passed
-            to :meth:`~deltametrics.plan.Planform.show`.
+            to :meth:`~sandplover.plan.Planform.show`.
         """
         # call `show()` from string
         if isinstance(name, str):
@@ -624,7 +624,7 @@ class BaseCube(abc.ABC):
 
         **kwargs
             Keyword arguments passed
-            to :meth:`~deltametrics.section.BaseSection.show`.
+            to :meth:`~sandplover.section.BaseSection.show`.
         """
         # call `show()` from string
         if isinstance(name, str):
@@ -658,8 +658,8 @@ class DataCube(BaseCube):
             Which variables to read from dataset into memory. Special option
             for ``read=True`` to read all available variables into memory.
 
-        varset : :class:`~deltametrics.plot.VariableSet`, optional
-            Pass a `~deltametrics.plot.VariableSet` instance if you wish
+        varset : :class:`~sandplover.plot.VariableSet`, optional
+            Pass a `~sandplover.plot.VariableSet` instance if you wish
             to style this cube similarly to another cube. If no argument is
             supplied, a new default VariableSet instance is created.
 
@@ -668,7 +668,7 @@ class DataCube(BaseCube):
             compute preservation and stratigraphy using that variable as
             elevation data. Typically, this is ``'eta'`` in pyDeltaRCM model
             outputs. Stratigraphy can be computed on an existing data cube
-            with the :meth:`~deltametrics.cube.DataCube.stratigraphy_from`
+            with the :meth:`~sandplover.cube.DataCube.stratigraphy_from`
             method.
 
         dimensions : `dict`, optional
@@ -719,7 +719,7 @@ class DataCube(BaseCube):
         """Return the variable.
 
         Overload slicing operations for io to return a
-        :obj:`~deltametrics.cube.CubeVariable` instance when slicing.
+        :obj:`~sandplover.cube.CubeVariable` instance when slicing.
 
         Parameters
         ----------
@@ -728,7 +728,7 @@ class DataCube(BaseCube):
 
         Returns
         -------
-        CubeVariable : `~deltametrics.cube.CubeVariable`
+        CubeVariable : `~sandplover.cube.CubeVariable`
             The instantiated CubeVariable.
         """
         if var == "time":  # special case for time
@@ -770,8 +770,8 @@ class DataCube(BaseCube):
 
         style : :obj:`str`, optional
             Which style of stratigraphy to compute, options are :obj:`'mesh'
-            <deltametrics.strat.MeshStratigraphyAttributes>` or :obj:`'boxy'
-            <deltametrics.strat.BoxyStratigraphyAttributes>`. Additional
+            <sandplover.strat.MeshStratigraphyAttributes>` or :obj:`'boxy'
+            <sandplover.strat.BoxyStratigraphyAttributes>`. Additional
             keyword arguments are passed to stratigraphy attribute
             initializers.
 
@@ -834,8 +834,8 @@ class StratigraphyCube(BaseCube):
         --------
         Create a stratigraphy cube from the example ``golf``:
 
-        >>> from deltametrics.cube import StratigraphyCube
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.cube import StratigraphyCube
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> stratcube = StratigraphyCube.from_DataCube(golfcube, dz=0.05)
@@ -855,9 +855,9 @@ class StratigraphyCube(BaseCube):
         **kwargs
             Keyword arguments passed to stratigraphy initialization. Can
             include specification for vertical resolution in `Boxy` case,
-            see :obj:`~deltametrics.strat._determine_strat_coordinates`,
+            see :obj:`~sandplover.strat._determine_strat_coordinates`,
             as well as information about subsidence,
-            see :obj:`~deltametrics.strat._adjust_elevation_by_subsidence`.
+            see :obj:`~sandplover.strat._adjust_elevation_by_subsidence`.
 
         Returns
         -------
@@ -903,8 +903,8 @@ class StratigraphyCube(BaseCube):
             Which variables to read from dataset into memory. Special option
             for ``read=True`` to read all available variables into memory.
 
-        varset : :class:`~deltametrics.plot.VariableSet`, optional
-            Pass a `~deltametrics.plot.VariableSet` instance if you wish
+        varset : :class:`~sandplover.plot.VariableSet`, optional
+            Pass a `~sandplover.plot.VariableSet` instance if you wish
             to style this cube similarly to another cube. If no argument is
             supplied, a new default VariableSet instance is created.
         """
@@ -949,7 +949,7 @@ class StratigraphyCube(BaseCube):
         """Return the variable.
 
         Overload slicing operations for io to return a
-        :obj:`~deltametrics.cube.CubeVariable` instance when slicing, where
+        :obj:`~sandplover.cube.CubeVariable` instance when slicing, where
         the data have been placed into stratigraphic position.
 
         Parameters
@@ -959,7 +959,7 @@ class StratigraphyCube(BaseCube):
 
         Returns
         -------
-        CubeVariable : `~deltametrics.cube.CubeVariable`
+        CubeVariable : `~sandplover.cube.CubeVariable`
             The instantiated CubeVariable.
         """
         if var == "time":

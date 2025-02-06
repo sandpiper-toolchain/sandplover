@@ -3,26 +3,26 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pytest
 
-from deltametrics.cube import DataCube
-from deltametrics.cube import StratigraphyCube
-from deltametrics.plot import VariableInfo
-from deltametrics.plot import VariableSet
-from deltametrics.plot import _fill_steps
-from deltametrics.plot import _scale_lightness
-from deltametrics.plot import aerial_view
-from deltametrics.plot import append_colorbar
-from deltametrics.plot import cartographic_colormap
-from deltametrics.plot import get_display_arrays
-from deltametrics.plot import get_display_limits
-from deltametrics.plot import get_display_lines
-from deltametrics.plot import overlay_sparse_array
-from deltametrics.plot import show_histograms
-from deltametrics.plot import show_one_dimensional_trajectory_to_strata
-from deltametrics.plot import style_axes_km
-from deltametrics.plot import vintage_colormap
-from deltametrics.sample_data.sample_data import _get_golf_path
-from deltametrics.section import StrikeSection
-from deltametrics.utils import NoStratigraphyError
+from sandplover.cube import DataCube
+from sandplover.cube import StratigraphyCube
+from sandplover.plot import VariableInfo
+from sandplover.plot import VariableSet
+from sandplover.plot import _fill_steps
+from sandplover.plot import _scale_lightness
+from sandplover.plot import aerial_view
+from sandplover.plot import append_colorbar
+from sandplover.plot import cartographic_colormap
+from sandplover.plot import get_display_arrays
+from sandplover.plot import get_display_limits
+from sandplover.plot import get_display_lines
+from sandplover.plot import overlay_sparse_array
+from sandplover.plot import show_histograms
+from sandplover.plot import show_one_dimensional_trajectory_to_strata
+from sandplover.plot import style_axes_km
+from sandplover.plot import vintage_colormap
+from sandplover.sample_data.sample_data import _get_golf_path
+from sandplover.section import StrikeSection
+from sandplover.utils import NoStratigraphyError
 
 golf_path = _get_golf_path()
 

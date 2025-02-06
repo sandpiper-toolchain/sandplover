@@ -17,7 +17,7 @@ Calculation of channel and land masks
 
 The first step to quantifying channel mobility is to determine the location
 of the land and channels through time. We do this via the calculation of
-both :obj:`deltametrics.mask.LandMask` and :obj:`deltametrics.mask.ChannelMask`
+both :obj:`sandplover.mask.LandMask` and :obj:`sandplover.mask.ChannelMask`
 objects. These masks are binary representations of the land and channel
 locations, respectively. To read more about masking, refer to the :doc:`mask`,
 :doc:`planform`, and :doc:`Masking operations API <../../reference/mask/index>`
@@ -27,16 +27,16 @@ sections of the documentation.
     :include-source:
     :context: reset
 
-    >>> golfcube = dm.sample_data.golf()
+    >>> golfcube = spl.sample_data.golf()
     >>> channelmask_list = []
     >>> landmask_list = []
 
     >>> for i in range(50, 60):
     ...     landmask_list.append(
-    ...         dm.mask.LandMask(golfcube["eta"][i, ...], elevation_threshold=0)
+    ...         spl.mask.LandMask(golfcube["eta"][i, ...], elevation_threshold=0)
     ...     )
     ...     channelmask_list.append(
-    ...         dm.mask.ChannelMask(
+    ...         spl.mask.ChannelMask(
     ...             golfcube["eta"][i, ...],
     ...             golfcube["velocity"][i, ...],
     ...             elevation_threshold=0,
@@ -51,10 +51,10 @@ Calculation of mobility metrics
 Next the lists of masks are used to calculate channel mobility metrics.
 The metrics calculated are the dry fraction, planform overlap, reworking
 fraction, and abandoned fraction. These metrics are calculated using the
-functions :func:`deltametrics.mobility.calculate_channel_decay`,
-:func:`deltametrics.mobility.calculate_planform_overlap`,
-:func:`deltametrics.mobility.calculate_reworking_fraction`, and
-:func:`deltametrics.mobility.calculate_channel_abandonment`, respectively.
+functions :func:`sandplover.mobility.calculate_channel_decay`,
+:func:`sandplover.mobility.calculate_planform_overlap`,
+:func:`sandplover.mobility.calculate_reworking_fraction`, and
+:func:`sandplover.mobility.calculate_channel_abandonment`, respectively.
 All of these function require at least one list of masks, and can take
 additional arguments to specify the base values and window size for the
 sliding window calculations. For more information on these functions, refer
@@ -66,16 +66,16 @@ the documentation.
     :include-source:
     :context:
 
-    >>> dryfrac = dm.mobility.calculate_channel_decay(
+    >>> dryfrac = spl.mobility.calculate_channel_decay(
     ...     channelmask_list, landmask_list, basevalues_idx=[0, 1, 2], window_idx=5
     ... )
-    >>> Ophi = dm.mobility.calculate_planform_overlap(
+    >>> Ophi = spl.mobility.calculate_planform_overlap(
     ...     channelmask_list, landmask_list, basevalues_idx=[0, 1, 2], window_idx=5
     ... )
-    >>> fr = dm.mobility.calculate_reworking_fraction(
+    >>> fr = spl.mobility.calculate_reworking_fraction(
     ...     channelmask_list, landmask_list, basevalues_idx=[0, 1, 2], window_idx=5
     ... )
-    >>> PwetA = dm.mobility.calculate_channel_abandonment(
+    >>> PwetA = spl.mobility.calculate_channel_abandonment(
     ...     channelmask_list, basevalues_idx=[0, 1, 2], window_idx=5
     ... )
 

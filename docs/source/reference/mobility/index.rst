@@ -9,16 +9,16 @@ Inputs to these functions are some sort of binary channel masks, and maps defini
 Functionality for fitting linear, harmonic, and exponential curves
 to the results of these functions is provided as well.
 
-The functions are defined in ``deltametrics.mobility``.
+The functions are defined in ``sandplover.mobility``.
 
 .. hint::
 
-  There is a complete :doc:`Mobility Subject Guide </guides/subject_guides/mobility>` about the organization of this area of DeltaMetrics and examples for how to use and compute mobility metrics.
+  There is a complete :doc:`Mobility Subject Guide </guides/subject_guides/mobility>` about the organization of this area of sandplover and examples for how to use and compute mobility metrics.
 
 Mobility functions
 ==================
 
-.. currentmodule:: deltametrics.mobility
+.. currentmodule:: sandplover.mobility
 
 .. autosummary::
   :toctree: ../../_autosummary

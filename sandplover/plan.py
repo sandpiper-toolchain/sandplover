@@ -12,17 +12,17 @@ from scipy.signal import fftconvolve
 from scipy.spatial import ConvexHull
 from skimage import morphology
 
-from deltametrics.mask import BaseMask
-from deltametrics.mask import ChannelMask
-from deltametrics.mask import ElevationMask
-from deltametrics.mask import LandMask
-from deltametrics.mask import ShorelineMask
-from deltametrics.plot import VariableInfo
-from deltametrics.plot import VariableSet
-from deltametrics.plot import append_colorbar
-from deltametrics.section import BaseSection
-from deltametrics.utils import _points_in_polygon
-from deltametrics.utils import is_ndarray_or_xarray
+from sandplover.mask import BaseMask
+from sandplover.mask import ChannelMask
+from sandplover.mask import ElevationMask
+from sandplover.mask import LandMask
+from sandplover.mask import ShorelineMask
+from sandplover.plot import VariableInfo
+from sandplover.plot import VariableSet
+from sandplover.plot import append_colorbar
+from sandplover.section import BaseSection
+from sandplover.utils import _points_in_polygon
+from sandplover.utils import is_ndarray_or_xarray
 
 # from shapely.geometry.polygon import Polygon
 
@@ -174,7 +174,7 @@ class Planform(BasePlanform):
         Parameters
         ----------
 
-        CubeInstance : :obj:`~deltametrics.cube.BaseCube` subclass, optional
+        CubeInstance : :obj:`~sandplover.cube.BaseCube` subclass, optional
             Connect to this cube. No connection is made if cube is not
             provided.
 
@@ -225,7 +225,7 @@ class Planform(BasePlanform):
 
     def connect(self, CubeInstance, name=None):
         """Connect this Planform instance to a Cube instance."""
-        from deltametrics.cube import BaseCube
+        from sandplover.cube import BaseCube
 
         if not issubclass(type(CubeInstance), BaseCube):
             raise TypeError(
@@ -286,8 +286,8 @@ class Planform(BasePlanform):
             The undelrying data returned as an xarray `DataArray`, maintaining
             coordinates.
         """
-        from deltametrics.cube import DataCube
-        from deltametrics.cube import StratigraphyCube
+        from sandplover.cube import DataCube
+        from sandplover.cube import StratigraphyCube
 
         if isinstance(self.cube, DataCube):
             _xrDA = self.cube[var][self._dim0_idx, :, :]
@@ -336,7 +336,7 @@ class Planform(BasePlanform):
         label : :obj:`bool`, `str`, optional
             Display a label of the variable name on the plot. Default is
             False, display nothing. If ``label=True``, the label name from the
-            :obj:`~deltametrics.plot.VariableSet` is used. Other arguments are
+            :obj:`~sandplover.plot.VariableSet` is used. Other arguments are
             attempted to coerce to `str`, and the literal is diplayed.
 
         colorbar : :obj:`bool`, optional
@@ -345,7 +345,7 @@ class Planform(BasePlanform):
         colorbar_label : :obj:`bool`, `str`, optional
             Display a label of the variable name along the colorbar. Default is
             False, display nothing. If ``label=True``, the label name from the
-            :obj:`~deltametrics.plot.VariableSet` is used. Other arguments are
+            :obj:`~sandplover.plot.VariableSet` is used. Other arguments are
             attempted to coerce to `str`, and the literal is diplayed.
 
         ax : :obj:`~matplotlib.pyplot.Axes` object, optional
@@ -360,8 +360,8 @@ class Planform(BasePlanform):
         .. plot::
 
             >>> import matplotlib.pyplot as plt
-            >>> from deltametrics.plan import Planform
-            >>> from deltametrics.sample_data.sample_data import golf
+            >>> from sandplover.plan import Planform
+            >>> from sandplover.sample_data.sample_data import golf
 
             >>> golfcube = golf()
             >>> planform = Planform(golfcube, idx=70)
@@ -369,7 +369,7 @@ class Planform(BasePlanform):
             >>> _ = planform.show("eta", ax=ax[0])
             >>> _ = planform.show("velocity", ax=ax[1])
         """
-        from deltametrics.cube import BaseCube
+        from sandplover.cube import BaseCube
 
         # process the planform attribute to a field
         _varinfo = (
@@ -494,7 +494,7 @@ class SpecialtyPlanform(BasePlanform):
         label : :obj:`bool`, `str`, optional
             Display a label of the variable name on the plot. Default is
             False, display nothing. If ``label=True``, the label name from the
-            :obj:`~deltametrics.plot.VariableSet` is used. Other arguments are
+            :obj:`~sandplover.plot.VariableSet` is used. Other arguments are
             attempted to coerce to `str`, and the literal is diplayed.
 
         colorbar : :obj:`bool`, optional
@@ -503,7 +503,7 @@ class SpecialtyPlanform(BasePlanform):
         colorbar_label : :obj:`bool`, `str`, optional
             Display a label of the variable name along the colorbar. Default is
             False, display nothing. If ``label=True``, the label name from the
-            :obj:`~deltametrics.plot.VariableSet` is used. Other arguments are
+            :obj:`~sandplover.plot.VariableSet` is used. Other arguments are
             attempted to coerce to `str`, and the literal is diplayed.
 
         ax : :obj:`~matplotlib.pyplot.Axes` object, optional
@@ -550,16 +550,16 @@ class OpeningAnglePlanform(SpecialtyPlanform):
     Examples
     --------
     Instantiate the `OpeningAnglePlanform` from an **inverted** binary mask of
-    elevation data (i.e., from an :obj:`~deltametrics.mask.ElevationMask`).
+    elevation data (i.e., from an :obj:`~sandplover.mask.ElevationMask`).
 
     Note that the below example is the most verbose method for creating the
     `OAP`. Consider available static methods.
 
     .. plot::
 
-        >>> from deltametrics.mask import ElevationMask
-        >>> from deltametrics.plan import OpeningAnglePlanform
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import ElevationMask
+        >>> from sandplover.plan import OpeningAnglePlanform
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> _EM = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
@@ -575,7 +575,7 @@ class OpeningAnglePlanform(SpecialtyPlanform):
         :obj:`below_mask` and :obj:`opening_angles`.
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.plot import append_colorbar
+        >>> from sandplover.plot import append_colorbar
 
         >>> fig, ax = plt.subplots(1, 3, figsize=(10, 4))
         >>> golfcube.quick_show("eta", idx=-1, ax=ax[0])
@@ -627,8 +627,8 @@ class OpeningAnglePlanform(SpecialtyPlanform):
         Examples
         --------
 
-        >>> from deltametrics.plan import OpeningAnglePlanform
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.plan import OpeningAnglePlanform
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
 
@@ -656,16 +656,16 @@ class OpeningAnglePlanform(SpecialtyPlanform):
 
         Parameters
         ----------
-        ElevationMask : :obj:`~deltametrics.mask.ElevationMask`
+        ElevationMask : :obj:`~sandplover.mask.ElevationMask`
             The :obj:`ElevationMask` to be used to create the
             `OpeningAnglePlanform`.
 
         Examples
         --------
 
-        >>> from deltametrics.mask import ElevationMask
-        >>> from deltametrics.plan import OpeningAnglePlanform
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import ElevationMask
+        >>> from sandplover.plan import OpeningAnglePlanform
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> _EM = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
@@ -694,7 +694,7 @@ class OpeningAnglePlanform(SpecialtyPlanform):
         .. note:: needs docstring.
 
         """
-        from deltametrics.cube import BaseCube
+        from sandplover.cube import BaseCube
 
         super().__init__("opening angle", *args)
         self._shape = None
@@ -879,9 +879,9 @@ class MorphologicalPlanform(SpecialtyPlanform):
 
     .. plot::
 
-        >>> from deltametrics.mask import ElevationMask
-        >>> from deltametrics.plan import MorphologicalPlanform
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import ElevationMask
+        >>> from sandplover.plan import MorphologicalPlanform
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> EM = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
@@ -893,7 +893,7 @@ class MorphologicalPlanform(SpecialtyPlanform):
         the computed :obj:`mean_image` below.
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.plot import append_colorbar
+        >>> from sandplover.plot import append_colorbar
 
         >>> fig, ax = plt.subplots(1, 2, figsize=(7.5, 4))
         >>> golfcube.quick_show("eta", idx=-1, ax=ax[0])
@@ -936,8 +936,8 @@ class MorphologicalPlanform(SpecialtyPlanform):
         Examples
         --------
 
-        >>> from deltametrics.plan import MorphologicalPlanform
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.plan import MorphologicalPlanform
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
 
@@ -995,7 +995,7 @@ class MorphologicalPlanform(SpecialtyPlanform):
             may not be what you expect.
 
         """
-        from deltametrics.cube import BaseCube
+        from sandplover.cube import BaseCube
 
         super().__init__("morphological method", *args)
         self._shape = None
@@ -1128,8 +1128,8 @@ def compute_land_area(land_mask):
 
     Parameters
     ----------
-    land_mask : :obj:`~deltametrics.mask.LandMask`, :obj:`ndarray`
-        Land mask. Can be a :obj:`~deltametrics.mask.LandMask` object,
+    land_mask : :obj:`~sandplover.mask.LandMask`, :obj:`ndarray`
+        Land mask. Can be a :obj:`~sandplover.mask.LandMask` object,
         or a binarized array.
 
     Returns
@@ -1143,9 +1143,9 @@ def compute_land_area(land_mask):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.mask import LandMask
-        >>> from deltametrics.plan import compute_land_area
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import LandMask
+        >>> from sandplover.plan import compute_land_area
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golf = golf()
 
@@ -1194,12 +1194,12 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
 
     Parameters
     ----------
-    shore_mask : :obj:`~deltametrics.mask.ShorelineMask`, :obj:`ndarray`
-        Shoreline mask. Can be a :obj:`~deltametrics.mask.ShorelineMask` object,
+    shore_mask : :obj:`~sandplover.mask.ShorelineMask`, :obj:`ndarray`
+        Shoreline mask. Can be a :obj:`~sandplover.mask.ShorelineMask` object,
         or a binarized array.
 
-    land_mask : :obj:`~deltametrics.mask.LandMask`, :obj:`ndarray`
-        Land mask. Can be a :obj:`~deltametrics.mask.LandMask` object,
+    land_mask : :obj:`~sandplover.mask.LandMask`, :obj:`ndarray`
+        Land mask. Can be a :obj:`~sandplover.mask.LandMask` object,
         or a binarized array.
 
     **kwargs
@@ -1215,15 +1215,15 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
     --------
     Compare the roughness of the shoreline early in the model simulation with
     the roughness later. Here, we use the `elevation_offset` parameter (passed
-    to :obj:`~deltametrics.mask.ElevationMask`) to better capture the
+    to :obj:`~sandplover.mask.ElevationMask`) to better capture the
     topography of the `pyDeltaRCM` model results.
 
     .. plot::
 
-        >>> from deltametrics.mask import LandMask
-        >>> from deltametrics.mask import ShorelineMask
-        >>> from deltametrics.plan import compute_land_area
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import LandMask
+        >>> from sandplover.mask import ShorelineMask
+        >>> from sandplover.plan import compute_land_area
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golf = golf()
 
@@ -1256,7 +1256,7 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
         In order for these masks to work as expected in the shoreline roughness
         computation, we need to modify the mask values slightly, to remove the
         land-water boundary that is not really a part of the delta. We use the
-        :meth:`~deltametrics.mask.BaseMask.trim_mask` method to trim a mask.
+        :meth:`~sandplover.mask.BaseMask.trim_mask` method to trim a mask.
 
         >>> lm0.trim_mask(length=golf.meta["L0"].data + 1)
         >>> sm0.trim_mask(length=golf.meta["L0"].data + 1)
@@ -1271,7 +1271,7 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
 
         Compute roughnesses
 
-        >>> from deltametrics.plan import compute_shoreline_roughness
+        >>> from sandplover.plan import compute_shoreline_roughness
 
         >>> rgh0 = compute_shoreline_roughness(sm0, lm0)
         >>> rgh1 = compute_shoreline_roughness(sm1, lm1)
@@ -1318,7 +1318,7 @@ def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
     """Compute the length of a shoreline from a mask of the shoreline.
 
     Algorithm attempts to determine the sorted coordinates of the shoreline
-    from a :obj:`~dm.mask.ShorelineMask`.
+    from a :obj:`~spl.mask.ShorelineMask`.
 
     .. warning::
 
@@ -1327,8 +1327,8 @@ def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
 
     Parameters
     ----------
-    shore_mask : :obj:`~deltametrics.mask.ShorelineMask`, :obj:`ndarray`
-        Shoreline mask. Can be a :obj:`~deltametrics.mask.ShorelineMask`
+    shore_mask : :obj:`~sandplover.mask.ShorelineMask`, :obj:`ndarray`
+        Shoreline mask. Can be a :obj:`~sandplover.mask.ShorelineMask`
         object, or a binarized array.
 
     origin : :obj:`list`, :obj:`np.ndarray`, optional
@@ -1356,14 +1356,14 @@ def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
 
     Compare the length of the shoreline early in the model simulation with
     the length later. Here, we use the `elevation_offset` parameter (passed to
-    :obj:`~deltametrics.mask.ElevationMask`) to better capture the topography
+    :obj:`~sandplover.mask.ElevationMask`) to better capture the topography
     of the `pyDeltaRCM` model results.
 
     .. plot::
 
-        >>> from deltametrics.mask import ShorelineMask
-        >>> from deltametrics.plan import compute_shoreline_length
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import ShorelineMask
+        >>> from sandplover.plan import compute_shoreline_length
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golf = golf()
 
@@ -1559,8 +1559,8 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
 
     Parameters
     ----------
-    shore_mask : :obj:`~deltametrics.mask.ShorelineMask`, :obj:`ndarray`
-        Shoreline mask. Can be a :obj:`~deltametrics.mask.ShorelineMask`
+    shore_mask : :obj:`~sandplover.mask.ShorelineMask`, :obj:`ndarray`
+        Shoreline mask. Can be a :obj:`~sandplover.mask.ShorelineMask`
         object, or a binarized array.
 
     origin : :obj:`list`, :obj:`np.ndarray`, optional
@@ -1589,9 +1589,9 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
 
     .. plot::
 
-        >>> from deltametrics.mask import ShorelineMask
-        >>> from deltametrics.plan import compute_shoreline_distance
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import ShorelineMask
+        >>> from sandplover.plan import compute_shoreline_distance
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golf = golf()
 
@@ -1791,9 +1791,9 @@ def shaw_opening_angle_method(
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> from deltametrics.mask import ElevationMask
-        >>> from deltametrics.plan import shaw_opening_angle_method
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.mask import ElevationMask
+        >>> from sandplover.plan import shaw_opening_angle_method
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
         >>> EM = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
@@ -2002,7 +2002,7 @@ def morphological_closing_method(elevationmask, biggestdisk=None):
 
     Parameters
     ----------
-    elevationmask : :obj:`~deltametrics.mask.ElevationMask` or
+    elevationmask : :obj:`~sandplover.mask.ElevationMask` or
                     :obj:`ndarray` or :obj:`xarray`
         Binary image that the morpholigical closing is performed upon.
         This is expected to be something like an elevation mask, although it
@@ -2057,7 +2057,7 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
 
     In essence, this processing implicitly assumes that the section cuts each
     channel perpendicularly. We therefore recommend using this function with
-    a `~dm.section.CircularSection` type, unless you know what you are doing.
+    a `~spl.section.CircularSection` type, unless you know what you are doing.
     By default, only the mean and standard deviation are returned, but the
     list of widths can be returned with `return_widths=True`.
 
@@ -2068,11 +2068,11 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
 
     Parameters
     ----------
-    channelmask : :obj:`~deltametrics.mask.ChannelMask` or :obj:`ndarray`
+    channelmask : :obj:`~sandplover.mask.ChannelMask` or :obj:`ndarray`
         The channel mask (i.e., should be binary) to compute channel widths
         from.
 
-    section : :obj:`~deltametrics.section.BaseSection` subclass, or :obj:`ndarray`
+    section : :obj:`~sandplover.section.BaseSection` subclass, or :obj:`ndarray`
         The section along which to compute channel widths. If a `Section` type
         is passed, the `.idx_trace` attribute will be used to query the
         `ChannelMask` and determine widths. Otherwise, an `Nx2` array can be
@@ -2100,10 +2100,10 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.mask import ChannelMask
-        >>> from deltametrics.plan import compute_channel_width
-        >>> from deltametrics.sample_data.sample_data import golf
-        >>> from deltametrics.section import CircularSection
+        >>> from sandplover.mask import ChannelMask
+        >>> from sandplover.plan import compute_channel_width
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.section import CircularSection
 
         Set up the cube, mask, and section
 
@@ -2222,14 +2222,14 @@ def compute_channel_depth(
 
     Parameters
     ----------
-    channelmask : :obj:`~deltametrics.mask.ChannelMask` or :obj:`ndarray`
+    channelmask : :obj:`~sandplover.mask.ChannelMask` or :obj:`ndarray`
         The channel mask (i.e., should be binary) to compute channel depths
         from.
 
     depth : `xarray` or `ndarray`
         The depth field corresponding to the channelmask array.
 
-    section : :obj:`~deltametrics.section.BaseSection` subclass, or :obj:`ndarray`
+    section : :obj:`~sandplover.section.BaseSection` subclass, or :obj:`ndarray`
         The section along which to compute channel depths. If a `Section` type
         is passed, the `.idx_trace` attribute will be used to query the
         `ChannelMask` and determine depths. Otherwise, an `Nx2` array can be
@@ -2356,9 +2356,9 @@ def compute_surface_deposit_time(data, surface_idx=-1, **kwargs):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.plan import compute_surface_deposit_time
-        >>> from deltametrics.plot import append_colorbar
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.plan import compute_surface_deposit_time
+        >>> from sandplover.plot import append_colorbar
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golf = golf()
         >>> sfc_time = compute_surface_deposit_time(golf, surface_idx=-1)
@@ -2380,7 +2380,7 @@ def compute_surface_deposit_time(data, surface_idx=-1, **kwargs):
         ...     _ = ax[i].set_title(f"stasis_tol={tol}")
         ...
     """
-    from deltametrics.cube import DataCube
+    from sandplover.cube import DataCube
 
     # sanitize the input surface declared
     if surface_idx == 0:
@@ -2436,8 +2436,8 @@ def compute_surface_deposit_age(data, surface_idx, **kwargs):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.plan import compute_surface_deposit_age
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.plan import compute_surface_deposit_age
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golf = golf()
         >>> sfc_time = compute_surface_deposit_age(golf, surface_idx=-1)

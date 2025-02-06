@@ -13,7 +13,7 @@ Instantiating masks directly can be done as follows.
         whr = np.random.randint(0, anydata.size, size=int(anydata.size*proportion))
         anydata.flat[whr] = True
 
-        lm = dm.mask.LandMask.from_array(
+        lm = spl.mask.LandMask.from_array(
             anydata)
 
         fig, ax =  plt.subplots()

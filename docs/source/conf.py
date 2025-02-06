@@ -24,13 +24,11 @@ src_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.
 
 # -- Project information -----------------------------------------------------
 
-project = "DeltaMetrics"
+project = "sandplover"
 copyright = "2020, The DeltaRCM Team"
 author = "The DeltaRCM Team"
 
-__version__ = get_version_from_file(
-    os.path.join(src_dir, "deltametrics", "_version.py")
-)
+__version__ = get_version_from_file(os.path.join(src_dir, "sandplover", "_version.py"))
 
 # The full version, including alpha/beta/rc tags
 release = __version__
@@ -86,7 +84,7 @@ autodoc_default_options = {
 
 # doctest
 doctest_global_setup = """
-import deltametrics as dm
+import sandplover as spl
 import numpy as np
 from matplotlib import pyplot as plt
 import matplotlib
@@ -103,7 +101,7 @@ plot_formats = ["png", ("hires.png", 300)]
 plot_pre_code = """
 import numpy as np
 from matplotlib import pyplot as plt
-import deltametrics as dm
+import sandplover as spl
 """
 
 # img math

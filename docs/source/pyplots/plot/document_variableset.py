@@ -2,9 +2,9 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
-import deltametrics as dm
+import sandplover as spl
 
-vs = dm.plot.VariableSet()
+vs = spl.plot.VariableSet()
 
 N = 256
 gradient = np.linspace(0, 1, N)

@@ -16,13 +16,13 @@ Then, clone your fork to your local machine:
 
 .. code:: console
 
-    $ git clone https://github.com/<username>/DeltaMetrics.git
+    $ git clone https://github.com/<username>/sandplover.git
 
 and then ``cd`` into the directory and install editable copy.
 
 .. code:: console
 
-    $ cd DeltaMetrics
+    $ cd sandplover
     $ pip install -r requirements.txt
     $ pip install -e .
 
@@ -37,7 +37,7 @@ You may wish to add the upstream repository for easy ``push``/``pull``.
 
 .. code:: console
 
-    $ git remote add upstream https://github.com/DeltaRCM/DeltaMetrics.git
+    $ git remote add upstream https://github.com/sandpiper-toolchain/sandplover.git
 
 
 Developing

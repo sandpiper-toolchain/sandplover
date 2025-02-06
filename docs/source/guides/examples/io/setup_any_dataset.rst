@@ -1,13 +1,13 @@
 .. _setup-any-dataset:
 
-How to set up any dataset to work with DeltaMetrics
+How to set up any dataset to work with sandplover
 ---------------------------------------------------
 
-This guide describes how to set up any spatiotemporal (`t-x-y`) dataset to work with DeltaMetrics.
+This guide describes how to set up any spatiotemporal (`t-x-y`) dataset to work with sandplover.
 
 .. hint::
 
-    If you are trying DeltaMetrics for the first time with your data, and want a quick and simple test, check out :doc:`this guide <./connect_to_nonstandard_data>`
+    If you are trying sandplover for the first time with your data, and want a quick and simple test, check out :doc:`this guide <./connect_to_nonstandard_data>`
 
 First, let's make some sample data:
 
@@ -21,7 +21,7 @@ First, let's make some sample data:
     from netCDF4 import Dataset
     import os
 
-    import deltametrics as dm
+    import sandplover as spl
 
     ## create the model data
     # some spatial information
@@ -62,33 +62,33 @@ And we can see what this data looks like for a comparison with the data when we 
 Connecting with NetCDF
 ~~~~~~~~~~~~~~~~~~~~~~
 
-The standard I/O format for data used in DeltaMetrics is a NetCDF4 file, structured as sets of arrays.
+The standard I/O format for data used in sandplover is a NetCDF4 file, structured as sets of arrays.
 NetCDF was designed with dimensional data in mind, so that we can use common dimensions to align and manipulate multiple different underlying variables.
 
 .. important::
 
-    Taking the time to set your data up correctly in a netCDF file is the preferred way to use DeltaMetrics with your own data.
+    Taking the time to set your data up correctly in a netCDF file is the preferred way to use sandplover with your own data.
 
-This guide is not meant to be an exhaustive guide on the netCDF format, so we provide only a simple overview of some core components that affect DeltaMetrics.
+This guide is not meant to be an exhaustive guide on the netCDF format, so we provide only a simple overview of some core components that affect sandplover.
 
 * `dataset`: the file, including all of the data and metadata to describe that data
 * `variable`: a field in the `dataset` that contains numeric information
 * `dimension`: a field in the `dataset` describing one dimension of the underlying data variables
 * `group`: a mechanism for constructing a hierarchy of information within the `dataset`.
 
-DeltaMetrics NetCDF data standards
+sandplover NetCDF data standards
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-For DeltaMetrics to correctly work with underlying data, you must properly configure the dimensions and variables of the dataset.
+For sandplover to correctly work with underlying data, you must properly configure the dimensions and variables of the dataset.
 
-* DeltaMetrics expects your core underlying spatiotemporal data (like 2D fields of elevation data, velocity, etc) to be organized into 3D arrays, with time along the first axis and two spatial dimensions along the next two axes.
-* DeltaMetrics expects *at least* three `dimensions` defined in the `dataset`, one of which must be named ``time``, and the other two can have any name that describes the spatial dimensions of the data (e.g., `x`, `lon`, `easting`, etc.).
-* DeltaMetrics expects a `variable` with name *exactly matching* the name of each of the three previous `dimensions`.
-* DeltaMetrics expects some number of `variables` with arbitrary names that each contain a 3D array of spatiotemporal data of interest. I.e., this is the actual model/field/experiment data.
-* DeltaMetrics expects there to be a `group` with name `meta`, which contains any information relevant to the spatiotemporal data. E.g., sea level, coordinates of sediment feed location.
+* sandplover expects your core underlying spatiotemporal data (like 2D fields of elevation data, velocity, etc) to be organized into 3D arrays, with time along the first axis and two spatial dimensions along the next two axes.
+* sandplover expects *at least* three `dimensions` defined in the `dataset`, one of which must be named ``time``, and the other two can have any name that describes the spatial dimensions of the data (e.g., `x`, `lon`, `easting`, etc.).
+* sandplover expects a `variable` with name *exactly matching* the name of each of the three previous `dimensions`.
+* sandplover expects some number of `variables` with arbitrary names that each contain a 3D array of spatiotemporal data of interest. I.e., this is the actual model/field/experiment data.
+* sandplover expects there to be a `group` with name `meta`, which contains any information relevant to the spatiotemporal data. E.g., sea level, coordinates of sediment feed location.
 
 
-Sample code for creating a DeltaMetrics NetCDF file with Python
+Sample code for creating a sandplover NetCDF file with Python
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Now, we write out the data to a netCDF file.
@@ -168,13 +168,13 @@ Now, we write out the data to a netCDF file.
     output_netcdf.close()
 
 
-Now, let's load the NetCDF file with DeltaMetrics. Make a cube by pointing to the directory and file location.
+Now, let's load the NetCDF file with sandplover. Make a cube by pointing to the directory and file location.
 
 .. plot::
     :include-source:
     :context: close-figs
 
-    nc_datacube = dm.cube.DataCube(os.path.join(output_folder, 'model_output.nc'))
+    nc_datacube = spl.cube.DataCube(os.path.join(output_folder, 'model_output.nc'))
 
     fig, ax = plt.subplots(2, len(t), figsize=(8, 3))
     for i, _ in enumerate(t):
@@ -194,7 +194,7 @@ To show that the components of sea level and elevation have been connected:
     :include-source:
     :context: close-figs
 
-    dm.plot.aerial_view(
+    spl.plot.aerial_view(
         nc_datacube['eta'][-1, :, :],
         datum=nc_datacube.meta['H_SL'][-1],
         ticks=True)
@@ -216,7 +216,7 @@ If you are not at all concerned with the size of your data, and loading all of t
                  'velocity': velocity}
 
     # make a cube from it
-    dict_datacube = dm.cube.DataCube(
+    dict_datacube = spl.cube.DataCube(
         data_dict,
         dimensions={'time': t,
                     'y': y,
@@ -233,7 +233,7 @@ If you are not at all concerned with the size of your data, and loading all of t
     plt.show()
 
 
-Notice that dimensions (range of `x` from 0 to 6) are properly handled, and variables are styled according to the DeltaMetrics default.
+Notice that dimensions (range of `x` from 0 to 6) are properly handled, and variables are styled according to the sandplover default.
 
 .. warning::
 
@@ -246,7 +246,7 @@ If you want a basic workaround, you can create a dictionary inside the input dic
 
 .. code::
 
-    dict_datacube = dm.cube.DataCube(
+    dict_datacube = spl.cube.DataCube(
         data_dict, dimensions={"time": t, "y": y, "x": x, "meta": {"H_SL": H_SL}}
     )
 
@@ -256,14 +256,14 @@ But be aware that dimensions will not be attached to the metadata (unless you pa
 Conventions for data and information
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-While not strictly necessary, it may be helpful to adhere to a naming convention that DeltaMetrics uses internally to define some common attributes of sedimentary systems.
+While not strictly necessary, it may be helpful to adhere to a naming convention that sandplover uses internally to define some common attributes of sedimentary systems.
 
 
 Spatiotemporal variable conventions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* `eta`: name any bed elevation variable `eta`. You can still use DeltaMetrics with a field with any other name to represent bed elevation (e.g., `z`), but the default expected name is `eta`, and using `z` may result in confusion---especially if working with stratigraphy.
-* Organize model data so that an inlet of sediment and water (if present) is located along the the `dim1==0` domain edge. This is not strictly necessary, but some DeltaMetrics default values will work best this way.
+* `eta`: name any bed elevation variable `eta`. You can still use sandplover with a field with any other name to represent bed elevation (e.g., `z`), but the default expected name is `eta`, and using `z` may result in confusion---especially if working with stratigraphy.
+* Organize model data so that an inlet of sediment and water (if present) is located along the the `dim1==0` domain edge. This is not strictly necessary, but some sandplover default values will work best this way.
 
 
 Metadata variable naming conventions
@@ -277,4 +277,4 @@ If any of the following information is available or relevant for your model, exp
 
 .. hint::
 
-    None of these variables need to be defined; you can always manually pass them to DeltaMetrics constructors, but following the convention when creating your data file will save you many keystrokes later.
+    None of these variables need to be defined; you can always manually pass them to sandplover constructors, but following the convention when creating your data file will save you many keystrokes later.

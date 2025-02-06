@@ -3,18 +3,18 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from deltametrics.cube import DataCube
-from deltametrics.cube import StratigraphyCube
-from deltametrics.mask import ElevationMask
-from deltametrics.plan import Planform
-from deltametrics.sample_data.sample_data import _get_golf_path
-from deltametrics.sample_data.sample_data import _get_rcm8_path
-from deltametrics.section import CircularSection
-from deltametrics.section import DipSection
-from deltametrics.section import PathSection
-from deltametrics.section import RadialSection
-from deltametrics.section import StrikeSection
-from deltametrics.utils import NoStratigraphyError
+from sandplover.cube import DataCube
+from sandplover.cube import StratigraphyCube
+from sandplover.mask import ElevationMask
+from sandplover.plan import Planform
+from sandplover.sample_data.sample_data import _get_golf_path
+from sandplover.sample_data.sample_data import _get_rcm8_path
+from sandplover.section import CircularSection
+from sandplover.section import DipSection
+from sandplover.section import PathSection
+from sandplover.section import RadialSection
+from sandplover.section import StrikeSection
+from sandplover.utils import NoStratigraphyError
 
 rcm8_path = _get_rcm8_path()
 golf_path = _get_golf_path()

@@ -1,10 +1,10 @@
 """Visual for CenterlineMask."""
 
-import deltametrics as dm
-from deltametrics.mask import CenterlineMask
-from deltametrics.mask import ChannelMask
+import sandplover as spl
+from sandplover.mask import CenterlineMask
+from sandplover.mask import ChannelMask
 
-golfcube = dm.sample_data.golf()
+golfcube = spl.sample_data.golf()
 channel_mask = ChannelMask(
     golfcube["velocity"].data[-1, :, :], golfcube["eta"].data[-1, :, :]
 )

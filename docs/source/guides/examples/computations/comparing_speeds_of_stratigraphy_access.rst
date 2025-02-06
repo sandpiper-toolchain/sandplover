@@ -10,9 +10,9 @@ Keeping data on disk is advantageous for large datasets, but slows down access c
     >>> import time
 
     >>> # set up the cubes
-    >>> golfcube = dm.sample_data.golf()
-    >>> stratcube = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
-    >>> fs, fe = dm.strat.compute_boxy_stratigraphy_volume(
+    >>> golfcube = spl.sample_data.golf()
+    >>> stratcube = spl.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
+    >>> fs, fe = spl.strat.compute_boxy_stratigraphy_volume(
     ...     golfcube["eta"], golfcube["sandfrac"], dz=0.05
     ... )
 

@@ -9,7 +9,7 @@ if sys.version_info >= (3, 12):  # pragma: no cover (PY12+)
 else:  # pragma: no cover (<PY312)
     import importlib_resources
 
-from deltametrics.cube import DataCube
+from sandplover.cube import DataCube
 
 # enusre DeprecationWarning is shown
 warnings.simplefilter("default")
@@ -17,14 +17,14 @@ warnings.simplefilter("default")
 
 # configure the data registry
 REGISTRY = pooch.create(
-    path=pooch.os_cache("deltametrics"),
+    path=pooch.os_cache("sandplover"),
     base_url=(
-        "https://github.com/DeltaRCM/DeltaMetrics/raw/develop/"
-        "deltametrics/sample_data/files/"
+        "https://github.com/sandpiper-toolchain/sandplover/raw/develop/"
+        "sandplover/sample_data/files/"
     ),
     env="DELTAMETRICS_DATA_DIR",
 )
-path_to_registry = importlib_resources.files("deltametrics.sample_data").joinpath(
+path_to_registry = importlib_resources.files("sandplover.sample_data").joinpath(
     "registry.txt"
 )
 with open(path_to_registry, "rb") as registry_file:
@@ -60,7 +60,7 @@ def golf():
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> from deltametrics.sample_data.sample_data import golf
+        >>> from sandplover.sample_data.sample_data import golf
 
         >>> golf = golf()
         >>> nt = 5
@@ -104,7 +104,7 @@ def xslope():
     .. important::
 
         This sample data provides **two** datasets. Calling this function
-        returns two :obj:`~dm.cube.DataCube`.
+        returns two :obj:`~spl.cube.DataCube`.
 
     Models were run on 02/21/2022, at the University of Texas at Austin.
 
@@ -121,7 +121,7 @@ def xslope():
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> from deltametrics.sample_data.sample_data import xslope
+        >>> from sandplover.sample_data.sample_data import xslope
 
         >>> xslope0, xslope1 = xslope()
         >>> nt = 5
@@ -148,10 +148,10 @@ def xslope():
     Returns
     -------
     xslope0
-        First return, a :obj:`~dm.cube.DataCube` with flat basin.
+        First return, a :obj:`~spl.cube.DataCube` with flat basin.
 
     xslope1
-        Second return, a :obj:`~dm.cube.DataCube` with sloped basin in the
+        Second return, a :obj:`~spl.cube.DataCube` with sloped basin in the
         cross-stream direction. Slope is 0.001 m/m, with elevation centered
         at channel inlet.
     """
@@ -201,9 +201,9 @@ def aeolian():
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> import deltametrics as dm
+        >>> import sandplover as spl
 
-        >>> aeolian = dm.sample_data.aeolian()
+        >>> aeolian = spl.sample_data.aeolian()
         >>> nt = 5
         >>> ts = np.linspace(0, aeolian["eta"].shape[0] - 1, num=nt, dtype=int)
 
@@ -232,13 +232,13 @@ def rcm8():
     This is a synthetic delta dataset generated from the pyDeltaRCM numerical
     model. Unfortunately, we do not know the specific version of pyDeltaRCM
     the model run was executed with. Moreover, many new coupling features have
-    been added to pyDeltaRCM and DeltaMetrics since this run. As a result,
+    been added to pyDeltaRCM and sandplover since this run. As a result,
     this dataset is slated to be deprecated at some point, in favor of the
     :obj:`golf` dataset.
 
     .. important::
 
-        If you are learning to use DeltaMetrics or developing new codes or
+        If you are learning to use sandplover or developing new codes or
         documentation, please use the :obj:`golf` delta dataset.
 
     .. warning:: This cube may be removed in future releases.
@@ -248,11 +248,11 @@ def rcm8():
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
         >>> import warnings
-        >>> import deltametrics as dm
+        >>> import sandplover as spl
 
         >>> with warnings.catch_warnings():
         ...     warnings.simplefilter("ignore")
-        ...     rcm8 = dm.sample_data.rcm8()
+        ...     rcm8 = spl.sample_data.rcm8()
         ...
         >>> nt = 5
         >>> ts = np.linspace(0, rcm8["eta"].shape[0] - 1, num=nt, dtype=int)
@@ -288,9 +288,9 @@ def landsat():
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> import deltametrics as dm
+        >>> import sandplover as spl
 
-        >>> landsat = dm.sample_data.landsat()
+        >>> landsat = spl.sample_data.landsat()
         >>> nt = landsat.shape[0]
 
         >>> maxr = np.max(landsat["Red"][:])
@@ -350,7 +350,7 @@ def savi2020():
     .. important::
 
         This sample data provides **two** datasets. Calling this function
-        returns two :obj:`~dm.cube.DataCube` objects.
+        returns two :obj:`~spl.cube.DataCube` objects.
 
     Data available at Zenodo, version 1.1: https://doi.org/10.5281/zenodo.7080126
 
@@ -362,9 +362,9 @@ def savi2020():
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> import deltametrics as dm
+        >>> import sandplover as spl
 
-        >>> img, scans = dm.sample_data.savi2020()
+        >>> img, scans = spl.sample_data.savi2020()
         >>> nt = 5
         >>> ts_i = np.linspace(0, img["red"].shape[0] - 1, num=nt, dtype=int)
         >>> ts_s = np.linspace(0, scans["eta"].shape[0] - 1, num=nt, dtype=int)
@@ -386,10 +386,10 @@ def savi2020():
     Returns
     -------
     img
-        First return, a :obj:`~dm.cube.DataCube` with subset overhead imagery.
+        First return, a :obj:`~spl.cube.DataCube` with subset overhead imagery.
 
     scans
-        Second return, a :obj:`~dm.cube.DataCube` with topographic scan data.
+        Second return, a :obj:`~spl.cube.DataCube` with topographic scan data.
 
     """
     savi2020_img_path, savi2020_scan_path = _get_savi2020_path()

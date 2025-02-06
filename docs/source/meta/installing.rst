@@ -11,7 +11,7 @@ You can install the development version of the software by following the instruc
 
 .. warning::
 
-    DeltaMetrics is currently in development, with a constantly changing API.
+    sandplover is currently in development, with a constantly changing API.
     We make no guarantee of stability, correctness, or functionality.
 
 
@@ -19,7 +19,7 @@ You can install the development version of the software by following the instruc
 Latest version install
 ----------------------
 
-Follow these instructions to install the latest development version of DeltaMetrics.
+Follow these instructions to install the latest development version of sandplover.
 
 .. note::
     Developers should follow the developer instructions in the :doc:`../guides/devguide`.
@@ -28,13 +28,13 @@ Install by cloning:
 
 .. code:: console
 
-    $ git clone https://github.com/DeltaRCM/DeltaMetrics.git
+    $ git clone https://github.com/sandpiper-toolchain/sandplover.git
 
 and then ``cd`` into the directory and install editable copy.
 
 .. code:: console
 
-    $ cd DeltaMetrics
+    $ cd sandplover
     $ pip install -e .
 
 Check that your installation worked by running the tests.

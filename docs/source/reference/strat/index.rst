@@ -7,9 +7,9 @@ Stratigraphy operations
 The package makes available functions relating to computing things based on
 stratigraphy.
 
-The functions are defined in ``deltametrics.strat``.
+The functions are defined in ``sandplover.strat``.
 
-.. currentmodule:: deltametrics.strat
+.. currentmodule:: sandplover.strat
 
 
 Stratigraphy statistics functions
@@ -44,7 +44,7 @@ Quick-stratigraphy attributes classes
 The "quick" stratigraphy attributes provide a common API that is accessed by
 `DataCube`, `DataSectionVariable` and `DataPlanformVariable` methods. There
 are two methods of computing quick stratigraphy, with
-:obj:`~deltametrics.strat.MeshStratigraphyAttributes` as the default.
+:obj:`~sandplover.strat.MeshStratigraphyAttributes` as the default.
 
 .. autosummary::
     :toctree: ../../_autosummary
@@ -57,7 +57,7 @@ are two methods of computing quick stratigraphy, with
 Low-level stratigraphy utility functions
 ========================================
 
-The functions outlined in this section are the main functions that do the actual work of computing stratigraphy and preservation, throughout DeltaMetrics. These functions may be useful if you are trying to use parts of DeltaMetrics, but need to customize something for your own use-case.
+The functions outlined in this section are the main functions that do the actual work of computing stratigraphy and preservation, throughout sandplover. These functions may be useful if you are trying to use parts of DeltaMetrics, but need to customize something for your own use-case.
 
 .. autofunction:: _compute_elevation_to_preservation
 .. autofunction:: _compute_preservation_to_time_intervals

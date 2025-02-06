@@ -142,7 +142,7 @@ class FileIO(BaseIO):
     def write(self):
         """Should write the data to file.
 
-        Take a :obj:`~deltametrics.cube.Cube` and write it to file.
+        Take a :obj:`~sandplover.cube.Cube` and write it to file.
         """
         return
 
@@ -153,7 +153,7 @@ class NetCDFIO(FileIO):
     This module wraps calls to the netCDF4 python module in a consistent API,
     so the user can work seamlessly with either netCDF4 files or HDF5 files.
     The public methods of this class are consistent with
-    :obj:`~deltametrics.utils.HDFIO`.
+    :obj:`~sandplover.utils.HDFIO`.
 
     Note that the netCDF4, netCDF4-classic, and HDF5 file standards are very
     similar and (almost) interchangable. This means that the same data loader
@@ -211,15 +211,13 @@ class NetCDFIO(FileIO):
         elif _ext == ".hdf5":
             _engine = "h5netcdf"
         else:
-            TypeError(
-                "File format is not supported " "by DeltaMetrics: {}".format(_ext)
-            )
+            TypeError("File format is not supported " "by sandplover: {}".format(_ext))
 
         try:
             # open the dataset
             _dataset = xr.open_dataset(self.data_path, engine=_engine)
         except Exception as e:
-            raise TypeError(f"File format out of scope for DeltaMetrics: {e}") from e
+            raise TypeError(f"File format out of scope for sandplover: {e}") from e
 
         # try to find if coordinates have been preconfigured
         _coords_list = list(_dataset.coords)
@@ -244,7 +242,7 @@ class NetCDFIO(FileIO):
                 "variables in the underlying data file, "
                 "but are not specified as coordinates in the undelying "
                 "data file. Please reformat the data file for use "
-                "with DeltaMetrics. This warning may be replaced "
+                "with sandplover. This warning may be replaced "
                 "with an Error in a future version.",
                 UserWarning,
                 stacklevel=2,
@@ -300,7 +298,7 @@ class NetCDFIO(FileIO):
         """Read variable from file and into memory.
 
         Converts `variables` in data file to `xarray` objects for coersion
-        into a :obj:`~deltametrics.cube.Cube` instance.
+        into a :obj:`~sandplover.cube.Cube` instance.
 
         Parameters
         ----------
@@ -317,7 +315,7 @@ class NetCDFIO(FileIO):
     def write(self):
         """Write data to file.
 
-        Take a :obj:`~deltametrics.cube.Cube` and write it to file.
+        Take a :obj:`~sandplover.cube.Cube` and write it to file.
 
         .. warning::
             Not Implemented.
@@ -442,7 +440,7 @@ class DictionaryIO(BaseIO):
     def write(self):
         """Write data to file.
 
-        Take a :obj:`~deltametrics.cube.Cube` and write it to file.
+        Take a :obj:`~sandplover.cube.Cube` and write it to file.
 
         .. warning::
             Not Implemented.

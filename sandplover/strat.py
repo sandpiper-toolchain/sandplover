@@ -4,7 +4,7 @@ import warnings
 import numpy as np
 import xarray as xr
 
-from deltametrics.section import CircularSection
+from sandplover.section import CircularSection
 
 
 def compute_compensation(line1, line2):
@@ -82,9 +82,9 @@ def _determine_deposit_from_background(sediment_volume, background):
     .. plot::
 
         >>> import matplotlib.pyplot as plt
-        >>> from deltametrics.cube import StratigraphyCube
-        >>> from deltametrics.sample_data.sample_data import golf
-        >>> from deltametrics.strat import _determine_deposit_from_background
+        >>> from sandplover.cube import StratigraphyCube
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.strat import _determine_deposit_from_background
 
         >>> golfcube = golf()
         >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.05)
@@ -180,10 +180,10 @@ def compute_net_to_gross(sediment_volume, net_threshold=None, background=None):
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> from deltametrics.cube import StratigraphyCube
-        >>> from deltametrics.plot import append_colorbar
-        >>> from deltametrics.sample_data.sample_data import golf
-        >>> from deltametrics.strat import compute_net_to_gross
+        >>> from sandplover.cube import StratigraphyCube
+        >>> from sandplover.plot import append_colorbar
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.strat import compute_net_to_gross
 
         >>> golfcube = golf()
         >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
@@ -258,9 +258,9 @@ def compute_thickness_surfaces(top_surface, bottom_surface):
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> from deltametrics.plot import append_colorbar
-        >>> from deltametrics.sample_data.sample_data import golf
-        >>> from deltametrics.strat import compute_thickness_surfaces
+        >>> from sandplover.plot import append_colorbar
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.strat import compute_thickness_surfaces
 
         >>> golfcube = golf()
         >>> deposit_thickness0 = compute_thickness_surfaces(
@@ -370,9 +370,9 @@ def compute_sedimentograph(
 
         >>> import matplotlib.pyplot as plt
         >>> import numpy as np
-        >>> from deltametrics.cube import StratigraphyCube
-        >>> from deltametrics.sample_data.sample_data import golf
-        >>> from deltametrics.strat import compute_sedimentograph
+        >>> from sandplover.cube import StratigraphyCube
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.strat import compute_sedimentograph
 
         >>> golfcube = golf()
         >>> golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
@@ -465,7 +465,7 @@ def compute_boxy_stratigraphy_volume(
 
     By default, the data are returned as a numpy `ndarray`, however, specify
     :obj:`return_Cube` as `True` to return a
-    :obj:`~deltametrics.cube.FrozenStratigraphyCube`. If `False`, function
+    :obj:`~sandplover.cube.FrozenStratigraphyCube`. If `False`, function
     :additionally returns an `ndarray` of elevations corresponding to the
     :stratigraphy positions.
 
@@ -499,14 +499,14 @@ def compute_boxy_stratigraphy_volume(
 
     return_cube : :obj:`boolean`, optional
         Whether to return the stratigraphy as a
-        :obj:`~deltametrics.cube.FrozenStratigraphyCube` instance. Default is
+        :obj:`~sandplover.cube.FrozenStratigraphyCube` instance. Default is
         to return an `ndarray` and :obj:`elevations` `ndarray`.
 
         .. warning:: not implemented!
 
     Returns
     -------
-    stratigraphy_cube : :obj:`~deltametrics.cube.StratigraphyCube`
+    stratigraphy_cube : :obj:`~sandplover.cube.StratigraphyCube`
         Not Implemented.
 
     stratigraphy : :obj:`ndarray`
@@ -589,7 +589,7 @@ def compute_boxy_stratigraphy_coordinates(
 
     return_cube : :obj:`boolean`, optional
         Whether to return the stratigraphy as a
-        :obj:`~deltametrics.cube.FrozenStratigraphyCube` instance. Default is
+        :obj:`~sandplover.cube.FrozenStratigraphyCube` instance. Default is
         `False`, do not return a cube.
 
         .. warning:: not implemented!
@@ -601,7 +601,7 @@ def compute_boxy_stratigraphy_coordinates(
 
     Returns
     -------
-    stratigraphy_cube : :obj:`~deltametrics.cube.StratigraphyCube`
+    stratigraphy_cube : :obj:`~sandplover.cube.StratigraphyCube`
         Not Implemented.
 
     strata_coords : :obj:`ndarray`
@@ -959,7 +959,7 @@ def _compute_preservation_to_cube(strata, z):
     """Compute the cube-data coordinates to strata coordinates.
 
     Given elevation preservation data (e.g., data from
-    :obj:`~deltametrics.strat._compute_elevation_to_preservation`), compute
+    :obj:`~sandplover.strat._compute_elevation_to_preservation`), compute
     the coordinate mapping from `t-x-y` data to `z-x-y` preserved
     stratigraphy.
 
@@ -989,7 +989,7 @@ def _compute_preservation_to_cube(strata, z):
     ----------
     strata : :obj:`ndarray`
         A `t-x-y` `ndarry` of stratal surface elevations. Can be computed by
-        :obj:`~deltametrics.strat._compute_elevation_to_preservation`.
+        :obj:`~sandplover.strat._compute_elevation_to_preservation`.
 
     z :
         Vertical coordinates of stratigraphy. Note that `z` does not need to

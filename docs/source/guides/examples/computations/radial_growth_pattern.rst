@@ -17,7 +17,7 @@ The expectation is that a delta's planform area grows according to a power law t
     :include-source:
     :context: reset
 
-    golf = dm.sample_data.golf()
+    golf = spl.sample_data.golf()
 
     # measure the delta shoreline distance at five differet times
     time_idxs = np.linspace(15, golf.shape[0]-1, num=5, dtype=int)
@@ -26,7 +26,7 @@ The expectation is that a delta's planform area grows according to a power law t
     shoredist_std = np.zeros(time_idxs.shape)
     for i, time_idx in enumerate(time_idxs):
         # compute the shoreline mask
-        SM_mpm = dm.mask.ShorelineMask(
+        SM_mpm = spl.mask.ShorelineMask(
             golf['eta'][time_idx, :, :],
             elevation_threshold=0,
             method='MPM',
@@ -35,7 +35,7 @@ The expectation is that a delta's planform area grows according to a power law t
         SM_mpm.trim_mask(length=3)
 
         # compute the mean shoreline distance
-        shoredist_mean[i], shoredist_std[i] = dm.plan.compute_shoreline_distance(
+        shoredist_mean[i], shoredist_std[i] = spl.plan.compute_shoreline_distance(
             SM_mpm, origin=(golf.meta['CTR'].data, golf.meta['L0'].data))
 
 Now plot
@@ -76,8 +76,8 @@ Now plot
     plt.show()
 
 Why do the data not line up with the prediction?
-A likely possibility is that the shoreline location determined from the :obj:`~deltametrics.plan.MorphologicalPlanform` does not include the full area of the deposit.
+A likely possibility is that the shoreline location determined from the :obj:`~sandplover.plan.MorphologicalPlanform` does not include the full area of the deposit.
 
 .. hint::
 
-    Try passing the `elevation_offset` parameter to the MPM method, which is then passed along to the :obj:`~deltametrics.mask.ElevationMask`.
+    Try passing the `elevation_offset` parameter to the MPM method, which is then passed along to the :obj:`~sandplover.mask.ElevationMask`.
