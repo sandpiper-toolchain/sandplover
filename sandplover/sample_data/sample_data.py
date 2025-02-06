@@ -19,7 +19,7 @@ warnings.simplefilter("default")
 REGISTRY = pooch.create(
     path=pooch.os_cache("sandplover"),
     base_url=(
-        "https://github.com/DeltaRCM/DeltaMetrics/raw/develop/"
+        "https://github.com/DeltaRCM/sandplover/raw/develop/"
         "sandplover/sample_data/files/"
     ),
     env="DELTAMETRICS_DATA_DIR",
@@ -232,13 +232,13 @@ def rcm8():
     This is a synthetic delta dataset generated from the pyDeltaRCM numerical
     model. Unfortunately, we do not know the specific version of pyDeltaRCM
     the model run was executed with. Moreover, many new coupling features have
-    been added to pyDeltaRCM and DeltaMetrics since this run. As a result,
+    been added to pyDeltaRCM and sandplover since this run. As a result,
     this dataset is slated to be deprecated at some point, in favor of the
     :obj:`golf` dataset.
 
     .. important::
 
-        If you are learning to use DeltaMetrics or developing new codes or
+        If you are learning to use sandplover or developing new codes or
         documentation, please use the :obj:`golf` delta dataset.
 
     .. warning:: This cube may be removed in future releases.

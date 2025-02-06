@@ -24,7 +24,7 @@ src_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.
 
 # -- Project information -----------------------------------------------------
 
-project = "DeltaMetrics"
+project = "sandplover"
 copyright = "2020, The DeltaRCM Team"
 author = "The DeltaRCM Team"
 

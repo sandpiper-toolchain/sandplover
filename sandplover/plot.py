@@ -26,7 +26,7 @@ class VariableInfo:
 
     This class holds information for a specific underlying data variable
     (e.g., ``eta`` or ``velocity``). Properties are used throughout
-    DeltaMetrics for plotting.
+    sandplover for plotting.
 
     Examples
     --------
@@ -217,7 +217,7 @@ class VariableSet:
         override_dict : :obj:`dict`, optional
             Dictionary defining variable-property sets. Dictionary key should
             set the  must be either a string (and then match defined colormaps
-            in matplotlib or DeltaMetrics), a new matplotlib Colormap object,
+            in matplotlib or sandplover), a new matplotlib Colormap object,
             or an Mx3 numpy array that can be coerced into a linear colormap.
         """
 

@@ -211,15 +211,13 @@ class NetCDFIO(FileIO):
         elif _ext == ".hdf5":
             _engine = "h5netcdf"
         else:
-            TypeError(
-                "File format is not supported " "by DeltaMetrics: {}".format(_ext)
-            )
+            TypeError("File format is not supported " "by sandplover: {}".format(_ext))
 
         try:
             # open the dataset
             _dataset = xr.open_dataset(self.data_path, engine=_engine)
         except Exception as e:
-            raise TypeError(f"File format out of scope for DeltaMetrics: {e}") from e
+            raise TypeError(f"File format out of scope for sandplover: {e}") from e
 
         # try to find if coordinates have been preconfigured
         _coords_list = list(_dataset.coords)
@@ -244,7 +242,7 @@ class NetCDFIO(FileIO):
                 "variables in the underlying data file, "
                 "but are not specified as coordinates in the undelying "
                 "data file. Please reformat the data file for use "
-                "with DeltaMetrics. This warning may be replaced "
+                "with sandplover. This warning may be replaced "
                 "with an Error in a future version.",
                 UserWarning,
                 stacklevel=2,
