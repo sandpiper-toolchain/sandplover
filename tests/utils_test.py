@@ -130,14 +130,10 @@ def test_linear_fit():
         chmap, basevalues_idx=basevalue, window_idx=time_window
     )
     yfit, popts, cov, err = curve_fit(ch_abandon, fit="linear")
-    assert pytest.approx(yfit) == np.array(
-        [4.76315477e-24, 2.50000000e-01, 5.00000000e-01, 7.50000000e-01, 1.00000000e00]
-    )
-    assert pytest.approx(popts) == np.array([2.50000000e-01, 4.76315477e-24])
-    assert pytest.approx(cov) == np.array(
-        [[1.76300984e-25, -0.00000000e00], [0.00000000e00, 5.28902953e-24]]
-    )
-    assert pytest.approx(err) == np.array([4.19882108e-13, 2.29978902e-12])
+    assert yfit == pytest.approx([0.0, 0.25, 0.5, 0.75, 1.0])
+    assert popts == pytest.approx([0.25, 0.0])
+    assert cov.shape == (2, 2) and cov == pytest.approx(0.0)
+    assert err == pytest.approx([0.0, 0.0])
 
 
 def test_harmonic_fit():
