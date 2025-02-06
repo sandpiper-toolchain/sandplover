@@ -10,7 +10,7 @@ With this paired information we can interrogate the velocity of deposits in the 
 .. plot:: examples/preserved_velocities.py
     :include-source:
 
-**This is not intented to be a formal scientific rebuttal to the references listed above! It's just a simple demonstration of how to use DeltaMetrics to interrogate the stratigraphic record.**
+**This is not intented to be a formal scientific rebuttal to the references listed above! It's just a simple demonstration of how to use sandplover to interrogate the stratigraphic record.**
 
 
 .. rubric:: References

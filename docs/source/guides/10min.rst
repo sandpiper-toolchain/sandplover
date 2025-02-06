@@ -2,7 +2,7 @@
 Getting started with a 10-minute tutorial
 *****************************************
 
-This documentation provides a guide to learn the most basic components of DeltaMetrics in just ten minutes!
+This documentation provides a guide to learn the most basic components of sandplover in just ten minutes!
 For a more in depth guide, be sure to check out the :doc:`userguide`.
 
 .. testsetup:: *
@@ -10,7 +10,7 @@ For a more in depth guide, be sure to check out the :doc:`userguide`.
    >>> import sandplover as dm
    >>> import numpy as np
 
-All of the documentation in this package assumes that you have imported the DeltaMetrics package as ``dm``:
+All of the documentation in this package assumes that you have imported the sandplover package as ``dm``:
 
 .. doctest::
 
@@ -28,7 +28,7 @@ Connect to data
 ===============
 
 In your application, you will want to connect to a your own dataset, but more on that later.
-For now, let's use a sample dataset that is distributed with DeltaMetrics.
+For now, let's use a sample dataset that is distributed with sandplover.
 
 .. doctest::
 
@@ -37,7 +37,7 @@ For now, let's use a sample dataset that is distributed with DeltaMetrics.
     <class 'sandplover.cube.DataCube'>
 
 This creates an instance of a :obj:`~sandplover.cube.DataCube` object, which is the simplest and most commonly used type of cube.
-"Cubes" in DeltaMetrics language are the central office that connects all the different modules and workflows together.
+"Cubes" in sandplover language are the central office that connects all the different modules and workflows together.
 Creating the ``golfcube`` connects to a dataset, but does not read any of the data into memory, allowing for efficient computation on large datasets.
 
 Inspect which variables are available in the ``golfcube``.
@@ -111,7 +111,7 @@ Section data
 ------------
 
 We are often interested in not only the spatiotemporal changes in the planform of the delta, but we want to know what is preserved in the subsurface.
-In DeltaMetrics, we refer to this preserved history as the "stratigraphy", and we provide a number of convenient routines for computing stratigraphy and analyzing the deposits.
+In sandplover, we refer to this preserved history as the "stratigraphy", and we provide a number of convenient routines for computing stratigraphy and analyzing the deposits.
 
 Importantly, the stratigraphy (or i.e., which voxels are preserved) is not computed by default when a Cube instance is created.
 We must directly tell the Cube instance to compute stratigraphy by specifying which variable contains the bed elevation history, because this history dictates preservation.

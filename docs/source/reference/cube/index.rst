@@ -2,7 +2,7 @@
 Cube operations
 ***************
 
-The package makes available `Cube` objects, which are the central office to all of the other functionality of DeltaMetrics.
+The package makes available `Cube` objects, which are the central office to all of the other functionality of sandplover.
 
 The cubes keep track of underlying data, which may represent any number of unique variables.
 For example, the :obj:`~sandplover.cube.DataCube` connects to a set of data in the form of a ``t-x-y`` array-like dataset, and associated metadata defining the array coordinates, type, and data units.

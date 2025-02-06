@@ -57,7 +57,7 @@ are two methods of computing quick stratigraphy, with
 Low-level stratigraphy utility functions
 ========================================
 
-The functions outlined in this section are the main functions that do the actual work of computing stratigraphy and preservation, throughout DeltaMetrics. These functions may be useful if you are trying to use parts of DeltaMetrics, but need to customize something for your own use-case.
+The functions outlined in this section are the main functions that do the actual work of computing stratigraphy and preservation, throughout sandplover. These functions may be useful if you are trying to use parts of DeltaMetrics, but need to customize something for your own use-case.
 
 .. autofunction:: _compute_elevation_to_preservation
 .. autofunction:: _compute_preservation_to_time_intervals

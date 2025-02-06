@@ -2,7 +2,7 @@
 User Guide
 **********
 
-This documentation provides some "workflow" examples as well as some explanations and background about the various methods available in DeltaMetrics.
+This documentation provides some "workflow" examples as well as some explanations and background about the various methods available in sandplover.
 
 
 Setting up your coding environment
@@ -16,7 +16,7 @@ Setting up your coding environment
     >>> import matplotlib.pyplot as plt
     >>> import matplotlib.gridspec as gs
 
-All of the documentation in this package assumes that you have imported the DeltaMetrics package as ``dm``:
+All of the documentation in this package assumes that you have imported the sandplover package as ``dm``:
 
 .. doctest::
 
@@ -33,8 +33,8 @@ Additionally, we frequently rely on the `numpy` package, and `matplotlib`. We wi
 Create and manipulate a "DataCube"
 ##################################
 
-DeltaMetrics centers around the use of “Cubes”.
-In DeltaMetrics, these `Cube` objects are the central office that connects all the different modules and a workflow together.
+sandplover centers around the use of “Cubes”.
+In sandplover, these `Cube` objects are the central office that connects all the different modules and a workflow together.
 The base cube is the `DataCube`, which is set up to handle multi-variable three-dimensional datasets; for example, 2D-spatial timeseries data of multiple variables.
 
 The data of the `DataCube` can come from a file or can be directly passed; where possible, loading from a file is usually preferred, because it is memory-efficient.
@@ -46,9 +46,9 @@ Connecting to a netCDF file on disk is as simple as:
 
 .. hint::
 
-    For more information about data files, and how to configure your data to work with DeltaMetrics, please visit the ``Examples/io`` section of the documentation.
+    For more information about data files, and how to configure your data to work with sandplover, please visit the ``Examples/io`` section of the documentation.
 
-For this guide to be easy to follow along with, we will use some sample data that comes with DeltaMetrics.
+For this guide to be easy to follow along with, we will use some sample data that comes with sandplover.
 
 .. doctest::
 
@@ -113,7 +113,7 @@ Remember that `time` is ordered along the 0th dimension.
 
 .. note::
 
-    The 0th dimension of the cube must be the *time* dimension, and the 1st and 2nd dimensions represent the spatial dimensions of the data domain, but can have any arbitrary "name" for the dimensions. For example, from *pyDeltaRCM* the 1st and 2nd dimensions are named `x` and `y` respectively (`x` is considered a downstream coordinate in that model). In `DeltaMetrics`, we refer to these spatial dimensions as `dim1` and `dim2`, because they may have any name.
+    The 0th dimension of the cube must be the *time* dimension, and the 1st and 2nd dimensions represent the spatial dimensions of the data domain, but can have any arbitrary "name" for the dimensions. For example, from *pyDeltaRCM* the 1st and 2nd dimensions are named `x` and `y` respectively (`x` is considered a downstream coordinate in that model). In `sandplover`, we refer to these spatial dimensions as `dim1` and `dim2`, because they may have any name.
 
 The CubeVariable supports arbitrary math (using `xarray`).
 For example:
@@ -211,7 +211,7 @@ Specialty Planform objects
 --------------------------
 
 A slice of the `Cube` is a basic `Planform`, but often there are some analyses we wish to compute on a `Planform`, that may have multiple steps and sets of derived values we want to keep track of.
-DeltaMetrics has several specialty planform objects that make this easier.
+sandplover has several specialty planform objects that make this easier.
 These specialty calculations are beyond the scope of this basic user guide, find more information on the :doc:`Planform API reference page <../reference/plan/index>`.
 
 
@@ -310,7 +310,7 @@ You can also create a standalone section, which is not registered to the cube, b
 --------------------
 
 We are often interested in not only the spatiotemporal changes in the planform of the delta, but we want to know what is preserved in the subsurface.
-In DeltaMetrics, we refer to this preserved history as the "stratigraphy", and we provide a number of convenient routines for computing stratigraphy and analyzing deposits.
+In sandplover, we refer to this preserved history as the "stratigraphy", and we provide a number of convenient routines for computing stratigraphy and analyzing deposits.
 
 Importantly, stratigraphy (or i.e., which voxels are preserved) is not computed by default when a Cube instance is created.
 We must directly tell the Cube instance to compute stratigraphy by specifying which variable contains the bed elevation history, because this history dictates preservation.
@@ -394,7 +394,7 @@ The below figure shows each section type available and the `velocity` spacetime 
 .. plot:: guides/userguide_section_type_demos.py
 
 
-Default Colors in DeltaMetrics
+Default Colors in sandplover
 ##############################
 
 You may have noticed the beautiful colors above, and be wondering: "how are the colors set?"
@@ -402,7 +402,7 @@ We use a custom object (:obj:`~sandplover.plot.VariableSet`) to define common pl
 The `VariableSet` supports all kinds of other controls, such as custom colormaps for any variable, addition of new defined variables, fixed color limits, color normalizations, and more.
 You can also use these attributes of the `VariableSet` in your own plotting routines.
 
-See the :ref:`default colors in DeltaMetrics here <default_styling>` for more information.
+See the :ref:`default colors in sandplover here <default_styling>` for more information.
 
 Additionally, there are a :doc:`number of plotting routines <../reference/plot/index>` that are helpful in visualizations.
 

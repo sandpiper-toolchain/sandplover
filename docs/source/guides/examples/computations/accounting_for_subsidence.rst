@@ -3,7 +3,7 @@ Accounting for subsidence when computing stratigraphy
 
 It is not uncommon for subsidence, or the sinking of the ground, to take place.
 When computing the preserved stratigraphy from a time-series of elevation data, a more accurate depiction of the subsurface can be developed if information about subsidence is known and accounted for.
-DeltaMetrics aims to provide a number of methods to incorporate subsidence data into the computed stratigraphy, allowing the user to specify a constant basin-wide rate of subsidence, or more complex spatially and temporally varying patterns.
+sandplover aims to provide a number of methods to incorporate subsidence data into the computed stratigraphy, allowing the user to specify a constant basin-wide rate of subsidence, or more complex spatially and temporally varying patterns.
 Below some examples of this functionality are shown, using synthetic 1-D elevation time-series, as well as the :obj:`~sandplover.sample_data.aeolian` dune field sample dataset.
 
 Using synthetic 1-D elevation time-series, we can create some simplified stratigraphic profiles to test our understanding of the mechanism and see whether or not the resulting stratigraphy matches our intuition.

@@ -2,7 +2,7 @@
 Examples
 ******************
 
-Examples of how to do various tasks and visualizations in DeltaMetrics.
+Examples of how to do various tasks and visualizations in sandplover.
 
 
 Planforms

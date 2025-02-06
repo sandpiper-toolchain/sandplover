@@ -6,7 +6,7 @@ Sample data
 
 The package includes several sample data sets to show how to interact with the
 API. You do not *need* to get your data into the same format as these data, but
-doing so will likely make it simpler to use DeltaMetrics, and to get the most
+doing so will likely make it simpler to use sandplover, and to get the most
 benefit from the tools included here.
 
 The sample data are defined in ``sandplover.sample_data``.

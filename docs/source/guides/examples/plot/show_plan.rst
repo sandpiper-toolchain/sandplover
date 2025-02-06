@@ -52,4 +52,4 @@ You can visualize the data yourself, or use the built-in `show()` method of a `P
         Subject guide on Planform operations and classes
 
     :doc:`/guides/subject_guides/visualization`
-        Subject guide on visualization in DeltaMetrics
+        Subject guide on visualization in sandplover
