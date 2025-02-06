@@ -1,5 +1,5 @@
 [run]
-source = deltametrics
+source = sandplover
 
 omit =
     *__init__*
