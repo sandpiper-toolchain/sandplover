@@ -2,7 +2,7 @@
 User Guide
 **********
 
-This documentation provides some "workflow" examples as well as some explanations and background about the various methods available in DeltaMetrics.
+This documentation provides some "workflow" examples as well as some explanations and background about the various methods available in sandplover.
 
 
 Setting up your coding environment
@@ -10,17 +10,17 @@ Setting up your coding environment
 
 .. testsetup:: *
 
-    >>> import deltametrics as dm
+    >>> import sandplover as spl
     >>> import numpy as np
     >>> import scipy as sp
     >>> import matplotlib.pyplot as plt
     >>> import matplotlib.gridspec as gs
 
-All of the documentation in this package assumes that you have imported the DeltaMetrics package as ``dm``:
+All of the documentation in this package assumes that you have imported the sandplover package as ``spl``:
 
 .. doctest::
 
-    >>> import deltametrics as dm
+    >>> import sandplover as spl
 
 Additionally, we frequently rely on the `numpy` package, and `matplotlib`. We will assume you have imported these packages by their common shorthand as well; if we import other packages, or other modules from `matplotlib`, these imports will be declared!
 
@@ -33,8 +33,8 @@ Additionally, we frequently rely on the `numpy` package, and `matplotlib`. We wi
 Create and manipulate a "DataCube"
 ##################################
 
-DeltaMetrics centers around the use of “Cubes”.
-In DeltaMetrics, these `Cube` objects are the central office that connects all the different modules and a workflow together.
+sandplover centers around the use of “Cubes”.
+In sandplover, these `Cube` objects are the central office that connects all the different modules and a workflow together.
 The base cube is the `DataCube`, which is set up to handle multi-variable three-dimensional datasets; for example, 2D-spatial timeseries data of multiple variables.
 
 The data of the `DataCube` can come from a file or can be directly passed; where possible, loading from a file is usually preferred, because it is memory-efficient.
@@ -42,19 +42,19 @@ Connecting to a netCDF file on disk is as simple as:
 
 .. code::
 
-    >>> acube = dm.cube.DataCube("/path/to/data/file.nc")
+    >>> acube = spl.cube.DataCube("/path/to/data/file.nc")
 
 .. hint::
 
-    For more information about data files, and how to configure your data to work with DeltaMetrics, please visit the ``Examples/io`` section of the documentation.
+    For more information about data files, and how to configure your data to work with sandplover, please visit the ``Examples/io`` section of the documentation.
 
-For this guide to be easy to follow along with, we will use some sample data that comes with DeltaMetrics.
+For this guide to be easy to follow along with, we will use some sample data that comes with sandplover.
 
 .. doctest::
 
-    >>> golfcube = dm.sample_data.golf()
+    >>> golfcube = spl.sample_data.golf()
     >>> golfcube
-    <deltametrics.cube.DataCube object at 0x...>
+    <sandplover.cube.DataCube object at 0x...>
 
 Creating the ``golfcube`` connects to a dataset on your computer (the file is downloaded if it has not already been downloaded).
 Creating the `DataCube` though, does not read any of the data into memory, allowing for efficient computation on large datasets.
@@ -86,7 +86,7 @@ Remember that `time` is ordered along the 0th dimension.
 .. plot::
     :context: reset
 
-    >>> golfcube = dm.sample_data.golf()
+    >>> golfcube = spl.sample_data.golf()
 
 .. plot::
     :include-source:
@@ -113,7 +113,7 @@ Remember that `time` is ordered along the 0th dimension.
 
 .. note::
 
-    The 0th dimension of the cube must be the *time* dimension, and the 1st and 2nd dimensions represent the spatial dimensions of the data domain, but can have any arbitrary "name" for the dimensions. For example, from *pyDeltaRCM* the 1st and 2nd dimensions are named `x` and `y` respectively (`x` is considered a downstream coordinate in that model). In `DeltaMetrics`, we refer to these spatial dimensions as `dim1` and `dim2`, because they may have any name.
+    The 0th dimension of the cube must be the *time* dimension, and the 1st and 2nd dimensions represent the spatial dimensions of the data domain, but can have any arbitrary "name" for the dimensions. For example, from *pyDeltaRCM* the 1st and 2nd dimensions are named `x` and `y` respectively (`x` is considered a downstream coordinate in that model). In `sandplover`, we refer to these spatial dimensions as `dim1` and `dim2`, because they may have any name.
 
 The CubeVariable supports arbitrary math (using `xarray`).
 For example:
@@ -130,7 +130,7 @@ For example:
     >>> # make the plot
     >>> fig, ax = plt.subplots(figsize=(5, 3))
     >>> im = ax.imshow(diff_time, cmap="RdBu", vmax=max_delta, vmin=-max_delta)
-    >>> cb = dm.plot.append_colorbar(im, ax)  # a convenience function
+    >>> cb = spl.plot.append_colorbar(im, ax)  # a convenience function
     >>> plt.show()
 
 
@@ -148,7 +148,7 @@ The data returned from the planform are an `xarray` `DataArray`, so you can cont
 
 .. doctest::
 
-    >>> final = dm.plan.Planform(golfcube, idx=-1)
+    >>> final = spl.plan.Planform(golfcube, idx=-1)
     >>> final.shape
     (100, 200)
     >>> final["eta"]
@@ -173,7 +173,7 @@ The data returned from the planform are an `xarray` `DataArray`, so you can cont
 .. plot::
     :context: close-figs
 
-    >>> final = dm.plan.Planform(golfcube, idx=-1)
+    >>> final = spl.plan.Planform(golfcube, idx=-1)
 
 You can visualize the data yourself, or use the built-in `show()` method of a `Planform`.
 
@@ -193,25 +193,25 @@ You can visualize the data yourself, or use the built-in `show()` method of a `P
     Want to just slice the data directly as ``golfcube['eta'][-1, :, :]``? Go ahead and do what works for you!
 
 It is often helpful to associate a `Planform` with a `Cube`, to keep track of planform data from multiple points in time, or from multiple cubes.
-Use the :meth:`~deltametrics.cube.DataCube.register_planform` method when instantiating the `Planform`, or pass the object as an argument later.
+Use the :meth:`~sandplover.cube.DataCube.register_planform` method when instantiating the `Planform`, or pass the object as an argument later.
 
 .. doctest::
 
-    >>> golfcube.register_planform("fifty", dm.plan.Planform(idx=50))
+    >>> golfcube.register_planform("fifty", spl.plan.Planform(idx=50))
 
-Any registered `Planform` can then be accessed via the :obj:`~deltametrics.cube.DataCube.planforms` attribute of the Cube (returns a `dict`).
+Any registered `Planform` can then be accessed via the :obj:`~sandplover.cube.DataCube.planforms` attribute of the Cube (returns a `dict`).
 
 .. doctest::
 
     >>> golfcube.planforms["fifty"]
-    <deltametrics.plan.Planform object at 0x...>
+    <sandplover.plan.Planform object at 0x...>
 
 
 Specialty Planform objects
 --------------------------
 
 A slice of the `Cube` is a basic `Planform`, but often there are some analyses we wish to compute on a `Planform`, that may have multiple steps and sets of derived values we want to keep track of.
-DeltaMetrics has several specialty planform objects that make this easier.
+sandplover has several specialty planform objects that make this easier.
 These specialty calculations are beyond the scope of this basic user guide, find more information on the :doc:`Planform API reference page <../reference/plan/index>`.
 
 
@@ -223,11 +223,11 @@ Most often, it's best to use the API to register a section of a specified type t
 assigning it a name (“demo” below).
 Registered sections are accessed via the ``sections`` attribute of the cube:
 
-For a data cube, sections are most easily instantiated by the :obj:`~deltametrics.cube.Cube.register_section` method:
+For a data cube, sections are most easily instantiated by the :obj:`~sandplover.cube.Cube.register_section` method:
 
 .. doctest::
 
-    >>> golfcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
+    >>> golfcube.register_section("demo", spl.section.StrikeSection(distance_idx=10))
 
 which creates a section across a constant y-value ``==10``.
 The path of any `Section` in the ``x-y`` plane can always be accessed via the ``.trace`` attribute.
@@ -246,12 +246,12 @@ We can plot the trace on top the the final bed elevation to see where the sectio
 
 .. plot:: guides/userguide_strikesection_location.py
 
-Any registered section can then be accessed via the :obj:`~deltametrics.cube.Cube.sections` attribute of the Cube (returns a `dict`).
+Any registered section can then be accessed via the :obj:`~sandplover.cube.Cube.sections` attribute of the Cube (returns a `dict`).
 
 .. doctest::
 
     >>> golfcube.sections["demo"]
-    <deltametrics.section.StrikeSection object at 0x...>
+    <sandplover.section.StrikeSection object at 0x...>
 
 Available section types are ``PathSection``, ``StrikeSection``,
 ``DipSection``, and ``RadialSection``.
@@ -260,7 +260,7 @@ are sliced themselves, similarly to the cube.
 
 .. doctest::
 
-    >>> golfcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
+    >>> golfcube.register_section("demo", spl.section.StrikeSection(distance_idx=10))
     >>> golfcube.sections["demo"]["velocity"]
     <xarray.DataArray 'velocity' (time: 101, s: 200)> Size: 81kB
     array([[0.2   , 0.2   , 0.2   , ..., 0.2   , 0.2   , 0.2   ],
@@ -297,7 +297,7 @@ You can also create a standalone section, which is not registered to the cube, b
 
 .. doctest::
 
-    >>> sass = dm.section.StrikeSection(golfcube, distance_idx=10)
+    >>> sass = spl.section.StrikeSection(golfcube, distance_idx=10)
     >>> np.all(
     ...     sass["velocity"] == golfcube.sections["demo"]["velocity"]
     ... )  # doctest: +SKIP
@@ -310,7 +310,7 @@ You can also create a standalone section, which is not registered to the cube, b
 --------------------
 
 We are often interested in not only the spatiotemporal changes in the planform of the delta, but we want to know what is preserved in the subsurface.
-In DeltaMetrics, we refer to this preserved history as the "stratigraphy", and we provide a number of convenient routines for computing stratigraphy and analyzing deposits.
+In sandplover, we refer to this preserved history as the "stratigraphy", and we provide a number of convenient routines for computing stratigraphy and analyzing deposits.
 
 Importantly, stratigraphy (or i.e., which voxels are preserved) is not computed by default when a Cube instance is created.
 We must directly tell the Cube instance to compute stratigraphy by specifying which variable contains the bed elevation history, because this history dictates preservation.
@@ -384,25 +384,25 @@ The below figure shows each section type available and the `velocity` spacetime 
 
 .. doctest::
 
-    >>> _strike = dm.section.StrikeSection(golfcube, distance=1200)
-    >>> _path = dm.section.PathSection(
+    >>> _strike = spl.section.StrikeSection(golfcube, distance=1200)
+    >>> _path = spl.section.PathSection(
     ...     golfcube, path=np.array([[1400, 2000], [2000, 4000], [3000, 6000]])
     ... )
-    >>> _circ = dm.section.CircularSection(golfcube, radius=2000)
-    >>> _rad = dm.section.RadialSection(golfcube, azimuth=70)
+    >>> _circ = spl.section.CircularSection(golfcube, radius=2000)
+    >>> _rad = spl.section.RadialSection(golfcube, azimuth=70)
 
 .. plot:: guides/userguide_section_type_demos.py
 
 
-Default Colors in DeltaMetrics
+Default Colors in sandplover
 ##############################
 
 You may have noticed the beautiful colors above, and be wondering: "how are the colors set?"
-We use a custom object (:obj:`~deltametrics.plot.VariableSet`) to define common plotting properties for all plots.
+We use a custom object (:obj:`~sandplover.plot.VariableSet`) to define common plotting properties for all plots.
 The `VariableSet` supports all kinds of other controls, such as custom colormaps for any variable, addition of new defined variables, fixed color limits, color normalizations, and more.
 You can also use these attributes of the `VariableSet` in your own plotting routines.
 
-See the :ref:`default colors in DeltaMetrics here <default_styling>` for more information.
+See the :ref:`default colors in sandplover here <default_styling>` for more information.
 
 Additionally, there are a :doc:`number of plotting routines <../reference/plot/index>` that are helpful in visualizations.
 
@@ -425,7 +425,7 @@ Here’s a simple example to demonstrate how we place data into the stratigraphy
 
     >>> ets = golfcube["eta"][:, 10, 85]  # a "real" slice of the model
     >>> fig, ax = plt.subplots(figsize=(8, 4))
-    >>> dm.plot.show_one_dimensional_trajectory_to_strata(ets, ax=ax, dz=0.25)
+    >>> spl.plot.show_one_dimensional_trajectory_to_strata(ets, ax=ax, dz=0.25)
     >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_1d_example.py
@@ -435,7 +435,7 @@ Begin by creating a ``StratigraphyCube``:
 
 .. doctest::
 
-    >>> stratcube = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
+    >>> stratcube = spl.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
     >>> stratcube.variables
     ['eta', 'stage', 'depth', 'discharge', 'velocity', 'sedflux', 'sandfrac']
 
@@ -460,9 +460,9 @@ Let’s add a section at the same location as ``golfcube.sections['demo']``.
 
 .. doctest::
 
-    >>> stratcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
+    >>> stratcube.register_section("demo", spl.section.StrikeSection(distance_idx=10))
     >>> stratcube.sections
-    {'demo': <deltametrics.section.StrikeSection object at 0x...>}
+    {'demo': <sandplover.section.StrikeSection object at 0x...>}
 
 Let's examine the stratigraphy in three different visual styles.
 
@@ -501,14 +501,14 @@ Specify `z` as the elevation of the planform slice:
 .. plot::
     :context: reset
 
-    >>> golfcube = dm.sample_data.golf()
-    >>> stratcube = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
+    >>> golfcube = spl.sample_data.golf()
+    >>> stratcube = spl.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
 
 .. plot::
     :include-source:
     :context:
 
-    >>> minus2_slice = dm.plan.Planform(stratcube, z=-2)
+    >>> minus2_slice = spl.plan.Planform(stratcube, z=-2)
 
     >>> fig, ax = plt.subplots()
     >>> minus2_slice.show("sandfrac", ticks=True, ax=ax)
@@ -536,7 +536,7 @@ speed up computations if an array is being accessed over and over.
         vmin=golfcube.varset["sandfrac"].vmin,
         vmax=golfcube.varset["sandfrac"].vmax,
     )
-    dm.plot.append_colorbar(pcm, ax)
+    spl.plot.append_colorbar(pcm, ax)
     plt.show()  # doctest: +SKIP
 
 Note than you can also bypass the creation of a ``StratigraphyCube``,
@@ -544,7 +544,7 @@ and just directly obtain a frozen volume with:
 
 .. doctest::
 
-   >>> fs, fe = dm.strat.compute_boxy_stratigraphy_volume(
+   >>> fs, fe = spl.strat.compute_boxy_stratigraphy_volume(
    ...     golfcube["eta"], golfcube["sandfrac"], dz=0.05
    ... )
 
@@ -574,7 +574,7 @@ Masks
 
 We have implemented operations to compute masks of several types.
 
-By design, masks can be instantiated directly from the most basic "raw data" components (e.g., a channel :obj:`~dm.mask.CenterlineMask` from `eta` and  `velocity`).
+By design, masks can be instantiated directly from the most basic "raw data" components (e.g., a channel :obj:`~spl.mask.CenterlineMask` from `eta` and  `velocity`).
 This is convenient, and can be a great way to quickly explore data and prototype algorithms; however, it is often more computationally efficient to reuse a precomputed mask (and `Planform` objects) to compute a new mask.
 We describe the relationships between various `Mask` types, and best practices for creating each on the :doc:`reference page for masks </reference/mask/index>`.
 
@@ -598,41 +598,41 @@ See the :doc:`reference page for each mask type </reference/mask/index>` if you 
     import matplotlib.pyplot as plt
     import matplotlib.gridspec as gs
     import numpy as np
-    import deltametrics as dm
+    import sandplover as spl
 
 .. plot::
     :context:
     :include-source:
 
     # use a new cube
-    maskcube = dm.sample_data.golf()
+    maskcube = spl.sample_data.golf()
 
     # create the masks from variables in the cube
-    land_mask = dm.mask.LandMask(
+    land_mask = spl.mask.LandMask(
         maskcube['eta'][-1, :, :],
         elevation_threshold=0)
 
-    wet_mask = dm.mask.WetMask(
+    wet_mask = spl.mask.WetMask(
         maskcube['eta'][-1, :, :],
         elevation_threshold=0)
 
-    channel_mask = dm.mask.ChannelMask(
+    channel_mask = spl.mask.ChannelMask(
         maskcube['eta'][-1, :, :],
         maskcube['velocity'][-1, :, :],
         elevation_threshold=0,
         flow_threshold=0.3)
 
-    centerline_mask = dm.mask.CenterlineMask(
+    centerline_mask = spl.mask.CenterlineMask(
         maskcube['eta'][-1, :, :],
         maskcube['velocity'][-1, :, :],
         elevation_threshold=0,
         flow_threshold=0.3)
 
-    edge_mask = dm.mask.EdgeMask(
+    edge_mask = spl.mask.EdgeMask(
         maskcube['eta'][-1, :, :],
         elevation_threshold=0)
 
-    shore_mask = dm.mask.ShorelineMask(
+    shore_mask = spl.mask.ShorelineMask(
         maskcube['eta'][-1, :, :],
         elevation_threshold=0)
 

@@ -1,3 +1,3 @@
-golfcube = dm.sample_data.golf()
-OAP = dm.plan.OpeningAnglePlanform.from_elevation_data(
+golfcube = spl.sample_data.golf()
+OAP = spl.plan.OpeningAnglePlanform.from_elevation_data(
   golfcube['eta'][-1, :, :], elevation_threshold=0)

@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from deltametrics.sample_data.sample_data import xslope
+from sandplover.sample_data.sample_data import xslope
 #
 xslope0, xslope1 = xslope()
 nt = 5

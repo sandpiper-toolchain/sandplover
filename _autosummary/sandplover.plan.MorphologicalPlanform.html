@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sandplover.plan.MorphologicalPlanform &#8212; sandplover 0.5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sandplover.plan.compute_land_area" href="sandplover.plan.compute_land_area.html" />
+    <link rel="prev" title="sandplover.plan.OpeningAnglePlanform" href="sandplover.plan.OpeningAnglePlanform.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_land_area.html" title="sandplover.plan.compute_land_area"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.plan.OpeningAnglePlanform.html" title="sandplover.plan.OpeningAnglePlanform"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/plan/index.html" accesskey="U">Planview operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.plan.MorphologicalPlanform</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="sandplover-plan-morphologicalplanform">
+<h1>sandplover.plan.MorphologicalPlanform<a class="headerlink" href="#sandplover-plan-morphologicalplanform" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sandplover.plan.MorphologicalPlanform">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.plan.</span></span><span class="sig-name descname"><span class="pre">MorphologicalPlanform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.MorphologicalPlanform" title="Link to this definition">¶</a></dt>
+<dd><p>Planform for handling the morphological method.</p>
+<p>This <cite>Planform</cite> (called <cite>MP</cite> for short) is a wrapper/handler for the input
+and output from the <a class="reference internal" href="sandplover.plan.morphological_closing_method.html#sandplover.plan.morphological_closing_method" title="sandplover.plan.morphological_closing_method"><code class="xref py py-func docutils literal notranslate"><span class="pre">morphological_closing_method()</span></code></a>. The <cite>MP</cite> is a
+convenient way to manage extraction of a shoreline or a delta topset area.</p>
+<p>Moreoever, the <cite>MP</cite> can be used as the input for <a class="reference internal" href="../reference/mask/index.html"><span class="doc">many types of Mask</span></a> objects, so it is often computationally
+advantageous to compute this <cite>Planform</cite> once, and then use it to create
+many different types of masks.</p>
+<p>The <cite>MP</cite> provides an alternative approach to shoreline and topset area
+delineation to the <cite>OAM</cite> method. Depending on the input parameters chosen,
+this method can be faster than the <cite>OAM</cite> method, however unlike the <cite>OAM</cite>
+method, the accuracy and quality of the extracted planform is sensitive to
+the parameter values and scales inherent in the supplied inputs.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is recommended to try several parameters using a sample slice of
+data before computing the <cite>MP</cite> for an entire dataset, as choice of
+input parameters will affect the speed and quality of results!</p>
+</div>
+<p>(<a class="reference download internal" download="" href="../_downloads/84016ad4951c97fdda93bac2877d1f5a/sandplover-plan-MorphologicalPlanform-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/64660ac35576f0d9a09e432d9e5afe81/sandplover-plan-MorphologicalPlanform-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/6e7186b88457494f729986caa0262fb6/sandplover-plan-MorphologicalPlanform-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../_images/sandplover-plan-MorphologicalPlanform-1.png" class="plot-directive" src="../_images/sandplover-plan-MorphologicalPlanform-1.png" />
+</figure>
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.plan.MorphologicalPlanform.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.MorphologicalPlanform.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize the MorphologicalPlanform (MP).</p>
+<p>Initializing the MP requires at least a binary input mask representing
+the elevation or land area of the system. A secondary input setting
+the maximum disk size for morphological operations can be provided.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>At this time two arguments are needed! Connections between the
+planform object and the cube are not yet implemented.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – <p>The first argument is expected to be an elevation mask, or an
+array which represents an elevation mask or land area. The
+expectation is that this input is the binary representation of
+the area from which you wish to identify the MP.</p>
+<p>The second argument is the maximum disk size for morphological
+operations in pixels. If a cube is connected and this argument is
+not supplied, the inlet width will be pulled from the cube’s
+metadata and used to set this parameter.</p>
+</p></li>
+<li><p><strong>**kwargs</strong> – Current supported key-word argument is ‘allow_empty’ which is a
+boolean argument that if True, allows the MP to be initialized with
+no other arguments supplied.</p></li>
+<li><p><strong>note::</strong> (<em>..</em>) – Supplying elevation data or nonbinary data in general as the first
+argument to the MP will <strong>not</strong> result in an error, however the
+array will be coerced to be binary when morphological operations
+are performed. Therefore results when inputting non-binary data
+may not be what you expect.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.__init__" title="sandplover.plan.MorphologicalPlanform.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Initialize the MorphologicalPlanform (MP).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.from_elevation_data" title="sandplover.plan.MorphologicalPlanform.from_elevation_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_elevation_data</span></code></a>(elevation_data, ...)</p></td>
+<td><p>Create a <cite>MorphologicalPlanform</cite> from elevation data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.from_mask" title="sandplover.plan.MorphologicalPlanform.from_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_mask</span></code></a>(UnknownMask, max_disk, **kwargs)</p></td>
+<td><p>Static method for creating a MorphologicalPlanform from a mask.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.show" title="sandplover.plan.MorphologicalPlanform.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>([var, ax, title, ticks, colorbar, ...])</p></td>
+<td><p>Show the planform.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.all_images" title="sandplover.plan.MorphologicalPlanform.all_images"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all_images</span></code></a></p></td>
+<td><p>3-D array of all binary closed arrays.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.below_mask" title="sandplover.plan.MorphologicalPlanform.below_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">below_mask</span></code></a></p></td>
+<td><p>Mask for below sea level pixels.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.composite_array" title="sandplover.plan.MorphologicalPlanform.composite_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">composite_array</span></code></a></p></td>
+<td><p>Alias for <cite>mean_image</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.data" title="sandplover.plan.MorphologicalPlanform.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
+<td><p>The public data field.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.mean_image" title="sandplover.plan.MorphologicalPlanform.mean_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mean_image</span></code></a></p></td>
+<td><p>Average of all binary closing arrays.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.name" title="sandplover.plan.MorphologicalPlanform.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>Planform name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.shape" title="sandplover.plan.MorphologicalPlanform.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></p></td>
+<td><p>Planform shape.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.plan.MorphologicalPlanform.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.MorphologicalPlanform.__getitem__" title="Link to this definition">¶</a></dt>
+<dd><p>Slice the planform.</p>
+<p>Implements basic slicing for <cite>SpecialtyPlanform</cite> by passing the <cite>slc</cite>
+to <cite>self.data</cite>. I.e., the returned slice is <code class="docutils literal notranslate"><span class="pre">self.data[slc]</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plan.MorphologicalPlanform.all_images">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">all_images</span></span><a class="headerlink" href="#sandplover.plan.MorphologicalPlanform.all_images" title="Link to this definition">¶</a></dt>
+<dd><p>3-D array of all binary closed arrays.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plan.MorphologicalPlanform.below_mask">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">below_mask</span></span><a class="headerlink" href="#sandplover.plan.MorphologicalPlanform.below_mask" title="Link to this definition">¶</a></dt>
+<dd><p>Mask for below sea level pixels.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plan.MorphologicalPlanform.composite_array">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">composite_array</span></span><a class="headerlink" href="#sandplover.plan.MorphologicalPlanform.composite_array" title="Link to this definition">¶</a></dt>
+<dd><p>Alias for <cite>mean_image</cite>.</p>
+<p>This is the array that a contour is extracted from using some threshold
+value when making land and shoreline masks.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plan.MorphologicalPlanform.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#sandplover.plan.MorphologicalPlanform.data" title="Link to this definition">¶</a></dt>
+<dd><p>The public data field.</p>
+<p>This attribute <em>must</em> be implemented as an alias to another attribute.
+The choice of field is up to the developer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.plan.MorphologicalPlanform.from_elevation_data">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_elevation_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_disk</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.MorphologicalPlanform.from_elevation_data" title="Link to this definition">¶</a></dt>
+<dd><p>Create a <cite>MorphologicalPlanform</cite> from elevation data.</p>
+<p>Creates an ElevationMask from the input elevation array that is used
+to create the MP.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Information about keyword arguments</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The <cite>elevation_threshold</cite> argument is implicitly required in this
+method, because it is required to instantiate an
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">ElevationMask</span></code> from elevation data.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>elevation_data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – The elevation data to create the <cite>ElevationMask</cite> that is in
+turn used to create the <cite>MorphologicalPlanform</cite>.</p></li>
+<li><p><strong>max_disk</strong> (<em>int</em>) – Maximum disk size to use for the morphological operations.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.plan</span><span class="w"> </span><span class="kn">import</span> <span class="n">MorphologicalPlanform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.sample_data.sample_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">golf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">MP</span> <span class="o">=</span> <span class="n">MorphologicalPlanform</span><span class="o">.</span><span class="n">from_elevation_data</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_disk</span><span class="o">=</span><span class="mi">3</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.plan.MorphologicalPlanform.from_mask">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">UnknownMask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_disk</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.MorphologicalPlanform.from_mask" title="Link to this definition">¶</a></dt>
+<dd><p>Static method for creating a MorphologicalPlanform from a mask.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plan.MorphologicalPlanform.mean_image">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mean_image</span></span><a class="headerlink" href="#sandplover.plan.MorphologicalPlanform.mean_image" title="Link to this definition">¶</a></dt>
+<dd><p>Average of all binary closing arrays.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plan.MorphologicalPlanform.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#sandplover.plan.MorphologicalPlanform.name" title="Link to this definition">¶</a></dt>
+<dd><p>Planform name.</p>
+<p>Helpful to differentiate multiple <cite>Planform</cite> objects.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plan.MorphologicalPlanform.shape">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#sandplover.plan.MorphologicalPlanform.shape" title="Link to this definition">¶</a></dt>
+<dd><p>Planform shape.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.plan.MorphologicalPlanform.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.MorphologicalPlanform.show" title="Link to this definition">¶</a></dt>
+<dd><p>Show the planform.</p>
+<p>Display a field of the planform, called by attribute name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Which field to show. Must be an attribute of the planform. <cite>show</cite>
+will look for another attribute describing
+the <code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableInfo</span></code> for that attribute named
+<code class="docutils literal notranslate"><span class="pre">self._&lt;var&gt;_varinfo</span></code> and use that to style the plot, if
+found. If this <cite>VariableInfo</cite> is not found, the default is used.</p></li>
+<li><p><strong>label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>str</cite>, optional) – Display a label of the variable name on the plot. Default is
+False, display nothing. If <code class="docutils literal notranslate"><span class="pre">label=True</span></code>, the label name from the
+<a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableSet</span></code></a> is used. Other arguments are
+attempted to coerce to <cite>str</cite>, and the literal is diplayed.</p></li>
+<li><p><strong>colorbar</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Whether a colorbar is appended to the axis.</p></li>
+<li><p><strong>colorbar_label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>str</cite>, optional) – Display a label of the variable name along the colorbar. Default is
+False, display nothing. If <code class="docutils literal notranslate"><span class="pre">label=True</span></code>, the label name from the
+<a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableSet</span></code></a> is used. Other arguments are
+attempted to coerce to <cite>str</cite>, and the literal is diplayed.</p></li>
+<li><p><strong>ax</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Axes</span></code> object, optional) – A <cite>matplotlib</cite> <cite>Axes</cite> object to plot the section. Optional; if not
+provided, a call is made to <code class="docutils literal notranslate"><span class="pre">plt.gca()</span></code> to get the current (or
+create a new) <cite>Axes</cite> object.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">sandplover.plan.MorphologicalPlanform</a><ul>
+<li><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform"><code class="docutils literal notranslate"><span class="pre">MorphologicalPlanform</span></code></a><ul>
+<li><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.__init__"><code class="docutils literal notranslate"><span class="pre">MorphologicalPlanform.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.__getitem__"><code class="docutils literal notranslate"><span class="pre">MorphologicalPlanform.__getitem__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.all_images"><code class="docutils literal notranslate"><span class="pre">MorphologicalPlanform.all_images</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.below_mask"><code class="docutils literal notranslate"><span class="pre">MorphologicalPlanform.below_mask</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.composite_array"><code class="docutils literal notranslate"><span class="pre">MorphologicalPlanform.composite_array</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.data"><code class="docutils literal notranslate"><span class="pre">MorphologicalPlanform.data</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.from_elevation_data"><code class="docutils literal notranslate"><span class="pre">MorphologicalPlanform.from_elevation_data()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.from_mask"><code class="docutils literal notranslate"><span class="pre">MorphologicalPlanform.from_mask()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.mean_image"><code class="docutils literal notranslate"><span class="pre">MorphologicalPlanform.mean_image</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.name"><code class="docutils literal notranslate"><span class="pre">MorphologicalPlanform.name</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.shape"><code class="docutils literal notranslate"><span class="pre">MorphologicalPlanform.shape</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.MorphologicalPlanform.show"><code class="docutils literal notranslate"><span class="pre">MorphologicalPlanform.show()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="sandplover.plan.OpeningAnglePlanform.html"
+                          title="previous chapter">sandplover.plan.OpeningAnglePlanform</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="sandplover.plan.compute_land_area.html"
+                          title="next chapter">sandplover.plan.compute_land_area</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/_autosummary/sandplover.plan.MorphologicalPlanform.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_land_area.html" title="sandplover.plan.compute_land_area"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.plan.OpeningAnglePlanform.html" title="sandplover.plan.OpeningAnglePlanform"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/plan/index.html" >Planview operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.plan.MorphologicalPlanform</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2020, The DeltaRCM Team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

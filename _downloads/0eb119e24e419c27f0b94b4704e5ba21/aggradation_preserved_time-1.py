@@ -1,4 +1,4 @@
-aeolian = dm.sample_data.aeolian()
+aeolian = spl.sample_data.aeolian()
 
 fig, ax = plt.subplots()
 ax.plot([500, 500], [0, 2000], c='r', ls='--')

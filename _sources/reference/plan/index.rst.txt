@@ -6,17 +6,17 @@ Planview operations
 
 The package makes available functions relating to planview operations on data.
 
-The functions are defined in ``deltametrics.plan``.
+The functions are defined in ``sandplover.plan``.
 
 .. hint::
 
-  There is a complete :doc:`Planform Subject Guide </guides/subject_guides/planform>` about the organization of this area of DeltaMetrics and examples for how to use and compute planform objects and metrics.
+  There is a complete :doc:`Planform Subject Guide </guides/subject_guides/planform>` about the organization of this area of sandplover and examples for how to use and compute planform objects and metrics.
 
 
 Planform types
 ==============
 
-.. currentmodule:: deltametrics.plan
+.. currentmodule:: sandplover.plan
 
 .. rubric:: Basic data Planform
 

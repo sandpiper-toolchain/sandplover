@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sandplover.strat.compute_boxy_stratigraphy_volume &#8212; sandplover 0.5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sandplover.strat.compute_boxy_stratigraphy_coordinates" href="sandplover.strat.compute_boxy_stratigraphy_coordinates.html" />
+    <link rel="prev" title="sandplover.strat.compute_sedimentograph" href="sandplover.strat.compute_sedimentograph.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="sandplover.strat.compute_boxy_stratigraphy_coordinates.html" title="sandplover.strat.compute_boxy_stratigraphy_coordinates"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.strat.compute_sedimentograph.html" title="sandplover.strat.compute_sedimentograph"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/strat/index.html" accesskey="U">Stratigraphy operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.strat.compute_boxy_stratigraphy_volume</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="sandplover-strat-compute-boxy-stratigraphy-volume">
+<h1>sandplover.strat.compute_boxy_stratigraphy_volume<a class="headerlink" href="#sandplover-strat-compute-boxy-stratigraphy-volume" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="sandplover.strat.compute_boxy_stratigraphy_volume">
+<span class="sig-prename descclassname"><span class="pre">sandplover.strat.</span></span><span class="sig-name descname"><span class="pre">compute_boxy_stratigraphy_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elev</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_cube</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.strat.compute_boxy_stratigraphy_volume" title="Link to this definition">¶</a></dt>
+<dd><p>Process t-x-y data volume to boxy stratigraphy volume.</p>
+<p>This function returns a “frozen” cube of stratigraphy
+with values of the supplied property/variable (<code class="xref py py-obj docutils literal notranslate"><span class="pre">prop</span></code>) placed into a
+three-dimensional real-valued 3D array.</p>
+<p>By default, the data are returned as a numpy <cite>ndarray</cite>, however, specify
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">return_Cube</span></code> as <cite>True</cite> to return a
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">FrozenStratigraphyCube</span></code>. If <cite>False</cite>, function
+:additionally returns an <cite>ndarray</cite> of elevations corresponding to the
+:stratigraphy positions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>elev</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – The <cite>t-x-y</cite> ndarray of elevation data to determine stratigraphy.</p></li>
+<li><p><strong>prop</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – The <cite>t-x-y</cite> ndarray of property data to process into the stratigraphy.</p></li>
+<li><p><strong>sigma_dist</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Optional subsidence distance argument used to adjust the elevation
+data to account for subsidence when computing stratigraphy. See
+<a class="reference internal" href="../reference/strat/index.html#sandplover.strat._adjust_elevation_by_subsidence" title="sandplover.strat._adjust_elevation_by_subsidence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_adjust_elevation_by_subsidence</span></code></a> for a complete description.</p></li>
+<li><p><strong>z</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>, optional) – Vertical coordinates for stratigraphy, in meters. Optional, and
+mutually exclusive with <code class="xref py py-obj docutils literal notranslate"><span class="pre">dz</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">nz</span></code>,
+see <a class="reference internal" href="../reference/strat/index.html#sandplover.strat._determine_strat_coordinates" title="sandplover.strat._determine_strat_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_determine_strat_coordinates</span></code></a> for complete description.</p></li>
+<li><p><strong>dz</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, optional) – Vertical resolution of stratigraphy, in meters. Optional, and mutually
+exclusive with <code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">nz</span></code>,
+see <a class="reference internal" href="../reference/strat/index.html#sandplover.strat._determine_strat_coordinates" title="sandplover.strat._determine_strat_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_determine_strat_coordinates</span></code></a> for complete description.</p></li>
+<li><p><strong>nz</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – Number of intervals for vertical coordinates of stratigraphy.
+Optional, and mutually exclusive with <code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">dz</span></code>,
+see <a class="reference internal" href="../reference/strat/index.html#sandplover.strat._determine_strat_coordinates" title="sandplover.strat._determine_strat_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_determine_strat_coordinates</span></code></a> for complete description.</p></li>
+<li><p><strong>return_cube</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">boolean</span></code>, optional) – <p>Whether to return the stratigraphy as a
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">FrozenStratigraphyCube</span></code> instance. Default is
+to return an <cite>ndarray</cite> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">elevations</span></code> <cite>ndarray</cite>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>not implemented!</p>
+</div>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>stratigraphy_cube</strong> (<a class="reference internal" href="sandplover.cube.StratigraphyCube.html#sandplover.cube.StratigraphyCube" title="sandplover.cube.StratigraphyCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StratigraphyCube</span></code></a>) – Not Implemented.</p></li>
+<li><p><strong>stratigraphy</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – A <cite>z-x-y</cite> <cite>ndarray</cite> with data from <cite>prop</cite> placed into voxels to fill
+stratigraphy.</p></li>
+<li><p><strong>elevations</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – A <cite>z-x-y</cite> <cite>ndarray</cite> with elevations for each voxel in the stratigraphy
+array.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">sandplover.strat.compute_boxy_stratigraphy_volume</a><ul>
+<li><a class="reference internal" href="#sandplover.strat.compute_boxy_stratigraphy_volume"><code class="docutils literal notranslate"><span class="pre">compute_boxy_stratigraphy_volume()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="sandplover.strat.compute_sedimentograph.html"
+                          title="previous chapter">sandplover.strat.compute_sedimentograph</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="sandplover.strat.compute_boxy_stratigraphy_coordinates.html"
+                          title="next chapter">sandplover.strat.compute_boxy_stratigraphy_coordinates</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/_autosummary/sandplover.strat.compute_boxy_stratigraphy_volume.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="sandplover.strat.compute_boxy_stratigraphy_coordinates.html" title="sandplover.strat.compute_boxy_stratigraphy_coordinates"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.strat.compute_sedimentograph.html" title="sandplover.strat.compute_sedimentograph"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/strat/index.html" >Stratigraphy operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.strat.compute_boxy_stratigraphy_volume</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2020, The DeltaRCM Team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

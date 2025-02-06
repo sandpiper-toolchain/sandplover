@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from deltametrics.utils import line_to_cells
+from sandplover.utils import line_to_cells
 #
 p0 = (1, 6)
 p1 = (6, 3)

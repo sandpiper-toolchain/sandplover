@@ -12,7 +12,7 @@ for i, ar in enumerate(agg_rates):
         (1, aeolian.shape[1], aeolian.shape[2]))
 
     # compute stratigraphy for elevation timeseries plus aggradation
-    vol, elev = dm.strat.compute_boxy_stratigraphy_volume(
+    vol, elev = spl.strat.compute_boxy_stratigraphy_volume(
         aeolian['eta']+agg_array, aeolian['time'],
         dz=0.1)
 
@@ -27,7 +27,7 @@ for i, ar in enumerate(agg_rates):
         vol[:, :, sec_idx],
         extent=[0, aeolian.dim1_coords[-1], elev.min(), elev.max()],
         aspect='auto', origin='lower')
-    cb = dm.plot.append_colorbar(im, ax=ax[i])
+    cb = spl.plot.append_colorbar(im, ax=ax[i])
     cb.ax.set_ylabel(aeolian['time']['time'].units, fontsize=8)
 
     # label

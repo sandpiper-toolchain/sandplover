@@ -1,6 +1,0 @@
-﻿deltametrics.mobility.calculate\_reworking\_fraction
-====================================================
-
-.. currentmodule:: deltametrics.mobility
-
-.. autofunction:: calculate_reworking_fraction

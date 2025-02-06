@@ -1,0 +1,6 @@
+﻿sandplover.mobility.channel\_presence
+=====================================
+
+.. currentmodule:: sandplover.mobility
+
+.. autofunction:: channel_presence

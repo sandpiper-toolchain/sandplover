@@ -10,13 +10,13 @@ A simple way to do this would be to determine the fraction of model time interva
 
 where :math:`t` is a time interval in the total number of intervals :math:`T` from the model time series, and :math:`I` is an indicator function taking a value of 1 if time interval :math:`t` is present in the section, and otherwise 0.
 
-We'll use the :obj:`~deltametrics.sample_data.aeolian` data set as an example here, and do stratigraphic calculation using the :obj:`~deltametrics.strat.compute_boxy_stratigraphy_volume` function.
+We'll use the :obj:`~sandplover.sample_data.aeolian` data set as an example here, and do stratigraphic calculation using the :obj:`~sandplover.strat.compute_boxy_stratigraphy_volume` function.
 
 .. plot::
     :include-source:
     :context: reset
 
-    aeolian = dm.sample_data.aeolian()
+    aeolian = spl.sample_data.aeolian()
 
     fig, ax = plt.subplots()
     ax.plot([500, 500], [0, 2000], c='r', ls='--')
@@ -28,7 +28,7 @@ We'll use the :obj:`~deltametrics.sample_data.aeolian` data set as an example he
 
 
 
-Using the :obj:`~deltametrics.strat.compute_boxy_stratigraphy_volume` function allows us to augment the bed elevation time series with a background aggradation.
+Using the :obj:`~sandplover.strat.compute_boxy_stratigraphy_volume` function allows us to augment the bed elevation time series with a background aggradation.
 
 .. plot::
     :include-source:
@@ -48,7 +48,7 @@ Using the :obj:`~deltametrics.strat.compute_boxy_stratigraphy_volume` function a
             (1, aeolian.shape[1], aeolian.shape[2]))
 
         # compute stratigraphy for elevation timeseries plus aggradation
-        vol, elev = dm.strat.compute_boxy_stratigraphy_volume(
+        vol, elev = spl.strat.compute_boxy_stratigraphy_volume(
             aeolian['eta']+agg_array, aeolian['time'],
             dz=0.1)
 
@@ -63,7 +63,7 @@ Using the :obj:`~deltametrics.strat.compute_boxy_stratigraphy_volume` function a
             vol[:, :, sec_idx],
             extent=[0, aeolian.dim1_coords[-1], elev.min(), elev.max()],
             aspect='auto', origin='lower')
-        cb = dm.plot.append_colorbar(im, ax=ax[i])
+        cb = spl.plot.append_colorbar(im, ax=ax[i])
         cb.ax.set_ylabel(aeolian['time']['time'].units, fontsize=8)
 
         # label

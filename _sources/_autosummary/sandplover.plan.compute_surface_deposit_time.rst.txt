@@ -1,0 +1,6 @@
+﻿sandplover.plan.compute\_surface\_deposit\_time
+===============================================
+
+.. currentmodule:: sandplover.plan
+
+.. autofunction:: compute_surface_deposit_time

@@ -1,0 +1,6 @@
+﻿sandplover.plan.compute\_shoreline\_roughness
+=============================================
+
+.. currentmodule:: sandplover.plan
+
+.. autofunction:: compute_shoreline_roughness

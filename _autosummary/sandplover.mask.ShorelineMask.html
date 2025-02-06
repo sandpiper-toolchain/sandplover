@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sandplover.mask.ShorelineMask &#8212; sandplover 0.5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sandplover.mask.WetMask" href="sandplover.mask.WetMask.html" />
+    <link rel="prev" title="sandplover.mask.LandMask" href="sandplover.mask.LandMask.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="sandplover.mask.WetMask.html" title="sandplover.mask.WetMask"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.mask.LandMask.html" title="sandplover.mask.LandMask"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/mask/index.html" accesskey="U">Masking operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.mask.ShorelineMask</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="sandplover-mask-shorelinemask">
+<h1>sandplover.mask.ShorelineMask<a class="headerlink" href="#sandplover-mask-shorelinemask" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sandplover.mask.ShorelineMask">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.mask.</span></span><span class="sig-name descname"><span class="pre">ShorelineMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contour_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'OAM'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ShorelineMask" title="Link to this definition">¶</a></dt>
+<dd><p>Identify the shoreline as a binary mask.</p>
+<p>A shoreline mask object, provides a binary identification of shoreline
+pixels.</p>
+<p class="rubric">Examples</p>
+<p>Initialize the <cite>ShorelineMask</cite> from elevation data:</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/039a477eaafa59a72210e20b2efa1707/sandplover-mask-ShorelineMask-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/0b46adefe0a572c3eaf41b180efa7b85/sandplover-mask-ShorelineMask-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/901aa9937cde5d7fe33077d2c26fe80c/sandplover-mask-ShorelineMask-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../_images/sandplover-mask-ShorelineMask-1.png" class="plot-directive" src="../_images/sandplover-mask-ShorelineMask-1.png" />
+</figure>
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contour_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'OAM'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ShorelineMask.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize the ShorelineMask.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This class currently computes the mask by either the Shaw Opening
+Angle Method (<code class="xref py py-obj docutils literal notranslate"><span class="pre">shaw_opening_angle_method</span></code>) or the
+morphological closing method
+(<code class="xref py py-obj docutils literal notranslate"><span class="pre">morphological_closing_method</span></code>). Other
+implementations can be used if manually implemented, and then
+the computed mask can be passed via via a <cite>method</cite> argument. For example,
+a sobel edge detection and morphological thinning on a LandMask
+(already made from the OAM, or not) may also return a good
+approximation of the shoreline.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arr</strong> (<em>ndarray</em>) – 2-D topographic array to make the mask from.</p></li>
+<li><p><strong>contour_threshold</strong> (<em>float</em><em>, </em><em>optional</em>) – Threshold value used when identifying the shoreline contour.
+For the opening angle method, this is a threshold opening angle
+value used to determine shoreline contour based on the opening_angles
+from the <code class="xref py py-obj docutils literal notranslate"><span class="pre">OpeningAnglePlanform</span></code>. For the morphological
+method this is a threshold value between 0 and 1, for extracting
+the contour from the mean_image array.</p></li>
+<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Specifies the method to use for shoreline mask computation.
+Currently supports ‘OAM’ for the opening angle method (default)
+and ‘MPM’ for the morpholigcal planform method.</p></li>
+<li><p><strong>elevation_threshold</strong> – Passed to the initialization of an ElevationMask to discern the
+ocean area binary mask input to the opening angle method.</p></li>
+<li><p><strong>kwargs</strong> (<em>optional</em>) – Keyword arguments for
+<a class="reference internal" href="sandplover.plan.shaw_opening_angle_method.html#sandplover.plan.shaw_opening_angle_method" title="sandplover.plan.shaw_opening_angle_method"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shaw_opening_angle_method</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.mask.ShorelineMask.__init__" title="sandplover.mask.ShorelineMask.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(*args[, contour_threshold, method])</p></td>
+<td><p>Initialize the ShorelineMask.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_Planform</span></code>(_Planform, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.mask.ShorelineMask.from_array" title="sandplover.mask.ShorelineMask.from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_array</span></code></a>(_arr[, contour])</p></td>
+<td><p>Create a ShorelineMask from an array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.mask.ShorelineMask.from_mask" title="sandplover.mask.ShorelineMask.from_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_mask</span></code></a>(UnknownMask, **kwargs)</p></td>
+<td><p>Create a ShorelineMask directly from an <a class="reference internal" href="sandplover.mask.ElevationMask.html#sandplover.mask.ElevationMask" title="sandplover.mask.ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElevationMask</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_masks</span></code>(UnknownMask, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.mask.ShorelineMask.grab_contour" title="sandplover.mask.ShorelineMask.grab_contour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grab_contour</span></code></a>(arr, shoremap)</p></td>
+<td><p>Method to grab contour from some input array using a threshold.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.mask.ShorelineMask.show" title="sandplover.mask.ShorelineMask.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>([ax, title, ticks, colorbar])</p></td>
+<td><p>Show the mask.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.mask.ShorelineMask.trim_mask" title="sandplover.mask.ShorelineMask.trim_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trim_mask</span></code></a>(*args[, value, axis, length])</p></td>
+<td><p>Replace a part of the mask with a new value.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.mask.ShorelineMask.contour" title="sandplover.mask.ShorelineMask.contour"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contour</span></code></a></p></td>
+<td><p>Path of the contour that was cast to shoreline mask.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.mask.ShorelineMask.contour_threshold" title="sandplover.mask.ShorelineMask.contour_threshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">contour_threshold</span></code></a></p></td>
+<td><p>Threshold value used for picking shoreline contour.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.mask.ShorelineMask.integer_mask" title="sandplover.mask.ShorelineMask.integer_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer_mask</span></code></a></p></td>
+<td><p>Binary mask values as integer</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.mask.ShorelineMask.mask" title="sandplover.mask.ShorelineMask.mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask</span></code></a></p></td>
+<td><p>Binary mask values.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.mask.ShorelineMask.mask_type" title="sandplover.mask.ShorelineMask.mask_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask_type</span></code></a></p></td>
+<td><p>Type of the mask (string)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ShorelineMask.__getitem__" title="Link to this definition">¶</a></dt>
+<dd><p>Implement slicing.</p>
+<p>Return values directly from the mask. Supported variables are
+only ‘mask’ or ‘integer’.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.contour">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">contour</span></span><a class="headerlink" href="#sandplover.mask.ShorelineMask.contour" title="Link to this definition">¶</a></dt>
+<dd><p>Path of the contour that was cast to shoreline mask.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.contour_threshold">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">contour_threshold</span></span><a class="headerlink" href="#sandplover.mask.ShorelineMask.contour_threshold" title="Link to this definition">¶</a></dt>
+<dd><p>Threshold value used for picking shoreline contour.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.from_array">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contour</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ShorelineMask.from_array" title="Link to this definition">¶</a></dt>
+<dd><p>Create a ShorelineMask from an array.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Instantiation with <cite>from_array</cite> will attempt to any data type
+(<cite>dtype</cite>) to boolean. This may have unexpected results. Convert
+your array to a boolean before using <cite>from_array</cite> to ensure the
+mask is created correctly.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_arr</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – The array with values to set as the mask. Can be any <cite>dtype</cite> but
+will be coerced to <cite>boolean</cite>.</p></li>
+<li><p><strong>contour</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – A path of the shoreline contour, if available. Default is None
+(or contour path is unknown).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.from_mask">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">UnknownMask</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ShorelineMask.from_mask" title="Link to this definition">¶</a></dt>
+<dd><p>Create a ShorelineMask directly from an <a class="reference internal" href="sandplover.mask.ElevationMask.html#sandplover.mask.ElevationMask" title="sandplover.mask.ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElevationMask</span></code></a>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Optionally, use the <cite>method</cite> flag to control how the
+mask is created.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.grab_contour">
+<span class="sig-name descname"><span class="pre">grab_contour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shoremap</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ShorelineMask.grab_contour" title="Link to this definition">¶</a></dt>
+<dd><p>Method to grab contour from some input array using a threshold.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.integer_mask">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">integer_mask</span></span><a class="headerlink" href="#sandplover.mask.ShorelineMask.integer_mask" title="Link to this definition">¶</a></dt>
+<dd><p>Binary mask values as integer</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><cite>integer_mask</cite> is a boolean array as <code class="docutils literal notranslate"><span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">1</span></code> (integers).
+It is <strong>not suitible</strong> for multidimensional array indexing; see
+also <a class="reference internal" href="#sandplover.mask.ShorelineMask.mask" title="sandplover.mask.ShorelineMask.mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask</span></code></a>.</p>
+</div>
+<p>Read-only mask attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.mask">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask</span></span><a class="headerlink" href="#sandplover.mask.ShorelineMask.mask" title="Link to this definition">¶</a></dt>
+<dd><p>Binary mask values.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><cite>mask</cite> is a boolean array (<strong>not integer</strong>). See also
+<a class="reference internal" href="#sandplover.mask.ShorelineMask.integer_mask" title="sandplover.mask.ShorelineMask.integer_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer_mask</span></code></a>.</p>
+</div>
+<p>Read-only mask attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.mask_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask_type</span></span><a class="headerlink" href="#sandplover.mask.ShorelineMask.mask_type" title="Link to this definition">¶</a></dt>
+<dd><p>Type of the mask (string)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ShorelineMask.show" title="Link to this definition">¶</a></dt>
+<dd><p>Show the mask.</p>
+<p>The <cite>Mask</cite> is shown in a <cite>matplotlib</cite> axis with <cite>imshow</cite>. The <cite>mask</cite>
+values are accessed from <a class="reference internal" href="#sandplover.mask.ShorelineMask.integer_mask" title="sandplover.mask.ShorelineMask.integer_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer_mask</span></code></a>, so the display will show
+as <code class="docutils literal notranslate"><span class="pre">0</span></code> for <code class="docutils literal notranslate"><span class="pre">False</span></code> and <code class="docutils literal notranslate"><span class="pre">1</span></code> for <code class="docutils literal notranslate"><span class="pre">True</span></code>. Default colormap is
+black and white.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Passes <cite>**kwargs</cite> to <code class="docutils literal notranslate"><span class="pre">matplotlib.imshow</span></code>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ax</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.pyplot.Axes</span></code>) – Which axes object to plot into.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.trim_mask">
+<span class="sig-name descname"><span class="pre">trim_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ShorelineMask.trim_mask" title="Link to this definition">¶</a></dt>
+<dd><p>Replace a part of the mask with a new value.</p>
+<p>This is sometimes necessary before using a mask in certain
+computations. Most often, this method is used to manually correct
+domain edge effects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseCube</span></code> subclass, optional) – Optionally pass a <cite>Cube</cite> object to the mask, and the dimensions to
+trim/replace the mask by will be inferred from the cube. In this
+case, <code class="xref py py-obj docutils literal notranslate"><span class="pre">axis</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">length</span></code> have no effect.</p></li>
+<li><p><strong>value</strong> – Value to replace in the trim region with. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>axis</strong> – Which edge to apply the trim of <code class="xref py py-obj docutils literal notranslate"><span class="pre">length</span></code> to. Default is 1,
+the top domain edge.</p></li>
+<li><p><strong>length</strong> – The length of the trim. Note that this is <strong>not the array index</strong>.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">sandplover.mask.ShorelineMask</a><ul>
+<li><a class="reference internal" href="#sandplover.mask.ShorelineMask"><code class="docutils literal notranslate"><span class="pre">ShorelineMask</span></code></a><ul>
+<li><a class="reference internal" href="#sandplover.mask.ShorelineMask.__init__"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.ShorelineMask.__getitem__"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.__getitem__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.ShorelineMask.contour"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.contour</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.ShorelineMask.contour_threshold"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.contour_threshold</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.ShorelineMask.from_array"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.from_array()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.ShorelineMask.from_mask"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.from_mask()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.ShorelineMask.grab_contour"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.grab_contour()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.ShorelineMask.integer_mask"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.integer_mask</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.ShorelineMask.mask"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.mask</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.ShorelineMask.mask_type"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.mask_type</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.ShorelineMask.show"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.show()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.ShorelineMask.trim_mask"><code class="docutils literal notranslate"><span class="pre">ShorelineMask.trim_mask()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="sandplover.mask.LandMask.html"
+                          title="previous chapter">sandplover.mask.LandMask</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="sandplover.mask.WetMask.html"
+                          title="next chapter">sandplover.mask.WetMask</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/_autosummary/sandplover.mask.ShorelineMask.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="sandplover.mask.WetMask.html" title="sandplover.mask.WetMask"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.mask.LandMask.html" title="sandplover.mask.LandMask"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/mask/index.html" >Masking operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.mask.ShorelineMask</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2020, The DeltaRCM Team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

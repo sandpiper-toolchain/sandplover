@@ -1,0 +1,39 @@
+﻿sandplover.mask.EdgeMask
+========================
+
+.. currentmodule:: sandplover.mask
+
+.. autoclass:: EdgeMask
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~EdgeMask.__init__
+      ~EdgeMask.from_Planform
+      ~EdgeMask.from_Planform_and_WetMask
+      ~EdgeMask.from_array
+      ~EdgeMask.from_mask
+      ~EdgeMask.from_masks
+      ~EdgeMask.show
+      ~EdgeMask.trim_mask
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EdgeMask.integer_mask
+      ~EdgeMask.mask
+      ~EdgeMask.mask_type
+      ~EdgeMask.shape
+      ~EdgeMask.variables
+   
+   

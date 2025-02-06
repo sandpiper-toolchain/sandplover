@@ -1,0 +1,6 @@
+﻿sandplover.plan.compute\_shoreline\_distance
+============================================
+
+.. currentmodule:: sandplover.plan
+
+.. autofunction:: compute_shoreline_distance

@@ -5,18 +5,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Quick connect to your own data &#8212; DeltaMetrics 0.4.3 documentation</title>
+    <title>Quick connect to your own data &#8212; sandplover 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
-    <script src="../../../_static/documentation_options.js?v=5bfaad31"></script>
+    <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="How to set up any dataset to work with DeltaMetrics" href="setup_any_dataset.html" />
+    <link rel="next" title="How to set up any dataset to work with sandplover" href="setup_any_dataset.html" />
     <link rel="prev" title="Make a simple gif movie" href="../plot/simple_movie.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="Related">
@@ -26,12 +26,12 @@
           <a href="../../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="setup_any_dataset.html" title="How to set up any dataset to work with DeltaMetrics"
+          <a href="setup_any_dataset.html" title="How to set up any dataset to work with sandplover"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../plot/simple_movie.html" title="Make a simple gif movie"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Examples</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Quick connect to your own  data</a></li> 
       </ul>
@@ -44,22 +44,22 @@
             
   <section id="quick-connect-to-your-own-data">
 <span id="quick-non-standard-testing"></span><h1>Quick connect to your own  data<a class="headerlink" href="#quick-connect-to-your-own-data" title="Link to this heading">¶</a></h1>
-<p>If you are considering DeltaMetrics for your project, it may be helpful to use some of your data and see how DeltaMetrics works with that data, before committing to formatting a NetCDF file.</p>
-<p>This guide covers how to connect to non-standard data with DeltaMetrics</p>
+<p>If you are considering sandplover for your project, it may be helpful to use some of your data and see how DeltaMetrics works with that data, before committing to formatting a NetCDF file.</p>
+<p>This guide covers how to connect to non-standard data with sandplover</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The preferred approach to using DeltaMetrics is to <a class="reference internal" href="setup_any_dataset.html"><span class="doc">properly format a NetCDF file for input datasets</span></a>.</p>
+<p>The preferred approach to using sandplover is to <a class="reference internal" href="setup_any_dataset.html"><span class="doc">properly format a NetCDF file for input datasets</span></a>.</p>
 </div>
 <p>First, use <cite>numpy</cite> to manipulate each variable in your dataset into a 3D array with “time” on the first axis, and the two spatial dimensions on the next two axes.
 In the following example, the data is from a 100x200 domain with 51 saved data intervals.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">51</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
 
-<span class="n">dict_datacube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">DataCube</span><span class="p">(</span>
+<span class="n">dict_datacube</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">DataCube</span><span class="p">(</span>
     <span class="p">{</span><span class="s1">&#39;eta&#39;</span><span class="p">:</span> <span class="n">eta</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>(<a class="reference download internal" download="" href="../../../_downloads/bbe1bac9c1503d90cf9fb0b17fe26363/connect_to_nonstandard_data-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
-<p>That is all you need to get your data into DeltaMetrics to test the package out.
+<p>That is all you need to get your data into sandplover to test the package out.
 You could also have additional variables by adding key-value pairs to the input dictionary.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dict_datacube</span><span class="o">.</span><span class="n">quick_show</span><span class="p">(</span><span class="s1">&#39;eta&#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
@@ -70,7 +70,7 @@ You could also have additional variables by adding key-value pairs to the input 
 </figure>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>If you decide to use DeltaMetrics, please check out the guide on how to <a class="reference internal" href="setup_any_dataset.html"><span class="doc">properly format a NetCDF file for input datasets</span></a>.</p>
+<p>If you decide to use sandplover, please check out the guide on how to <a class="reference internal" href="setup_any_dataset.html"><span class="doc">properly format a NetCDF file for input datasets</span></a>.</p>
 </div>
 </section>
 
@@ -89,7 +89,7 @@ You could also have additional variables by adding key-value pairs to the input 
   <div>
     <h4>Next topic</h4>
     <p class="topless"><a href="setup_any_dataset.html"
-                          title="next chapter">How to set up any dataset to work with DeltaMetrics</a></p>
+                          title="next chapter">How to set up any dataset to work with sandplover</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -119,12 +119,12 @@ You could also have additional variables by adding key-value pairs to the input 
           <a href="../../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="setup_any_dataset.html" title="How to set up any dataset to work with DeltaMetrics"
+          <a href="setup_any_dataset.html" title="How to set up any dataset to work with sandplover"
              >next</a> |</li>
         <li class="right" >
           <a href="../plot/simple_movie.html" title="Make a simple gif movie"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Examples</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Quick connect to your own  data</a></li> 
       </ul>

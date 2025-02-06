@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from deltametrics.plot import _scale_lightness
+from sandplover.plot import _scale_lightness
 #
 fig, ax = plt.subplots(figsize=(5, 2))
 #

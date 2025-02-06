@@ -1,0 +1,6 @@
+﻿sandplover.mobility.calculate\_channelized\_response\_variance
+==============================================================
+
+.. currentmodule:: sandplover.mobility
+
+.. autofunction:: calculate_channelized_response_variance

@@ -1,0 +1,6 @@
+﻿sandplover.mobility.calculate\_channel\_decay
+=============================================
+
+.. currentmodule:: sandplover.mobility
+
+.. autofunction:: calculate_channel_decay

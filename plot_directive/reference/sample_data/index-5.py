@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import warnings
-import deltametrics as dm
+import sandplover as spl
 #
 with warnings.catch_warnings():
     warnings.simplefilter("ignore")
-    rcm8 = dm.sample_data.rcm8()
+    rcm8 = spl.sample_data.rcm8()
 nt = 5
 ts = np.linspace(0, rcm8["eta"].shape[0] - 1, num=nt, dtype=int)
 #

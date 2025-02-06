@@ -1,6 +1,0 @@
-﻿deltametrics.strat.compute\_sedimentograph
-==========================================
-
-.. currentmodule:: deltametrics.strat
-
-.. autofunction:: compute_sedimentograph

@@ -5,19 +5,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Masking operations &#8212; DeltaMetrics 0.4.3 documentation</title>
+    <title>Masking operations &#8212; sandplover 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
-    <script src="../../_static/documentation_options.js?v=5bfaad31"></script>
+    <script src="../../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="deltametrics.mask.ElevationMask" href="../../_autosummary/deltametrics.mask.ElevationMask.html" />
-    <link rel="prev" title="deltametrics.plan.morphological_closing_method" href="../../_autosummary/deltametrics.plan.morphological_closing_method.html" /> 
+    <link rel="next" title="sandplover.mask.ElevationMask" href="../../_autosummary/sandplover.mask.ElevationMask.html" />
+    <link rel="prev" title="sandplover.plan.morphological_closing_method" href="../../_autosummary/sandplover.plan.morphological_closing_method.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
@@ -26,12 +26,12 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.mask.ElevationMask.html" title="deltametrics.mask.ElevationMask"
+          <a href="../../_autosummary/sandplover.mask.ElevationMask.html" title="sandplover.mask.ElevationMask"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.plan.morphological_closing_method.html" title="deltametrics.plan.morphological_closing_method"
+          <a href="../../_autosummary/sandplover.plan.morphological_closing_method.html" title="sandplover.plan.morphological_closing_method"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Masking operations</a></li> 
       </ul>
@@ -46,49 +46,49 @@
 <h1>Masking operations<a class="headerlink" href="#masking-operations" title="Link to this heading">¶</a></h1>
 <p>The package makes available routines for masking out attributes of
 the delta.</p>
-<p>This class is defined in <code class="docutils literal notranslate"><span class="pre">deltametrics.mask</span></code>.</p>
+<p>This class is defined in <code class="docutils literal notranslate"><span class="pre">sandplover.mask</span></code>.</p>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
-<p>There is a complete <a class="reference internal" href="../../guides/subject_guides/mask.html"><span class="doc">Masking Subject Guide</span></a> about the organization of this area of DeltaMetrics and examples for how to use and compute masks.</p>
+<p>There is a complete <a class="reference internal" href="../../guides/subject_guides/mask.html"><span class="doc">Masking Subject Guide</span></a> about the organization of this area of sandplover and examples for how to use and compute masks.</p>
 </div>
 <section id="mask-classes">
 <h2>Mask classes<a class="headerlink" href="#mask-classes" title="Link to this heading">¶</a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mask.ElevationMask.html#deltametrics.mask.ElevationMask" title="deltametrics.mask.ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElevationMask</span></code></a>(*args, elevation_threshold[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mask.ElevationMask.html#sandplover.mask.ElevationMask" title="sandplover.mask.ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElevationMask</span></code></a>(*args, elevation_threshold[, ...])</p></td>
 <td><p>Elevation mask.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mask.FlowMask.html#deltametrics.mask.FlowMask" title="deltametrics.mask.FlowMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FlowMask</span></code></a>(*args, flow_threshold[, cube_key])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mask.FlowMask.html#sandplover.mask.FlowMask" title="sandplover.mask.FlowMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FlowMask</span></code></a>(*args, flow_threshold[, cube_key])</p></td>
 <td><p>Flow field mask.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mask.LandMask.html#deltametrics.mask.LandMask" title="deltametrics.mask.LandMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LandMask</span></code></a>(*args[, contour_threshold, method])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mask.LandMask.html#sandplover.mask.LandMask" title="sandplover.mask.LandMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LandMask</span></code></a>(*args[, contour_threshold, method])</p></td>
 <td><p>Identify a binary mask of the delta topset.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mask.ShorelineMask.html#deltametrics.mask.ShorelineMask" title="deltametrics.mask.ShorelineMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShorelineMask</span></code></a>(*args[, contour_threshold, method])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mask.ShorelineMask.html#sandplover.mask.ShorelineMask" title="sandplover.mask.ShorelineMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShorelineMask</span></code></a>(*args[, contour_threshold, method])</p></td>
 <td><p>Identify the shoreline as a binary mask.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mask.WetMask.html#deltametrics.mask.WetMask" title="deltametrics.mask.WetMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WetMask</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mask.WetMask.html#sandplover.mask.WetMask" title="sandplover.mask.WetMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WetMask</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Compute the wet mask.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mask.ChannelMask.html#deltametrics.mask.ChannelMask" title="deltametrics.mask.ChannelMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelMask</span></code></a>(*args[, is_mask])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mask.ChannelMask.html#sandplover.mask.ChannelMask" title="sandplover.mask.ChannelMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelMask</span></code></a>(*args[, is_mask])</p></td>
 <td><p>Identify a binary channel mask.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mask.EdgeMask.html#deltametrics.mask.EdgeMask" title="deltametrics.mask.EdgeMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EdgeMask</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mask.EdgeMask.html#sandplover.mask.EdgeMask" title="sandplover.mask.EdgeMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EdgeMask</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Identify the land-water edges.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mask.CenterlineMask.html#deltametrics.mask.CenterlineMask" title="deltametrics.mask.CenterlineMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CenterlineMask</span></code></a>(*args[, method])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mask.CenterlineMask.html#sandplover.mask.CenterlineMask" title="sandplover.mask.CenterlineMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CenterlineMask</span></code></a>(*args[, method])</p></td>
 <td><p>Identify channel centerline mask.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mask.BaseMask.html#deltametrics.mask.BaseMask" title="deltametrics.mask.BaseMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseMask</span></code></a>(mask_type, *args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mask.BaseMask.html#sandplover.mask.BaseMask" title="sandplover.mask.BaseMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseMask</span></code></a>(mask_type, *args, **kwargs)</p></td>
 <td><p>Low-level base class to be inherited by all mask objects.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mask.ThresholdValueMask.html#deltametrics.mask.ThresholdValueMask" title="deltametrics.mask.ThresholdValueMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ThresholdValueMask</span></code></a>(*args, threshold[, cube_key])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mask.ThresholdValueMask.html#sandplover.mask.ThresholdValueMask" title="sandplover.mask.ThresholdValueMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ThresholdValueMask</span></code></a>(*args, threshold[, cube_key])</p></td>
 <td><p>Threshold value mask.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mask.DepositMask.html#deltametrics.mask.DepositMask" title="deltametrics.mask.DepositMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DepositMask</span></code></a>(*args[, background_value, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mask.DepositMask.html#sandplover.mask.DepositMask" title="sandplover.mask.DepositMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DepositMask</span></code></a>(*args[, background_value, ...])</p></td>
 <td><p>Create a <cite>DepositMask</cite> from an array.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mask.GeometricMask.html#deltametrics.mask.GeometricMask" title="deltametrics.mask.GeometricMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeometricMask</span></code></a>(*args[, origin])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mask.GeometricMask.html#sandplover.mask.GeometricMask" title="sandplover.mask.GeometricMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeometricMask</span></code></a>(*args[, origin])</p></td>
 <td><p>Create simple geometric masks.</p></td>
 </tr>
 </tbody>
@@ -115,13 +115,13 @@ the delta.</p>
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="../../_autosummary/deltametrics.plan.morphological_closing_method.html"
-                          title="previous chapter">deltametrics.plan.morphological_closing_method</a></p>
+    <p class="topless"><a href="../../_autosummary/sandplover.plan.morphological_closing_method.html"
+                          title="previous chapter">sandplover.plan.morphological_closing_method</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="../../_autosummary/deltametrics.mask.ElevationMask.html"
-                          title="next chapter">deltametrics.mask.ElevationMask</a></p>
+    <p class="topless"><a href="../../_autosummary/sandplover.mask.ElevationMask.html"
+                          title="next chapter">sandplover.mask.ElevationMask</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -151,12 +151,12 @@ the delta.</p>
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.mask.ElevationMask.html" title="deltametrics.mask.ElevationMask"
+          <a href="../../_autosummary/sandplover.mask.ElevationMask.html" title="sandplover.mask.ElevationMask"
              >next</a> |</li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.plan.morphological_closing_method.html" title="deltametrics.plan.morphological_closing_method"
+          <a href="../../_autosummary/sandplover.plan.morphological_closing_method.html" title="sandplover.plan.morphological_closing_method"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Masking operations</a></li> 
       </ul>

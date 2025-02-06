@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Introduction to mobility functions &#8212; DeltaMetrics 0.4.3 documentation</title>
+    <title>Introduction to mobility functions &#8212; sandplover 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
-    <script src="../../_static/documentation_options.js?v=5bfaad31"></script>
+    <script src="../../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="mask.html" title="Introduction to Masking objects"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Subject Guides</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Introduction to mobility functions</a></li> 
       </ul>
@@ -54,22 +54,22 @@ lists of masks will be used to compute and plot channel mobility metrics.</p>
 <h2>Calculation of channel and land masks<a class="headerlink" href="#calculation-of-channel-and-land-masks" title="Link to this heading">¶</a></h2>
 <p>The first step to quantifying channel mobility is to determine the location
 of the land and channels through time. We do this via the calculation of
-both <a class="reference internal" href="../../_autosummary/deltametrics.mask.LandMask.html#deltametrics.mask.LandMask" title="deltametrics.mask.LandMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deltametrics.mask.LandMask</span></code></a> and <a class="reference internal" href="../../_autosummary/deltametrics.mask.ChannelMask.html#deltametrics.mask.ChannelMask" title="deltametrics.mask.ChannelMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deltametrics.mask.ChannelMask</span></code></a>
+both <a class="reference internal" href="../../_autosummary/sandplover.mask.LandMask.html#sandplover.mask.LandMask" title="sandplover.mask.LandMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sandplover.mask.LandMask</span></code></a> and <a class="reference internal" href="../../_autosummary/sandplover.mask.ChannelMask.html#sandplover.mask.ChannelMask" title="sandplover.mask.ChannelMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sandplover.mask.ChannelMask</span></code></a>
 objects. These masks are binary representations of the land and channel
 locations, respectively. To read more about masking, refer to the <a class="reference internal" href="mask.html"><span class="doc">Introduction to Masking objects</span></a>,
 <a class="reference internal" href="planform.html"><span class="doc">Introduction to Planform objects</span></a>, and <a class="reference internal" href="../../reference/mask/index.html"><span class="doc">Masking operations API</span></a>
 sections of the documentation.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">channelmask_list</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">landmask_list</span> <span class="o">=</span> <span class="p">[]</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="n">landmask_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-<span class="gp">... </span>        <span class="n">dm</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">LandMask</span><span class="p">(</span><span class="n">golfcube</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="n">spl</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">LandMask</span><span class="p">(</span><span class="n">golfcube</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">... </span>    <span class="p">)</span>
 <span class="gp">... </span>    <span class="n">channelmask_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-<span class="gp">... </span>        <span class="n">dm</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ChannelMask</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">spl</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ChannelMask</span><span class="p">(</span>
 <span class="gp">... </span>            <span class="n">golfcube</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
 <span class="gp">... </span>            <span class="n">golfcube</span><span class="p">[</span><span class="s2">&quot;velocity&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
 <span class="gp">... </span>            <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -86,25 +86,25 @@ sections of the documentation.</p>
 <p>Next the lists of masks are used to calculate channel mobility metrics.
 The metrics calculated are the dry fraction, planform overlap, reworking
 fraction, and abandoned fraction. These metrics are calculated using the
-functions <a class="reference internal" href="../../_autosummary/deltametrics.mobility.calculate_channel_decay.html#deltametrics.mobility.calculate_channel_decay" title="deltametrics.mobility.calculate_channel_decay"><code class="xref py py-func docutils literal notranslate"><span class="pre">deltametrics.mobility.calculate_channel_decay()</span></code></a>,
-<a class="reference internal" href="../../_autosummary/deltametrics.mobility.calculate_planform_overlap.html#deltametrics.mobility.calculate_planform_overlap" title="deltametrics.mobility.calculate_planform_overlap"><code class="xref py py-func docutils literal notranslate"><span class="pre">deltametrics.mobility.calculate_planform_overlap()</span></code></a>,
-<a class="reference internal" href="../../_autosummary/deltametrics.mobility.calculate_reworking_fraction.html#deltametrics.mobility.calculate_reworking_fraction" title="deltametrics.mobility.calculate_reworking_fraction"><code class="xref py py-func docutils literal notranslate"><span class="pre">deltametrics.mobility.calculate_reworking_fraction()</span></code></a>, and
-<a class="reference internal" href="../../_autosummary/deltametrics.mobility.calculate_channel_abandonment.html#deltametrics.mobility.calculate_channel_abandonment" title="deltametrics.mobility.calculate_channel_abandonment"><code class="xref py py-func docutils literal notranslate"><span class="pre">deltametrics.mobility.calculate_channel_abandonment()</span></code></a>, respectively.
+functions <a class="reference internal" href="../../_autosummary/sandplover.mobility.calculate_channel_decay.html#sandplover.mobility.calculate_channel_decay" title="sandplover.mobility.calculate_channel_decay"><code class="xref py py-func docutils literal notranslate"><span class="pre">sandplover.mobility.calculate_channel_decay()</span></code></a>,
+<a class="reference internal" href="../../_autosummary/sandplover.mobility.calculate_planform_overlap.html#sandplover.mobility.calculate_planform_overlap" title="sandplover.mobility.calculate_planform_overlap"><code class="xref py py-func docutils literal notranslate"><span class="pre">sandplover.mobility.calculate_planform_overlap()</span></code></a>,
+<a class="reference internal" href="../../_autosummary/sandplover.mobility.calculate_reworking_fraction.html#sandplover.mobility.calculate_reworking_fraction" title="sandplover.mobility.calculate_reworking_fraction"><code class="xref py py-func docutils literal notranslate"><span class="pre">sandplover.mobility.calculate_reworking_fraction()</span></code></a>, and
+<a class="reference internal" href="../../_autosummary/sandplover.mobility.calculate_channel_abandonment.html#sandplover.mobility.calculate_channel_abandonment" title="sandplover.mobility.calculate_channel_abandonment"><code class="xref py py-func docutils literal notranslate"><span class="pre">sandplover.mobility.calculate_channel_abandonment()</span></code></a>, respectively.
 All of these function require at least one list of masks, and can take
 additional arguments to specify the base values and window size for the
 sliding window calculations. For more information on these functions, refer
 to the <a class="reference internal" href="../../reference/mask/index.html"><span class="doc">Masking operations API</span></a> section of
 the documentation.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dryfrac</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mobility</span><span class="o">.</span><span class="n">calculate_channel_decay</span><span class="p">(</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dryfrac</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">mobility</span><span class="o">.</span><span class="n">calculate_channel_decay</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">channelmask_list</span><span class="p">,</span> <span class="n">landmask_list</span><span class="p">,</span> <span class="n">basevalues_idx</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">window_idx</span><span class="o">=</span><span class="mi">5</span>
 <span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Ophi</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mobility</span><span class="o">.</span><span class="n">calculate_planform_overlap</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Ophi</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">mobility</span><span class="o">.</span><span class="n">calculate_planform_overlap</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">channelmask_list</span><span class="p">,</span> <span class="n">landmask_list</span><span class="p">,</span> <span class="n">basevalues_idx</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">window_idx</span><span class="o">=</span><span class="mi">5</span>
 <span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fr</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mobility</span><span class="o">.</span><span class="n">calculate_reworking_fraction</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fr</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">mobility</span><span class="o">.</span><span class="n">calculate_reworking_fraction</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">channelmask_list</span><span class="p">,</span> <span class="n">landmask_list</span><span class="p">,</span> <span class="n">basevalues_idx</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">window_idx</span><span class="o">=</span><span class="mi">5</span>
 <span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">PwetA</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mobility</span><span class="o">.</span><span class="n">calculate_channel_abandonment</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">PwetA</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">mobility</span><span class="o">.</span><span class="n">calculate_channel_abandonment</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">channelmask_list</span><span class="p">,</span> <span class="n">basevalues_idx</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">window_idx</span><span class="o">=</span><span class="mi">5</span>
 <span class="gp">... </span><span class="p">)</span>
 </pre></div>
@@ -204,7 +204,7 @@ the list of masks passed to the mobility functions.</p>
         <li class="right" >
           <a href="mask.html" title="Introduction to Masking objects"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Subject Guides</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Introduction to mobility functions</a></li> 
       </ul>

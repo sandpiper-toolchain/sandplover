@@ -1,7 +1,7 @@
 time_bins = np.linspace(0, float(golfcube.t[-1]), num=7)
 (time_sedimentograph,
     time_radii,
-    _) = dm.strat.compute_sedimentograph(
+    _) = spl.strat.compute_sedimentograph(
     golfstrat['time'],
     num_sections=50,
     last_section_radius=2750,

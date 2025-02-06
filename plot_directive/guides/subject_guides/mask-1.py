@@ -1,11 +1,11 @@
-golfcube = dm.sample_data.golf()
+golfcube = spl.sample_data.golf()
 #
-OAP = dm.plan.OpeningAnglePlanform.from_elevation_data(
+OAP = spl.plan.OpeningAnglePlanform.from_elevation_data(
     golfcube["eta"][-1, :, :], elevation_threshold=0
 )
 #
-lm = dm.mask.LandMask.from_Planform(OAP)
-sm = dm.mask.ShorelineMask.from_Planform(OAP)
+lm = spl.mask.LandMask.from_Planform(OAP)
+sm = spl.mask.ShorelineMask.from_Planform(OAP)
 #
 fig, ax = plt.subplots(2, 2)
 golfcube.quick_show("eta", idx=-1, ax=ax[0, 0])

@@ -1,0 +1,42 @@
+﻿sandplover.section.PathSection
+==============================
+
+.. currentmodule:: sandplover.section
+
+.. autoclass:: PathSection
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~PathSection.__init__
+      ~PathSection.connect
+      ~PathSection.show
+      ~PathSection.show_trace
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PathSection.idx_trace
+      ~PathSection.length
+      ~PathSection.name
+      ~PathSection.path
+      ~PathSection.s
+      ~PathSection.shape
+      ~PathSection.strat_attr
+      ~PathSection.trace
+      ~PathSection.trace_idx
+      ~PathSection.variables
+      ~PathSection.vertices
+      ~PathSection.z
+   
+   

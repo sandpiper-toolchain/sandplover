@@ -2,8 +2,8 @@
 Subject Guides
 ******************
 
-Guides on specific subjects and objects within DeltaMetrics.
-These guides are intended to be supplements to explain operations and tools within areas of DeltaMetrics with more detail.
+Guides on specific subjects and objects within sandplover.
+These guides are intended to be supplements to explain operations and tools within areas of sandplover with more detail.
 
 .. hint::
 

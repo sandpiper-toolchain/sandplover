@@ -1,4 +1,4 @@
-nc_datacube = dm.cube.DataCube(os.path.join(output_folder, 'model_output.nc'))
+nc_datacube = spl.cube.DataCube(os.path.join(output_folder, 'model_output.nc'))
 
 fig, ax = plt.subplots(2, len(t), figsize=(8, 3))
 for i, _ in enumerate(t):

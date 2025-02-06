@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Getting started with a 10-minute tutorial &#8212; DeltaMetrics 0.4.3 documentation</title>
+    <title>Getting started with a 10-minute tutorial &#8212; sandplover 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
-    <script src="../_static/documentation_options.js?v=5bfaad31"></script>
+    <script src="../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="../meta/planning.html" title="Planning"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Getting started with a 10-minute tutorial</a></li> 
       </ul>
     </div>  
@@ -43,10 +43,10 @@
             
   <section id="getting-started-with-a-10-minute-tutorial">
 <h1>Getting started with a 10-minute tutorial<a class="headerlink" href="#getting-started-with-a-10-minute-tutorial" title="Link to this heading">¶</a></h1>
-<p>This documentation provides a guide to learn the most basic components of DeltaMetrics in just ten minutes!
+<p>This documentation provides a guide to learn the most basic components of sandplover in just ten minutes!
 For a more in depth guide, be sure to check out the <a class="reference internal" href="userguide.html"><span class="doc">User Guide</span></a>.</p>
-<p>All of the documentation in this package assumes that you have imported the DeltaMetrics package as <code class="docutils literal notranslate"><span class="pre">dm</span></code>:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">deltametrics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dm</span>
+<p>All of the documentation in this package assumes that you have imported the sandplover package as <code class="docutils literal notranslate"><span class="pre">spl</span></code>:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sandplover</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">spl</span>
 </pre></div>
 </div>
 <p>Additionally, we frequently rely on the <cite>numpy</cite> package, and <cite>matplotlib</cite>. We will assume you have imported these packages by their common shorthand as well; if we import other packages, or other modules from <cite>matplotlib</cite>, these imports will be declared!</p>
@@ -57,14 +57,14 @@ For a more in depth guide, be sure to check out the <a class="reference internal
 <section id="connect-to-data">
 <h2>Connect to data<a class="headerlink" href="#connect-to-data" title="Link to this heading">¶</a></h2>
 <p>In your application, you will want to connect to a your own dataset, but more on that later.
-For now, let’s use a sample dataset that is distributed with DeltaMetrics.</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
+For now, let’s use a sample dataset that is distributed with sandplover.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">golfcube</span><span class="p">)</span>
-<span class="go">&lt;class &#39;deltametrics.cube.DataCube&#39;&gt;</span>
+<span class="go">&lt;class &#39;sandplover.cube.DataCube&#39;&gt;</span>
 </pre></div>
 </div>
-<p>This creates an instance of a <a class="reference internal" href="../_autosummary/deltametrics.cube.DataCube.html#deltametrics.cube.DataCube" title="deltametrics.cube.DataCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataCube</span></code></a> object, which is the simplest and most commonly used type of cube.
-“Cubes” in DeltaMetrics language are the central office that connects all the different modules and workflows together.
+<p>This creates an instance of a <a class="reference internal" href="../_autosummary/sandplover.cube.DataCube.html#sandplover.cube.DataCube" title="sandplover.cube.DataCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataCube</span></code></a> object, which is the simplest and most commonly used type of cube.
+“Cubes” in sandplover language are the central office that connects all the different modules and workflows together.
 Creating the <code class="docutils literal notranslate"><span class="pre">golfcube</span></code> connects to a dataset, but does not read any of the data into memory, allowing for efficient computation on large datasets.</p>
 <p>Inspect which variables are available in the <code class="docutils literal notranslate"><span class="pre">golfcube</span></code>.</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">variables</span>
@@ -74,7 +74,7 @@ Creating the <code class="docutils literal notranslate"><span class="pre">golfcu
 </section>
 <section id="accessing-data-from-a-datacube">
 <h2>Accessing data from a DataCube<a class="headerlink" href="#accessing-data-from-a-datacube" title="Link to this heading">¶</a></h2>
-<p>A <a class="reference internal" href="../_autosummary/deltametrics.cube.DataCube.html#deltametrics.cube.DataCube" title="deltametrics.cube.DataCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataCube</span></code></a> can be sliced directly by variable name.
+<p>A <a class="reference internal" href="../_autosummary/sandplover.cube.DataCube.html#sandplover.cube.DataCube" title="sandplover.cube.DataCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataCube</span></code></a> can be sliced directly by variable name.
 Slicing a cube returns an instance of <code class="xref py py-obj docutils literal notranslate"><span class="pre">CubeVariable</span></code>, which is an xarray “accessor”; this means that it contains an xarray object in addition to custom functions.</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">golfcube</span><span class="p">[</span><span class="s2">&quot;velocity&quot;</span><span class="p">])</span>
 <span class="go">&lt;class &#39;xarray.core.dataarray.DataArray&#39;&gt;</span>
@@ -121,22 +121,22 @@ of the Cube at the fortieth (40th) timestep:</p>
 <section id="section-data">
 <h3>Section data<a class="headerlink" href="#section-data" title="Link to this heading">¶</a></h3>
 <p>We are often interested in not only the spatiotemporal changes in the planform of the delta, but we want to know what is preserved in the subsurface.
-In DeltaMetrics, we refer to this preserved history as the “stratigraphy”, and we provide a number of convenient routines for computing stratigraphy and analyzing the deposits.</p>
+In sandplover, we refer to this preserved history as the “stratigraphy”, and we provide a number of convenient routines for computing stratigraphy and analyzing the deposits.</p>
 <p>Importantly, the stratigraphy (or i.e., which voxels are preserved) is not computed by default when a Cube instance is created.
 We must directly tell the Cube instance to compute stratigraphy by specifying which variable contains the bed elevation history, because this history dictates preservation.</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">stratigraphy_from</span><span class="p">(</span><span class="s2">&quot;eta&quot;</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>For this example, the stratigraphic computation is relatively fast (&lt; one second), but for large data domains covering a large amount of time, this computation may not be as fast.
-The stratigraphy computed via <cite>stratigraphy_from</cite> is often referred to as “quick” stratigraphy, and may be helpful for visualizing cross sections of the deposit, but we recommend creating a <a class="reference internal" href="../_autosummary/deltametrics.cube.StratigraphyCube.html#deltametrics.cube.StratigraphyCube" title="deltametrics.cube.StratigraphyCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StratigraphyCube</span></code></a> from a <cite>DataCube</cite> for thorough analysis of stratigraphy.</p>
-<p>For the sake of simplicity, this documentation uses the <a class="reference internal" href="../_autosummary/deltametrics.section.StrikeSection.html#deltametrics.section.StrikeSection" title="deltametrics.section.StrikeSection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StrikeSection</span></code></a> as an example <cite>Section</cite> type, but the following lexicon generalizes across all of the Section classes.</p>
+The stratigraphy computed via <cite>stratigraphy_from</cite> is often referred to as “quick” stratigraphy, and may be helpful for visualizing cross sections of the deposit, but we recommend creating a <a class="reference internal" href="../_autosummary/sandplover.cube.StratigraphyCube.html#sandplover.cube.StratigraphyCube" title="sandplover.cube.StratigraphyCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StratigraphyCube</span></code></a> from a <cite>DataCube</cite> for thorough analysis of stratigraphy.</p>
+<p>For the sake of simplicity, this documentation uses the <a class="reference internal" href="../_autosummary/sandplover.section.StrikeSection.html#sandplover.section.StrikeSection" title="sandplover.section.StrikeSection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StrikeSection</span></code></a> as an example <cite>Section</cite> type, but the following lexicon generalizes across all of the Section classes.</p>
 <p>For a data cube, sections are most easily instantiated by the <code class="xref py py-obj docutils literal notranslate"><span class="pre">register_section</span></code> method:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">register_section</span><span class="p">(</span><span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="n">dm</span><span class="o">.</span><span class="n">section</span><span class="o">.</span><span class="n">StrikeSection</span><span class="p">(</span><span class="n">distance_idx</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">register_section</span><span class="p">(</span><span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="n">spl</span><span class="o">.</span><span class="n">section</span><span class="o">.</span><span class="n">StrikeSection</span><span class="p">(</span><span class="n">distance_idx</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>which can then be accessed via the <code class="xref py py-obj docutils literal notranslate"><span class="pre">sections</span></code> attribute of the Cube.</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s2">&quot;demo&quot;</span><span class="p">]</span>
-<span class="go">&lt;deltametrics.section.StrikeSection object at 0x...&gt;</span>
+<span class="go">&lt;sandplover.section.StrikeSection object at 0x...&gt;</span>
 </pre></div>
 </div>
 <p>Using the “quick” stratigraphy, we can visualize a few of the available data variables as stratigraphy:</p>
@@ -223,7 +223,7 @@ The stratigraphy computed via <cite>stratigraphy_from</cite> is often referred t
         <li class="right" >
           <a href="../meta/planning.html" title="Planning"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Getting started with a 10-minute tutorial</a></li> 
       </ul>
     </div>

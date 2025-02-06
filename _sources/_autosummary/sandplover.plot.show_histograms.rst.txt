@@ -1,0 +1,6 @@
+﻿sandplover.plot.show\_histograms
+================================
+
+.. currentmodule:: sandplover.plot
+
+.. autofunction:: show_histograms

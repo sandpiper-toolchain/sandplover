@@ -1,0 +1,40 @@
+﻿sandplover.mask.CenterlineMask
+==============================
+
+.. currentmodule:: sandplover.mask
+
+.. autoclass:: CenterlineMask
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~CenterlineMask.__init__
+      ~CenterlineMask.from_Planform
+      ~CenterlineMask.from_Planform_and_FlowMask
+      ~CenterlineMask.from_array
+      ~CenterlineMask.from_mask
+      ~CenterlineMask.from_masks
+      ~CenterlineMask.show
+      ~CenterlineMask.trim_mask
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CenterlineMask.integer_mask
+      ~CenterlineMask.mask
+      ~CenterlineMask.mask_type
+      ~CenterlineMask.method
+      ~CenterlineMask.shape
+      ~CenterlineMask.variables
+   
+   

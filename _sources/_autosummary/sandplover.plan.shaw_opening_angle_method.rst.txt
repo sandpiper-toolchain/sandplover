@@ -1,0 +1,6 @@
+﻿sandplover.plan.shaw\_opening\_angle\_method
+============================================
+
+.. currentmodule:: sandplover.plan
+
+.. autofunction:: shaw_opening_angle_method

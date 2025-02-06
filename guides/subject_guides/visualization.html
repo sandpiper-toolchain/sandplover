@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Visualization Guide &#8212; DeltaMetrics 0.4.3 documentation</title>
+    <title>Visualization Guide &#8212; sandplover 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
-    <script src="../../_static/documentation_options.js?v=5bfaad31"></script>
+    <script src="../../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="mobility.html" title="Introduction to mobility functions"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Subject Guides</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Visualization Guide</a></li> 
       </ul>
@@ -44,7 +44,7 @@
             
   <section id="visualization-guide">
 <h1>Visualization Guide<a class="headerlink" href="#visualization-guide" title="Link to this heading">¶</a></h1>
-<p>This guide covers the full range of visualization routines available as part of DeltaMetrics, and explains how to create your own visualization routines that build on top of DeltaMetrics.</p>
+<p>This guide covers the full range of visualization routines available as part of sandplover, and explains how to create your own visualization routines that build on top of DeltaMetrics.</p>
 <section id="default-styling">
 <h2>Default styling<a class="headerlink" href="#default-styling" title="Link to this heading">¶</a></h2>
 <p>By default, each variable receives a set of styling definitions.
@@ -57,9 +57,9 @@ The default parameters of each styling variable are defined below:</p>
 <section id="section-display-types">
 <h2>Section display types<a class="headerlink" href="#section-display-types" title="Link to this heading">¶</a></h2>
 <p><cite>DataCube</cite> with computed “quick” stratigraphy may be visualized a number of different ways.</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">stratigraphy_from</span><span class="p">(</span><span class="s2">&quot;eta&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">register_section</span><span class="p">(</span><span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="n">dm</span><span class="o">.</span><span class="n">section</span><span class="o">.</span><span class="n">StrikeSection</span><span class="p">(</span><span class="n">distance_idx</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">register_section</span><span class="p">(</span><span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="n">spl</span><span class="o">.</span><span class="n">section</span><span class="o">.</span><span class="n">StrikeSection</span><span class="p">(</span><span class="n">distance_idx</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">_v</span> <span class="o">=</span> <span class="s2">&quot;velocity&quot;</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
@@ -152,7 +152,7 @@ The default parameters of each styling variable are defined below:</p>
         <li class="right" >
           <a href="mobility.html" title="Introduction to mobility functions"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Subject Guides</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Visualization Guide</a></li> 
       </ul>

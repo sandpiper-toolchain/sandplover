@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>How to set up any dataset to work with DeltaMetrics &#8212; DeltaMetrics 0.4.3 documentation</title>
+    <title>How to set up any dataset to work with sandplover &#8212; sandplover 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
-    <script src="../../../_static/documentation_options.js?v=5bfaad31"></script>
+    <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -31,9 +31,9 @@
         <li class="right" >
           <a href="connect_to_nonstandard_data.html" title="Quick connect to your own data"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Examples</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">How to set up any dataset to work with DeltaMetrics</a></li> 
+        <li class="nav-item nav-item-this"><a href="">How to set up any dataset to work with sandplover</a></li> 
       </ul>
     </div>  
 
@@ -42,12 +42,12 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="how-to-set-up-any-dataset-to-work-with-deltametrics">
-<span id="setup-any-dataset"></span><h1>How to set up any dataset to work with DeltaMetrics<a class="headerlink" href="#how-to-set-up-any-dataset-to-work-with-deltametrics" title="Link to this heading">¶</a></h1>
-<p>This guide describes how to set up any spatiotemporal (<cite>t-x-y</cite>) dataset to work with DeltaMetrics.</p>
+  <section id="how-to-set-up-any-dataset-to-work-with-sandplover">
+<span id="setup-any-dataset"></span><h1>How to set up any dataset to work with sandplover<a class="headerlink" href="#how-to-set-up-any-dataset-to-work-with-sandplover" title="Link to this heading">¶</a></h1>
+<p>This guide describes how to set up any spatiotemporal (<cite>t-x-y</cite>) dataset to work with sandplover.</p>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
-<p>If you are trying DeltaMetrics for the first time with your data, and want a quick and simple test, check out <a class="reference internal" href="connect_to_nonstandard_data.html"><span class="doc">this guide</span></a></p>
+<p>If you are trying sandplover for the first time with your data, and want a quick and simple test, check out <a class="reference internal" href="connect_to_nonstandard_data.html"><span class="doc">this guide</span></a></p>
 </div>
 <p>First, let’s make some sample data:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -56,7 +56,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">netCDF4</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">deltametrics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sandplover</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">spl</span>
 
 <span class="c1">## create the model data</span>
 <span class="c1"># some spatial information</span>
@@ -97,32 +97,32 @@
 </div>
 <section id="connecting-with-netcdf">
 <h2>Connecting with NetCDF<a class="headerlink" href="#connecting-with-netcdf" title="Link to this heading">¶</a></h2>
-<p>The standard I/O format for data used in DeltaMetrics is a NetCDF4 file, structured as sets of arrays.
+<p>The standard I/O format for data used in sandplover is a NetCDF4 file, structured as sets of arrays.
 NetCDF was designed with dimensional data in mind, so that we can use common dimensions to align and manipulate multiple different underlying variables.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>Taking the time to set your data up correctly in a netCDF file is the preferred way to use DeltaMetrics with your own data.</p>
+<p>Taking the time to set your data up correctly in a netCDF file is the preferred way to use sandplover with your own data.</p>
 </div>
-<p>This guide is not meant to be an exhaustive guide on the netCDF format, so we provide only a simple overview of some core components that affect DeltaMetrics.</p>
+<p>This guide is not meant to be an exhaustive guide on the netCDF format, so we provide only a simple overview of some core components that affect sandplover.</p>
 <ul class="simple">
 <li><p><cite>dataset</cite>: the file, including all of the data and metadata to describe that data</p></li>
 <li><p><cite>variable</cite>: a field in the <cite>dataset</cite> that contains numeric information</p></li>
 <li><p><cite>dimension</cite>: a field in the <cite>dataset</cite> describing one dimension of the underlying data variables</p></li>
 <li><p><cite>group</cite>: a mechanism for constructing a hierarchy of information within the <cite>dataset</cite>.</p></li>
 </ul>
-<section id="deltametrics-netcdf-data-standards">
-<h3>DeltaMetrics NetCDF data standards<a class="headerlink" href="#deltametrics-netcdf-data-standards" title="Link to this heading">¶</a></h3>
-<p>For DeltaMetrics to correctly work with underlying data, you must properly configure the dimensions and variables of the dataset.</p>
+<section id="sandplover-netcdf-data-standards">
+<h3>sandplover NetCDF data standards<a class="headerlink" href="#sandplover-netcdf-data-standards" title="Link to this heading">¶</a></h3>
+<p>For sandplover to correctly work with underlying data, you must properly configure the dimensions and variables of the dataset.</p>
 <ul class="simple">
-<li><p>DeltaMetrics expects your core underlying spatiotemporal data (like 2D fields of elevation data, velocity, etc) to be organized into 3D arrays, with time along the first axis and two spatial dimensions along the next two axes.</p></li>
-<li><p>DeltaMetrics expects <em>at least</em> three <cite>dimensions</cite> defined in the <cite>dataset</cite>, one of which must be named <code class="docutils literal notranslate"><span class="pre">time</span></code>, and the other two can have any name that describes the spatial dimensions of the data (e.g., <cite>x</cite>, <cite>lon</cite>, <cite>easting</cite>, etc.).</p></li>
-<li><p>DeltaMetrics expects a <cite>variable</cite> with name <em>exactly matching</em> the name of each of the three previous <cite>dimensions</cite>.</p></li>
-<li><p>DeltaMetrics expects some number of <cite>variables</cite> with arbitrary names that each contain a 3D array of spatiotemporal data of interest. I.e., this is the actual model/field/experiment data.</p></li>
-<li><p>DeltaMetrics expects there to be a <cite>group</cite> with name <cite>meta</cite>, which contains any information relevant to the spatiotemporal data. E.g., sea level, coordinates of sediment feed location.</p></li>
+<li><p>sandplover expects your core underlying spatiotemporal data (like 2D fields of elevation data, velocity, etc) to be organized into 3D arrays, with time along the first axis and two spatial dimensions along the next two axes.</p></li>
+<li><p>sandplover expects <em>at least</em> three <cite>dimensions</cite> defined in the <cite>dataset</cite>, one of which must be named <code class="docutils literal notranslate"><span class="pre">time</span></code>, and the other two can have any name that describes the spatial dimensions of the data (e.g., <cite>x</cite>, <cite>lon</cite>, <cite>easting</cite>, etc.).</p></li>
+<li><p>sandplover expects a <cite>variable</cite> with name <em>exactly matching</em> the name of each of the three previous <cite>dimensions</cite>.</p></li>
+<li><p>sandplover expects some number of <cite>variables</cite> with arbitrary names that each contain a 3D array of spatiotemporal data of interest. I.e., this is the actual model/field/experiment data.</p></li>
+<li><p>sandplover expects there to be a <cite>group</cite> with name <cite>meta</cite>, which contains any information relevant to the spatiotemporal data. E.g., sea level, coordinates of sediment feed location.</p></li>
 </ul>
 </section>
-<section id="sample-code-for-creating-a-deltametrics-netcdf-file-with-python">
-<h3>Sample code for creating a DeltaMetrics NetCDF file with Python<a class="headerlink" href="#sample-code-for-creating-a-deltametrics-netcdf-file-with-python" title="Link to this heading">¶</a></h3>
+<section id="sample-code-for-creating-a-sandplover-netcdf-file-with-python">
+<h3>Sample code for creating a sandplover NetCDF file with Python<a class="headerlink" href="#sample-code-for-creating-a-sandplover-netcdf-file-with-python" title="Link to this heading">¶</a></h3>
 <p>Now, we write out the data to a netCDF file.</p>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
@@ -188,8 +188,8 @@ NetCDF was designed with dimensional data in mind, so that we can use common dim
 </pre></div>
 </div>
 <p>(<a class="reference download internal" download="" href="../../../_downloads/5e55a926772a5edcbbc48fcbba9ec6f5/setup_any_dataset-4.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
-<p>Now, let’s load the NetCDF file with DeltaMetrics. Make a cube by pointing to the directory and file location.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nc_datacube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">DataCube</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="s1">&#39;model_output.nc&#39;</span><span class="p">))</span>
+<p>Now, let’s load the NetCDF file with sandplover. Make a cube by pointing to the directory and file location.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nc_datacube</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">DataCube</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="s1">&#39;model_output.nc&#39;</span><span class="p">))</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
@@ -208,7 +208,7 @@ NetCDF was designed with dimensional data in mind, so that we can use common dim
 </figure>
 <p>Note that the coordinates of the data (i.e., the <cite>x</cite> range in 0 to 6) have been correctly loaded from the NetCDF file and applied in the <cite>DataCube</cite>.</p>
 <p>To show that the components of sea level and elevation have been connected:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dm</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">aerial_view</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">spl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">aerial_view</span><span class="p">(</span>
     <span class="n">nc_datacube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
     <span class="n">datum</span><span class="o">=</span><span class="n">nc_datacube</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;H_SL&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
     <span class="n">ticks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -232,7 +232,7 @@ NetCDF was designed with dimensional data in mind, so that we can use common dim
              <span class="s1">&#39;velocity&#39;</span><span class="p">:</span> <span class="n">velocity</span><span class="p">}</span>
 
 <span class="c1"># make a cube from it</span>
-<span class="n">dict_datacube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">DataCube</span><span class="p">(</span>
+<span class="n">dict_datacube</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">DataCube</span><span class="p">(</span>
     <span class="n">data_dict</span><span class="p">,</span>
     <span class="n">dimensions</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span>
                 <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span>
@@ -253,7 +253,7 @@ NetCDF was designed with dimensional data in mind, so that we can use common dim
 <figure class="align-default">
 <img alt="../../../_images/setup_any_dataset-7.png" class="plot-directive" src="../../../_images/setup_any_dataset-7.png" />
 </figure>
-<p>Notice that dimensions (range of <cite>x</cite> from 0 to 6) are properly handled, and variables are styled according to the DeltaMetrics default.</p>
+<p>Notice that dimensions (range of <cite>x</cite> from 0 to 6) are properly handled, and variables are styled according to the sandplover default.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The <cite>meta</cite> data model is not integrated into the dictionary input method.</p>
@@ -261,7 +261,7 @@ NetCDF was designed with dimensional data in mind, so that we can use common dim
 <p>You cannot use integrated metadata to a <cite>DataCube</cite> created from a dictionary; you will need to manage and integrate this metadata manually as needed.
 We do not anticipate this will affect many users, but if you need the ability to add metadata to the <cite>DataCube</cite> from dictionary input, please open an issue request or submit a pull request.</p>
 <p>If you want a basic workaround, you can create a dictionary inside the input dictionary, named <cite>meta</cite>. For example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dict_datacube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">DataCube</span><span class="p">(</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dict_datacube</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">DataCube</span><span class="p">(</span>
     <span class="n">data_dict</span><span class="p">,</span> <span class="n">dimensions</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;meta&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;H_SL&quot;</span><span class="p">:</span> <span class="n">H_SL</span><span class="p">}}</span>
 <span class="p">)</span>
 </pre></div>
@@ -270,12 +270,12 @@ We do not anticipate this will affect many users, but if you need the ability to
 </section>
 <section id="conventions-for-data-and-information">
 <h2>Conventions for data and information<a class="headerlink" href="#conventions-for-data-and-information" title="Link to this heading">¶</a></h2>
-<p>While not strictly necessary, it may be helpful to adhere to a naming convention that DeltaMetrics uses internally to define some common attributes of sedimentary systems.</p>
+<p>While not strictly necessary, it may be helpful to adhere to a naming convention that sandplover uses internally to define some common attributes of sedimentary systems.</p>
 <section id="spatiotemporal-variable-conventions">
 <h3>Spatiotemporal variable conventions<a class="headerlink" href="#spatiotemporal-variable-conventions" title="Link to this heading">¶</a></h3>
 <ul class="simple">
-<li><p><cite>eta</cite>: name any bed elevation variable <cite>eta</cite>. You can still use DeltaMetrics with a field with any other name to represent bed elevation (e.g., <cite>z</cite>), but the default expected name is <cite>eta</cite>, and using <cite>z</cite> may result in confusion—especially if working with stratigraphy.</p></li>
-<li><p>Organize model data so that an inlet of sediment and water (if present) is located along the the <cite>dim1==0</cite> domain edge. This is not strictly necessary, but some DeltaMetrics default values will work best this way.</p></li>
+<li><p><cite>eta</cite>: name any bed elevation variable <cite>eta</cite>. You can still use sandplover with a field with any other name to represent bed elevation (e.g., <cite>z</cite>), but the default expected name is <cite>eta</cite>, and using <cite>z</cite> may result in confusion—especially if working with stratigraphy.</p></li>
+<li><p>Organize model data so that an inlet of sediment and water (if present) is located along the the <cite>dim1==0</cite> domain edge. This is not strictly necessary, but some sandplover default values will work best this way.</p></li>
 </ul>
 </section>
 <section id="metadata-variable-naming-conventions">
@@ -288,7 +288,7 @@ We do not anticipate this will affect many users, but if you need the ability to
 </ul>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
-<p>None of these variables need to be defined; you can always manually pass them to DeltaMetrics constructors, but following the convention when creating your data file will save you many keystrokes later.</p>
+<p>None of these variables need to be defined; you can always manually pass them to sandplover constructors, but following the convention when creating your data file will save you many keystrokes later.</p>
 </div>
 </section>
 </section>
@@ -304,10 +304,10 @@ We do not anticipate this will affect many users, but if you need the ability to
   <div>
     <h3><a href="../../../index.html">Table of Contents</a></h3>
     <ul>
-<li><a class="reference internal" href="#">How to set up any dataset to work with DeltaMetrics</a><ul>
+<li><a class="reference internal" href="#">How to set up any dataset to work with sandplover</a><ul>
 <li><a class="reference internal" href="#connecting-with-netcdf">Connecting with NetCDF</a><ul>
-<li><a class="reference internal" href="#deltametrics-netcdf-data-standards">DeltaMetrics NetCDF data standards</a></li>
-<li><a class="reference internal" href="#sample-code-for-creating-a-deltametrics-netcdf-file-with-python">Sample code for creating a DeltaMetrics NetCDF file with Python</a></li>
+<li><a class="reference internal" href="#sandplover-netcdf-data-standards">sandplover NetCDF data standards</a></li>
+<li><a class="reference internal" href="#sample-code-for-creating-a-sandplover-netcdf-file-with-python">Sample code for creating a sandplover NetCDF file with Python</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#sample-code-for-working-with-data-loaded-in-memory">Sample code for working with data loaded in memory</a></li>
@@ -364,9 +364,9 @@ We do not anticipate this will affect many users, but if you need the ability to
         <li class="right" >
           <a href="connect_to_nonstandard_data.html" title="Quick connect to your own data"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Examples</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">How to set up any dataset to work with DeltaMetrics</a></li> 
+        <li class="nav-item nav-item-this"><a href="">How to set up any dataset to work with sandplover</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

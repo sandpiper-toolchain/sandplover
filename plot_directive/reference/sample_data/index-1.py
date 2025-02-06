@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from deltametrics.sample_data.sample_data import golf
+from sandplover.sample_data.sample_data import golf
 #
 golf = golf()
 nt = 5

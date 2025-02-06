@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-import deltametrics as dm
+import sandplover as spl
 
-golfcube = dm.sample_data.golf()
+golfcube = spl.sample_data.golf()
 golfcube.stratigraphy_from("eta")
 
 
@@ -30,7 +30,7 @@ _mstrat = np.full_like(_ys, np.nan, dtype=float)
 
 # loop through all of the sections defined in _ys
 for i, _y in enumerate(_ys):
-    _s = dm.section.StrikeSection(golfcube, distance_idx=_y)
+    _s = spl.section.StrikeSection(golfcube, distance_idx=_y)
     _mall[i], _mstrat[i] = pick_velocities(_s)
 
 

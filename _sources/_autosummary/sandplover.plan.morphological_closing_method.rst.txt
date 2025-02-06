@@ -1,0 +1,6 @@
+﻿sandplover.plan.morphological\_closing\_method
+==============================================
+
+.. currentmodule:: sandplover.plan
+
+.. autofunction:: morphological_closing_method

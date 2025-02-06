@@ -13,9 +13,9 @@ This reference page documents the lower-level utilities used to make this happen
 
 .. hint::
 
-  There is a complete :doc:`Visualization Guide </guides/subject_guides/visualization>` about the organization of this area of DeltaMetrics and examples for how to use and make visualizations.
+  There is a complete :doc:`Visualization Guide </guides/subject_guides/visualization>` about the organization of this area of sandplover and examples for how to use and make visualizations.
 
-The functions are defined in ``deltametrics.plot``.
+The functions are defined in ``sandplover.plot``.
 
 .. _default_styling:
 
@@ -34,7 +34,7 @@ Plotting utility objects
 These objects are mostly used internally to help make plots appear consistent across the library.
 You may want to examine these to change the style of plotting across the package.
 
-.. currentmodule:: deltametrics.plot
+.. currentmodule:: sandplover.plot
 
 .. autosummary::
     :toctree: ../../_autosummary
@@ -56,7 +56,7 @@ Mostly, these functions provide a component of a plot.
 .. autofunction:: append_colorbar
 
 
-DeltaMetrics plot routines
+sandplover plot routines
 ==========================
 
 These functions are similar to the convenience functions above, but mostly produce their own plots entirely, rather than adding a component of a plot.
@@ -68,7 +68,7 @@ These functions are similar to the convenience functions above, but mostly produ
     show_histograms
 
 
-DeltaMetrics colormaps
+sandplover colormaps
 ======================
 
 .. autofunction:: cartographic_colormap

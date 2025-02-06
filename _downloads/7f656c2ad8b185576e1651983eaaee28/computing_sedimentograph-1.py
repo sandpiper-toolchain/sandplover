@@ -1,13 +1,13 @@
 # set up the data source
-golfcube = dm.sample_data.golf()
-golfstrat = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
+golfcube = spl.sample_data.golf()
+golfstrat = spl.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
 
 background = (golfstrat.Z < np.min(golfcube['eta'].data, axis=0))
 frozen_sand = golfstrat.export_frozen_variable('sandfrac')
 
 (sedimentograph,
     section_radii,
-    sediment_bins) = dm.strat.compute_sedimentograph(
+    sediment_bins) = spl.strat.compute_sedimentograph(
     frozen_sand,
     num_sections=50,
     last_section_radius=2750,

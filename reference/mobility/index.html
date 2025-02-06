@@ -5,20 +5,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Channel mobility operations &#8212; DeltaMetrics 0.4.3 documentation</title>
+    <title>Channel mobility operations &#8212; sandplover 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
-    <script src="../../_static/documentation_options.js?v=5bfaad31"></script>
+    <script src="../../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="deltametrics.mobility.check_inputs" href="../../_autosummary/deltametrics.mobility.check_inputs.html" />
-    <link rel="prev" title="deltametrics.mask.GeometricMask" href="../../_autosummary/deltametrics.mask.GeometricMask.html" /> 
+    <link rel="next" title="sandplover.mobility.check_inputs" href="../../_autosummary/sandplover.mobility.check_inputs.html" />
+    <link rel="prev" title="sandplover.mask.GeometricMask" href="../../_autosummary/sandplover.mask.GeometricMask.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
@@ -27,12 +27,12 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.mobility.check_inputs.html" title="deltametrics.mobility.check_inputs"
+          <a href="../../_autosummary/sandplover.mobility.check_inputs.html" title="sandplover.mobility.check_inputs"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.mask.GeometricMask.html" title="deltametrics.mask.GeometricMask"
+          <a href="../../_autosummary/sandplover.mask.GeometricMask.html" title="sandplover.mask.GeometricMask"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Channel mobility operations</a></li> 
       </ul>
@@ -49,34 +49,34 @@
 Inputs to these functions are some sort of binary channel masks, and maps defining the fluvial surface (land area) over which the metrics should be computed.
 Functionality for fitting linear, harmonic, and exponential curves
 to the results of these functions is provided as well.</p>
-<p>The functions are defined in <code class="docutils literal notranslate"><span class="pre">deltametrics.mobility</span></code>.</p>
+<p>The functions are defined in <code class="docutils literal notranslate"><span class="pre">sandplover.mobility</span></code>.</p>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
-<p>There is a complete <a class="reference internal" href="../../guides/subject_guides/mobility.html"><span class="doc">Mobility Subject Guide</span></a> about the organization of this area of DeltaMetrics and examples for how to use and compute mobility metrics.</p>
+<p>There is a complete <a class="reference internal" href="../../guides/subject_guides/mobility.html"><span class="doc">Mobility Subject Guide</span></a> about the organization of this area of sandplover and examples for how to use and compute mobility metrics.</p>
 </div>
 <section id="mobility-functions">
 <h2>Mobility functions<a class="headerlink" href="#mobility-functions" title="Link to this heading">¶</a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mobility.check_inputs.html#deltametrics.mobility.check_inputs" title="deltametrics.mobility.check_inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_inputs</span></code></a>(chmap[, basevalues, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mobility.check_inputs.html#sandplover.mobility.check_inputs" title="sandplover.mobility.check_inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_inputs</span></code></a>(chmap[, basevalues, ...])</p></td>
 <td><p>Check the input variable values.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mobility.calculate_channel_decay.html#deltametrics.mobility.calculate_channel_decay" title="deltametrics.mobility.calculate_channel_decay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_channel_decay</span></code></a>(chmap, landmap[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mobility.calculate_channel_decay.html#sandplover.mobility.calculate_channel_decay" title="sandplover.mobility.calculate_channel_decay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_channel_decay</span></code></a>(chmap, landmap[, ...])</p></td>
 <td><p>Calculate channel decay (reduction in dry fraction).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mobility.calculate_planform_overlap.html#deltametrics.mobility.calculate_planform_overlap" title="deltametrics.mobility.calculate_planform_overlap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_planform_overlap</span></code></a>(chmap, landmap[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mobility.calculate_planform_overlap.html#sandplover.mobility.calculate_planform_overlap" title="sandplover.mobility.calculate_planform_overlap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_planform_overlap</span></code></a>(chmap, landmap[, ...])</p></td>
 <td><p>Calculate channel planform overlap.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mobility.calculate_reworking_fraction.html#deltametrics.mobility.calculate_reworking_fraction" title="deltametrics.mobility.calculate_reworking_fraction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_reworking_fraction</span></code></a>(chmap, landmap)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mobility.calculate_reworking_fraction.html#sandplover.mobility.calculate_reworking_fraction" title="sandplover.mobility.calculate_reworking_fraction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_reworking_fraction</span></code></a>(chmap, landmap)</p></td>
 <td><p>Calculate the reworking fraction.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mobility.calculate_channel_abandonment.html#deltametrics.mobility.calculate_channel_abandonment" title="deltametrics.mobility.calculate_channel_abandonment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_channel_abandonment</span></code></a>(chmap[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mobility.calculate_channel_abandonment.html#sandplover.mobility.calculate_channel_abandonment" title="sandplover.mobility.calculate_channel_abandonment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_channel_abandonment</span></code></a>(chmap[, ...])</p></td>
 <td><p>Calculate channel abandonment.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mobility.channel_presence.html#deltametrics.mobility.channel_presence" title="deltametrics.mobility.channel_presence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">channel_presence</span></code></a>(chmap)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mobility.channel_presence.html#sandplover.mobility.channel_presence" title="sandplover.mobility.channel_presence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">channel_presence</span></code></a>(chmap)</p></td>
 <td><p>Calculate the normalized channel presence at each pixel location.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.mobility.calculate_channelized_response_variance.html#deltametrics.mobility.calculate_channelized_response_variance" title="deltametrics.mobility.calculate_channelized_response_variance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_channelized_response_variance</span></code></a>(arr)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/sandplover.mobility.calculate_channelized_response_variance.html#sandplover.mobility.calculate_channelized_response_variance" title="sandplover.mobility.calculate_channelized_response_variance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calculate_channelized_response_variance</span></code></a>(arr)</p></td>
 <td><p>Calculate the Channelized Response Variance (CRV).</p></td>
 </tr>
 </tbody>
@@ -103,13 +103,13 @@ to the results of these functions is provided as well.</p>
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="../../_autosummary/deltametrics.mask.GeometricMask.html"
-                          title="previous chapter">deltametrics.mask.GeometricMask</a></p>
+    <p class="topless"><a href="../../_autosummary/sandplover.mask.GeometricMask.html"
+                          title="previous chapter">sandplover.mask.GeometricMask</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="../../_autosummary/deltametrics.mobility.check_inputs.html"
-                          title="next chapter">deltametrics.mobility.check_inputs</a></p>
+    <p class="topless"><a href="../../_autosummary/sandplover.mobility.check_inputs.html"
+                          title="next chapter">sandplover.mobility.check_inputs</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -139,12 +139,12 @@ to the results of these functions is provided as well.</p>
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.mobility.check_inputs.html" title="deltametrics.mobility.check_inputs"
+          <a href="../../_autosummary/sandplover.mobility.check_inputs.html" title="sandplover.mobility.check_inputs"
              >next</a> |</li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.mask.GeometricMask.html" title="deltametrics.mask.GeometricMask"
+          <a href="../../_autosummary/sandplover.mask.GeometricMask.html" title="sandplover.mask.GeometricMask"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Channel mobility operations</a></li> 
       </ul>

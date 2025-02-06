@@ -1,6 +1,0 @@
-﻿deltametrics.mobility.calculate\_planform\_overlap
-==================================================
-
-.. currentmodule:: deltametrics.mobility
-
-.. autofunction:: calculate_planform_overlap

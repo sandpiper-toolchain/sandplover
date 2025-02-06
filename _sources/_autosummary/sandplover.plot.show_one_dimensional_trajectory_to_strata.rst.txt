@@ -1,0 +1,6 @@
+﻿sandplover.plot.show\_one\_dimensional\_trajectory\_to\_strata
+==============================================================
+
+.. currentmodule:: sandplover.plot
+
+.. autofunction:: show_one_dimensional_trajectory_to_strata

@@ -1,0 +1,33 @@
+﻿sandplover.plot.VariableInfo
+============================
+
+.. currentmodule:: sandplover.plot
+
+.. autoclass:: VariableInfo
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~VariableInfo.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~VariableInfo.cmap
+      ~VariableInfo.label
+      ~VariableInfo.name
+      ~VariableInfo.norm
+      ~VariableInfo.vmax
+      ~VariableInfo.vmin
+   
+   

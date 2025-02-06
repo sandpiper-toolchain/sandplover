@@ -1,0 +1,6 @@
+﻿sandplover.strat.compute\_compensation
+======================================
+
+.. currentmodule:: sandplover.strat
+
+.. autofunction:: compute_compensation

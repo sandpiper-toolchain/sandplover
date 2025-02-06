@@ -1,0 +1,39 @@
+﻿sandplover.mask.ChannelMask
+===========================
+
+.. currentmodule:: sandplover.mask
+
+.. autoclass:: ChannelMask
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ChannelMask.__init__
+      ~ChannelMask.from_Planform
+      ~ChannelMask.from_Planform_and_FlowMask
+      ~ChannelMask.from_array
+      ~ChannelMask.from_mask
+      ~ChannelMask.from_masks
+      ~ChannelMask.show
+      ~ChannelMask.trim_mask
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ChannelMask.integer_mask
+      ~ChannelMask.mask
+      ~ChannelMask.mask_type
+      ~ChannelMask.shape
+      ~ChannelMask.variables
+   
+   

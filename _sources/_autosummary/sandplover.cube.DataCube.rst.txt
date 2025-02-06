@@ -1,0 +1,62 @@
+﻿sandplover.cube.DataCube
+========================
+
+.. currentmodule:: sandplover.cube
+
+.. autoclass:: DataCube
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DataCube.__init__
+      ~DataCube.export_frozen_variable
+      ~DataCube.quick_show
+      ~DataCube.read
+      ~DataCube.register_plan
+      ~DataCube.register_planform
+      ~DataCube.register_section
+      ~DataCube.show_cube
+      ~DataCube.show_plan
+      ~DataCube.show_planform
+      ~DataCube.show_section
+      ~DataCube.stratigraphy_from
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DataCube.H
+      ~DataCube.L
+      ~DataCube.T
+      ~DataCube.W
+      ~DataCube.Z
+      ~DataCube.coords
+      ~DataCube.data_path
+      ~DataCube.dataio
+      ~DataCube.dim0_coords
+      ~DataCube.dim1_coords
+      ~DataCube.dim2_coords
+      ~DataCube.extent
+      ~DataCube.extent_flipud
+      ~DataCube.extent_zeros
+      ~DataCube.meta
+      ~DataCube.planform_set
+      ~DataCube.planforms
+      ~DataCube.section_set
+      ~DataCube.sections
+      ~DataCube.shape
+      ~DataCube.t
+      ~DataCube.variables
+      ~DataCube.varset
+      ~DataCube.z
+   
+   

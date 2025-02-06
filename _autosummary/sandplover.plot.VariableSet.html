@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sandplover.plot.VariableSet &#8212; sandplover 0.5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sandplover.plot.show_one_dimensional_trajectory_to_strata" href="sandplover.plot.show_one_dimensional_trajectory_to_strata.html" />
+    <link rel="prev" title="sandplover.plot.VariableInfo" href="sandplover.plot.VariableInfo.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="sandplover.plot.show_one_dimensional_trajectory_to_strata.html" title="sandplover.plot.show_one_dimensional_trajectory_to_strata"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.plot.VariableInfo.html" title="sandplover.plot.VariableInfo"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/plot/index.html" accesskey="U">Plotting operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.plot.VariableSet</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="sandplover-plot-variableset">
+<h1>sandplover.plot.VariableSet<a class="headerlink" href="#sandplover-plot-variableset" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sandplover.plot.VariableSet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.plot.</span></span><span class="sig-name descname"><span class="pre">VariableSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">override_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plot.VariableSet" title="Link to this definition">¶</a></dt>
+<dd><p>A default set of properties for variables.</p>
+<p>This makes it easy to have consistent plots.</p>
+<p>This class defines a dictionary of VariableInfo objects, which store
+default information about that variable, for easy and consistent
+plotting.</p>
+<p>Additionally, you can create a VariableSet, and assign it to multiple
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">Cube</span></code> instances, so that each shares the same
+colormaps, etc.</p>
+<p class="rubric">Examples</p>
+<p>Create a default variable set object.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.plot</span><span class="w"> </span><span class="kn">import</span> <span class="n">VariableSet</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">VariableSet</span><span class="p">()</span>
+<span class="go">&lt;sandplover.plot.VariableSet object at 0x...&gt;</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.plot.VariableSet.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">override_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plot.VariableSet.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize the VariableSet.</p>
+<p>Initialize the set with default colormaps.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is expected that any attribute added to the <cite>known_list</cite> has a
+valid property defined in this class.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We need an improved way to document each of the defaults. Want to
+display the colormaps, and the limits, the labels, etc. We want to
+be able to automatically label the image with low, high, labels,
+if there is aboundary norm, what happend to above and below
+values, etc. It’s too verbose to do this in every file though,
+need a way to automate it. Either a custom Sphinx directive or mpl
+plot directives with function calls. There seems to be a bug that
+doesn’t allow function calls to work for docstrings though, only
+primary documents. Another way could be to just loop all the
+<code class="docutils literal notranslate"><span class="pre">known_list</span></code> into a single fig at the end?</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>override_dict</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code>, optional) – Dictionary defining variable-property sets. Dictionary key should
+set the  must be either a string (and then match defined colormaps
+in matplotlib or sandplover), a new matplotlib Colormap object,
+or an Mx3 numpy array that can be coerced into a linear colormap.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plot.VariableSet.__init__" title="sandplover.plot.VariableSet.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([override_dict])</p></td>
+<td><p>Initialize the VariableSet.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plot.VariableSet.depth" title="sandplover.plot.VariableSet.depth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">depth</span></code></a></p></td>
+<td><p>Flow depth style.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plot.VariableSet.discharge" title="sandplover.plot.VariableSet.discharge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">discharge</span></code></a></p></td>
+<td><p>Flow discharge style.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plot.VariableSet.eta" title="sandplover.plot.VariableSet.eta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eta</span></code></a></p></td>
+<td><p>Bed elevation style.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plot.VariableSet.net_to_gross" title="sandplover.plot.VariableSet.net_to_gross"><code class="xref py py-obj docutils literal notranslate"><span class="pre">net_to_gross</span></code></a></p></td>
+<td><p>Net-to-gross style.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plot.VariableSet.sandfrac" title="sandplover.plot.VariableSet.sandfrac"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sandfrac</span></code></a></p></td>
+<td><p>Sand fraction style.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plot.VariableSet.sedflux" title="sandplover.plot.VariableSet.sedflux"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sedflux</span></code></a></p></td>
+<td><p>Flow sedflux style.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plot.VariableSet.stage" title="sandplover.plot.VariableSet.stage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stage</span></code></a></p></td>
+<td><p>Flow stage style.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">strata_depth</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plot.VariableSet.strata_sand_frac" title="sandplover.plot.VariableSet.strata_sand_frac"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strata_sand_frac</span></code></a></p></td>
+<td><p>Sand fraction style.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plot.VariableSet.time" title="sandplover.plot.VariableSet.time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time</span></code></a></p></td>
+<td><p>Temporal history style.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plot.VariableSet.variables" title="sandplover.plot.VariableSet.variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></a></p></td>
+<td><p>Variables known to the VariableSet.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plot.VariableSet.velocity" title="sandplover.plot.VariableSet.velocity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">velocity</span></code></a></p></td>
+<td><p>Flow velocity style.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">y</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.plot.VariableSet.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plot.VariableSet.__getitem__" title="Link to this definition">¶</a></dt>
+<dd><p>Get the attribute.</p>
+<p>Variable styling (i.e., the <cite>VariableInfo</cite> instances can be accessed by
+slicing the VariableSet with a string matching the VariableInfo <cite>name</cite>
+field. This enables accessing variables in evaluation, rather than
+explicit typing of variable names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Which variable to get the <cite>VariableInfo</cite> for.</p></li>
+<li><p><strong>note::</strong> (<em>..</em>) – If <cite>variable</cite> is not identified in the VariableSet, then a default
+instance of <a class="reference internal" href="sandplover.plot.VariableInfo.html#sandplover.plot.VariableInfo" title="sandplover.plot.VariableInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableInfo</span></code></a> is instantiated with the variable
+name and returned.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.plot.VariableSet.__setattr__">
+<span class="sig-name descname"><span class="pre">__setattr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plot.VariableSet.__setattr__" title="Link to this definition">¶</a></dt>
+<dd><p>Set, with check for types.</p>
+<p>This prevents setting non-VariableInfo attributes.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plot.VariableSet.depth">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">depth</span></span><a class="headerlink" href="#sandplover.plot.VariableSet.depth" title="Link to this definition">¶</a></dt>
+<dd><p>Flow depth style.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plot.VariableSet.discharge">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">discharge</span></span><a class="headerlink" href="#sandplover.plot.VariableSet.discharge" title="Link to this definition">¶</a></dt>
+<dd><p>Flow discharge style.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plot.VariableSet.eta">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">eta</span></span><a class="headerlink" href="#sandplover.plot.VariableSet.eta" title="Link to this definition">¶</a></dt>
+<dd><p>Bed elevation style.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plot.VariableSet.net_to_gross">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">net_to_gross</span></span><a class="headerlink" href="#sandplover.plot.VariableSet.net_to_gross" title="Link to this definition">¶</a></dt>
+<dd><p>Net-to-gross style.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plot.VariableSet.sandfrac">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sandfrac</span></span><a class="headerlink" href="#sandplover.plot.VariableSet.sandfrac" title="Link to this definition">¶</a></dt>
+<dd><p>Sand fraction style.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plot.VariableSet.sedflux">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sedflux</span></span><a class="headerlink" href="#sandplover.plot.VariableSet.sedflux" title="Link to this definition">¶</a></dt>
+<dd><p>Flow sedflux style.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plot.VariableSet.stage">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stage</span></span><a class="headerlink" href="#sandplover.plot.VariableSet.stage" title="Link to this definition">¶</a></dt>
+<dd><p>Flow stage style.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plot.VariableSet.strata_sand_frac">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">strata_sand_frac</span></span><a class="headerlink" href="#sandplover.plot.VariableSet.strata_sand_frac" title="Link to this definition">¶</a></dt>
+<dd><p>Sand fraction style.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plot.VariableSet.time">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#sandplover.plot.VariableSet.time" title="Link to this definition">¶</a></dt>
+<dd><p>Temporal history style.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plot.VariableSet.variables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">variables</span></span><a class="headerlink" href="#sandplover.plot.VariableSet.variables" title="Link to this definition">¶</a></dt>
+<dd><p>Variables known to the VariableSet.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plot.VariableSet.velocity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">velocity</span></span><a class="headerlink" href="#sandplover.plot.VariableSet.velocity" title="Link to this definition">¶</a></dt>
+<dd><p>Flow velocity style.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">sandplover.plot.VariableSet</a><ul>
+<li><a class="reference internal" href="#sandplover.plot.VariableSet"><code class="docutils literal notranslate"><span class="pre">VariableSet</span></code></a><ul>
+<li><a class="reference internal" href="#sandplover.plot.VariableSet.__init__"><code class="docutils literal notranslate"><span class="pre">VariableSet.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plot.VariableSet.__getitem__"><code class="docutils literal notranslate"><span class="pre">VariableSet.__getitem__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plot.VariableSet.__setattr__"><code class="docutils literal notranslate"><span class="pre">VariableSet.__setattr__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plot.VariableSet.depth"><code class="docutils literal notranslate"><span class="pre">VariableSet.depth</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plot.VariableSet.discharge"><code class="docutils literal notranslate"><span class="pre">VariableSet.discharge</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plot.VariableSet.eta"><code class="docutils literal notranslate"><span class="pre">VariableSet.eta</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plot.VariableSet.net_to_gross"><code class="docutils literal notranslate"><span class="pre">VariableSet.net_to_gross</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plot.VariableSet.sandfrac"><code class="docutils literal notranslate"><span class="pre">VariableSet.sandfrac</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plot.VariableSet.sedflux"><code class="docutils literal notranslate"><span class="pre">VariableSet.sedflux</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plot.VariableSet.stage"><code class="docutils literal notranslate"><span class="pre">VariableSet.stage</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plot.VariableSet.strata_sand_frac"><code class="docutils literal notranslate"><span class="pre">VariableSet.strata_sand_frac</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plot.VariableSet.time"><code class="docutils literal notranslate"><span class="pre">VariableSet.time</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plot.VariableSet.variables"><code class="docutils literal notranslate"><span class="pre">VariableSet.variables</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plot.VariableSet.velocity"><code class="docutils literal notranslate"><span class="pre">VariableSet.velocity</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="sandplover.plot.VariableInfo.html"
+                          title="previous chapter">sandplover.plot.VariableInfo</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="sandplover.plot.show_one_dimensional_trajectory_to_strata.html"
+                          title="next chapter">sandplover.plot.show_one_dimensional_trajectory_to_strata</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/_autosummary/sandplover.plot.VariableSet.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="sandplover.plot.show_one_dimensional_trajectory_to_strata.html" title="sandplover.plot.show_one_dimensional_trajectory_to_strata"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.plot.VariableInfo.html" title="sandplover.plot.VariableInfo"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/plot/index.html" >Plotting operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.plot.VariableSet</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2020, The DeltaRCM Team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

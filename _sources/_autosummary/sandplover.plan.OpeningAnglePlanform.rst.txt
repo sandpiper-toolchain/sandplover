@@ -1,0 +1,39 @@
+﻿sandplover.plan.OpeningAnglePlanform
+====================================
+
+.. currentmodule:: sandplover.plan
+
+.. autoclass:: OpeningAnglePlanform
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~OpeningAnglePlanform.__init__
+      ~OpeningAnglePlanform.from_ElevationMask
+      ~OpeningAnglePlanform.from_arrays
+      ~OpeningAnglePlanform.from_elevation_data
+      ~OpeningAnglePlanform.from_mask
+      ~OpeningAnglePlanform.show
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OpeningAnglePlanform.below_mask
+      ~OpeningAnglePlanform.composite_array
+      ~OpeningAnglePlanform.data
+      ~OpeningAnglePlanform.name
+      ~OpeningAnglePlanform.opening_angles
+      ~OpeningAnglePlanform.sea_angles
+      ~OpeningAnglePlanform.shape
+   
+   

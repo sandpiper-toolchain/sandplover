@@ -1,0 +1,6 @@
+﻿sandplover.mobility.calculate\_reworking\_fraction
+==================================================
+
+.. currentmodule:: sandplover.mobility
+
+.. autofunction:: calculate_reworking_fraction

@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Shoreline roughness of a perfect half-circle &#8212; DeltaMetrics 0.4.3 documentation</title>
+    <title>Shoreline roughness of a perfect half-circle &#8212; sandplover 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
-    <script src="../../../_static/documentation_options.js?v=5bfaad31"></script>
+    <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -32,7 +32,7 @@
         <li class="right" >
           <a href="radial_growth_pattern.html" title="Radial growth of delta through time"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Examples</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Shoreline roughness of a perfect half-circle</a></li> 
       </ul>
@@ -104,14 +104,14 @@ The intuition of shoreline roughness derives from the ratio of a circle’s circ
 <img alt="../../../_images/shoreline_roughness_perfect_direct-2.png" class="plot-directive" src="../../../_images/shoreline_roughness_perfect_direct-2.png" />
 </figure>
 <p>Instantiating masks directly can be done as follows.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lm0</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">LandMask</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lm0</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">LandMask</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span>
     <span class="n">hcirc</span><span class="p">)</span>
-<span class="n">em0</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ElevationMask</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span>
+<span class="n">em0</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ElevationMask</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span>
     <span class="n">hcirc</span><span class="p">)</span>
-<span class="n">sm0</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ShorelineMask</span><span class="o">.</span><span class="n">from_mask</span><span class="p">(</span>
+<span class="n">sm0</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ShorelineMask</span><span class="o">.</span><span class="n">from_mask</span><span class="p">(</span>
     <span class="n">em0</span><span class="p">)</span>
 
-<span class="n">rgh0</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">compute_shoreline_roughness</span><span class="p">(</span><span class="n">sm0</span><span class="p">,</span> <span class="n">lm0</span><span class="p">)</span>
+<span class="n">rgh0</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">compute_shoreline_roughness</span><span class="p">(</span><span class="n">sm0</span><span class="p">,</span> <span class="n">lm0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>(<a class="reference download internal" download="" href="../../../_downloads/1853ec683753ef2157a14a6f2061f4d3/shoreline_roughness_perfect_direct-3.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
@@ -194,7 +194,7 @@ The intuition of shoreline roughness derives from the ratio of a circle’s circ
         <li class="right" >
           <a href="radial_growth_pattern.html" title="Radial growth of delta through time"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Examples</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Shoreline roughness of a perfect half-circle</a></li> 
       </ul>

@@ -5,18 +5,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Cube operations &#8212; DeltaMetrics 0.4.3 documentation</title>
+    <title>Cube operations &#8212; sandplover 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
-    <script src="../../_static/documentation_options.js?v=5bfaad31"></script>
+    <script src="../../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="deltametrics.cube.DataCube" href="../../_autosummary/deltametrics.cube.DataCube.html" />
+    <link rel="next" title="sandplover.cube.DataCube" href="../../_autosummary/sandplover.cube.DataCube.html" />
     <link rel="prev" title="API reference" href="../index.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="Related">
@@ -26,12 +26,12 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.cube.DataCube.html" title="deltametrics.cube.DataCube"
+          <a href="../../_autosummary/sandplover.cube.DataCube.html" title="sandplover.cube.DataCube"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../index.html" title="API reference"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Cube operations</a></li> 
       </ul>
@@ -44,22 +44,22 @@
             
   <section id="cube-operations">
 <h1>Cube operations<a class="headerlink" href="#cube-operations" title="Link to this heading">¶</a></h1>
-<p>The package makes available <cite>Cube</cite> objects, which are the central office to all of the other functionality of DeltaMetrics.</p>
+<p>The package makes available <cite>Cube</cite> objects, which are the central office to all of the other functionality of sandplover.</p>
 <p>The cubes keep track of underlying data, which may represent any number of unique variables.
-For example, the <a class="reference internal" href="../../_autosummary/deltametrics.cube.DataCube.html#deltametrics.cube.DataCube" title="deltametrics.cube.DataCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataCube</span></code></a> connects to a set of data in the form of a <code class="docutils literal notranslate"><span class="pre">t-x-y</span></code> array-like dataset, and associated metadata defining the array coordinates, type, and data units.
+For example, the <a class="reference internal" href="../../_autosummary/sandplover.cube.DataCube.html#sandplover.cube.DataCube" title="sandplover.cube.DataCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataCube</span></code></a> connects to a set of data in the form of a <code class="docutils literal notranslate"><span class="pre">t-x-y</span></code> array-like dataset, and associated metadata defining the array coordinates, type, and data units.
 So, variables in the underlying data might be lidar scans, overhead photos, grain size maps (pyDeltaRCM), or flow velocity records (pyDeltaRCM), etc.</p>
-<p>The functions are defined in <code class="docutils literal notranslate"><span class="pre">deltametrics.cube</span></code>.</p>
+<p>The functions are defined in <code class="docutils literal notranslate"><span class="pre">sandplover.cube</span></code>.</p>
 <section id="cube-classes">
 <h2>Cube classes<a class="headerlink" href="#cube-classes" title="Link to this heading">¶</a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.cube.DataCube.html#deltametrics.cube.DataCube" title="deltametrics.cube.DataCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataCube</span></code></a>(data[, read, varset, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/sandplover.cube.DataCube.html#sandplover.cube.DataCube" title="sandplover.cube.DataCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataCube</span></code></a>(data[, read, varset, ...])</p></td>
 <td><p>DataCube object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.cube.StratigraphyCube.html#deltametrics.cube.StratigraphyCube" title="deltametrics.cube.StratigraphyCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StratigraphyCube</span></code></a>(data[, read, varset, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/sandplover.cube.StratigraphyCube.html#sandplover.cube.StratigraphyCube" title="sandplover.cube.StratigraphyCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StratigraphyCube</span></code></a>(data[, read, varset, ...])</p></td>
 <td><p>StratigraphyCube object.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.cube.BaseCube.html#deltametrics.cube.BaseCube" title="deltametrics.cube.BaseCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseCube</span></code></a>(data[, read, varset, dimensions])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/sandplover.cube.BaseCube.html#sandplover.cube.BaseCube" title="sandplover.cube.BaseCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseCube</span></code></a>(data[, read, varset, dimensions])</p></td>
 <td><p>Base cube object.</p></td>
 </tr>
 </tbody>
@@ -91,8 +91,8 @@ So, variables in the underlying data might be lidar scans, overhead photos, grai
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="../../_autosummary/deltametrics.cube.DataCube.html"
-                          title="next chapter">deltametrics.cube.DataCube</a></p>
+    <p class="topless"><a href="../../_autosummary/sandplover.cube.DataCube.html"
+                          title="next chapter">sandplover.cube.DataCube</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -122,12 +122,12 @@ So, variables in the underlying data might be lidar scans, overhead photos, grai
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.cube.DataCube.html" title="deltametrics.cube.DataCube"
+          <a href="../../_autosummary/sandplover.cube.DataCube.html" title="sandplover.cube.DataCube"
              >next</a> |</li>
         <li class="right" >
           <a href="../index.html" title="API reference"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Cube operations</a></li> 
       </ul>

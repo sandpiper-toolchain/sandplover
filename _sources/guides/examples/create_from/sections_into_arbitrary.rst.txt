@@ -9,11 +9,11 @@ First, let's create a `Section` into a `Cube` and a basic `Planform` and compare
     :include-source:
     :context: reset
 
-    golfcube = dm.sample_data.golf()
-    pl = dm.plan.Planform(golfcube, idx=-1)
+    golfcube = spl.sample_data.golf()
+    pl = spl.plan.Planform(golfcube, idx=-1)
 
-    css = dm.section.StrikeSection(golfcube, distance=1200)
-    pss = dm.section.StrikeSection(pl, distance=1200)
+    css = spl.section.StrikeSection(golfcube, distance=1200)
+    pss = spl.section.StrikeSection(pl, distance=1200)
 
     fig, ax = plt.subplots()
     golfcube.quick_show('eta', idx=-1)
@@ -44,10 +44,10 @@ Similarly to creating a `Section` into the `Planform`, we can use an underlying 
     :include-source:
     :context:
 
-    EM = dm.mask.ElevationMask(
+    EM = spl.mask.ElevationMask(
         golfcube["eta"][-1],
         elevation_threshold=0)
-    mss = dm.section.StrikeSection(EM, distance=1200)
+    mss = spl.section.StrikeSection(EM, distance=1200)
 
     ax.plot(mss.s, mss['mask'], ':')
 
@@ -56,20 +56,20 @@ Similarly to creating a `Section` into the `Planform`, we can use an underlying 
 
 .. important::
 
-    A common "gotcha" is forgetting that some `Section` types (e.g., :obj:`~deltametrics.section.CircularSection` and :obj:`~deltametrics.section.RadialSection`) will try to guess a useful `origin` during instantiation, by reading various attributes of an underlying `DataCube`. These attributes are not available during instantiation of a `Section` that reads into a `Planform` or `Mask`. This can lead to discrepencies in the locations of the Section objects!
+    A common "gotcha" is forgetting that some `Section` types (e.g., :obj:`~sandplover.section.CircularSection` and :obj:`~sandplover.section.RadialSection`) will try to guess a useful `origin` during instantiation, by reading various attributes of an underlying `DataCube`. These attributes are not available during instantiation of a `Section` that reads into a `Planform` or `Mask`. This can lead to discrepencies in the locations of the Section objects!
 
     In this example, the `Section` into the `Planform` is offset by `L0`, because this attribute is not known to the `Planform`.
 
     .. code::
 
-        ccs = dm.section.CircularSection(golfcube, radius=1000)
-        pcs = dm.section.CircularSection(pl, radius=1000)
+        ccs = spl.section.CircularSection(golfcube, radius=1000)
+        pcs = spl.section.CircularSection(pl, radius=1000)
 
     .. plot::
         :context: close-figs
 
-        ccs = dm.section.CircularSection(golfcube, radius=1000)
-        pcs = dm.section.CircularSection(pl, radius=1000)
+        ccs = spl.section.CircularSection(golfcube, radius=1000)
+        pcs = spl.section.CircularSection(pl, radius=1000)
 
         fig, ax = plt.subplots()
         golfcube.quick_show('eta', idx=-1)
@@ -89,7 +89,7 @@ You can also create a `Section` into any array-like data.
     :context: close-figs
 
     arr = np.random.uniform(size=(100, 200))
-    arrss = dm.section.StrikeSection(arr, distance_idx=30)
+    arrss = spl.section.StrikeSection(arr, distance_idx=30)
 
 .. note::
 

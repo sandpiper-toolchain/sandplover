@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sandplover.section.RadialSection &#8212; sandplover 0.5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sandplover.section.BaseSection" href="sandplover.section.BaseSection.html" />
+    <link rel="prev" title="sandplover.section.CircularSection" href="sandplover.section.CircularSection.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="sandplover.section.BaseSection.html" title="sandplover.section.BaseSection"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.section.CircularSection.html" title="sandplover.section.CircularSection"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/section/index.html" accesskey="U">Section operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.section.RadialSection</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="sandplover-section-radialsection">
+<h1>sandplover.section.RadialSection<a class="headerlink" href="#sandplover-section-radialsection" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.section.</span></span><span class="sig-name descname"><span class="pre">RadialSection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">azimuth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.section.RadialSection" title="Link to this definition">¶</a></dt>
+<dd><p>Radial section object.</p>
+<p>Section drawn as a radial cut, located a along the line starting from
+<cite>origin</cite> and proceeding away in direction specified by azimuth. Specify
+the location of the radial section with <cite>azimuth</cite> and <cite>origin</cite>
+keyword parameter options. The radial section trace is interpolated to the
+nearest integer model domain cells, following the a line-walking algorithm
+(<a class="reference internal" href="../reference/utils/index.html#sandplover.utils.line_to_cells" title="sandplover.utils.line_to_cells"><code class="xref py py-obj docutils literal notranslate"><span class="pre">line_to_cells</span></code></a>).</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/1e33d47b5ff88075aa42cf9d7d4dc8fb/sandplover-section-RadialSection-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/f9ebe67e5b553706ebae7c7ef979c706/sandplover-section-RadialSection-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/3580d2d7989e4e8f46459009492138b5/sandplover-section-RadialSection-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../_images/sandplover-section-RadialSection-1.png" class="plot-directive" src="../_images/sandplover-section-RadialSection-1.png" />
+</figure>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The <cite>origin</cite> attempts to detect the land width from bed elevation
+changes, but should use the value of <code class="docutils literal notranslate"><span class="pre">L0</span></code> recorded in the netcdf
+file, or defined in the cube.</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>This Section type will only work for deltas with an inlet along the
+<code class="docutils literal notranslate"><span class="pre">dim1</span></code> lower domain edge. For other delta configurations, specify a
+radial section by defining two end points and instantiating a
+<cite>Section</cite> with the <a class="reference internal" href="sandplover.section.PathSection.html#sandplover.section.PathSection" title="sandplover.section.PathSection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PathSection</span></code></a>. A patch for this is welcomed!</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">DataCube</span></code> or <cite>StratigraphyCube</cite>) – The <cite>Cube</cite> object to link for underlying data. This option should be
+ommitted if using the <code class="xref py py-obj docutils literal notranslate"><span class="pre">register_section</span></code> method of a <cite>Cube</cite>.</p></li>
+<li><p><strong>azimuth</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, <cite>int</cite>, optional) – The <cite>azimuth</cite> of the section, directed away from the origin. If no
+value is given, the <cite>azimuth</cite> defaults to <code class="docutils literal notranslate"><span class="pre">90</span></code>.</p></li>
+<li><p><strong>origin</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <cite>float</cite>, optional) – The <cite>origin</cite> of the radial section in dimensional coordinates,
+specified as a two-element tuple <code class="docutils literal notranslate"><span class="pre">(dim1,</span> <span class="pre">dim2)</span></code>. This is the
+starting point of the radial line. If no value is given, the origin
+defaults to the center of the x-direction of the model domain, and
+offsets into the domain a distance of <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">==</span> <span class="pre">L0</span></code>, if this values can
+be determined. I.e., the origin defaults to be centered over the
+channel inlet.</p></li>
+<li><p><strong>origin_idx</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <cite>int</cite>, optional) – The <cite>origin</cite> of the radial section in dimensional coordinates,
+specified as a two-element tuple <code class="docutils literal notranslate"><span class="pre">(dim1,</span> <span class="pre">dim2)</span></code>. This is the
+starting point of the radial line. Mutually exclusive
+with <cite>origin</cite>.</p></li>
+<li><p><strong>length</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, <cite>int</cite>, optional) – <p>The length of the section, assumed to be in the same coordinate
+specification as the origin was defined. If no value is given, the
+length defaults to the length required to reach a domain boundary
+(if a connection to underlying <cite>Cube</cite> exists). If
+neither <a class="reference internal" href="#sandplover.section.RadialSection.origin" title="sandplover.section.RadialSection.origin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">origin</span></code></a> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">origin_idx</span></code> is specified, <cite>length</cite> is
+assumed to be in dimensional coordinates.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>length is used as a <em>guide</em> for the section length, as the section
+is approximated to cell indices. This is unlikely to work as
+expected for grid spacing that is not equal in both dimensions.</p>
+</div>
+</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments are passed to <cite>BaseSection.__init__()</cite>. Supported
+options are <cite>name</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>section</strong> – <cite>RadialSection</cite> object with specified parameters. The section is
+automatically connected to the underlying <cite>Cube</cite> data source if the
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">register_section</span></code> method of a <cite>Cube</cite> is used to set up the
+section, or the <cite>Cube</cite> is passed as the first positional argument
+during instantiation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#sandplover.section.RadialSection" title="sandplover.section.RadialSection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RadialSection</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Create a <cite>RadialSection</cite> that is registered to a <cite>DataCube</cite> at
+specified <cite>origin</cite> coordinate, and spans the entire domain:</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/0fc0c623035d29a5b5bf28e2237f6f27/sandplover-section-RadialSection-2.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
+<figure class="align-default" id="id1">
+<img alt="../_images/sandplover-section-RadialSection-2_00.png" class="plot-directive" src="../_images/sandplover-section-RadialSection-2_00.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference download internal" download="" href="../_downloads/35dd928f17751cc81eeb65593051ea91/sandplover-section-RadialSection-2_00.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/39c60e4db58cee02e6209575c7e981e2/sandplover-section-RadialSection-2_00.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</span><a class="headerlink" href="#id1" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id2">
+<img alt="../_images/sandplover-section-RadialSection-2_01.png" class="plot-directive" src="../_images/sandplover-section-RadialSection-2_01.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference download internal" download="" href="../_downloads/eaf6b04be65b68cb2605a45a86439a99/sandplover-section-RadialSection-2_01.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/0095b4620f1c6208ce8829483d14a1f2/sandplover-section-RadialSection-2_01.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</span><a class="headerlink" href="#id2" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">azimuth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.section.RadialSection.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Identify coordinates defining the section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>section_type</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – String identifying the <em>type</em> of <cite>Section</cite> being instantiated.</p></li>
+<li><p><strong>CubeInstance</strong> (<a class="reference internal" href="sandplover.cube.BaseCube.html#sandplover.cube.BaseCube" title="sandplover.cube.BaseCube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseCube</span></code></a> subclass, optional) – Connect to this cube. No connection is made if cube is not
+provided.</p></li>
+<li><p><strong>name</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – An optional name for the <cite>Section</cite> object, helpful for maintaining
+and keeping track of multiple <cite>Section</cite> objects of the same
+type. This is disctinct from the <code class="xref py py-obj docutils literal notranslate"><span class="pre">section_type</span></code>. The name
+is used internally if you use the <code class="xref py py-obj docutils literal notranslate"><span class="pre">register_section</span></code> method
+of a <cite>Cube</cite>. Notes</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>If no arguments are passed, an empty section not connected to any cube
+is returned. This cube will will need to be manually connected to have
+any functionality (via the <a class="reference internal" href="#sandplover.section.RadialSection.connect" title="sandplover.section.RadialSection.connect"><code class="xref py py-meth docutils literal notranslate"><span class="pre">connect()</span></code></a> method).</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.__init__" title="sandplover.section.RadialSection.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(*args[, azimuth, origin, ...])</p></td>
+<td><p>Identify coordinates defining the section.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.connect" title="sandplover.section.RadialSection.connect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">connect</span></code></a>(InputInstance[, name])</p></td>
+<td><p>Connect this Section instance to a Cube instance.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.show" title="sandplover.section.RadialSection.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>(*args[, style, data, label, colorbar, ...])</p></td>
+<td><p>Show the section.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.show_trace" title="sandplover.section.RadialSection.show_trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_trace</span></code></a>(*args[, ax, autoscale])</p></td>
+<td><p>Plot section trace (x-y plane path).</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.azimuth" title="sandplover.section.RadialSection.azimuth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">azimuth</span></code></a></p></td>
+<td><p>Azimuth of section (degrees).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.idx_trace" title="sandplover.section.RadialSection.idx_trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">idx_trace</span></code></a></p></td>
+<td><p>Alias for <cite>self.trace_idx</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.length" title="sandplover.section.RadialSection.length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">length</span></code></a></p></td>
+<td><p>Length of section in dimensional coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.name" title="sandplover.section.RadialSection.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>Section name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.origin" title="sandplover.section.RadialSection.origin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">origin</span></code></a></p></td>
+<td><p>Origin of the section in dimensional coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.s" title="sandplover.section.RadialSection.s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">s</span></code></a></p></td>
+<td><p>Along-section coordinate.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.shape" title="sandplover.section.RadialSection.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></p></td>
+<td><p>Section shape.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.strat_attr" title="sandplover.section.RadialSection.strat_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strat_attr</span></code></a></p></td>
+<td><p>Stratigraphic attributes data object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.trace" title="sandplover.section.RadialSection.trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace</span></code></a></p></td>
+<td><p>Coordinates of the section in the <cite>dim1</cite>-<cite>dim2</cite> plane.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.trace_idx" title="sandplover.section.RadialSection.trace_idx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace_idx</span></code></a></p></td>
+<td><p>Indices of section points in the <cite>dim1</cite>-<cite>dim2</cite> plane.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.variables" title="sandplover.section.RadialSection.variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></a></p></td>
+<td><p>List of variables.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.RadialSection.z" title="sandplover.section.RadialSection.z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></a></p></td>
+<td><p>Up-section (vertical) coordinate.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.section.RadialSection.__getitem__" title="Link to this definition">¶</a></dt>
+<dd><p>Get a slice of the section.</p>
+<p>Slicing the section instance creates an <cite>xarray</cite> <cite>DataArray</cite> instance
+from data, for variable <code class="docutils literal notranslate"><span class="pre">var</span></code> and maintaining the data coordinates.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We only support slicing by string.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>var</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Which variable to slice.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>data</strong> – The underlying data returned as an xarray <cite>DataArray</cite>, maintaining
+coordinates.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataArray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.azimuth">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">azimuth</span></span><a class="headerlink" href="#sandplover.section.RadialSection.azimuth" title="Link to this definition">¶</a></dt>
+<dd><p>Azimuth of section (degrees).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">InputInstance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.section.RadialSection.connect" title="Link to this definition">¶</a></dt>
+<dd><p>Connect this Section instance to a Cube instance.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.idx_trace">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_trace</span></span><a class="headerlink" href="#sandplover.section.RadialSection.idx_trace" title="Link to this definition">¶</a></dt>
+<dd><p>Alias for <cite>self.trace_idx</cite>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.length">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">length</span></span><a class="headerlink" href="#sandplover.section.RadialSection.length" title="Link to this definition">¶</a></dt>
+<dd><p>Length of section in dimensional coordinates.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#sandplover.section.RadialSection.name" title="Link to this definition">¶</a></dt>
+<dd><p>Section name.</p>
+<p>Helpful to differentiate multiple <cite>Section</cite> objects.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.origin">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">origin</span></span><a class="headerlink" href="#sandplover.section.RadialSection.origin" title="Link to this definition">¶</a></dt>
+<dd><p>Origin of the section in dimensional coordinates.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Returned as a point <code class="docutils literal notranslate"><span class="pre">(dim1,</span> <span class="pre">dim2)</span></code>, so will need to be reversed
+for plotting in Cartesian coordinates.</p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.s">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">s</span></span><a class="headerlink" href="#sandplover.section.RadialSection.s" title="Link to this definition">¶</a></dt>
+<dd><p>Along-section coordinate.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.shape">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#sandplover.section.RadialSection.shape" title="Link to this definition">¶</a></dt>
+<dd><p>Section shape.</p>
+<p>Simply a <cite>tuple</cite> equivalent to <code class="docutils literal notranslate"><span class="pre">(len(z),</span> <span class="pre">len(s))</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'shaded'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.section.RadialSection.show" title="Link to this definition">¶</a></dt>
+<dd><p>Show the section.</p>
+<p>Method enumerates convenient routines for visualizing sections of data
+and stratigraphy. Includes support for multiple data <cite>style</cite> and
+multiple <cite>data</cite> choices as well.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The colors for <cite>style=’lines’</cite> are determined from the left-end
+edge node, and colors for the <cite>style=’shaded’</cite> mesh are determined
+from the lower-left-end edge node of the quad.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>SectionAttribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">SectionVariableInstance</span></code>) – Which attribute to show. Can be a string for a named <cite>Cube</cite>
+attribute, or any arbitrary data. Additionally, pass no arguments
+and the first variable in the underlying data source list will be
+used.</p></li>
+<li><p><strong>style</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – What style to display the section with. Choices are ‘mesh’ or
+‘line’.</p></li>
+<li><p><strong>data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Argument passed to
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">get_display_arrays</span></code>
+or
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">get_display_lines</span></code>.
+Supported options are <cite>‘spacetime’</cite>, <cite>‘preserved’</cite>, and
+<cite>‘stratigraphy’</cite>. Default is to display full spacetime plot for
+section generated from a <cite>DataCube</cite>, and stratigraphy for a
+<cite>StratigraphyCube</cite> section.</p></li>
+<li><p><strong>label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>str</cite>, optional) – Display a label of the variable name on the plot. Default is
+False, display nothing. If <code class="docutils literal notranslate"><span class="pre">label=True</span></code>, the label name from the
+<a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableSet</span></code></a> is used. Other arguments are
+attempted to coerce to <cite>str</cite>, and the literal is diplayed.</p></li>
+<li><p><strong>colorbar</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Whether a colorbar is appended to the axis.</p></li>
+<li><p><strong>colorbar_label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>str</cite>, optional) – Display a label of the variable name along the colorbar. Default is
+False, display nothing. If <code class="docutils literal notranslate"><span class="pre">label=True</span></code>, the label name from the
+<a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableSet</span></code></a> is used. Other arguments are
+attempted to coerce to <cite>str</cite>, and the literal is diplayed.</p></li>
+<li><p><strong>ax</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Axes</span></code> object, optional) – A <cite>matplotlib</cite> <cite>Axes</cite> object to plot the section. Optional; if not
+provided, a call is made to <code class="docutils literal notranslate"><span class="pre">plt.gca()</span></code> to get the current (or
+create a new) <cite>Axes</cite> object.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p><em>Example 1:</em> Display the <cite>velocity</cite> spacetime section of a DataCube.</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/4aa9dcbc23b328c63eeb9cc192ddccb3/sandplover-section-RadialSection-3.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
+<figure class="align-default" id="id3">
+<img alt="../_images/sandplover-section-RadialSection-3_00.png" class="plot-directive" src="../_images/sandplover-section-RadialSection-3_00.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference download internal" download="" href="../_downloads/1baaf2b1b1af71021f120dd689270f25/sandplover-section-RadialSection-3_00.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/6a533d2a2d21cc745d5751931c718093/sandplover-section-RadialSection-3_00.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</span><a class="headerlink" href="#id3" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id4">
+<img alt="../_images/sandplover-section-RadialSection-3_01.png" class="plot-directive" src="../_images/sandplover-section-RadialSection-3_01.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference download internal" download="" href="../_downloads/dca559a25189d145658e83a1677bfeae/sandplover-section-RadialSection-3_01.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/9adb7e710bc0b18580ea25ad07fef712/sandplover-section-RadialSection-3_01.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</span><a class="headerlink" href="#id4" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.show_trace">
+<span class="sig-name descname"><span class="pre">show_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autoscale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.section.RadialSection.show_trace" title="Link to this definition">¶</a></dt>
+<dd><p>Plot section trace (x-y plane path).</p>
+<p>Plot the section trace (<a class="reference internal" href="#sandplover.section.RadialSection.trace" title="sandplover.section.RadialSection.trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace</span></code></a>) onto an x-y planview.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Passed to <cite>matplotlib</cite> <code class="xref py py-obj docutils literal notranslate"><span class="pre">plot()</span></code>.</p></li>
+<li><p><strong>ax</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Axes</span></code> object, optional) – A <cite>matplotlib</cite> <cite>Axes</cite> object to plot the trace. Optional; if not
+provided, a call is made to <code class="docutils literal notranslate"><span class="pre">plt.gca()</span></code> to get the current (or
+create a new) <cite>Axes</cite> object.</p></li>
+<li><p><strong>autoscale</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to rescale the axis based on the limits of the section.
+Manipulates the <cite>matplotlib</cite> <cite>autoscale</cite> attribute. Default is
+<code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>**kwargs</strong> – Passed to <cite>matplotlib</cite> <code class="xref py py-obj docutils literal notranslate"><span class="pre">plot()</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.strat_attr">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">strat_attr</span></span><a class="headerlink" href="#sandplover.section.RadialSection.strat_attr" title="Link to this definition">¶</a></dt>
+<dd><p>Stratigraphic attributes data object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../reference/utils/index.html#sandplover.utils.NoStratigraphyError" title="sandplover.utils.NoStratigraphyError"><strong>NoStratigraphyError</strong></a> – If no stratigraphy information is found for the section.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.trace">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trace</span></span><a class="headerlink" href="#sandplover.section.RadialSection.trace" title="Link to this definition">¶</a></dt>
+<dd><p>Coordinates of the section in the <cite>dim1</cite>-<cite>dim2</cite> plane.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>stack of [dim2, dim1].</p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.trace_idx">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trace_idx</span></span><a class="headerlink" href="#sandplover.section.RadialSection.trace_idx" title="Link to this definition">¶</a></dt>
+<dd><p>Indices of section points in the <cite>dim1</cite>-<cite>dim2</cite> plane.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.variables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">variables</span></span><a class="headerlink" href="#sandplover.section.RadialSection.variables" title="Link to this definition">¶</a></dt>
+<dd><p>List of variables.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.RadialSection.z">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#sandplover.section.RadialSection.z" title="Link to this definition">¶</a></dt>
+<dd><p>Up-section (vertical) coordinate.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">sandplover.section.RadialSection</a><ul>
+<li><a class="reference internal" href="#sandplover.section.RadialSection"><code class="docutils literal notranslate"><span class="pre">RadialSection</span></code></a><ul>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.__init__"><code class="docutils literal notranslate"><span class="pre">RadialSection.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.__getitem__"><code class="docutils literal notranslate"><span class="pre">RadialSection.__getitem__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.azimuth"><code class="docutils literal notranslate"><span class="pre">RadialSection.azimuth</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.connect"><code class="docutils literal notranslate"><span class="pre">RadialSection.connect()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.idx_trace"><code class="docutils literal notranslate"><span class="pre">RadialSection.idx_trace</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.length"><code class="docutils literal notranslate"><span class="pre">RadialSection.length</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.name"><code class="docutils literal notranslate"><span class="pre">RadialSection.name</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.origin"><code class="docutils literal notranslate"><span class="pre">RadialSection.origin</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.s"><code class="docutils literal notranslate"><span class="pre">RadialSection.s</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.shape"><code class="docutils literal notranslate"><span class="pre">RadialSection.shape</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.show"><code class="docutils literal notranslate"><span class="pre">RadialSection.show()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.show_trace"><code class="docutils literal notranslate"><span class="pre">RadialSection.show_trace()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.strat_attr"><code class="docutils literal notranslate"><span class="pre">RadialSection.strat_attr</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.trace"><code class="docutils literal notranslate"><span class="pre">RadialSection.trace</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.trace_idx"><code class="docutils literal notranslate"><span class="pre">RadialSection.trace_idx</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.variables"><code class="docutils literal notranslate"><span class="pre">RadialSection.variables</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.RadialSection.z"><code class="docutils literal notranslate"><span class="pre">RadialSection.z</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="sandplover.section.CircularSection.html"
+                          title="previous chapter">sandplover.section.CircularSection</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="sandplover.section.BaseSection.html"
+                          title="next chapter">sandplover.section.BaseSection</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/_autosummary/sandplover.section.RadialSection.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="sandplover.section.BaseSection.html" title="sandplover.section.BaseSection"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.section.CircularSection.html" title="sandplover.section.CircularSection"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/section/index.html" >Section operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.section.RadialSection</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2020, The DeltaRCM Team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

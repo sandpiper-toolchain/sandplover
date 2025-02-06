@@ -1,4 +1,4 @@
-GM = dm.mask.GeometricMask(
+GM = spl.mask.GeometricMask(
     golfcube['eta'][-1],
     angular=dict(
         theta1=np.pi/8,
@@ -9,7 +9,7 @@ frozen_sand_mask = frozen_sand.where(GM_mask_strat, np.nan)
 
 (sedimentograph2,
     section_radii2,
-    sediment_bins2) = dm.strat.compute_sedimentograph(
+    sediment_bins2) = spl.strat.compute_sedimentograph(
     frozen_sand_mask,
     num_sections=50,
     # last_section_radius=2750,

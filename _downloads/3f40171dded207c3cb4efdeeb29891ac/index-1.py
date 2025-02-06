@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
-from deltametrics.cube import StratigraphyCube
-from deltametrics.sample_data.sample_data import golf
-from deltametrics.strat import _determine_deposit_from_background
+from sandplover.cube import StratigraphyCube
+from sandplover.sample_data.sample_data import golf
+from sandplover.strat import _determine_deposit_from_background
 #
 golfcube = golf()
 golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.05)

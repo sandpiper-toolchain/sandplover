@@ -1,2 +1,2 @@
-golfcube = dm.sample_data.golf()
-final = dm.plan.Planform(golfcube, idx=-1)
+golfcube = spl.sample_data.golf()
+final = spl.plan.Planform(golfcube, idx=-1)

@@ -1,7 +1,7 @@
 Visualization Guide
 =====================
 
-This guide covers the full range of visualization routines available as part of DeltaMetrics, and explains how to create your own visualization routines that build on top of DeltaMetrics.
+This guide covers the full range of visualization routines available as part of sandplover, and explains how to create your own visualization routines that build on top of DeltaMetrics.
 
 
 
@@ -23,9 +23,9 @@ Section display types
 
 .. doctest::
 
-    >>> golfcube = dm.sample_data.golf()
+    >>> golfcube = spl.sample_data.golf()
     >>> golfcube.stratigraphy_from("eta")
-    >>> golfcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
+    >>> golfcube.register_section("demo", spl.section.StrikeSection(distance_idx=10))
     >>> _v = "velocity"
 
     >>> fig, ax = plt.subplots(3, 2, sharex=True, figsize=(8, 6))

@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Accounting for subsidence when computing stratigraphy &#8212; DeltaMetrics 0.4.3 documentation</title>
+    <title>Accounting for subsidence when computing stratigraphy &#8212; sandplover 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
-    <script src="../../../_static/documentation_options.js?v=5bfaad31"></script>
+    <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="comparing_speeds_of_stratigraphy_access.html" title="Comparing speed of stratigraphy access"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Examples</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Accounting for subsidence when computing stratigraphy</a></li> 
       </ul>
@@ -46,8 +46,8 @@
 <h1>Accounting for subsidence when computing stratigraphy<a class="headerlink" href="#accounting-for-subsidence-when-computing-stratigraphy" title="Link to this heading">¶</a></h1>
 <p>It is not uncommon for subsidence, or the sinking of the ground, to take place.
 When computing the preserved stratigraphy from a time-series of elevation data, a more accurate depiction of the subsurface can be developed if information about subsidence is known and accounted for.
-DeltaMetrics aims to provide a number of methods to incorporate subsidence data into the computed stratigraphy, allowing the user to specify a constant basin-wide rate of subsidence, or more complex spatially and temporally varying patterns.
-Below some examples of this functionality are shown, using synthetic 1-D elevation time-series, as well as the <a class="reference internal" href="../../../reference/sample_data/index.html#deltametrics.sample_data.aeolian" title="deltametrics.sample_data.aeolian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">aeolian</span></code></a> dune field sample dataset.</p>
+sandplover aims to provide a number of methods to incorporate subsidence data into the computed stratigraphy, allowing the user to specify a constant basin-wide rate of subsidence, or more complex spatially and temporally varying patterns.
+Below some examples of this functionality are shown, using synthetic 1-D elevation time-series, as well as the <a class="reference internal" href="../../../reference/sample_data/index.html#sandplover.sample_data.aeolian" title="sandplover.sample_data.aeolian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">aeolian</span></code></a> dune field sample dataset.</p>
 <p>Using synthetic 1-D elevation time-series, we can create some simplified stratigraphic profiles to test our understanding of the mechanism and see whether or not the resulting stratigraphy matches our intuition.
 For our first example, we will consider the contrived case in which the elevation at some location is unchanging in time, however there is a constant rate of subsidence.
 This implies that there is indeed sedimentation occurring at this location, equivalent to the rate of subsidence.
@@ -56,7 +56,7 @@ We therefore expect to see the development of a stack of stratigraphy <em>despit
 
 <span class="c1"># plot 1-D trajectory w/ constant subsidence</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="n">dm</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">show_one_dimensional_trajectory_to_strata</span><span class="p">(</span>
+<span class="n">spl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">show_one_dimensional_trajectory_to_strata</span><span class="p">(</span>
     <span class="n">elevation</span><span class="p">,</span> <span class="n">sigma_dist</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
@@ -76,7 +76,7 @@ Be aware that when providing subsidence values in this manner (temporally varyin
 
 <span class="c1"># plot 1-D trajectory w/ constant subsidence</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="n">dm</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">show_one_dimensional_trajectory_to_strata</span><span class="p">(</span>
+<span class="n">spl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">show_one_dimensional_trajectory_to_strata</span><span class="p">(</span>
     <span class="n">elevation</span><span class="p">,</span> <span class="n">sigma_dist</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]),</span>
     <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">)</span>
@@ -98,7 +98,7 @@ It is important to be aware of this distinction when incorporating subsidence in
 </div>
 <p>Finally, using the aeolean dataset, we will perform a similar computation to the one shown in example <a class="reference internal" href="aggradation_preserved_time.html"><span class="doc">Aggradation and preserved time</span></a> except instead of assuming some constant background aggradation rate, we will assume a constant subsidence rate.
 In this case, the effect steady basin-wide aggradation is equivalent to constant basin-wide subdidence.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">aeolian</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">aeolian</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">aeolian</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">aeolian</span><span class="p">()</span>
 
 <span class="c1"># define rates, in m/timestep</span>
 <span class="n">subs_rates</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">]</span>
@@ -109,7 +109,7 @@ In this case, the effect steady basin-wide aggradation is equivalent to constant
 
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">su</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">subs_rates</span><span class="p">):</span>
     <span class="c1"># compute stratigraphy for elevation timeseries with subsidence</span>
-    <span class="n">vol</span><span class="p">,</span> <span class="n">elev</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">strat</span><span class="o">.</span><span class="n">compute_boxy_stratigraphy_volume</span><span class="p">(</span>
+    <span class="n">vol</span><span class="p">,</span> <span class="n">elev</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">strat</span><span class="o">.</span><span class="n">compute_boxy_stratigraphy_volume</span><span class="p">(</span>
         <span class="n">aeolian</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">],</span> <span class="n">aeolian</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span> <span class="n">sigma_dist</span><span class="o">=</span><span class="n">su</span><span class="p">,</span>
         <span class="n">dz</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 
@@ -124,7 +124,7 @@ In this case, the effect steady basin-wide aggradation is equivalent to constant
         <span class="n">vol</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">sec_idx</span><span class="p">],</span>
         <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">aeolian</span><span class="o">.</span><span class="n">dim1_coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">elev</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">elev</span><span class="o">.</span><span class="n">max</span><span class="p">()],</span>
         <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">)</span>
-    <span class="n">cb</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">append_colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">cb</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">append_colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
     <span class="n">cb</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">aeolian</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">][</span><span class="s1">&#39;time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">units</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
     <span class="c1"># label</span>
@@ -201,7 +201,7 @@ In this case, the effect steady basin-wide aggradation is equivalent to constant
         <li class="right" >
           <a href="comparing_speeds_of_stratigraphy_access.html" title="Comparing speed of stratigraphy access"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Examples</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Accounting for subsidence when computing stratigraphy</a></li> 
       </ul>

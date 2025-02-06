@@ -1,0 +1,6 @@
+﻿sandplover.mobility.check\_inputs
+=================================
+
+.. currentmodule:: sandplover.mobility
+
+.. autofunction:: check_inputs

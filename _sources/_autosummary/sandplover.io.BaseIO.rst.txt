@@ -1,0 +1,28 @@
+﻿sandplover.io.BaseIO
+====================
+
+.. currentmodule:: sandplover.io
+
+.. autoclass:: BaseIO
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BaseIO.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BaseIO.keys
+   
+   

@@ -1,6 +1,0 @@
-﻿deltametrics.plan.compute\_channel\_width
-=========================================
-
-.. currentmodule:: deltametrics.plan
-
-.. autofunction:: compute_channel_width

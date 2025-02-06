@@ -1,4 +1,4 @@
-aeolian = dm.sample_data.aeolian()
+aeolian = spl.sample_data.aeolian()
 
 # define rates, in m/timestep
 subs_rates = [0, 0.01, 0.02]
@@ -9,7 +9,7 @@ fig, ax = plt.subplots(
 
 for i, su in enumerate(subs_rates):
     # compute stratigraphy for elevation timeseries with subsidence
-    vol, elev = dm.strat.compute_boxy_stratigraphy_volume(
+    vol, elev = spl.strat.compute_boxy_stratigraphy_volume(
         aeolian['eta'], aeolian['time'], sigma_dist=su,
         dz=0.1)
 
@@ -24,7 +24,7 @@ for i, su in enumerate(subs_rates):
         vol[:, :, sec_idx],
         extent=[0, aeolian.dim1_coords[-1], elev.min(), elev.max()],
         aspect='auto', origin='lower')
-    cb = dm.plot.append_colorbar(im, ax=ax[i])
+    cb = spl.plot.append_colorbar(im, ax=ax[i])
     cb.ax.set_ylabel(aeolian['time']['time'].units, fontsize=8)
 
     # label

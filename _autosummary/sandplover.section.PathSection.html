@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sandplover.section.PathSection &#8212; sandplover 0.5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sandplover.section.StrikeSection" href="sandplover.section.StrikeSection.html" />
+    <link rel="prev" title="Section operations" href="../reference/section/index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="sandplover.section.StrikeSection.html" title="sandplover.section.StrikeSection"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../reference/section/index.html" title="Section operations"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/section/index.html" accesskey="U">Section operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.section.PathSection</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="sandplover-section-pathsection">
+<h1>sandplover.section.PathSection<a class="headerlink" href="#sandplover-section-pathsection" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sandplover.section.PathSection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.section.</span></span><span class="sig-name descname"><span class="pre">PathSection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.section.PathSection" title="Link to this definition">¶</a></dt>
+<dd><p>Path section object.</p>
+<p>Create a Section along user-specified path. Specify the section location
+as an <cite>(N, 2)</cite> <cite>ndarray</cite> of <cite>dim1-dim2</cite> pairs of coordinates that define
+the verticies of the path. All coordinates along the path will be
+included in the section.</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/cfed2c26b44cb18196bcf3b0a62421e6/sandplover-section-PathSection-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/320882fa95ceaf724f7e47eb3891e361/sandplover-section-PathSection-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/5f57a399cacae893cd775cbe31f8921a/sandplover-section-PathSection-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../_images/sandplover-section-PathSection-1.png" class="plot-directive" src="../_images/sandplover-section-PathSection-1.png" />
+</figure>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">DataCube</span></code> or <cite>StratigraphyCube</cite>) – The <cite>Cube</cite> object to link for underlying data. This option should be
+ommitted if using the <code class="xref py py-obj docutils literal notranslate"><span class="pre">register_section</span></code> method of a <cite>Cube</cite>.</p></li>
+<li><p><strong>path</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – An <cite>(N, 2)</cite> <cite>ndarray</cite> specifying the <cite>dim1-dim2</cite> pairs of coordinates
+in dimensional values, defining the verticies of the path to extract
+the section from. Mutually exclusive with <cite>path_idx</cite>.</p></li>
+<li><p><strong>path_idx</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – An <cite>(N, 2)</cite> <cite>ndarray</cite> specifying the <cite>dim1-dim2</cite> pairs of coordinates
+in dimension indices, defining the verticies of the path to extract
+the section from. Mutually exclusive with <cite>path</cite>.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments are passed to <cite>BaseSection.__init__()</cite>. Supported
+options are <cite>name</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>section</strong> – <cite>PathSection</cite> object with specified parameters. The section is
+automatically connected to the underlying <cite>Cube</cite> data source if the
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">register_section</span></code> method of a <cite>Cube</cite> is used to set up the
+section, or the <cite>Cube</cite> is passed as the first positional argument
+during instantiation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#sandplover.section.PathSection" title="sandplover.section.PathSection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PathSection</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Create a <cite>PathSection</cite> that is registered to a <cite>DataCube</cite> at
+specified coordinates:</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/18f9eb31452d9f5cde2569b0e8e0c8ec/sandplover-section-PathSection-2.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
+<figure class="align-default" id="id1">
+<img alt="../_images/sandplover-section-PathSection-2_00.png" class="plot-directive" src="../_images/sandplover-section-PathSection-2_00.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference download internal" download="" href="../_downloads/b29a2d3fbbd6c6240ec8799ea2b77974/sandplover-section-PathSection-2_00.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/b2b27a3fe7783d644eeabb1ec8f89e04/sandplover-section-PathSection-2_00.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</span><a class="headerlink" href="#id1" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id2">
+<img alt="../_images/sandplover-section-PathSection-2_01.png" class="plot-directive" src="../_images/sandplover-section-PathSection-2_01.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference download internal" download="" href="../_downloads/71b3c5dd9f2dec9f0986e6744a337109/sandplover-section-PathSection-2_01.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/589bcf203c359b984364bd3cd041ecc9/sandplover-section-PathSection-2_01.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</span><a class="headerlink" href="#id2" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.section.PathSection.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Instantiate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – An <cite>(N, 2)</cite> <cite>ndarray</cite> specifying the dim1-dim2 pairs of
+coordinates that define the verticies of the path to extract the
+section from.</p></li>
+<li><p><strong>note::</strong> (<em>..</em>) – <a class="reference internal" href="#sandplover.section.PathSection.path" title="sandplover.section.PathSection.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a> must be supplied as a keyword argument.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.PathSection.__init__" title="sandplover.section.PathSection.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(*args[, path, path_idx])</p></td>
+<td><p>Instantiate.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.PathSection.connect" title="sandplover.section.PathSection.connect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">connect</span></code></a>(InputInstance[, name])</p></td>
+<td><p>Connect this Section instance to a Cube instance.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.PathSection.show" title="sandplover.section.PathSection.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>(*args[, style, data, label, colorbar, ...])</p></td>
+<td><p>Show the section.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.PathSection.show_trace" title="sandplover.section.PathSection.show_trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_trace</span></code></a>(*args[, ax, autoscale])</p></td>
+<td><p>Plot section trace (x-y plane path).</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.PathSection.idx_trace" title="sandplover.section.PathSection.idx_trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">idx_trace</span></code></a></p></td>
+<td><p>Alias for <cite>self.trace_idx</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.PathSection.length" title="sandplover.section.PathSection.length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">length</span></code></a></p></td>
+<td><p>Length of section in dimensional coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.PathSection.name" title="sandplover.section.PathSection.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>Section name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.PathSection.path" title="sandplover.section.PathSection.path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code></a></p></td>
+<td><p>Path of the PathSection.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.PathSection.s" title="sandplover.section.PathSection.s"><code class="xref py py-obj docutils literal notranslate"><span class="pre">s</span></code></a></p></td>
+<td><p>Along-section coordinate.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.PathSection.shape" title="sandplover.section.PathSection.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></p></td>
+<td><p>Section shape.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.PathSection.strat_attr" title="sandplover.section.PathSection.strat_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strat_attr</span></code></a></p></td>
+<td><p>Stratigraphic attributes data object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.PathSection.trace" title="sandplover.section.PathSection.trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace</span></code></a></p></td>
+<td><p>Coordinates of the section in the <cite>dim1</cite>-<cite>dim2</cite> plane.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.PathSection.trace_idx" title="sandplover.section.PathSection.trace_idx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace_idx</span></code></a></p></td>
+<td><p>Indices of section points in the <cite>dim1</cite>-<cite>dim2</cite> plane.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.PathSection.variables" title="sandplover.section.PathSection.variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></a></p></td>
+<td><p>List of variables.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.section.PathSection.vertices" title="sandplover.section.PathSection.vertices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vertices</span></code></a></p></td>
+<td><p>Vertices defining the path in dimensional coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.section.PathSection.z" title="sandplover.section.PathSection.z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></a></p></td>
+<td><p>Up-section (vertical) coordinate.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.section.PathSection.__getitem__" title="Link to this definition">¶</a></dt>
+<dd><p>Get a slice of the section.</p>
+<p>Slicing the section instance creates an <cite>xarray</cite> <cite>DataArray</cite> instance
+from data, for variable <code class="docutils literal notranslate"><span class="pre">var</span></code> and maintaining the data coordinates.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We only support slicing by string.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>var</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Which variable to slice.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>data</strong> – The underlying data returned as an xarray <cite>DataArray</cite>, maintaining
+coordinates.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataArray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.connect">
+<span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">InputInstance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.section.PathSection.connect" title="Link to this definition">¶</a></dt>
+<dd><p>Connect this Section instance to a Cube instance.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.idx_trace">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_trace</span></span><a class="headerlink" href="#sandplover.section.PathSection.idx_trace" title="Link to this definition">¶</a></dt>
+<dd><p>Alias for <cite>self.trace_idx</cite>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.length">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">length</span></span><a class="headerlink" href="#sandplover.section.PathSection.length" title="Link to this definition">¶</a></dt>
+<dd><p>Length of section in dimensional coordinates.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#sandplover.section.PathSection.name" title="Link to this definition">¶</a></dt>
+<dd><p>Section name.</p>
+<p>Helpful to differentiate multiple <cite>Section</cite> objects.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.path">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">path</span></span><a class="headerlink" href="#sandplover.section.PathSection.path" title="Link to this definition">¶</a></dt>
+<dd><p>Path of the PathSection.</p>
+<p>Returns same as <cite>trace</cite> property.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.s">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">s</span></span><a class="headerlink" href="#sandplover.section.PathSection.s" title="Link to this definition">¶</a></dt>
+<dd><p>Along-section coordinate.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.shape">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#sandplover.section.PathSection.shape" title="Link to this definition">¶</a></dt>
+<dd><p>Section shape.</p>
+<p>Simply a <cite>tuple</cite> equivalent to <code class="docutils literal notranslate"><span class="pre">(len(z),</span> <span class="pre">len(s))</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'shaded'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.section.PathSection.show" title="Link to this definition">¶</a></dt>
+<dd><p>Show the section.</p>
+<p>Method enumerates convenient routines for visualizing sections of data
+and stratigraphy. Includes support for multiple data <cite>style</cite> and
+multiple <cite>data</cite> choices as well.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The colors for <cite>style=’lines’</cite> are determined from the left-end
+edge node, and colors for the <cite>style=’shaded’</cite> mesh are determined
+from the lower-left-end edge node of the quad.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>SectionAttribute</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">SectionVariableInstance</span></code>) – Which attribute to show. Can be a string for a named <cite>Cube</cite>
+attribute, or any arbitrary data. Additionally, pass no arguments
+and the first variable in the underlying data source list will be
+used.</p></li>
+<li><p><strong>style</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – What style to display the section with. Choices are ‘mesh’ or
+‘line’.</p></li>
+<li><p><strong>data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Argument passed to
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">get_display_arrays</span></code>
+or
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">get_display_lines</span></code>.
+Supported options are <cite>‘spacetime’</cite>, <cite>‘preserved’</cite>, and
+<cite>‘stratigraphy’</cite>. Default is to display full spacetime plot for
+section generated from a <cite>DataCube</cite>, and stratigraphy for a
+<cite>StratigraphyCube</cite> section.</p></li>
+<li><p><strong>label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>str</cite>, optional) – Display a label of the variable name on the plot. Default is
+False, display nothing. If <code class="docutils literal notranslate"><span class="pre">label=True</span></code>, the label name from the
+<a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableSet</span></code></a> is used. Other arguments are
+attempted to coerce to <cite>str</cite>, and the literal is diplayed.</p></li>
+<li><p><strong>colorbar</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Whether a colorbar is appended to the axis.</p></li>
+<li><p><strong>colorbar_label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>str</cite>, optional) – Display a label of the variable name along the colorbar. Default is
+False, display nothing. If <code class="docutils literal notranslate"><span class="pre">label=True</span></code>, the label name from the
+<a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableSet</span></code></a> is used. Other arguments are
+attempted to coerce to <cite>str</cite>, and the literal is diplayed.</p></li>
+<li><p><strong>ax</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Axes</span></code> object, optional) – A <cite>matplotlib</cite> <cite>Axes</cite> object to plot the section. Optional; if not
+provided, a call is made to <code class="docutils literal notranslate"><span class="pre">plt.gca()</span></code> to get the current (or
+create a new) <cite>Axes</cite> object.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p><em>Example 1:</em> Display the <cite>velocity</cite> spacetime section of a DataCube.</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/66fde4addf16b15a0ad7006f48395b36/sandplover-section-PathSection-3.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
+<figure class="align-default" id="id3">
+<img alt="../_images/sandplover-section-PathSection-3_00.png" class="plot-directive" src="../_images/sandplover-section-PathSection-3_00.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference download internal" download="" href="../_downloads/a1416fc00c765bf3db73777cdaa1f69f/sandplover-section-PathSection-3_00.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/f992062346c81659a5dd1e335d794fca/sandplover-section-PathSection-3_00.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</span><a class="headerlink" href="#id3" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id4">
+<img alt="../_images/sandplover-section-PathSection-3_01.png" class="plot-directive" src="../_images/sandplover-section-PathSection-3_01.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference download internal" download="" href="../_downloads/6aeea6138f81911e2c5943953a49ef46/sandplover-section-PathSection-3_01.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/60b18213c0e6f07f53f867f2f45a497b/sandplover-section-PathSection-3_01.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</span><a class="headerlink" href="#id4" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.show_trace">
+<span class="sig-name descname"><span class="pre">show_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">autoscale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.section.PathSection.show_trace" title="Link to this definition">¶</a></dt>
+<dd><p>Plot section trace (x-y plane path).</p>
+<p>Plot the section trace (<a class="reference internal" href="#sandplover.section.PathSection.trace" title="sandplover.section.PathSection.trace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace</span></code></a>) onto an x-y planview.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Passed to <cite>matplotlib</cite> <code class="xref py py-obj docutils literal notranslate"><span class="pre">plot()</span></code>.</p></li>
+<li><p><strong>ax</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Axes</span></code> object, optional) – A <cite>matplotlib</cite> <cite>Axes</cite> object to plot the trace. Optional; if not
+provided, a call is made to <code class="docutils literal notranslate"><span class="pre">plt.gca()</span></code> to get the current (or
+create a new) <cite>Axes</cite> object.</p></li>
+<li><p><strong>autoscale</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to rescale the axis based on the limits of the section.
+Manipulates the <cite>matplotlib</cite> <cite>autoscale</cite> attribute. Default is
+<code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>**kwargs</strong> – Passed to <cite>matplotlib</cite> <code class="xref py py-obj docutils literal notranslate"><span class="pre">plot()</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.strat_attr">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">strat_attr</span></span><a class="headerlink" href="#sandplover.section.PathSection.strat_attr" title="Link to this definition">¶</a></dt>
+<dd><p>Stratigraphic attributes data object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../reference/utils/index.html#sandplover.utils.NoStratigraphyError" title="sandplover.utils.NoStratigraphyError"><strong>NoStratigraphyError</strong></a> – If no stratigraphy information is found for the section.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.trace">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trace</span></span><a class="headerlink" href="#sandplover.section.PathSection.trace" title="Link to this definition">¶</a></dt>
+<dd><p>Coordinates of the section in the <cite>dim1</cite>-<cite>dim2</cite> plane.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>stack of [dim2, dim1].</p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.trace_idx">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trace_idx</span></span><a class="headerlink" href="#sandplover.section.PathSection.trace_idx" title="Link to this definition">¶</a></dt>
+<dd><p>Indices of section points in the <cite>dim1</cite>-<cite>dim2</cite> plane.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.variables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">variables</span></span><a class="headerlink" href="#sandplover.section.PathSection.variables" title="Link to this definition">¶</a></dt>
+<dd><p>List of variables.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.vertices">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vertices</span></span><a class="headerlink" href="#sandplover.section.PathSection.vertices" title="Link to this definition">¶</a></dt>
+<dd><p>Vertices defining the path in dimensional coordinates.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.section.PathSection.z">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#sandplover.section.PathSection.z" title="Link to this definition">¶</a></dt>
+<dd><p>Up-section (vertical) coordinate.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">sandplover.section.PathSection</a><ul>
+<li><a class="reference internal" href="#sandplover.section.PathSection"><code class="docutils literal notranslate"><span class="pre">PathSection</span></code></a><ul>
+<li><a class="reference internal" href="#sandplover.section.PathSection.__init__"><code class="docutils literal notranslate"><span class="pre">PathSection.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.__getitem__"><code class="docutils literal notranslate"><span class="pre">PathSection.__getitem__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.connect"><code class="docutils literal notranslate"><span class="pre">PathSection.connect()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.idx_trace"><code class="docutils literal notranslate"><span class="pre">PathSection.idx_trace</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.length"><code class="docutils literal notranslate"><span class="pre">PathSection.length</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.name"><code class="docutils literal notranslate"><span class="pre">PathSection.name</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.path"><code class="docutils literal notranslate"><span class="pre">PathSection.path</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.s"><code class="docutils literal notranslate"><span class="pre">PathSection.s</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.shape"><code class="docutils literal notranslate"><span class="pre">PathSection.shape</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.show"><code class="docutils literal notranslate"><span class="pre">PathSection.show()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.show_trace"><code class="docutils literal notranslate"><span class="pre">PathSection.show_trace()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.strat_attr"><code class="docutils literal notranslate"><span class="pre">PathSection.strat_attr</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.trace"><code class="docutils literal notranslate"><span class="pre">PathSection.trace</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.trace_idx"><code class="docutils literal notranslate"><span class="pre">PathSection.trace_idx</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.variables"><code class="docutils literal notranslate"><span class="pre">PathSection.variables</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.vertices"><code class="docutils literal notranslate"><span class="pre">PathSection.vertices</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.section.PathSection.z"><code class="docutils literal notranslate"><span class="pre">PathSection.z</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../reference/section/index.html"
+                          title="previous chapter">Section operations</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="sandplover.section.StrikeSection.html"
+                          title="next chapter">sandplover.section.StrikeSection</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/_autosummary/sandplover.section.PathSection.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="sandplover.section.StrikeSection.html" title="sandplover.section.StrikeSection"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../reference/section/index.html" title="Section operations"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/section/index.html" >Section operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.section.PathSection</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2020, The DeltaRCM Team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

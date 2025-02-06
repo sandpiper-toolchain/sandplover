@@ -1,0 +1,6 @@
+﻿sandplover.strat.compute\_thickness\_surfaces
+=============================================
+
+.. currentmodule:: sandplover.strat
+
+.. autofunction:: compute_thickness_surfaces

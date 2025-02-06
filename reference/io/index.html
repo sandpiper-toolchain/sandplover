@@ -5,19 +5,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Input/output operations &#8212; DeltaMetrics 0.4.3 documentation</title>
+    <title>Input/output operations &#8212; sandplover 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
-    <script src="../../_static/documentation_options.js?v=5bfaad31"></script>
+    <script src="../../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="deltametrics.io.BaseIO" href="../../_autosummary/deltametrics.io.BaseIO.html" />
-    <link rel="prev" title="deltametrics.strat.BaseStratigraphyAttributes" href="../../_autosummary/deltametrics.strat.BaseStratigraphyAttributes.html" /> 
+    <link rel="next" title="sandplover.io.BaseIO" href="../../_autosummary/sandplover.io.BaseIO.html" />
+    <link rel="prev" title="sandplover.strat.BaseStratigraphyAttributes" href="../../_autosummary/sandplover.strat.BaseStratigraphyAttributes.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
@@ -26,12 +26,12 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.io.BaseIO.html" title="deltametrics.io.BaseIO"
+          <a href="../../_autosummary/sandplover.io.BaseIO.html" title="sandplover.io.BaseIO"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.strat.BaseStratigraphyAttributes.html" title="deltametrics.strat.BaseStratigraphyAttributes"
+          <a href="../../_autosummary/sandplover.strat.BaseStratigraphyAttributes.html" title="sandplover.strat.BaseStratigraphyAttributes"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Input/output operations</a></li> 
       </ul>
@@ -46,15 +46,15 @@
 <h1>Input/output operations<a class="headerlink" href="#input-output-operations" title="Link to this heading">¶</a></h1>
 <p>The package specifies several data input/output utilities. Typically, these utilities will not be interacted with directly, but rather are used by the <code class="xref py py-obj docutils literal notranslate"><span class="pre">Cube</span></code> or <a class="reference internal" href="../section/index.html"><span class="doc">Section operations</span></a> to handle slicing. The IO utilities are data agnostic, that is to say, they do not care about what the data <em>are</em>, but instead just connect by variable names. Datasets commonly used are  could be lidar scans, overhead photos, grain-size maps (DeltaRCM), or flow velocity (DeltaRCM).</p>
 <p>By default, nothing is loaded from disk and into memory, and instead all slicing operations are handled on the fly.</p>
-<p>The tools are defined in <code class="docutils literal notranslate"><span class="pre">deltametrics.io</span></code>.</p>
+<p>The tools are defined in <code class="docutils literal notranslate"><span class="pre">sandplover.io</span></code>.</p>
 <section id="i-o-classes">
 <h2>I/O classes<a class="headerlink" href="#i-o-classes" title="Link to this heading">¶</a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.io.BaseIO.html#deltametrics.io.BaseIO" title="deltametrics.io.BaseIO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseIO</span></code></a>(io_type)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../_autosummary/sandplover.io.BaseIO.html#sandplover.io.BaseIO" title="sandplover.io.BaseIO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseIO</span></code></a>(io_type)</p></td>
 <td><p>BaseIO object other file format wrappers inheririt from.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/deltametrics.io.NetCDFIO.html#deltametrics.io.NetCDFIO" title="deltametrics.io.NetCDFIO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NetCDFIO</span></code></a>(data_path, io_type[, write])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../_autosummary/sandplover.io.NetCDFIO.html#sandplover.io.NetCDFIO" title="sandplover.io.NetCDFIO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NetCDFIO</span></code></a>(data_path, io_type[, write])</p></td>
 <td><p>Utility for consistent IO with netCDF4 files.</p></td>
 </tr>
 </tbody>
@@ -81,13 +81,13 @@
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="../../_autosummary/deltametrics.strat.BaseStratigraphyAttributes.html"
-                          title="previous chapter">deltametrics.strat.BaseStratigraphyAttributes</a></p>
+    <p class="topless"><a href="../../_autosummary/sandplover.strat.BaseStratigraphyAttributes.html"
+                          title="previous chapter">sandplover.strat.BaseStratigraphyAttributes</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="../../_autosummary/deltametrics.io.BaseIO.html"
-                          title="next chapter">deltametrics.io.BaseIO</a></p>
+    <p class="topless"><a href="../../_autosummary/sandplover.io.BaseIO.html"
+                          title="next chapter">sandplover.io.BaseIO</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -117,12 +117,12 @@
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.io.BaseIO.html" title="deltametrics.io.BaseIO"
+          <a href="../../_autosummary/sandplover.io.BaseIO.html" title="sandplover.io.BaseIO"
              >next</a> |</li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.strat.BaseStratigraphyAttributes.html" title="deltametrics.strat.BaseStratigraphyAttributes"
+          <a href="../../_autosummary/sandplover.strat.BaseStratigraphyAttributes.html" title="sandplover.strat.BaseStratigraphyAttributes"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Input/output operations</a></li> 
       </ul>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sandplover.plan.compute_shoreline_roughness &#8212; sandplover 0.5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sandplover.plan.compute_shoreline_length" href="sandplover.plan.compute_shoreline_length.html" />
+    <link rel="prev" title="sandplover.plan.compute_land_area" href="sandplover.plan.compute_land_area.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_shoreline_length.html" title="sandplover.plan.compute_shoreline_length"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_land_area.html" title="sandplover.plan.compute_land_area"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/plan/index.html" accesskey="U">Planview operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.plan.compute_shoreline_roughness</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="sandplover-plan-compute-shoreline-roughness">
+<h1>sandplover.plan.compute_shoreline_roughness<a class="headerlink" href="#sandplover-plan-compute-shoreline-roughness" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="sandplover.plan.compute_shoreline_roughness">
+<span class="sig-prename descclassname"><span class="pre">sandplover.plan.</span></span><span class="sig-name descname"><span class="pre">compute_shoreline_roughness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shore_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_mask</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.compute_shoreline_roughness" title="Link to this definition">¶</a></dt>
+<dd><p>Compute shoreline roughness.</p>
+<p>Computes the shoreline roughness metric:</p>
+<div class="math notranslate nohighlight">
+\[L_{shore} / \sqrt{A_{land}}\]</div>
+<p>given binary masks of the shoreline and land area. The length of the
+shoreline is computed internally with <a class="reference internal" href="sandplover.plan.compute_shoreline_length.html#sandplover.plan.compute_shoreline_length" title="sandplover.plan.compute_shoreline_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_shoreline_length</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shore_mask</strong> (<a class="reference internal" href="sandplover.mask.ShorelineMask.html#sandplover.mask.ShorelineMask" title="sandplover.mask.ShorelineMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShorelineMask</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – Shoreline mask. Can be a <a class="reference internal" href="sandplover.mask.ShorelineMask.html#sandplover.mask.ShorelineMask" title="sandplover.mask.ShorelineMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShorelineMask</span></code></a> object,
+or a binarized array.</p></li>
+<li><p><strong>land_mask</strong> (<a class="reference internal" href="sandplover.mask.LandMask.html#sandplover.mask.LandMask" title="sandplover.mask.LandMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LandMask</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – Land mask. Can be a <a class="reference internal" href="sandplover.mask.LandMask.html#sandplover.mask.LandMask" title="sandplover.mask.LandMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LandMask</span></code></a> object,
+or a binarized array.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword argument are passed to <a class="reference internal" href="sandplover.plan.compute_shoreline_length.html#sandplover.plan.compute_shoreline_length" title="sandplover.plan.compute_shoreline_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_shoreline_length</span></code></a>
+internally.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>roughness</strong> – Shoreline roughness, computed as described above.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Compare the roughness of the shoreline early in the model simulation with
+the roughness later. Here, we use the <cite>elevation_offset</cite> parameter (passed
+to <a class="reference internal" href="sandplover.mask.ElevationMask.html#sandplover.mask.ElevationMask" title="sandplover.mask.ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElevationMask</span></code></a>) to better capture the
+topography of the <cite>pyDeltaRCM</cite> model results.</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/4e8b3a70ec6d0200a42b10a3a5f1535a/sandplover-plan-compute_shoreline_roughness-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
+<figure class="align-default" id="id1">
+<img alt="../_images/sandplover-plan-compute_shoreline_roughness-1_00.png" class="plot-directive" src="../_images/sandplover-plan-compute_shoreline_roughness-1_00.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference download internal" download="" href="../_downloads/987566e58a54bb30c1d4a20308a0da5e/sandplover-plan-compute_shoreline_roughness-1_00.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/8abe73f7434de13a8f58a5a6f14b84eb/sandplover-plan-compute_shoreline_roughness-1_00.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</span><a class="headerlink" href="#id1" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id2">
+<img alt="../_images/sandplover-plan-compute_shoreline_roughness-1_01.png" class="plot-directive" src="../_images/sandplover-plan-compute_shoreline_roughness-1_01.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference download internal" download="" href="../_downloads/2b1f2da6b72ad94e9410fdbb68c9bc4d/sandplover-plan-compute_shoreline_roughness-1_01.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/9960ec68fc3ca97cdc6214d65120fd69/sandplover-plan-compute_shoreline_roughness-1_01.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</span><a class="headerlink" href="#id2" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id3">
+<img alt="../_images/sandplover-plan-compute_shoreline_roughness-1_02.png" class="plot-directive" src="../_images/sandplover-plan-compute_shoreline_roughness-1_02.png" />
+<figcaption>
+<p><span class="caption-text">(<a class="reference download internal" download="" href="../_downloads/02e4eec0a943257fb16591934c9a339a/sandplover-plan-compute_shoreline_roughness-1_02.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/c1a728edf7eb1b02310a971949bab828/sandplover-plan-compute_shoreline_roughness-1_02.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</span><a class="headerlink" href="#id3" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">sandplover.plan.compute_shoreline_roughness</a><ul>
+<li><a class="reference internal" href="#sandplover.plan.compute_shoreline_roughness"><code class="docutils literal notranslate"><span class="pre">compute_shoreline_roughness()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="sandplover.plan.compute_land_area.html"
+                          title="previous chapter">sandplover.plan.compute_land_area</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="sandplover.plan.compute_shoreline_length.html"
+                          title="next chapter">sandplover.plan.compute_shoreline_length</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/_autosummary/sandplover.plan.compute_shoreline_roughness.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_shoreline_length.html" title="sandplover.plan.compute_shoreline_length"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_land_area.html" title="sandplover.plan.compute_land_area"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/plan/index.html" >Planview operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.plan.compute_shoreline_roughness</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2020, The DeltaRCM Team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

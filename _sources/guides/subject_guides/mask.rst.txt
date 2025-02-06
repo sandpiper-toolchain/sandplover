@@ -10,7 +10,7 @@ Introduction to Masking objects
 Computing masks efficiently
 ---------------------------
 
-If you are creating multiple masks for the same planform data (e.g., for the same time slice of data for the physical domain), it is computationally advantageous to create a single :obj:`~deltametrics.plan.OpeningAnglePlanform`, and use this `OAP` to create other masks.
+If you are creating multiple masks for the same planform data (e.g., for the same time slice of data for the physical domain), it is computationally advantageous to create a single :obj:`~sandplover.plan.OpeningAnglePlanform`, and use this `OAP` to create other masks.
 
 For example:
 
@@ -18,14 +18,14 @@ For example:
     :include-source:
     :context: reset
 
-    >>> golfcube = dm.sample_data.golf()
+    >>> golfcube = spl.sample_data.golf()
 
-    >>> OAP = dm.plan.OpeningAnglePlanform.from_elevation_data(
+    >>> OAP = spl.plan.OpeningAnglePlanform.from_elevation_data(
     ...     golfcube["eta"][-1, :, :], elevation_threshold=0
     ... )
 
-    >>> lm = dm.mask.LandMask.from_Planform(OAP)
-    >>> sm = dm.mask.ShorelineMask.from_Planform(OAP)
+    >>> lm = spl.mask.LandMask.from_Planform(OAP)
+    >>> sm = spl.mask.ShorelineMask.from_Planform(OAP)
 
     >>> fig, ax = plt.subplots(2, 2)
     >>> golfcube.quick_show("eta", idx=-1, ax=ax[0, 0])
@@ -37,16 +37,16 @@ For example:
 Trimming masks before input
 ---------------------------
 
-Sometimes it is helpful to :meth:`trim a mask <~deltametrics.mask.BaseMask.trim_mask>`, essentially replacing values with a different value, before using the mask for analysis or input to functions.
+Sometimes it is helpful to :meth:`trim a mask <~sandplover.mask.BaseMask.trim_mask>`, essentially replacing values with a different value, before using the mask for analysis or input to functions.
 
 .. plot::
     :include-source:
     :context: reset
 
-    >>> golfcube = dm.sample_data.golf()
+    >>> golfcube = spl.sample_data.golf()
 
-    >>> m0 = dm.mask.LandMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
-    >>> m1 = dm.mask.LandMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
+    >>> m0 = spl.mask.LandMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
+    >>> m1 = spl.mask.LandMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
 
     >>> # trim one of the masks
     >>> m1.trim_mask(length=3)

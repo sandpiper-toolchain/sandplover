@@ -1,0 +1,59 @@
+﻿sandplover.cube.BaseCube
+========================
+
+.. currentmodule:: sandplover.cube
+
+.. autoclass:: BaseCube
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~BaseCube.__init__
+      ~BaseCube.export_frozen_variable
+      ~BaseCube.quick_show
+      ~BaseCube.read
+      ~BaseCube.register_plan
+      ~BaseCube.register_planform
+      ~BaseCube.register_section
+      ~BaseCube.show_cube
+      ~BaseCube.show_plan
+      ~BaseCube.show_planform
+      ~BaseCube.show_section
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~BaseCube.H
+      ~BaseCube.L
+      ~BaseCube.W
+      ~BaseCube.Z
+      ~BaseCube.coords
+      ~BaseCube.data_path
+      ~BaseCube.dataio
+      ~BaseCube.dim0_coords
+      ~BaseCube.dim1_coords
+      ~BaseCube.dim2_coords
+      ~BaseCube.extent
+      ~BaseCube.extent_flipud
+      ~BaseCube.extent_zeros
+      ~BaseCube.meta
+      ~BaseCube.planform_set
+      ~BaseCube.planforms
+      ~BaseCube.section_set
+      ~BaseCube.sections
+      ~BaseCube.shape
+      ~BaseCube.variables
+      ~BaseCube.varset
+      ~BaseCube.z
+   
+   

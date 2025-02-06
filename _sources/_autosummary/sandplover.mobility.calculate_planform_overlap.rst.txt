@@ -1,0 +1,6 @@
+﻿sandplover.mobility.calculate\_planform\_overlap
+================================================
+
+.. currentmodule:: sandplover.mobility
+
+.. autofunction:: calculate_planform_overlap

@@ -1,0 +1,62 @@
+﻿sandplover.cube.StratigraphyCube
+================================
+
+.. currentmodule:: sandplover.cube
+
+.. autoclass:: StratigraphyCube
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~StratigraphyCube.__init__
+      ~StratigraphyCube.export_frozen_variable
+      ~StratigraphyCube.from_DataCube
+      ~StratigraphyCube.quick_show
+      ~StratigraphyCube.read
+      ~StratigraphyCube.register_plan
+      ~StratigraphyCube.register_planform
+      ~StratigraphyCube.register_section
+      ~StratigraphyCube.show_cube
+      ~StratigraphyCube.show_plan
+      ~StratigraphyCube.show_planform
+      ~StratigraphyCube.show_section
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~StratigraphyCube.H
+      ~StratigraphyCube.L
+      ~StratigraphyCube.W
+      ~StratigraphyCube.Z
+      ~StratigraphyCube.coords
+      ~StratigraphyCube.data_path
+      ~StratigraphyCube.dataio
+      ~StratigraphyCube.dim0_coords
+      ~StratigraphyCube.dim1_coords
+      ~StratigraphyCube.dim2_coords
+      ~StratigraphyCube.extent
+      ~StratigraphyCube.extent_flipud
+      ~StratigraphyCube.extent_zeros
+      ~StratigraphyCube.meta
+      ~StratigraphyCube.planform_set
+      ~StratigraphyCube.planforms
+      ~StratigraphyCube.section_set
+      ~StratigraphyCube.sections
+      ~StratigraphyCube.shape
+      ~StratigraphyCube.sigma_dist
+      ~StratigraphyCube.strata
+      ~StratigraphyCube.variables
+      ~StratigraphyCube.varset
+      ~StratigraphyCube.z
+   
+   

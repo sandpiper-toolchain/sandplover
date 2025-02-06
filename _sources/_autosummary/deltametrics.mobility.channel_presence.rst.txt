@@ -1,6 +1,0 @@
-﻿deltametrics.mobility.channel\_presence
-=======================================
-
-.. currentmodule:: deltametrics.mobility
-
-.. autofunction:: channel_presence

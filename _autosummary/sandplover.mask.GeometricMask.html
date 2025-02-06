@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sandplover.mask.GeometricMask &#8212; sandplover 0.5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Channel mobility operations" href="../reference/mobility/index.html" />
+    <link rel="prev" title="sandplover.mask.DepositMask" href="sandplover.mask.DepositMask.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../reference/mobility/index.html" title="Channel mobility operations"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.mask.DepositMask.html" title="sandplover.mask.DepositMask"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/mask/index.html" accesskey="U">Masking operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.mask.GeometricMask</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="sandplover-mask-geometricmask">
+<h1>sandplover.mask.GeometricMask<a class="headerlink" href="#sandplover-mask-geometricmask" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sandplover.mask.GeometricMask">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.mask.</span></span><span class="sig-name descname"><span class="pre">GeometricMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.GeometricMask" title="Link to this definition">¶</a></dt>
+<dd><p>Create simple geometric masks.</p>
+<p>A geometric mask object, allows for creation of subdomains in multiple
+ways. Angular boundaries can define an area of interest in the shape
+of an arc. Radial boundaries can define a radial region to mask.
+Boundaries defined in the strike direction (perpendicular to inlet
+channel), can be supplied to define a region of interest. Similarly,
+boundaries can be defined in the dip direction (parallel to inlet channel
+orientation).</p>
+<p class="rubric">Examples</p>
+<p>Initialize the geometric mask using model topography as a base:</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/b23d8ca1d83e6f308243783e5cbed2db/sandplover-mask-GeometricMask-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/e9697ae4664ed122623b5c7515f00a2f/sandplover-mask-GeometricMask-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/853e7b564e5d8f753065913f6035286b/sandplover-mask-GeometricMask-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../_images/sandplover-mask-GeometricMask-1.png" class="plot-directive" src="../_images/sandplover-mask-GeometricMask-1.png" />
+</figure>
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.GeometricMask.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.GeometricMask.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize the GeometricMask.</p>
+<p>Initializing the geometric mask object requires information regarding
+the shape of the 2-D array of the region you wish to apply the mask
+to.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The <cite>GeometricMask</cite> is initializes with all values set to
+<code class="docutils literal notranslate"><span class="pre">True</span></code>; this is the opposite of all other <cite>Mask</cite> types, which
+are set to <code class="docutils literal notranslate"><span class="pre">False</span></code> during initialization.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Various input arguments can be used to initialize the
+<cite>GeometricMask</cite>. Input may be a two-element <cite>tuple</cite>, specifying
+the array dimensions, or an <cite>ndarray</cite>, <cite>Mask</cite>, or <cite>Cube</cite> from
+which the shape is inferred.</p></li>
+<li><p><strong>origin</strong> (<cite>tuple</cite>) – The “origin” of the domain. Usually this is the water/sediment
+inlet location. The <cite>origin</cite> is used as the mathematical origin
+point for computation setting the mask within the <cite>GeometricMask</cite>
+methods. If unspecified, it is inferred, based on the default
+configuration of a pyDeltaRCM model inlet.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments can be specified to instantiate a
+<cite>GeometricMask</cite> and apply one (or more) of the geometric masking
+operations during instantiation. Accepted arguments are
+<cite>angular</cite>, <cite>circular</cite>, <cite>strike</cite>, and <cite>dip</cite>. Each argument must
+have a dictionary as it’s key, which contains the
+keyword-argument pairs to be passed to that geometric masking
+function (see examples).</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Create an <cite>angular</cite> <cite>GeometricMask</cite> two different ways.</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/fe81508a1912b973381af3b78079e005/sandplover-mask-GeometricMask-2.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/03e75e7b0a93dd990858a6f755286f24/sandplover-mask-GeometricMask-2.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/92b9e2f0bd868e1faba78e6819df86bf/sandplover-mask-GeometricMask-2.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../_images/sandplover-mask-GeometricMask-2.png" class="plot-directive" src="../_images/sandplover-mask-GeometricMask-2.png" />
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>See additional examples in the method docstring for each geometric
+masking
+operation: <a class="reference internal" href="#sandplover.mask.GeometricMask.angular" title="sandplover.mask.GeometricMask.angular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">angular</span></code></a>, <a class="reference internal" href="#sandplover.mask.GeometricMask.circular" title="sandplover.mask.GeometricMask.circular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">circular</span></code></a>, <a class="reference internal" href="#sandplover.mask.GeometricMask.strike" title="sandplover.mask.GeometricMask.strike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strike</span></code></a>,
+and <a class="reference internal" href="#sandplover.mask.GeometricMask.dip" title="sandplover.mask.GeometricMask.dip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dip</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.mask.GeometricMask.__init__" title="sandplover.mask.GeometricMask.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(*args[, origin])</p></td>
+<td><p>Initialize the GeometricMask.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.mask.GeometricMask.angular" title="sandplover.mask.GeometricMask.angular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">angular</span></code></a>([theta1, theta2])</p></td>
+<td><p>Make a mask based on two angles.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.mask.GeometricMask.circular" title="sandplover.mask.GeometricMask.circular"><code class="xref py py-obj docutils literal notranslate"><span class="pre">circular</span></code></a>([rad1, rad2, origin])</p></td>
+<td><p>Make a circular mask bounded by two radii.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.mask.GeometricMask.dip" title="sandplover.mask.GeometricMask.dip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dip</span></code></a>([ind1, ind2])</p></td>
+<td><p>Make a mask parallel to the inlet.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.mask.GeometricMask.from_array" title="sandplover.mask.GeometricMask.from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_array</span></code></a>(_arr)</p></td>
+<td><p>Create a <cite>GeometricMask</cite> from an array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.mask.GeometricMask.show" title="sandplover.mask.GeometricMask.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>([ax, title, ticks, colorbar])</p></td>
+<td><p>Show the mask.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.mask.GeometricMask.strike" title="sandplover.mask.GeometricMask.strike"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strike</span></code></a>([ind1, ind2])</p></td>
+<td><p>Make a mask based on two indices.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.mask.GeometricMask.trim_mask" title="sandplover.mask.GeometricMask.trim_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trim_mask</span></code></a>(*args[, value, axis, length])</p></td>
+<td><p>Replace a part of the mask with a new value.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.mask.GeometricMask.integer_mask" title="sandplover.mask.GeometricMask.integer_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer_mask</span></code></a></p></td>
+<td><p>Binary mask values as integer</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.mask.GeometricMask.mask" title="sandplover.mask.GeometricMask.mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask</span></code></a></p></td>
+<td><p>Binary mask values.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.mask.GeometricMask.mask_type" title="sandplover.mask.GeometricMask.mask_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask_type</span></code></a></p></td>
+<td><p>Type of the mask (string)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.mask.GeometricMask.xc" title="sandplover.mask.GeometricMask.xc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xc</span></code></a></p></td>
+<td><p>x-coordinate of origin point.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.mask.GeometricMask.yc" title="sandplover.mask.GeometricMask.yc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yc</span></code></a></p></td>
+<td><p>y-coordinate of origin point.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.GeometricMask.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.GeometricMask.__getitem__" title="Link to this definition">¶</a></dt>
+<dd><p>Implement slicing.</p>
+<p>Return values directly from the mask. Supported variables are
+only ‘mask’ or ‘integer’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.GeometricMask.angular">
+<span class="sig-name descname"><span class="pre">angular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.141592653589793</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.GeometricMask.angular" title="Link to this definition">¶</a></dt>
+<dd><p>Make a mask based on two angles.</p>
+<p>Computes a mask that is bounded by 2 angles input by the user.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Requires a domain with a width greater than 2x its length right now.
+Function should be re-factored to be more flexible.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently origin point is fixed, function should be extended to
+allow for an input origin point from which the angular bounds are
+determined.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta1</strong> (<em>float</em>) – Radian value controlling the left bound of the mask. If
+unspecified, this bound is set to 0.</p></li>
+<li><p><strong>theta2</strong> (<em>float</em>) – Radian value controlling the right bound of the mask. If
+unspecified, this bound is set to <cite>pi=3.14</cite>…</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Initialize an angular mask from 0 to pi/3 radians and mask topography:</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/70aab85841c12bc6f8ca0f4c2e4665ee/sandplover-mask-GeometricMask-3.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/e5a0e45aad6c5855faf0dfc02196ffe3/sandplover-mask-GeometricMask-3.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/a2a30b88af4e770d12b38199f858f47b/sandplover-mask-GeometricMask-3.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../_images/sandplover-mask-GeometricMask-3.png" class="plot-directive" src="../_images/sandplover-mask-GeometricMask-3.png" />
+</figure>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.GeometricMask.circular">
+<span class="sig-name descname"><span class="pre">circular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rad1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rad2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.GeometricMask.circular" title="Link to this definition">¶</a></dt>
+<dd><p>Make a circular mask bounded by two radii.</p>
+<p>Computes a mask that is bounded by 2 radial distances which are input
+by the user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rad1</strong> (<em>int</em>) – Index value to set the inner radius. If unspecified, this bound is
+set to  <cite>0</cite>.</p></li>
+<li><p><strong>rad2</strong> (<em>int</em><em>, </em><em>optional</em>) – Index value to set the outer radius. If unspecified, this bound
+is set to extend as the larger dimension of the domain.</p></li>
+<li><p><strong>origin</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code>, optional) – Optionally specify an origin to use for computing the circle. Will
+use the <cite>GeometricMask</cite> origin, if not supplied.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Initialize geometric mask which clips out a region near the inlet:</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/49ae7594a5cc9d5e889eaa5ca09d47e3/sandplover-mask-GeometricMask-4.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/8825c6f484cddae8c8fffd56a229efe3/sandplover-mask-GeometricMask-4.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/9284f0d067d1f96ccf63eb25a2fcc4ef/sandplover-mask-GeometricMask-4.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../_images/sandplover-mask-GeometricMask-4.png" class="plot-directive" src="../_images/sandplover-mask-GeometricMask-4.png" />
+</figure>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.GeometricMask.dip">
+<span class="sig-name descname"><span class="pre">dip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.GeometricMask.dip" title="Link to this definition">¶</a></dt>
+<dd><p>Make a mask parallel to the inlet.</p>
+<p>Makes a mask that is parallel to the direction of flow in the inlet.
+If only one value is supplied, then this mask is centered on the
+inlet and has a width of ind1. If two values are supplied then they
+set the bounds for the mask.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind1</strong> (<em>int</em>) – Width of the mask if ind2 is not specified. Otherwise, it sets
+the left bound of the mask.</p></li>
+<li><p><strong>ind2</strong> (<em>int</em><em>, </em><em>optional</em>) – Right bound of the mask if specified. If not specified, then
+ind1 sets the width of a mask centered on the inlet.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Initialize mask with a width of 50 pixels in-line with the inlet:</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/b2db5fc961485345d6d4c4233e4f846c/sandplover-mask-GeometricMask-5.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/afdc4885d7a7c5a3fce9eca17cf49fe3/sandplover-mask-GeometricMask-5.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/5f00cf7664b8151253de92f902125d95/sandplover-mask-GeometricMask-5.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../_images/sandplover-mask-GeometricMask-5.png" class="plot-directive" src="../_images/sandplover-mask-GeometricMask-5.png" />
+</figure>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.GeometricMask.from_array">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_arr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.GeometricMask.from_array" title="Link to this definition">¶</a></dt>
+<dd><p>Create a <cite>GeometricMask</cite> from an array.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Instantiation with <cite>from_array</cite> will attempt to any data type
+(<cite>dtype</cite>) to boolean. This may have unexpected results. Convert
+your array to a boolean before using <cite>from_array</cite> to ensure the
+mask is created correctly.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_arr</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – The array with values to set as the mask. Can be any <cite>dtype</cite> but
+will be coerced to <cite>boolean</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.mask.GeometricMask.integer_mask">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">integer_mask</span></span><a class="headerlink" href="#sandplover.mask.GeometricMask.integer_mask" title="Link to this definition">¶</a></dt>
+<dd><p>Binary mask values as integer</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><cite>integer_mask</cite> is a boolean array as <code class="docutils literal notranslate"><span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">1</span></code> (integers).
+It is <strong>not suitible</strong> for multidimensional array indexing; see
+also <a class="reference internal" href="#sandplover.mask.GeometricMask.mask" title="sandplover.mask.GeometricMask.mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mask</span></code></a>.</p>
+</div>
+<p>Read-only mask attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.mask.GeometricMask.mask">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask</span></span><a class="headerlink" href="#sandplover.mask.GeometricMask.mask" title="Link to this definition">¶</a></dt>
+<dd><p>Binary mask values.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><cite>mask</cite> is a boolean array (<strong>not integer</strong>). See also
+<a class="reference internal" href="#sandplover.mask.GeometricMask.integer_mask" title="sandplover.mask.GeometricMask.integer_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer_mask</span></code></a>.</p>
+</div>
+<p>Read-only mask attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.mask.GeometricMask.mask_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask_type</span></span><a class="headerlink" href="#sandplover.mask.GeometricMask.mask_type" title="Link to this definition">¶</a></dt>
+<dd><p>Type of the mask (string)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.GeometricMask.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.GeometricMask.show" title="Link to this definition">¶</a></dt>
+<dd><p>Show the mask.</p>
+<p>The <cite>Mask</cite> is shown in a <cite>matplotlib</cite> axis with <cite>imshow</cite>. The <cite>mask</cite>
+values are accessed from <a class="reference internal" href="#sandplover.mask.GeometricMask.integer_mask" title="sandplover.mask.GeometricMask.integer_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer_mask</span></code></a>, so the display will show
+as <code class="docutils literal notranslate"><span class="pre">0</span></code> for <code class="docutils literal notranslate"><span class="pre">False</span></code> and <code class="docutils literal notranslate"><span class="pre">1</span></code> for <code class="docutils literal notranslate"><span class="pre">True</span></code>. Default colormap is
+black and white.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Passes <cite>**kwargs</cite> to <code class="docutils literal notranslate"><span class="pre">matplotlib.imshow</span></code>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ax</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.pyplot.Axes</span></code>) – Which axes object to plot into.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.GeometricMask.strike">
+<span class="sig-name descname"><span class="pre">strike</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ind1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ind2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.GeometricMask.strike" title="Link to this definition">¶</a></dt>
+<dd><p>Make a mask based on two indices.</p>
+<p>Makes a mask bounded by lines perpendicular to the direction of the
+flow in the inlet channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind1</strong> (<em>int</em>) – Index value to set first boundary (closest to inlet)</p></li>
+<li><p><strong>ind2</strong> (<em>int</em><em>, </em><em>optional</em>) – Index value to set second boundary (farther from inlet). This is
+optional, if unspecified, this is set to the length of the domain.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Initialize a mask that isolates the region 20-50 pixels from the inlet:</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/8b2e9fd93c919bc361f975bdaea9cb56/sandplover-mask-GeometricMask-6.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/83b31da2b6a07d106e0aadbd67b3b930/sandplover-mask-GeometricMask-6.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/333918ef826f0588cf57b8db566be3b3/sandplover-mask-GeometricMask-6.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../_images/sandplover-mask-GeometricMask-6.png" class="plot-directive" src="../_images/sandplover-mask-GeometricMask-6.png" />
+</figure>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.mask.GeometricMask.trim_mask">
+<span class="sig-name descname"><span class="pre">trim_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.GeometricMask.trim_mask" title="Link to this definition">¶</a></dt>
+<dd><p>Replace a part of the mask with a new value.</p>
+<p>This is sometimes necessary before using a mask in certain
+computations. Most often, this method is used to manually correct
+domain edge effects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseCube</span></code> subclass, optional) – Optionally pass a <cite>Cube</cite> object to the mask, and the dimensions to
+trim/replace the mask by will be inferred from the cube. In this
+case, <code class="xref py py-obj docutils literal notranslate"><span class="pre">axis</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">length</span></code> have no effect.</p></li>
+<li><p><strong>value</strong> – Value to replace in the trim region with. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>axis</strong> – Which edge to apply the trim of <code class="xref py py-obj docutils literal notranslate"><span class="pre">length</span></code> to. Default is 1,
+the top domain edge.</p></li>
+<li><p><strong>length</strong> – The length of the trim. Note that this is <strong>not the array index</strong>.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.mask.GeometricMask.xc">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">xc</span></span><a class="headerlink" href="#sandplover.mask.GeometricMask.xc" title="Link to this definition">¶</a></dt>
+<dd><p>x-coordinate of origin point.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.mask.GeometricMask.yc">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">yc</span></span><a class="headerlink" href="#sandplover.mask.GeometricMask.yc" title="Link to this definition">¶</a></dt>
+<dd><p>y-coordinate of origin point.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">sandplover.mask.GeometricMask</a><ul>
+<li><a class="reference internal" href="#sandplover.mask.GeometricMask"><code class="docutils literal notranslate"><span class="pre">GeometricMask</span></code></a><ul>
+<li><a class="reference internal" href="#sandplover.mask.GeometricMask.__init__"><code class="docutils literal notranslate"><span class="pre">GeometricMask.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.GeometricMask.__getitem__"><code class="docutils literal notranslate"><span class="pre">GeometricMask.__getitem__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.GeometricMask.angular"><code class="docutils literal notranslate"><span class="pre">GeometricMask.angular()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.GeometricMask.circular"><code class="docutils literal notranslate"><span class="pre">GeometricMask.circular()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.GeometricMask.dip"><code class="docutils literal notranslate"><span class="pre">GeometricMask.dip()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.GeometricMask.from_array"><code class="docutils literal notranslate"><span class="pre">GeometricMask.from_array()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.GeometricMask.integer_mask"><code class="docutils literal notranslate"><span class="pre">GeometricMask.integer_mask</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.GeometricMask.mask"><code class="docutils literal notranslate"><span class="pre">GeometricMask.mask</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.GeometricMask.mask_type"><code class="docutils literal notranslate"><span class="pre">GeometricMask.mask_type</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.GeometricMask.show"><code class="docutils literal notranslate"><span class="pre">GeometricMask.show()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.GeometricMask.strike"><code class="docutils literal notranslate"><span class="pre">GeometricMask.strike()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.GeometricMask.trim_mask"><code class="docutils literal notranslate"><span class="pre">GeometricMask.trim_mask()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.GeometricMask.xc"><code class="docutils literal notranslate"><span class="pre">GeometricMask.xc</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.mask.GeometricMask.yc"><code class="docutils literal notranslate"><span class="pre">GeometricMask.yc</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="sandplover.mask.DepositMask.html"
+                          title="previous chapter">sandplover.mask.DepositMask</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../reference/mobility/index.html"
+                          title="next chapter">Channel mobility operations</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/_autosummary/sandplover.mask.GeometricMask.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../reference/mobility/index.html" title="Channel mobility operations"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.mask.DepositMask.html" title="sandplover.mask.DepositMask"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/mask/index.html" >Masking operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.mask.GeometricMask</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2020, The DeltaRCM Team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

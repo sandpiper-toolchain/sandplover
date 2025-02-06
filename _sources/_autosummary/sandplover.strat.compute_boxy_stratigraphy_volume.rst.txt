@@ -1,0 +1,6 @@
+﻿sandplover.strat.compute\_boxy\_stratigraphy\_volume
+====================================================
+
+.. currentmodule:: sandplover.strat
+
+.. autofunction:: compute_boxy_stratigraphy_volume

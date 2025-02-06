@@ -1,0 +1,33 @@
+﻿sandplover.plan.Planform
+========================
+
+.. currentmodule:: sandplover.plan
+
+.. autoclass:: Planform
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Planform.__init__
+      ~Planform.connect
+      ~Planform.show
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Planform.idx
+      ~Planform.name
+      ~Planform.shape
+      ~Planform.variables
+   
+   

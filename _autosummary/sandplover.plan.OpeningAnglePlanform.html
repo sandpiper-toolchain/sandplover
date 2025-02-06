@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sandplover.plan.OpeningAnglePlanform &#8212; sandplover 0.5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sandplover.plan.MorphologicalPlanform" href="sandplover.plan.MorphologicalPlanform.html" />
+    <link rel="prev" title="sandplover.plan.Planform" href="sandplover.plan.Planform.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="sandplover.plan.MorphologicalPlanform.html" title="sandplover.plan.MorphologicalPlanform"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.plan.Planform.html" title="sandplover.plan.Planform"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/plan/index.html" accesskey="U">Planview operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.plan.OpeningAnglePlanform</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="sandplover-plan-openingangleplanform">
+<h1>sandplover.plan.OpeningAnglePlanform<a class="headerlink" href="#sandplover-plan-openingangleplanform" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.plan.</span></span><span class="sig-name descname"><span class="pre">OpeningAnglePlanform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform" title="Link to this definition">¶</a></dt>
+<dd><p>Planform for handling the Shaw Opening Angle Method.</p>
+<p>This <cite>Planform</cite> (called <cite>OAP</cite> for short) is a wrapper/handler for the
+input and output from the <a class="reference internal" href="sandplover.plan.shaw_opening_angle_method.html#sandplover.plan.shaw_opening_angle_method" title="sandplover.plan.shaw_opening_angle_method"><code class="xref py py-func docutils literal notranslate"><span class="pre">shaw_opening_angle_method()</span></code></a>. The <cite>OAP</cite> is a
+convenient way to manage extraction of a shoreline or a delta topset area.</p>
+<p>Moreover, the <cite>OAP</cite> can be used as the input for <a class="reference internal" href="../reference/mask/index.html"><span class="doc">many types of
+Mask</span></a> objects, so it is often computationally
+advantageous to compute this <cite>Planform</cite> once, and then use it to create
+many different types of masks.</p>
+<p class="rubric">Examples</p>
+<p>Instantiate the <cite>OpeningAnglePlanform</cite> from an <strong>inverted</strong> binary mask of
+elevation data (i.e., from an <a class="reference internal" href="sandplover.mask.ElevationMask.html#sandplover.mask.ElevationMask" title="sandplover.mask.ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElevationMask</span></code></a>).</p>
+<p>Note that the below example is the most verbose method for creating the
+<cite>OAP</cite>. Consider available static methods.</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/021078668125886da73af77afdd51cca/sandplover-plan-OpeningAnglePlanform-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/ff4f39c1cf33d7d4ca85198305623b6b/sandplover-plan-OpeningAnglePlanform-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/8193219138b0956808768490078c212b/sandplover-plan-OpeningAnglePlanform-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../_images/sandplover-plan-OpeningAnglePlanform-1.png" class="plot-directive" src="../_images/sandplover-plan-OpeningAnglePlanform-1.png" />
+</figure>
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Init.</p>
+<p>EXPECTS A BINARY OCEAN MASK AS THE INPUT!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>needs docstring.</p>
+</div>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.__init__" title="sandplover.plan.OpeningAnglePlanform.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Init.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.from_ElevationMask" title="sandplover.plan.OpeningAnglePlanform.from_ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_ElevationMask</span></code></a>(elevation_mask, **kwargs)</p></td>
+<td><p>Create an <cite>OpeningAnglePlanform</cite> from an <cite>ElevationMask</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.from_arrays" title="sandplover.plan.OpeningAnglePlanform.from_arrays"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_arrays</span></code></a>(*args)</p></td>
+<td><p>Create directly from arrays.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.from_elevation_data" title="sandplover.plan.OpeningAnglePlanform.from_elevation_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_elevation_data</span></code></a>(elevation_data, **kwargs)</p></td>
+<td><p>Create an <cite>OpeningAnglePlanform</cite> from elevation data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.from_mask" title="sandplover.plan.OpeningAnglePlanform.from_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_mask</span></code></a>(UnknownMask, **kwargs)</p></td>
+<td><p>Wraps <a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.from_ElevationMask" title="sandplover.plan.OpeningAnglePlanform.from_ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_ElevationMask</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.show" title="sandplover.plan.OpeningAnglePlanform.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>([var, ax, title, ticks, colorbar, ...])</p></td>
+<td><p>Show the planform.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.below_mask" title="sandplover.plan.OpeningAnglePlanform.below_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">below_mask</span></code></a></p></td>
+<td><p>Mask for below sea level pixels.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.composite_array" title="sandplover.plan.OpeningAnglePlanform.composite_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">composite_array</span></code></a></p></td>
+<td><p>Alias to <cite>opening_angles</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.data" title="sandplover.plan.OpeningAnglePlanform.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
+<td><p>The public data field.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.name" title="sandplover.plan.OpeningAnglePlanform.name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></a></p></td>
+<td><p>Planform name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.opening_angles" title="sandplover.plan.OpeningAnglePlanform.opening_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">opening_angles</span></code></a></p></td>
+<td><p>Maximum opening angle view of the sea from a pixel.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.sea_angles" title="sandplover.plan.OpeningAnglePlanform.sea_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sea_angles</span></code></a></p></td>
+<td><p>Alias to <cite>opening_angles</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.shape" title="sandplover.plan.OpeningAnglePlanform.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></p></td>
+<td><p>Planform shape.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.__getitem__" title="Link to this definition">¶</a></dt>
+<dd><p>Slice the planform.</p>
+<p>Implements basic slicing for <cite>SpecialtyPlanform</cite> by passing the <cite>slc</cite>
+to <cite>self.data</cite>. I.e., the returned slice is <code class="docutils literal notranslate"><span class="pre">self.data[slc]</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.below_mask">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">below_mask</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.below_mask" title="Link to this definition">¶</a></dt>
+<dd><p>Mask for below sea level pixels.</p>
+<p>This is the starting point for the Opening Angle Method solution.</p>
+<p>See figure in main docstring for visual example.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.composite_array">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">composite_array</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.composite_array" title="Link to this definition">¶</a></dt>
+<dd><p>Alias to <cite>opening_angles</cite>.</p>
+<p>This is the array that a contour is extracted from using some threshold
+value when making land and shoreline masks.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.data" title="Link to this definition">¶</a></dt>
+<dd><p>The public data field.</p>
+<p>This attribute <em>must</em> be implemented as an alias to another attribute.
+The choice of field is up to the developer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.from_ElevationMask">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_ElevationMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation_mask</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.from_ElevationMask" title="Link to this definition">¶</a></dt>
+<dd><p>Create an <cite>OpeningAnglePlanform</cite> from an <cite>ElevationMask</cite>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Keyword arguments are passed to the <cite>OpeningAnglePlanform</cite>, and
+thus passed to <a class="reference internal" href="sandplover.plan.shaw_opening_angle_method.html#sandplover.plan.shaw_opening_angle_method" title="sandplover.plan.shaw_opening_angle_method"><code class="xref py py-func docutils literal notranslate"><span class="pre">shaw_opening_angle_method()</span></code></a>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ElevationMask</strong> (<a class="reference internal" href="sandplover.mask.ElevationMask.html#sandplover.mask.ElevationMask" title="sandplover.mask.ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElevationMask</span></code></a>) – The <code class="xref py py-obj docutils literal notranslate"><span class="pre">ElevationMask</span></code> to be used to create the
+<cite>OpeningAnglePlanform</cite>.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.mask</span><span class="w"> </span><span class="kn">import</span> <span class="n">ElevationMask</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.plan</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpeningAnglePlanform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.sample_data.sample_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">golf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_EM</span> <span class="o">=</span> <span class="n">ElevationMask</span><span class="p">(</span><span class="n">golfcube</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">OAP</span> <span class="o">=</span> <span class="n">OpeningAnglePlanform</span><span class="o">.</span><span class="n">from_ElevationMask</span><span class="p">(</span><span class="n">_EM</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.from_arrays">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.from_arrays" title="Link to this definition">¶</a></dt>
+<dd><p>Create directly from arrays.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>not implemented.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.from_elevation_data">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_elevation_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation_data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.from_elevation_data" title="Link to this definition">¶</a></dt>
+<dd><p>Create an <cite>OpeningAnglePlanform</cite> from elevation data.</p>
+<p>This process creates an ElevationMask from the input elevation array,
+and proceeds to make the OAP from the below sea level mask.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Keyword arguments are passed to the <cite>ElevationMask</cite> <em>and</em> to the
+<cite>OpeningAnglePlanform</cite>, and thus passed to
+<a class="reference internal" href="sandplover.plan.shaw_opening_angle_method.html#sandplover.plan.shaw_opening_angle_method" title="sandplover.plan.shaw_opening_angle_method"><code class="xref py py-func docutils literal notranslate"><span class="pre">shaw_opening_angle_method()</span></code></a>.</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The <cite>elevation_threshold</cite> argument is implicitly required in this
+method, because it is required to instantiate an
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">ElevationMask</span></code> from elevation data.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>elevation_data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – The elevation data to create the <cite>ElevationMask</cite> that is in
+turn used to create the <cite>OpeningAnglePlanform</cite>.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.plan</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpeningAnglePlanform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.sample_data.sample_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">golf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">OAP</span> <span class="o">=</span> <span class="n">OpeningAnglePlanform</span><span class="o">.</span><span class="n">from_elevation_data</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">golfcube</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.from_mask">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">UnknownMask</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.from_mask" title="Link to this definition">¶</a></dt>
+<dd><p>Wraps <a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.from_ElevationMask" title="sandplover.plan.OpeningAnglePlanform.from_ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_ElevationMask</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.name" title="Link to this definition">¶</a></dt>
+<dd><p>Planform name.</p>
+<p>Helpful to differentiate multiple <cite>Planform</cite> objects.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.opening_angles">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">opening_angles</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.opening_angles" title="Link to this definition">¶</a></dt>
+<dd><p>Maximum opening angle view of the sea from a pixel.</p>
+<p>See figure in main docstring for visual example.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.sea_angles">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sea_angles</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.sea_angles" title="Link to this definition">¶</a></dt>
+<dd><p>Alias to <cite>opening_angles</cite>.</p>
+<p>This alias is implemented for backwards compatability, and should not
+be relied on. Use <cite>opening_angles</cite> instead.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.shape">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.shape" title="Link to this definition">¶</a></dt>
+<dd><p>Planform shape.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.show" title="Link to this definition">¶</a></dt>
+<dd><p>Show the planform.</p>
+<p>Display a field of the planform, called by attribute name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Which field to show. Must be an attribute of the planform. <cite>show</cite>
+will look for another attribute describing
+the <code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableInfo</span></code> for that attribute named
+<code class="docutils literal notranslate"><span class="pre">self._&lt;var&gt;_varinfo</span></code> and use that to style the plot, if
+found. If this <cite>VariableInfo</cite> is not found, the default is used.</p></li>
+<li><p><strong>label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>str</cite>, optional) – Display a label of the variable name on the plot. Default is
+False, display nothing. If <code class="docutils literal notranslate"><span class="pre">label=True</span></code>, the label name from the
+<a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableSet</span></code></a> is used. Other arguments are
+attempted to coerce to <cite>str</cite>, and the literal is diplayed.</p></li>
+<li><p><strong>colorbar</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Whether a colorbar is appended to the axis.</p></li>
+<li><p><strong>colorbar_label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>str</cite>, optional) – Display a label of the variable name along the colorbar. Default is
+False, display nothing. If <code class="docutils literal notranslate"><span class="pre">label=True</span></code>, the label name from the
+<a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableSet</span></code></a> is used. Other arguments are
+attempted to coerce to <cite>str</cite>, and the literal is diplayed.</p></li>
+<li><p><strong>ax</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Axes</span></code> object, optional) – A <cite>matplotlib</cite> <cite>Axes</cite> object to plot the section. Optional; if not
+provided, a call is made to <code class="docutils literal notranslate"><span class="pre">plt.gca()</span></code> to get the current (or
+create a new) <cite>Axes</cite> object.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">sandplover.plan.OpeningAnglePlanform</a><ul>
+<li><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform</span></code></a><ul>
+<li><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.__init__"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.__getitem__"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.__getitem__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.below_mask"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.below_mask</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.composite_array"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.composite_array</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.data"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.data</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.from_ElevationMask"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.from_ElevationMask()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.from_arrays"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.from_arrays()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.from_elevation_data"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.from_elevation_data()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.from_mask"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.from_mask()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.name"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.name</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.opening_angles"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.opening_angles</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.sea_angles"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.sea_angles</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.shape"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.shape</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.show"><code class="docutils literal notranslate"><span class="pre">OpeningAnglePlanform.show()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="sandplover.plan.Planform.html"
+                          title="previous chapter">sandplover.plan.Planform</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="sandplover.plan.MorphologicalPlanform.html"
+                          title="next chapter">sandplover.plan.MorphologicalPlanform</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/_autosummary/sandplover.plan.OpeningAnglePlanform.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="sandplover.plan.MorphologicalPlanform.html" title="sandplover.plan.MorphologicalPlanform"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.plan.Planform.html" title="sandplover.plan.Planform"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/plan/index.html" >Planview operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.plan.OpeningAnglePlanform</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2020, The DeltaRCM Team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

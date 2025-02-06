@@ -1,1 +1,1 @@
-golfcube = dm.sample_data.golf()
+golfcube = spl.sample_data.golf()

@@ -1,0 +1,6 @@
+﻿sandplover.plan.compute\_surface\_deposit\_age
+==============================================
+
+.. currentmodule:: sandplover.plan
+
+.. autofunction:: compute_surface_deposit_age

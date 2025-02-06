@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Introduction to Planform objects &#8212; DeltaMetrics 0.4.3 documentation</title>
+    <title>Introduction to Planform objects &#8212; sandplover 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
-    <script src="../../_static/documentation_options.js?v=5bfaad31"></script>
+    <script src="../../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="index.html" title="Subject Guides"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Subject Guides</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Introduction to Planform objects</a></li> 
       </ul>
@@ -47,9 +47,9 @@
 <p>Multiple definitions of the delta planform are supported.
 These planform objects can be used as starting points for binary mask computation.
 If not specified explicitly, they are often implicitly part of binary mask creation.</p>
-<p>Below we demonstrate instantiation of both the <a class="reference internal" href="../../_autosummary/deltametrics.plan.OpeningAnglePlanform.html#deltametrics.plan.OpeningAnglePlanform" title="deltametrics.plan.OpeningAnglePlanform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OpeningAnglePlanform</span></code></a> and the <a class="reference internal" href="../../_autosummary/deltametrics.plan.MorphologicalPlanform.html#deltametrics.plan.MorphologicalPlanform" title="deltametrics.plan.MorphologicalPlanform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MorphologicalPlanform</span></code></a> objects.</p>
+<p>Below we demonstrate instantiation of both the <a class="reference internal" href="../../_autosummary/sandplover.plan.OpeningAnglePlanform.html#sandplover.plan.OpeningAnglePlanform" title="sandplover.plan.OpeningAnglePlanform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OpeningAnglePlanform</span></code></a> and the <a class="reference internal" href="../../_autosummary/sandplover.plan.MorphologicalPlanform.html#sandplover.plan.MorphologicalPlanform" title="sandplover.plan.MorphologicalPlanform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MorphologicalPlanform</span></code></a> objects.</p>
 <p>For each we start with the same example dataset, and use the elevation data at the end of the simulation.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">golfcube</span><span class="o">.</span><span class="n">quick_show</span><span class="p">(</span><span class="s1">&#39;eta&#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
@@ -65,8 +65,8 @@ If not specified explicitly, they are often implicitly part of binary mask creat
 <h2>The OpeningAnglePlanform<a class="headerlink" href="#the-openingangleplanform" title="Link to this heading">¶</a></h2>
 <p>This planform object is based around the Opening Angle Method <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
 <p>The <cite>OpeningAnglePlanform</cite> can be created directly from elevation data:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
-<span class="n">OAP</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">OpeningAnglePlanform</span><span class="o">.</span><span class="n">from_elevation_data</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
+<span class="n">OAP</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">OpeningAnglePlanform</span><span class="o">.</span><span class="n">from_elevation_data</span><span class="p">(</span>
   <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -75,7 +75,7 @@ If not specified explicitly, they are often implicitly part of binary mask creat
 In the case of the <cite>OpeningAnglePlanform</cite>, the <cite>composite_array</cite> is the “sea angles” array from the Opening Angle Method.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">OAP</span><span class="o">.</span><span class="n">composite_array</span><span class="p">)</span>
-<span class="n">dm</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">append_colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">spl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">append_colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -94,7 +94,7 @@ In the case of the <cite>OpeningAnglePlanform</cite>, the <cite>composite_array<
 <h2>The MorphologicalPlanform<a class="headerlink" href="#the-morphologicalplanform" title="Link to this heading">¶</a></h2>
 <p>This planform object uses mathematical morphology to identify the delta planform, inspired by Geleynse et al (2012) <a class="footnote-reference brackets" href="#id4" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.</p>
 <p>The <cite>MorphologicalPlanform</cite> can also be created directly from elevation data:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">MP</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">MorphologicalPlanform</span><span class="o">.</span><span class="n">from_elevation_data</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">MP</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">MorphologicalPlanform</span><span class="o">.</span><span class="n">from_elevation_data</span><span class="p">(</span>
   <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_disk</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -102,7 +102,7 @@ In the case of the <cite>OpeningAnglePlanform</cite>, the <cite>composite_array<
 <p>In this case, the <cite>composite_array</cite> attribute of the planform represents the inverse of the average pixel value when different sized disks are used to perform the binary closing on the elevation data.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">MP</span><span class="o">.</span><span class="n">composite_array</span><span class="p">)</span>
-<span class="n">dm</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">append_colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">spl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">append_colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -124,10 +124,10 @@ In the case of the <cite>OpeningAnglePlanform</cite>, the <cite>composite_array<
 The masking API accepts either planform object as an input, making it easy to swap one planform for the other in a masking workflow.</p>
 <p>As an example, we will extract a shoreline from both planforms shown above.
 Of course the two methods are different, so the shorelines identified will also be different.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">SM_from_OAM</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ShorelineMask</span><span class="o">.</span><span class="n">from_Planform</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">SM_from_OAM</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ShorelineMask</span><span class="o">.</span><span class="n">from_Planform</span><span class="p">(</span>
   <span class="n">OAP</span><span class="p">,</span> <span class="n">contour_threshold</span><span class="o">=</span><span class="mi">75</span><span class="p">)</span>
 
-<span class="n">SM_from_MPM</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ShorelineMask</span><span class="o">.</span><span class="n">from_Planform</span><span class="p">(</span>
+<span class="n">SM_from_MPM</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ShorelineMask</span><span class="o">.</span><span class="n">from_Planform</span><span class="p">(</span>
   <span class="n">MP</span><span class="p">,</span> <span class="n">contour_threshold</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -142,7 +142,7 @@ Of course the two methods are different, so the shorelines identified will also 
   <span class="n">SM_from_OAM</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">-</span> <span class="n">SM_from_MPM</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span>
   <span class="n">interpolation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;bone&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;OAM shoreline - MPM shoreline&#39;</span><span class="p">)</span>
-<span class="n">dm</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">append_colorbar</span><span class="p">(</span><span class="n">diff_im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">spl</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">append_colorbar</span><span class="p">(</span><span class="n">diff_im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -221,7 +221,7 @@ Overall though, this example shows that the two methods produce roughly similar 
         <li class="right" >
           <a href="index.html" title="Subject Guides"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Subject Guides</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Introduction to Planform objects</a></li> 
       </ul>

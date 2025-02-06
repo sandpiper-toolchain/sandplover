@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Radial growth of delta through time &#8212; DeltaMetrics 0.4.3 documentation</title>
+    <title>Radial growth of delta through time &#8212; sandplover 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
-    <script src="../../../_static/documentation_options.js?v=5bfaad31"></script>
+    <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -32,7 +32,7 @@
         <li class="right" >
           <a href="../index.html" title="Examples"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Examples</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Radial growth of delta through time</a></li> 
       </ul>
@@ -53,7 +53,7 @@ The expectation is that a delta’s planform area grows according to a power law
 <p class="admonition-title">Note</p>
 <p>This formulation ignores deposit porosity (as is true for the sample data from <cite>pyDeltaRCM</cite> below).</p>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">golf</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">golf</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
 
 <span class="c1"># measure the delta shoreline distance at five differet times</span>
 <span class="n">time_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="n">golf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
@@ -62,7 +62,7 @@ The expectation is that a delta’s planform area grows according to a power law
 <span class="n">shoredist_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">time_idxs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">time_idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">time_idxs</span><span class="p">):</span>
     <span class="c1"># compute the shoreline mask</span>
-    <span class="n">SM_mpm</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ShorelineMask</span><span class="p">(</span>
+    <span class="n">SM_mpm</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ShorelineMask</span><span class="p">(</span>
         <span class="n">golf</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="n">time_idx</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
         <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">method</span><span class="o">=</span><span class="s1">&#39;MPM&#39;</span><span class="p">,</span>
@@ -71,7 +71,7 @@ The expectation is that a delta’s planform area grows according to a power law
     <span class="n">SM_mpm</span><span class="o">.</span><span class="n">trim_mask</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
     <span class="c1"># compute the mean shoreline distance</span>
-    <span class="n">shoredist_mean</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">shoredist_std</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">compute_shoreline_distance</span><span class="p">(</span>
+    <span class="n">shoredist_mean</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">shoredist_std</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">compute_shoreline_distance</span><span class="p">(</span>
         <span class="n">SM_mpm</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;CTR&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;L0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -114,10 +114,10 @@ The expectation is that a delta’s planform area grows according to a power law
 <img alt="../../../_images/radial_growth_pattern-2.png" class="plot-directive" src="../../../_images/radial_growth_pattern-2.png" />
 </figure>
 <p>Why do the data not line up with the prediction?
-A likely possibility is that the shoreline location determined from the <a class="reference internal" href="../../../_autosummary/deltametrics.plan.MorphologicalPlanform.html#deltametrics.plan.MorphologicalPlanform" title="deltametrics.plan.MorphologicalPlanform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MorphologicalPlanform</span></code></a> does not include the full area of the deposit.</p>
+A likely possibility is that the shoreline location determined from the <a class="reference internal" href="../../../_autosummary/sandplover.plan.MorphologicalPlanform.html#sandplover.plan.MorphologicalPlanform" title="sandplover.plan.MorphologicalPlanform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MorphologicalPlanform</span></code></a> does not include the full area of the deposit.</p>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
-<p>Try passing the <cite>elevation_offset</cite> parameter to the MPM method, which is then passed along to the <a class="reference internal" href="../../../_autosummary/deltametrics.mask.ElevationMask.html#deltametrics.mask.ElevationMask" title="deltametrics.mask.ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElevationMask</span></code></a>.</p>
+<p>Try passing the <cite>elevation_offset</cite> parameter to the MPM method, which is then passed along to the <a class="reference internal" href="../../../_autosummary/sandplover.mask.ElevationMask.html#sandplover.mask.ElevationMask" title="sandplover.mask.ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElevationMask</span></code></a>.</p>
 </div>
 </section>
 
@@ -171,7 +171,7 @@ A likely possibility is that the shoreline location determined from the <a class
         <li class="right" >
           <a href="../index.html" title="Examples"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Examples</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Radial growth of delta through time</a></li> 
       </ul>

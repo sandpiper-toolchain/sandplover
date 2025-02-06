@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import deltametrics as dm
+import sandplover as spl
 #
-aeolian = dm.sample_data.aeolian()
+aeolian = spl.sample_data.aeolian()
 nt = 5
 ts = np.linspace(0, aeolian["eta"].shape[0] - 1, num=nt, dtype=int)
 #

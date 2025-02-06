@@ -3,8 +3,8 @@ Accounting for subsidence when computing stratigraphy
 
 It is not uncommon for subsidence, or the sinking of the ground, to take place.
 When computing the preserved stratigraphy from a time-series of elevation data, a more accurate depiction of the subsurface can be developed if information about subsidence is known and accounted for.
-DeltaMetrics aims to provide a number of methods to incorporate subsidence data into the computed stratigraphy, allowing the user to specify a constant basin-wide rate of subsidence, or more complex spatially and temporally varying patterns.
-Below some examples of this functionality are shown, using synthetic 1-D elevation time-series, as well as the :obj:`~deltametrics.sample_data.aeolian` dune field sample dataset.
+sandplover aims to provide a number of methods to incorporate subsidence data into the computed stratigraphy, allowing the user to specify a constant basin-wide rate of subsidence, or more complex spatially and temporally varying patterns.
+Below some examples of this functionality are shown, using synthetic 1-D elevation time-series, as well as the :obj:`~sandplover.sample_data.aeolian` dune field sample dataset.
 
 Using synthetic 1-D elevation time-series, we can create some simplified stratigraphic profiles to test our understanding of the mechanism and see whether or not the resulting stratigraphy matches our intuition.
 For our first example, we will consider the contrived case in which the elevation at some location is unchanging in time, however there is a constant rate of subsidence.
@@ -19,7 +19,7 @@ We therefore expect to see the development of a stack of stratigraphy *despite* 
 
     # plot 1-D trajectory w/ constant subsidence
     fig, ax = plt.subplots(figsize=(5, 4))
-    dm.plot.show_one_dimensional_trajectory_to_strata(
+    spl.plot.show_one_dimensional_trajectory_to_strata(
         elevation, sigma_dist=1.0, ax=ax, dz=0.5)
     ax.set_xlim(-0.25, 4.5)
     ax.set_ylim(-4.5, 0.5)
@@ -39,7 +39,7 @@ Be aware that when providing subsidence values in this manner (temporally varyin
 
     # plot 1-D trajectory w/ constant subsidence
     fig, ax = plt.subplots(figsize=(5, 4))
-    dm.plot.show_one_dimensional_trajectory_to_strata(
+    spl.plot.show_one_dimensional_trajectory_to_strata(
         elevation, sigma_dist=np.array([1, 2, 5, 5, 6]),
         ax=ax, dz=0.5)
     ax.set_xlim(-0.25, 4.5)
@@ -60,7 +60,7 @@ In this case, the effect steady basin-wide aggradation is equivalent to constant
     :include-source:
     :context: reset
 
-    aeolian = dm.sample_data.aeolian()
+    aeolian = spl.sample_data.aeolian()
 
     # define rates, in m/timestep
     subs_rates = [0, 0.01, 0.02]
@@ -71,7 +71,7 @@ In this case, the effect steady basin-wide aggradation is equivalent to constant
 
     for i, su in enumerate(subs_rates):
         # compute stratigraphy for elevation timeseries with subsidence
-        vol, elev = dm.strat.compute_boxy_stratigraphy_volume(
+        vol, elev = spl.strat.compute_boxy_stratigraphy_volume(
             aeolian['eta'], aeolian['time'], sigma_dist=su,
             dz=0.1)
 
@@ -86,7 +86,7 @@ In this case, the effect steady basin-wide aggradation is equivalent to constant
             vol[:, :, sec_idx],
             extent=[0, aeolian.dim1_coords[-1], elev.min(), elev.max()],
             aspect='auto', origin='lower')
-        cb = dm.plot.append_colorbar(im, ax=ax[i])
+        cb = spl.plot.append_colorbar(im, ax=ax[i])
         cb.ax.set_ylabel(aeolian['time']['time'].units, fontsize=8)
 
         # label

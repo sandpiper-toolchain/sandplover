@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from netCDF4 import Dataset
 import os
 
-import deltametrics as dm
+import sandplover as spl
 
 ## create the model data
 # some spatial information

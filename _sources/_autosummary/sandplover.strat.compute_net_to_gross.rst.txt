@@ -1,0 +1,6 @@
+﻿sandplover.strat.compute\_net\_to\_gross
+========================================
+
+.. currentmodule:: sandplover.strat
+
+.. autofunction:: compute_net_to_gross

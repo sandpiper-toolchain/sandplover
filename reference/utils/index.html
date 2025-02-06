@@ -5,19 +5,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Utility functions &#8212; DeltaMetrics 0.4.3 documentation</title>
+    <title>Utility functions &#8212; sandplover 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
-    <script src="../../_static/documentation_options.js?v=5bfaad31"></script>
+    <script src="../../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Sample data" href="../sample_data/index.html" />
-    <link rel="prev" title="deltametrics.plot.show_histograms" href="../../_autosummary/deltametrics.plot.show_histograms.html" /> 
+    <link rel="prev" title="sandplover.plot.show_histograms" href="../../_autosummary/sandplover.plot.show_histograms.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
@@ -29,9 +29,9 @@
           <a href="../sample_data/index.html" title="Sample data"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.plot.show_histograms.html" title="deltametrics.plot.show_histograms"
+          <a href="../../_autosummary/sandplover.plot.show_histograms.html" title="sandplover.plot.show_histograms"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Utility functions</a></li> 
       </ul>
@@ -45,12 +45,12 @@
   <section id="utility-functions">
 <h1>Utility functions<a class="headerlink" href="#utility-functions" title="Link to this heading">¶</a></h1>
 <p>The package has some more miscellaneous functions and utilities that are made publicly available.</p>
-<p>The functions are defined in <code class="docutils literal notranslate"><span class="pre">deltametrics.utils</span></code>.</p>
+<p>The functions are defined in <code class="docutils literal notranslate"><span class="pre">sandplover.utils</span></code>.</p>
 <section id="id1">
 <h2>Utility functions<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="deltametrics.utils.curve_fit">
-<span class="sig-prename descclassname"><span class="pre">deltametrics.utils.</span></span><span class="sig-name descname"><span class="pre">curve_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'harmonic'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#deltametrics.utils.curve_fit" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sandplover.utils.curve_fit">
+<span class="sig-prename descclassname"><span class="pre">sandplover.utils.</span></span><span class="sig-name descname"><span class="pre">curve_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'harmonic'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.utils.curve_fit" title="Link to this definition">¶</a></dt>
 <dd><p>Calculate curve fit given some data.</p>
 <p>Several functional forms are available for fitting: exponential, harmonic,
 and linear. The input <cite>data</cite> can be 1-D, or 2-D, if it is 2-D, the data
@@ -88,8 +88,8 @@ parameters is dependent on the functional form used.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="deltametrics.utils.coordinates_to_segments">
-<span class="sig-prename descclassname"><span class="pre">deltametrics.utils.</span></span><span class="sig-name descname"><span class="pre">coordinates_to_segments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coordinates</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#deltametrics.utils.coordinates_to_segments" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sandplover.utils.coordinates_to_segments">
+<span class="sig-prename descclassname"><span class="pre">sandplover.utils.</span></span><span class="sig-name descname"><span class="pre">coordinates_to_segments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coordinates</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.utils.coordinates_to_segments" title="Link to this definition">¶</a></dt>
 <dd><p>Transform coordinate [x, y] array into line segments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -106,8 +106,8 @@ parameters is dependent on the functional form used.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="deltametrics.utils.line_to_cells">
-<span class="sig-prename descclassname"><span class="pre">deltametrics.utils.</span></span><span class="sig-name descname"><span class="pre">line_to_cells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#deltametrics.utils.line_to_cells" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sandplover.utils.line_to_cells">
+<span class="sig-prename descclassname"><span class="pre">sandplover.utils.</span></span><span class="sig-name descname"><span class="pre">line_to_cells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.utils.line_to_cells" title="Link to this definition">¶</a></dt>
 <dd><p>Convert a line to cell coordinates along the line.</p>
 <p>Takes as input the line to determine coordinates along. A line defined by
 two Cartesian coordinate endpoints <cite>p1</cite> and <cite>p2</cite>, may be specified  in one
@@ -139,8 +139,8 @@ of three ways:</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="deltametrics.utils._walk_line">
-<span class="sig-prename descclassname"><span class="pre">deltametrics.utils.</span></span><span class="sig-name descname"><span class="pre">_walk_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#deltametrics.utils._walk_line" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sandplover.utils._walk_line">
+<span class="sig-prename descclassname"><span class="pre">sandplover.utils.</span></span><span class="sig-name descname"><span class="pre">_walk_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.utils._walk_line" title="Link to this definition">¶</a></dt>
 <dd><p>Walk a line to determine cells along path.</p>
 <p>Inputs depend on the steepness and direction of the input line. For a
 shallow line, where dx &gt; dy, the input tuples should be in the form of
@@ -163,8 +163,8 @@ line.</p>
 <section id="utility-exceptions-and-warnings">
 <h2>Utility Exceptions and Warnings<a class="headerlink" href="#utility-exceptions-and-warnings" title="Link to this heading">¶</a></h2>
 <dl class="py exception">
-<dt class="sig sig-object py" id="deltametrics.utils.NoStratigraphyError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">deltametrics.utils.</span></span><span class="sig-name descname"><span class="pre">NoStratigraphyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#deltametrics.utils.NoStratigraphyError" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sandplover.utils.NoStratigraphyError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.utils.</span></span><span class="sig-name descname"><span class="pre">NoStratigraphyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.utils.NoStratigraphyError" title="Link to this definition">¶</a></dt>
 <dd><p>Error message for access when no stratigraphy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -177,46 +177,46 @@ is given in the error message.</p></li>
 </dl>
 <p class="rubric">Examples</p>
 <p>Without the optional <cite>var</cite> argument:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">deltametrics.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoStratigraphyError</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">deltametrics.sample_data.sample_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">golf</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoStratigraphyError</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.sample_data.sample_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">golf</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">raise</span> <span class="n">NoStratigraphyError</span><span class="p">(</span><span class="n">golfcube</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
-<span class="gr">deltametrics.utils.NoStratigraphyError</span>: <span class="n">&#39;DataCube&#39; object has no preservation</span>
+<span class="gr">sandplover.utils.NoStratigraphyError</span>: <span class="n">&#39;DataCube&#39; object has no preservation</span>
 <span class="x">or stratigraphy information.</span>
 </pre></div>
 </div>
 <p>With the <cite>var</cite> argument given as <code class="docutils literal notranslate"><span class="pre">'strat_attr'</span></code>:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">raise</span> <span class="n">NoStratigraphyError</span><span class="p">(</span><span class="n">golfcube</span><span class="p">,</span> <span class="s2">&quot;strat_attr&quot;</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
-<span class="gr">deltametrics.utils.NoStratigraphyError</span>: <span class="n">&#39;DataCube&#39; object has no preservation</span>
+<span class="gr">sandplover.utils.NoStratigraphyError</span>: <span class="n">&#39;DataCube&#39; object has no preservation</span>
 <span class="x">or stratigraphy information.</span>
 </pre></div>
 </div>
 <dl class="py method">
-<dt class="sig sig-object py" id="deltametrics.utils.NoStratigraphyError.add_note">
-<span class="sig-name descname"><span class="pre">add_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#deltametrics.utils.NoStratigraphyError.add_note" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sandplover.utils.NoStratigraphyError.add_note">
+<span class="sig-name descname"><span class="pre">add_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.utils.NoStratigraphyError.add_note" title="Link to this definition">¶</a></dt>
 <dd><p>Exception.add_note(note) –
 add a note to the exception</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="deltametrics.utils.NoStratigraphyError.name">
-<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#deltametrics.utils.NoStratigraphyError.name" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sandplover.utils.NoStratigraphyError.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#sandplover.utils.NoStratigraphyError.name" title="Link to this definition">¶</a></dt>
 <dd><p>attribute name</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="deltametrics.utils.NoStratigraphyError.obj">
-<span class="sig-name descname"><span class="pre">obj</span></span><a class="headerlink" href="#deltametrics.utils.NoStratigraphyError.obj" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sandplover.utils.NoStratigraphyError.obj">
+<span class="sig-name descname"><span class="pre">obj</span></span><a class="headerlink" href="#sandplover.utils.NoStratigraphyError.obj" title="Link to this definition">¶</a></dt>
 <dd><p>object</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="deltametrics.utils.NoStratigraphyError.with_traceback">
-<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#deltametrics.utils.NoStratigraphyError.with_traceback" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sandplover.utils.NoStratigraphyError.with_traceback">
+<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.utils.NoStratigraphyError.with_traceback" title="Link to this definition">¶</a></dt>
 <dd><p>Exception.with_traceback(tb) –
 set self.__traceback__ to tb and return self.</p>
 </dd></dl>
@@ -238,18 +238,18 @@ set self.__traceback__ to tb and return self.</p>
     <ul>
 <li><a class="reference internal" href="#">Utility functions</a><ul>
 <li><a class="reference internal" href="#id1">Utility functions</a><ul>
-<li><a class="reference internal" href="#deltametrics.utils.curve_fit"><code class="docutils literal notranslate"><span class="pre">curve_fit()</span></code></a></li>
-<li><a class="reference internal" href="#deltametrics.utils.coordinates_to_segments"><code class="docutils literal notranslate"><span class="pre">coordinates_to_segments()</span></code></a></li>
-<li><a class="reference internal" href="#deltametrics.utils.line_to_cells"><code class="docutils literal notranslate"><span class="pre">line_to_cells()</span></code></a></li>
-<li><a class="reference internal" href="#deltametrics.utils._walk_line"><code class="docutils literal notranslate"><span class="pre">_walk_line()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.utils.curve_fit"><code class="docutils literal notranslate"><span class="pre">curve_fit()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.utils.coordinates_to_segments"><code class="docutils literal notranslate"><span class="pre">coordinates_to_segments()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.utils.line_to_cells"><code class="docutils literal notranslate"><span class="pre">line_to_cells()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.utils._walk_line"><code class="docutils literal notranslate"><span class="pre">_walk_line()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#utility-exceptions-and-warnings">Utility Exceptions and Warnings</a><ul>
-<li><a class="reference internal" href="#deltametrics.utils.NoStratigraphyError"><code class="docutils literal notranslate"><span class="pre">NoStratigraphyError</span></code></a><ul>
-<li><a class="reference internal" href="#deltametrics.utils.NoStratigraphyError.add_note"><code class="docutils literal notranslate"><span class="pre">NoStratigraphyError.add_note()</span></code></a></li>
-<li><a class="reference internal" href="#deltametrics.utils.NoStratigraphyError.name"><code class="docutils literal notranslate"><span class="pre">NoStratigraphyError.name</span></code></a></li>
-<li><a class="reference internal" href="#deltametrics.utils.NoStratigraphyError.obj"><code class="docutils literal notranslate"><span class="pre">NoStratigraphyError.obj</span></code></a></li>
-<li><a class="reference internal" href="#deltametrics.utils.NoStratigraphyError.with_traceback"><code class="docutils literal notranslate"><span class="pre">NoStratigraphyError.with_traceback()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.utils.NoStratigraphyError"><code class="docutils literal notranslate"><span class="pre">NoStratigraphyError</span></code></a><ul>
+<li><a class="reference internal" href="#sandplover.utils.NoStratigraphyError.add_note"><code class="docutils literal notranslate"><span class="pre">NoStratigraphyError.add_note()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.utils.NoStratigraphyError.name"><code class="docutils literal notranslate"><span class="pre">NoStratigraphyError.name</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.utils.NoStratigraphyError.obj"><code class="docutils literal notranslate"><span class="pre">NoStratigraphyError.obj</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.utils.NoStratigraphyError.with_traceback"><code class="docutils literal notranslate"><span class="pre">NoStratigraphyError.with_traceback()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -261,8 +261,8 @@ set self.__traceback__ to tb and return self.</p>
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="../../_autosummary/deltametrics.plot.show_histograms.html"
-                          title="previous chapter">deltametrics.plot.show_histograms</a></p>
+    <p class="topless"><a href="../../_autosummary/sandplover.plot.show_histograms.html"
+                          title="previous chapter">sandplover.plot.show_histograms</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
@@ -300,9 +300,9 @@ set self.__traceback__ to tb and return self.</p>
           <a href="../sample_data/index.html" title="Sample data"
              >next</a> |</li>
         <li class="right" >
-          <a href="../../_autosummary/deltametrics.plot.show_histograms.html" title="deltametrics.plot.show_histograms"
+          <a href="../../_autosummary/sandplover.plot.show_histograms.html" title="sandplover.plot.show_histograms"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Utility functions</a></li> 
       </ul>

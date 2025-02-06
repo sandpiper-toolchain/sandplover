@@ -1,0 +1,6 @@
+﻿sandplover.plan.compute\_land\_area
+===================================
+
+.. currentmodule:: sandplover.plan
+
+.. autofunction:: compute_land_area

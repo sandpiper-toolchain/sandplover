@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
-from deltametrics.plot import aerial_view
-from deltametrics.plot import overlay_sparse_array
-from deltametrics.sample_data.sample_data import golf
+from sandplover.plot import aerial_view
+from sandplover.plot import overlay_sparse_array
+from sandplover.sample_data.sample_data import golf
 #
 golfcube = golf()
 elevation_data = golfcube["eta"][-1, :, :]

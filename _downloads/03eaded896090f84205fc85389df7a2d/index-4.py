@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import deltametrics as dm
+import sandplover as spl
 #
-landsat = dm.sample_data.landsat()
+landsat = spl.sample_data.landsat()
 nt = landsat.shape[0]
 #
 maxr = np.max(landsat["Red"][:])

@@ -4,7 +4,7 @@ for proportion in [0.1, 0.5, 0.9]:
     whr = np.random.randint(0, anydata.size, size=int(anydata.size*proportion))
     anydata.flat[whr] = True
 
-    lm = dm.mask.LandMask.from_array(
+    lm = spl.mask.LandMask.from_array(
         anydata)
 
     fig, ax =  plt.subplots()

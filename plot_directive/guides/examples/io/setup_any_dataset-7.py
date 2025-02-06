@@ -3,7 +3,7 @@ data_dict = {'eta': eta,
              'velocity': velocity}
 
 # make a cube from it
-dict_datacube = dm.cube.DataCube(
+dict_datacube = spl.cube.DataCube(
     data_dict,
     dimensions={'time': t,
                 'y': y,

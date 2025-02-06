@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import deltametrics as dm
+import sandplover as spl
 #
-img, scans = dm.sample_data.savi2020()
+img, scans = spl.sample_data.savi2020()
 nt = 5
 ts_i = np.linspace(0, img["red"].shape[0] - 1, num=nt, dtype=int)
 ts_s = np.linspace(0, scans["eta"].shape[0] - 1, num=nt, dtype=int)

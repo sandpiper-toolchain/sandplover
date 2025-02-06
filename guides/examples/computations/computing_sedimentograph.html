@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Computing a sedimentograph for sand fraction and for preserved time &#8212; DeltaMetrics 0.4.3 documentation</title>
+    <title>Computing a sedimentograph for sand fraction and for preserved time &#8212; sandplover 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
-    <script src="../../../_static/documentation_options.js?v=5bfaad31"></script>
+    <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="accounting_for_subsidence.html" title="Accounting for subsidence when computing stratigraphy"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Examples</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Computing a sedimentograph for sand fraction and for preserved time</a></li> 
       </ul>
@@ -46,18 +46,18 @@
 <h1>Computing a sedimentograph for sand fraction and for preserved time<a class="headerlink" href="#computing-a-sedimentograph-for-sand-fraction-and-for-preserved-time" title="Link to this heading">¶</a></h1>
 <p>In this example, we explore the sedimentograph <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.
 The sedimentograph is a measure of sand fraction of delta stratigraphy. In this implementation, a series of concentric CircularSection are drawn with increasing radius, so the sedimentograph is a function of space.</p>
-<p>First, a simple example of computing the sedimentograph, using the <a class="reference internal" href="../../../_autosummary/deltametrics.strat.compute_sedimentograph.html#deltametrics.strat.compute_sedimentograph" title="deltametrics.strat.compute_sedimentograph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_sedimentograph</span></code></a> function.</p>
+<p>First, a simple example of computing the sedimentograph, using the <a class="reference internal" href="../../../_autosummary/sandplover.strat.compute_sedimentograph.html#sandplover.strat.compute_sedimentograph" title="sandplover.strat.compute_sedimentograph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_sedimentograph</span></code></a> function.</p>
 <p>By default, the function will generate two bins for the data input for the <code class="docutils literal notranslate"><span class="pre">sediment_volume</span></code> argument, with the bin divider in the data-range midpoint (i.e., <code class="docutils literal notranslate"><span class="pre">0.5</span></code> for <code class="docutils literal notranslate"><span class="pre">sandfrac</span></code> data).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up the data source</span>
-<span class="n">golfcube</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
-<span class="n">golfstrat</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">StratigraphyCube</span><span class="o">.</span><span class="n">from_DataCube</span><span class="p">(</span><span class="n">golfcube</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="n">golfcube</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
+<span class="n">golfstrat</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">StratigraphyCube</span><span class="o">.</span><span class="n">from_DataCube</span><span class="p">(</span><span class="n">golfcube</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
 
 <span class="n">background</span> <span class="o">=</span> <span class="p">(</span><span class="n">golfstrat</span><span class="o">.</span><span class="n">Z</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 <span class="n">frozen_sand</span> <span class="o">=</span> <span class="n">golfstrat</span><span class="o">.</span><span class="n">export_frozen_variable</span><span class="p">(</span><span class="s1">&#39;sandfrac&#39;</span><span class="p">)</span>
 
 <span class="p">(</span><span class="n">sedimentograph</span><span class="p">,</span>
     <span class="n">section_radii</span><span class="p">,</span>
-    <span class="n">sediment_bins</span><span class="p">)</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">strat</span><span class="o">.</span><span class="n">compute_sedimentograph</span><span class="p">(</span>
+    <span class="n">sediment_bins</span><span class="p">)</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">strat</span><span class="o">.</span><span class="n">compute_sedimentograph</span><span class="p">(</span>
     <span class="n">frozen_sand</span><span class="p">,</span>
     <span class="n">num_sections</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
     <span class="n">last_section_radius</span><span class="o">=</span><span class="mi">2750</span><span class="p">,</span>
@@ -80,7 +80,7 @@ The sedimentograph is a measure of sand fraction of delta stratigraphy. In this 
 </figure>
 <p>We can mask a portion of the domain, and compute the sedimentograph over just a portion of the domain.
 The result is a (only slightly) different sedimentograph.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">GM</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">GeometricMask</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">GM</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">GeometricMask</span><span class="p">(</span>
     <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
     <span class="n">angular</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
         <span class="n">theta1</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">8</span><span class="p">,</span>
@@ -91,7 +91,7 @@ The result is a (only slightly) different sedimentograph.</p>
 
 <span class="p">(</span><span class="n">sedimentograph2</span><span class="p">,</span>
     <span class="n">section_radii2</span><span class="p">,</span>
-    <span class="n">sediment_bins2</span><span class="p">)</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">strat</span><span class="o">.</span><span class="n">compute_sedimentograph</span><span class="p">(</span>
+    <span class="n">sediment_bins2</span><span class="p">)</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">strat</span><span class="o">.</span><span class="n">compute_sedimentograph</span><span class="p">(</span>
     <span class="n">frozen_sand_mask</span><span class="p">,</span>
     <span class="n">num_sections</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
     <span class="c1"># last_section_radius=2750,</span>
@@ -116,7 +116,7 @@ The result is a (only slightly) different sedimentograph.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">time_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">golfcube</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">num</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
 <span class="p">(</span><span class="n">time_sedimentograph</span><span class="p">,</span>
     <span class="n">time_radii</span><span class="p">,</span>
-    <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">strat</span><span class="o">.</span><span class="n">compute_sedimentograph</span><span class="p">(</span>
+    <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">strat</span><span class="o">.</span><span class="n">compute_sedimentograph</span><span class="p">(</span>
     <span class="n">golfstrat</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span>
     <span class="n">num_sections</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
     <span class="n">last_section_radius</span><span class="o">=</span><span class="mi">2750</span><span class="p">,</span>
@@ -221,7 +221,7 @@ Earth Surf., 121, 465– 496, doi:10.1002/2015JF003653.</p>
         <li class="right" >
           <a href="accounting_for_subsidence.html" title="Accounting for subsidence when computing stratigraphy"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">DeltaMetrics 0.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Examples</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Computing a sedimentograph for sand fraction and for preserved time</a></li> 
       </ul>

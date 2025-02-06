@@ -1,0 +1,44 @@
+﻿sandplover.section.DipSection
+=============================
+
+.. currentmodule:: sandplover.section
+
+.. autoclass:: DipSection
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DipSection.__init__
+      ~DipSection.connect
+      ~DipSection.show
+      ~DipSection.show_trace
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DipSection.distance
+      ~DipSection.distance_idx
+      ~DipSection.idx_trace
+      ~DipSection.length
+      ~DipSection.name
+      ~DipSection.s
+      ~DipSection.shape
+      ~DipSection.strat_attr
+      ~DipSection.trace
+      ~DipSection.trace_idx
+      ~DipSection.variables
+      ~DipSection.x
+      ~DipSection.y
+      ~DipSection.z
+   
+   

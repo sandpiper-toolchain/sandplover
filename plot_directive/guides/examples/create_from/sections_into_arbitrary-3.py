@@ -1,7 +1,7 @@
-EM = dm.mask.ElevationMask(
+EM = spl.mask.ElevationMask(
     golfcube["eta"][-1],
     elevation_threshold=0)
-mss = dm.section.StrikeSection(EM, distance=1200)
+mss = spl.section.StrikeSection(EM, distance=1200)
 
 ax.plot(mss.s, mss['mask'], ':')
 
