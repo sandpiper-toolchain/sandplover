@@ -19,7 +19,7 @@ We therefore expect to see the development of a stack of stratigraphy *despite* 
 
     # plot 1-D trajectory w/ constant subsidence
     fig, ax = plt.subplots(figsize=(5, 4))
-    dm.plot.show_one_dimensional_trajectory_to_strata(
+    spl.plot.show_one_dimensional_trajectory_to_strata(
         elevation, sigma_dist=1.0, ax=ax, dz=0.5)
     ax.set_xlim(-0.25, 4.5)
     ax.set_ylim(-4.5, 0.5)
@@ -39,7 +39,7 @@ Be aware that when providing subsidence values in this manner (temporally varyin
 
     # plot 1-D trajectory w/ constant subsidence
     fig, ax = plt.subplots(figsize=(5, 4))
-    dm.plot.show_one_dimensional_trajectory_to_strata(
+    spl.plot.show_one_dimensional_trajectory_to_strata(
         elevation, sigma_dist=np.array([1, 2, 5, 5, 6]),
         ax=ax, dz=0.5)
     ax.set_xlim(-0.25, 4.5)
@@ -60,7 +60,7 @@ In this case, the effect steady basin-wide aggradation is equivalent to constant
     :include-source:
     :context: reset
 
-    aeolian = dm.sample_data.aeolian()
+    aeolian = spl.sample_data.aeolian()
 
     # define rates, in m/timestep
     subs_rates = [0, 0.01, 0.02]
@@ -71,7 +71,7 @@ In this case, the effect steady basin-wide aggradation is equivalent to constant
 
     for i, su in enumerate(subs_rates):
         # compute stratigraphy for elevation timeseries with subsidence
-        vol, elev = dm.strat.compute_boxy_stratigraphy_volume(
+        vol, elev = spl.strat.compute_boxy_stratigraphy_volume(
             aeolian['eta'], aeolian['time'], sigma_dist=su,
             dz=0.1)
 
@@ -86,7 +86,7 @@ In this case, the effect steady basin-wide aggradation is equivalent to constant
             vol[:, :, sec_idx],
             extent=[0, aeolian.dim1_coords[-1], elev.min(), elev.max()],
             aspect='auto', origin='lower')
-        cb = dm.plot.append_colorbar(im, ax=ax[i])
+        cb = spl.plot.append_colorbar(im, ax=ax[i])
         cb.ax.set_ylabel(aeolian['time']['time'].units, fontsize=8)
 
         # label

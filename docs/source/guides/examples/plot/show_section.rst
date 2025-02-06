@@ -5,9 +5,9 @@ View a section slice
     :include-source:
     :context: close-figs
 
-    >>> golfcube = dm.sample_data.golf()
-    >>> golfstrat = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.1)
-    >>> circular = dm.section.CircularSection(golfstrat, radius=2000)
+    >>> golfcube = spl.sample_data.golf()
+    >>> golfstrat = spl.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+    >>> circular = spl.section.CircularSection(golfstrat, radius=2000)
 
 You can visualize the data yourself, or use the built-in `show()` method of a `Section`.
 

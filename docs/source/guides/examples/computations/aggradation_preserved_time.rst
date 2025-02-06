@@ -16,7 +16,7 @@ We'll use the :obj:`~sandplover.sample_data.aeolian` data set as an example here
     :include-source:
     :context: reset
 
-    aeolian = dm.sample_data.aeolian()
+    aeolian = spl.sample_data.aeolian()
 
     fig, ax = plt.subplots()
     ax.plot([500, 500], [0, 2000], c='r', ls='--')
@@ -48,7 +48,7 @@ Using the :obj:`~sandplover.strat.compute_boxy_stratigraphy_volume` function all
             (1, aeolian.shape[1], aeolian.shape[2]))
 
         # compute stratigraphy for elevation timeseries plus aggradation
-        vol, elev = dm.strat.compute_boxy_stratigraphy_volume(
+        vol, elev = spl.strat.compute_boxy_stratigraphy_volume(
             aeolian['eta']+agg_array, aeolian['time'],
             dz=0.1)
 
@@ -63,7 +63,7 @@ Using the :obj:`~sandplover.strat.compute_boxy_stratigraphy_volume` function all
             vol[:, :, sec_idx],
             extent=[0, aeolian.dim1_coords[-1], elev.min(), elev.max()],
             aspect='auto', origin='lower')
-        cb = dm.plot.append_colorbar(im, ax=ax[i])
+        cb = spl.plot.append_colorbar(im, ax=ax[i])
         cb.ax.set_ylabel(aeolian['time']['time'].units, fontsize=8)
 
         # label

@@ -18,7 +18,7 @@ The sample data cubes can be accessed as, for example:
 .. doctest::
 
     >>> import sandplover as spl
-    >>> golfcube = dm.sample_data.golf()
+    >>> golfcube = spl.sample_data.golf()
 
 .. note::
 
@@ -51,5 +51,5 @@ Paths to data files
 
 .. code::
 
-    >>> dm.sample_data._get_golf_path()
+    >>> spl.sample_data._get_golf_path()
     '<cache-path>/sandplover/golf.zip.unzip/pyDeltaRCM_output.nc'

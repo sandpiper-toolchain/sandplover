@@ -27,16 +27,16 @@ sections of the documentation.
     :include-source:
     :context: reset
 
-    >>> golfcube = dm.sample_data.golf()
+    >>> golfcube = spl.sample_data.golf()
     >>> channelmask_list = []
     >>> landmask_list = []
 
     >>> for i in range(50, 60):
     ...     landmask_list.append(
-    ...         dm.mask.LandMask(golfcube["eta"][i, ...], elevation_threshold=0)
+    ...         spl.mask.LandMask(golfcube["eta"][i, ...], elevation_threshold=0)
     ...     )
     ...     channelmask_list.append(
-    ...         dm.mask.ChannelMask(
+    ...         spl.mask.ChannelMask(
     ...             golfcube["eta"][i, ...],
     ...             golfcube["velocity"][i, ...],
     ...             elevation_threshold=0,
@@ -66,16 +66,16 @@ the documentation.
     :include-source:
     :context:
 
-    >>> dryfrac = dm.mobility.calculate_channel_decay(
+    >>> dryfrac = spl.mobility.calculate_channel_decay(
     ...     channelmask_list, landmask_list, basevalues_idx=[0, 1, 2], window_idx=5
     ... )
-    >>> Ophi = dm.mobility.calculate_planform_overlap(
+    >>> Ophi = spl.mobility.calculate_planform_overlap(
     ...     channelmask_list, landmask_list, basevalues_idx=[0, 1, 2], window_idx=5
     ... )
-    >>> fr = dm.mobility.calculate_reworking_fraction(
+    >>> fr = spl.mobility.calculate_reworking_fraction(
     ...     channelmask_list, landmask_list, basevalues_idx=[0, 1, 2], window_idx=5
     ... )
-    >>> PwetA = dm.mobility.calculate_channel_abandonment(
+    >>> PwetA = spl.mobility.calculate_channel_abandonment(
     ...     channelmask_list, basevalues_idx=[0, 1, 2], window_idx=5
     ... )
 

@@ -23,9 +23,9 @@ Section display types
 
 .. doctest::
 
-    >>> golfcube = dm.sample_data.golf()
+    >>> golfcube = spl.sample_data.golf()
     >>> golfcube.stratigraphy_from("eta")
-    >>> golfcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
+    >>> golfcube.register_section("demo", spl.section.StrikeSection(distance_idx=10))
     >>> _v = "velocity"
 
     >>> fig, ax = plt.subplots(3, 2, sharex=True, figsize=(8, 6))

@@ -13,7 +13,7 @@ For each we start with the same example dataset, and use the elevation data at t
     :context: reset
     :include-source:
 
-    golfcube = dm.sample_data.golf()
+    golfcube = spl.sample_data.golf()
 
     fig, ax = plt.subplots()
     golfcube.quick_show('eta', idx=-1, ax=ax)
@@ -31,8 +31,8 @@ The `OpeningAnglePlanform` can be created directly from elevation data:
     :context: close-figs
     :include-source:
 
-    golfcube = dm.sample_data.golf()
-    OAP = dm.plan.OpeningAnglePlanform.from_elevation_data(
+    golfcube = spl.sample_data.golf()
+    OAP = spl.plan.OpeningAnglePlanform.from_elevation_data(
       golfcube['eta'][-1, :, :], elevation_threshold=0)
 
 All planforms have a `composite_array` attribute from which a contour is extracted when defining the shoreline.
@@ -44,7 +44,7 @@ In the case of the `OpeningAnglePlanform`, the `composite_array` is the "sea ang
 
     fig, ax = plt.subplots()
     im = ax.imshow(OAP.composite_array)
-    dm.plot.append_colorbar(im, ax=ax)
+    spl.plot.append_colorbar(im, ax=ax)
     plt.show()
 
 .. [1] Shaw, J. B., Wolinsky, M. A., Paola, C., & Voller, V. R. (2008). An image‐based method for shoreline mapping on complex coasts. Geophysical Research Letters, 35(12).
@@ -60,7 +60,7 @@ The `MorphologicalPlanform` can also be created directly from elevation data:
     :context: close-figs
     :include-source:
 
-    MP = dm.plan.MorphologicalPlanform.from_elevation_data(
+    MP = spl.plan.MorphologicalPlanform.from_elevation_data(
       golfcube['eta'][-1, :, :], elevation_threshold=0, max_disk=8)
 
 In this case, the `composite_array` attribute of the planform represents the inverse of the average pixel value when different sized disks are used to perform the binary closing on the elevation data.
@@ -71,7 +71,7 @@ In this case, the `composite_array` attribute of the planform represents the inv
 
     fig, ax = plt.subplots()
     im = ax.imshow(MP.composite_array)
-    dm.plot.append_colorbar(im, ax=ax)
+    spl.plot.append_colorbar(im, ax=ax)
     plt.show()
 
 .. plot::
@@ -94,10 +94,10 @@ Of course the two methods are different, so the shorelines identified will also 
     :context:
     :include-source:
 
-    SM_from_OAM = dm.mask.ShorelineMask.from_Planform(
+    SM_from_OAM = spl.mask.ShorelineMask.from_Planform(
       OAP, contour_threshold=75)
 
-    SM_from_MPM = dm.mask.ShorelineMask.from_Planform(
+    SM_from_MPM = spl.mask.ShorelineMask.from_Planform(
       MP, contour_threshold=0.75)
 
     fig, ax = plt.subplots(1, 3, figsize=(10, 5))
@@ -112,7 +112,7 @@ Of course the two methods are different, so the shorelines identified will also 
       SM_from_OAM.mask.astype(float) - SM_from_MPM.mask.astype(float),
       interpolation=None, cmap='bone')
     ax[2].set_title('OAM shoreline - MPM shoreline')
-    dm.plot.append_colorbar(diff_im, ax=ax[2])
+    spl.plot.append_colorbar(diff_im, ax=ax[2])
 
     plt.tight_layout()
     plt.show()

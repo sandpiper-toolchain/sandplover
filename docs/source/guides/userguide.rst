@@ -42,7 +42,7 @@ Connecting to a netCDF file on disk is as simple as:
 
 .. code::
 
-    >>> acube = dm.cube.DataCube("/path/to/data/file.nc")
+    >>> acube = spl.cube.DataCube("/path/to/data/file.nc")
 
 .. hint::
 
@@ -52,7 +52,7 @@ For this guide to be easy to follow along with, we will use some sample data tha
 
 .. doctest::
 
-    >>> golfcube = dm.sample_data.golf()
+    >>> golfcube = spl.sample_data.golf()
     >>> golfcube
     <sandplover.cube.DataCube object at 0x...>
 
@@ -86,7 +86,7 @@ Remember that `time` is ordered along the 0th dimension.
 .. plot::
     :context: reset
 
-    >>> golfcube = dm.sample_data.golf()
+    >>> golfcube = spl.sample_data.golf()
 
 .. plot::
     :include-source:
@@ -130,7 +130,7 @@ For example:
     >>> # make the plot
     >>> fig, ax = plt.subplots(figsize=(5, 3))
     >>> im = ax.imshow(diff_time, cmap="RdBu", vmax=max_delta, vmin=-max_delta)
-    >>> cb = dm.plot.append_colorbar(im, ax)  # a convenience function
+    >>> cb = spl.plot.append_colorbar(im, ax)  # a convenience function
     >>> plt.show()
 
 
@@ -148,7 +148,7 @@ The data returned from the planform are an `xarray` `DataArray`, so you can cont
 
 .. doctest::
 
-    >>> final = dm.plan.Planform(golfcube, idx=-1)
+    >>> final = spl.plan.Planform(golfcube, idx=-1)
     >>> final.shape
     (100, 200)
     >>> final["eta"]
@@ -173,7 +173,7 @@ The data returned from the planform are an `xarray` `DataArray`, so you can cont
 .. plot::
     :context: close-figs
 
-    >>> final = dm.plan.Planform(golfcube, idx=-1)
+    >>> final = spl.plan.Planform(golfcube, idx=-1)
 
 You can visualize the data yourself, or use the built-in `show()` method of a `Planform`.
 
@@ -197,7 +197,7 @@ Use the :meth:`~sandplover.cube.DataCube.register_planform` method when instanti
 
 .. doctest::
 
-    >>> golfcube.register_planform("fifty", dm.plan.Planform(idx=50))
+    >>> golfcube.register_planform("fifty", spl.plan.Planform(idx=50))
 
 Any registered `Planform` can then be accessed via the :obj:`~sandplover.cube.DataCube.planforms` attribute of the Cube (returns a `dict`).
 
@@ -227,7 +227,7 @@ For a data cube, sections are most easily instantiated by the :obj:`~sandplover.
 
 .. doctest::
 
-    >>> golfcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
+    >>> golfcube.register_section("demo", spl.section.StrikeSection(distance_idx=10))
 
 which creates a section across a constant y-value ``==10``.
 The path of any `Section` in the ``x-y`` plane can always be accessed via the ``.trace`` attribute.
@@ -260,7 +260,7 @@ are sliced themselves, similarly to the cube.
 
 .. doctest::
 
-    >>> golfcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
+    >>> golfcube.register_section("demo", spl.section.StrikeSection(distance_idx=10))
     >>> golfcube.sections["demo"]["velocity"]
     <xarray.DataArray 'velocity' (time: 101, s: 200)> Size: 81kB
     array([[0.2   , 0.2   , 0.2   , ..., 0.2   , 0.2   , 0.2   ],
@@ -297,7 +297,7 @@ You can also create a standalone section, which is not registered to the cube, b
 
 .. doctest::
 
-    >>> sass = dm.section.StrikeSection(golfcube, distance_idx=10)
+    >>> sass = spl.section.StrikeSection(golfcube, distance_idx=10)
     >>> np.all(
     ...     sass["velocity"] == golfcube.sections["demo"]["velocity"]
     ... )  # doctest: +SKIP
@@ -384,12 +384,12 @@ The below figure shows each section type available and the `velocity` spacetime 
 
 .. doctest::
 
-    >>> _strike = dm.section.StrikeSection(golfcube, distance=1200)
-    >>> _path = dm.section.PathSection(
+    >>> _strike = spl.section.StrikeSection(golfcube, distance=1200)
+    >>> _path = spl.section.PathSection(
     ...     golfcube, path=np.array([[1400, 2000], [2000, 4000], [3000, 6000]])
     ... )
-    >>> _circ = dm.section.CircularSection(golfcube, radius=2000)
-    >>> _rad = dm.section.RadialSection(golfcube, azimuth=70)
+    >>> _circ = spl.section.CircularSection(golfcube, radius=2000)
+    >>> _rad = spl.section.RadialSection(golfcube, azimuth=70)
 
 .. plot:: guides/userguide_section_type_demos.py
 
@@ -425,7 +425,7 @@ Here’s a simple example to demonstrate how we place data into the stratigraphy
 
     >>> ets = golfcube["eta"][:, 10, 85]  # a "real" slice of the model
     >>> fig, ax = plt.subplots(figsize=(8, 4))
-    >>> dm.plot.show_one_dimensional_trajectory_to_strata(ets, ax=ax, dz=0.25)
+    >>> spl.plot.show_one_dimensional_trajectory_to_strata(ets, ax=ax, dz=0.25)
     >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_1d_example.py
@@ -435,7 +435,7 @@ Begin by creating a ``StratigraphyCube``:
 
 .. doctest::
 
-    >>> stratcube = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
+    >>> stratcube = spl.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
     >>> stratcube.variables
     ['eta', 'stage', 'depth', 'discharge', 'velocity', 'sedflux', 'sandfrac']
 
@@ -460,7 +460,7 @@ Let’s add a section at the same location as ``golfcube.sections['demo']``.
 
 .. doctest::
 
-    >>> stratcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
+    >>> stratcube.register_section("demo", spl.section.StrikeSection(distance_idx=10))
     >>> stratcube.sections
     {'demo': <sandplover.section.StrikeSection object at 0x...>}
 
@@ -501,14 +501,14 @@ Specify `z` as the elevation of the planform slice:
 .. plot::
     :context: reset
 
-    >>> golfcube = dm.sample_data.golf()
-    >>> stratcube = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
+    >>> golfcube = spl.sample_data.golf()
+    >>> stratcube = spl.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.05)
 
 .. plot::
     :include-source:
     :context:
 
-    >>> minus2_slice = dm.plan.Planform(stratcube, z=-2)
+    >>> minus2_slice = spl.plan.Planform(stratcube, z=-2)
 
     >>> fig, ax = plt.subplots()
     >>> minus2_slice.show("sandfrac", ticks=True, ax=ax)
@@ -536,7 +536,7 @@ speed up computations if an array is being accessed over and over.
         vmin=golfcube.varset["sandfrac"].vmin,
         vmax=golfcube.varset["sandfrac"].vmax,
     )
-    dm.plot.append_colorbar(pcm, ax)
+    spl.plot.append_colorbar(pcm, ax)
     plt.show()  # doctest: +SKIP
 
 Note than you can also bypass the creation of a ``StratigraphyCube``,
@@ -544,7 +544,7 @@ and just directly obtain a frozen volume with:
 
 .. doctest::
 
-   >>> fs, fe = dm.strat.compute_boxy_stratigraphy_volume(
+   >>> fs, fe = spl.strat.compute_boxy_stratigraphy_volume(
    ...     golfcube["eta"], golfcube["sandfrac"], dz=0.05
    ... )
 
@@ -574,7 +574,7 @@ Masks
 
 We have implemented operations to compute masks of several types.
 
-By design, masks can be instantiated directly from the most basic "raw data" components (e.g., a channel :obj:`~dm.mask.CenterlineMask` from `eta` and  `velocity`).
+By design, masks can be instantiated directly from the most basic "raw data" components (e.g., a channel :obj:`~spl.mask.CenterlineMask` from `eta` and  `velocity`).
 This is convenient, and can be a great way to quickly explore data and prototype algorithms; however, it is often more computationally efficient to reuse a precomputed mask (and `Planform` objects) to compute a new mask.
 We describe the relationships between various `Mask` types, and best practices for creating each on the :doc:`reference page for masks </reference/mask/index>`.
 
@@ -605,34 +605,34 @@ See the :doc:`reference page for each mask type </reference/mask/index>` if you 
     :include-source:
 
     # use a new cube
-    maskcube = dm.sample_data.golf()
+    maskcube = spl.sample_data.golf()
 
     # create the masks from variables in the cube
-    land_mask = dm.mask.LandMask(
+    land_mask = spl.mask.LandMask(
         maskcube['eta'][-1, :, :],
         elevation_threshold=0)
 
-    wet_mask = dm.mask.WetMask(
+    wet_mask = spl.mask.WetMask(
         maskcube['eta'][-1, :, :],
         elevation_threshold=0)
 
-    channel_mask = dm.mask.ChannelMask(
+    channel_mask = spl.mask.ChannelMask(
         maskcube['eta'][-1, :, :],
         maskcube['velocity'][-1, :, :],
         elevation_threshold=0,
         flow_threshold=0.3)
 
-    centerline_mask = dm.mask.CenterlineMask(
+    centerline_mask = spl.mask.CenterlineMask(
         maskcube['eta'][-1, :, :],
         maskcube['velocity'][-1, :, :],
         elevation_threshold=0,
         flow_threshold=0.3)
 
-    edge_mask = dm.mask.EdgeMask(
+    edge_mask = spl.mask.EdgeMask(
         maskcube['eta'][-1, :, :],
         elevation_threshold=0)
 
-    shore_mask = dm.mask.ShorelineMask(
+    shore_mask = spl.mask.ShorelineMask(
         maskcube['eta'][-1, :, :],
         elevation_threshold=0)
 

@@ -18,8 +18,8 @@ The data that make up the section can view the section as a `spacetime` section 
 
 .. doctest::
 
-    >>> rcm8cube = dm.sample_data.golf()
-    >>> strike = dm.section.StrikeSection(rcm8cube, distance_idx=10)
+    >>> rcm8cube = spl.sample_data.golf()
+    >>> strike = spl.section.StrikeSection(rcm8cube, distance_idx=10)
     >>> strike["velocity"]
     <xarray.DataArray 'velocity' (time: 101, s: 200)> Size: 81kB
     array([[0.2   , 0.2   , 0.2   , ..., 0.2   , 0.2   , 0.2   ],

@@ -8,8 +8,8 @@ DataCube
     :include-source:
     :context: close-figs
 
-    >>> golfcube = dm.sample_data.golf()
-    >>> final = dm.plan.Planform(golfcube, idx=-1)
+    >>> golfcube = spl.sample_data.golf()
+    >>> final = spl.plan.Planform(golfcube, idx=-1)
 
 You can visualize the data yourself, or use the built-in `show()` method of a `Planform`.
 
@@ -30,8 +30,8 @@ StratigraphyCube
     :include-source:
     :context: close-figs
 
-    >>> golfstrat = dm.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.1)
-    >>> minus1 = dm.plan.Planform(golfstrat, z=-1)
+    >>> golfstrat = spl.cube.StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+    >>> minus1 = spl.plan.Planform(golfstrat, z=-1)
 
 You can visualize the data yourself, or use the built-in `show()` method of a `Planform`.
 

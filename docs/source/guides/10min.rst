@@ -32,7 +32,7 @@ For now, let's use a sample dataset that is distributed with sandplover.
 
 .. doctest::
 
-    >>> golfcube = dm.sample_data.golf()
+    >>> golfcube = spl.sample_data.golf()
     >>> type(golfcube)
     <class 'sandplover.cube.DataCube'>
 
@@ -129,7 +129,7 @@ For a data cube, sections are most easily instantiated by the :obj:`~sandplover.
 
 .. doctest::
 
-    >>> golfcube.register_section("demo", dm.section.StrikeSection(distance_idx=10))
+    >>> golfcube.register_section("demo", spl.section.StrikeSection(distance_idx=10))
 
 which can then be accessed via the :obj:`~sandplover.cube.Cube.sections` attribute of the Cube.
 

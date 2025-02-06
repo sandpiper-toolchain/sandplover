@@ -174,7 +174,7 @@ Now, let's load the NetCDF file with sandplover. Make a cube by pointing to the 
     :include-source:
     :context: close-figs
 
-    nc_datacube = dm.cube.DataCube(os.path.join(output_folder, 'model_output.nc'))
+    nc_datacube = spl.cube.DataCube(os.path.join(output_folder, 'model_output.nc'))
 
     fig, ax = plt.subplots(2, len(t), figsize=(8, 3))
     for i, _ in enumerate(t):
@@ -194,7 +194,7 @@ To show that the components of sea level and elevation have been connected:
     :include-source:
     :context: close-figs
 
-    dm.plot.aerial_view(
+    spl.plot.aerial_view(
         nc_datacube['eta'][-1, :, :],
         datum=nc_datacube.meta['H_SL'][-1],
         ticks=True)
@@ -216,7 +216,7 @@ If you are not at all concerned with the size of your data, and loading all of t
                  'velocity': velocity}
 
     # make a cube from it
-    dict_datacube = dm.cube.DataCube(
+    dict_datacube = spl.cube.DataCube(
         data_dict,
         dimensions={'time': t,
                     'y': y,
@@ -246,7 +246,7 @@ If you want a basic workaround, you can create a dictionary inside the input dic
 
 .. code::
 
-    dict_datacube = dm.cube.DataCube(
+    dict_datacube = spl.cube.DataCube(
         data_dict, dimensions={"time": t, "y": y, "x": x, "meta": {"H_SL": H_SL}}
     )
 
