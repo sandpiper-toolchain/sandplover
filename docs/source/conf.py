@@ -25,8 +25,8 @@ src_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.
 # -- Project information -----------------------------------------------------
 
 project = "sandplover"
-copyright = "2020, The DeltaRCM Team"
-author = "The DeltaRCM Team"
+copyright = "2020, The sandpiper-toolchain Team"
+author = "The sandpiper-toolchain Team"
 
 __version__ = get_version_from_file(os.path.join(src_dir, "sandplover", "_version.py"))
 
