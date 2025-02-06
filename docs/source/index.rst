@@ -4,11 +4,11 @@
 sandplover
 ************
 
-.. image:: https://github.com/DeltaRCM/sandplover/workflows/build/badge.svg
-  :target: https://github.com/DeltaRCM/sandplover/actions
+.. image:: https://github.com/sandpiper-toolchain/sandplover/workflows/build/badge.svg
+  :target: https://github.com/sandpiper-toolchain/sandplover/actions
 
-.. image:: https://codecov.io/gh/DeltaRCM/sandplover/branch/develop/graph/badge.svg
-  :target: https://codecov.io/gh/DeltaRCM/sandplover
+.. image:: https://codecov.io/gh/sandpiper-toolchain/sandplover/branch/develop/graph/badge.svg
+  :target: https://codecov.io/gh/sandpiper-toolchain/sandplover
 
 *sandplover* is a Python package for manipulating depositional system data cubes.
 The package has robust objects and routines designed to help organize, visualize, and analyze topography and sedimentological timeseries data.
@@ -24,10 +24,10 @@ sandplover documentation
 
 
 .. image:: https://img.shields.io/static/v1?label=GitHub&logo=github&message=source&color=brightgreen
-    :target: https://github.com/DeltaRCM/sandplover
+    :target: https://github.com/sandpiper-toolchain/sandplover
 
-.. image:: https://badge.fury.io/gh/DeltaRCM%2Fsandplover.svg
-    :target: https://github.com/DeltaRCM/sandplover/releases
+.. image:: https://badge.fury.io/gh/sandpiper-toolchain%2Fsandplover.svg
+    :target: https://github.com/sandpiper-toolchain/sandplover/releases
 
 Documentation Table of Contents
 -------------------------------

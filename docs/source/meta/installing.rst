@@ -28,7 +28,7 @@ Install by cloning:
 
 .. code:: console
 
-    $ git clone https://github.com/DeltaRCM/sandplover.git
+    $ git clone https://github.com/sandpiper-toolchain/sandplover.git
 
 and then ``cd`` into the directory and install editable copy.
 

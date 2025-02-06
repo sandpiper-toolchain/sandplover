@@ -19,7 +19,7 @@ warnings.simplefilter("default")
 REGISTRY = pooch.create(
     path=pooch.os_cache("sandplover"),
     base_url=(
-        "https://github.com/DeltaRCM/sandplover/raw/develop/"
+        "https://github.com/sandpiper-toolchain/sandplover/raw/develop/"
         "sandplover/sample_data/files/"
     ),
     env="DELTAMETRICS_DATA_DIR",

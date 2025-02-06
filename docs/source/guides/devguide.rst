@@ -37,7 +37,7 @@ You may wish to add the upstream repository for easy ``push``/``pull``.
 
 .. code:: console
 
-    $ git remote add upstream https://github.com/DeltaRCM/sandplover.git
+    $ git remote add upstream https://github.com/sandpiper-toolchain/sandplover.git
 
 
 Developing
