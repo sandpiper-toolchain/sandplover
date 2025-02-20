@@ -47,7 +47,7 @@
 <h1>sandplover.plan.OpeningAnglePlanform<a class="headerlink" href="#sandplover-plan-openingangleplanform" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.plan.</span></span><span class="sig-name descname"><span class="pre">OpeningAnglePlanform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.plan.</span></span><span class="sig-name descname"><span class="pre">OpeningAnglePlanform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform" title="Link to this definition">¶</a></dt>
 <dd><p>Planform for handling the Shaw Opening Angle Method.</p>
 <p>This <cite>Planform</cite> (called <cite>OAP</cite> for short) is a wrapper/handler for the
 input and output from the <a class="reference internal" href="sandplover.plan.shaw_opening_angle_method.html#sandplover.plan.shaw_opening_angle_method" title="sandplover.plan.shaw_opening_angle_method"><code class="xref py py-func docutils literal notranslate"><span class="pre">shaw_opening_angle_method()</span></code></a>. The <cite>OAP</cite> is a
@@ -135,7 +135,7 @@ to <cite>self.data</cite>. I.e., the returned slice is <code class="docutils lit
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.below_mask">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">below_mask</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.below_mask" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">below_mask</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.below_mask" title="Link to this definition">¶</a></dt>
 <dd><p>Mask for below sea level pixels.</p>
 <p>This is the starting point for the Opening Angle Method solution.</p>
 <p>See figure in main docstring for visual example.</p>
@@ -143,7 +143,7 @@ to <cite>self.data</cite>. I.e., the returned slice is <code class="docutils lit
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.composite_array">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">composite_array</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.composite_array" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">composite_array</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.composite_array" title="Link to this definition">¶</a></dt>
 <dd><p>Alias to <cite>opening_angles</cite>.</p>
 <p>This is the array that a contour is extracted from using some threshold
 value when making land and shoreline masks.</p>
@@ -151,7 +151,7 @@ value when making land and shoreline masks.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.data">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.data" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.data" title="Link to this definition">¶</a></dt>
 <dd><p>The public data field.</p>
 <p>This attribute <em>must</em> be implemented as an alias to another attribute.
 The choice of field is up to the developer.</p>
@@ -159,7 +159,7 @@ The choice of field is up to the developer.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.from_ElevationMask">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_ElevationMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation_mask</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.from_ElevationMask" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_ElevationMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation_mask</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.from_ElevationMask" title="Link to this definition">¶</a></dt>
 <dd><p>Create an <cite>OpeningAnglePlanform</cite> from an <cite>ElevationMask</cite>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -189,7 +189,7 @@ thus passed to <a class="reference internal" href="sandplover.plan.shaw_opening_
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.from_arrays">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.from_arrays" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.from_arrays" title="Link to this definition">¶</a></dt>
 <dd><p>Create directly from arrays.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -199,7 +199,7 @@ thus passed to <a class="reference internal" href="sandplover.plan.shaw_opening_
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.from_elevation_data">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_elevation_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation_data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.from_elevation_data" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_elevation_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation_data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.from_elevation_data" title="Link to this definition">¶</a></dt>
 <dd><p>Create an <cite>OpeningAnglePlanform</cite> from elevation data.</p>
 <p>This process creates an ElevationMask from the input elevation array,
 and proceeds to make the OAP from the below sea level mask.</p>
@@ -238,27 +238,27 @@ turn used to create the <cite>OpeningAnglePlanform</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.from_mask">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">UnknownMask</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.from_mask" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">UnknownMask</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.from_mask" title="Link to this definition">¶</a></dt>
 <dd><p>Wraps <a class="reference internal" href="#sandplover.plan.OpeningAnglePlanform.from_ElevationMask" title="sandplover.plan.OpeningAnglePlanform.from_ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_ElevationMask</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.name" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.name" title="Link to this definition">¶</a></dt>
 <dd><p>Planform name.</p>
 <p>Helpful to differentiate multiple <cite>Planform</cite> objects.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.opening_angles">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">opening_angles</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.opening_angles" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">opening_angles</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.opening_angles" title="Link to this definition">¶</a></dt>
 <dd><p>Maximum opening angle view of the sea from a pixel.</p>
 <p>See figure in main docstring for visual example.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.sea_angles">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sea_angles</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.sea_angles" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sea_angles</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.sea_angles" title="Link to this definition">¶</a></dt>
 <dd><p>Alias to <cite>opening_angles</cite>.</p>
 <p>This alias is implemented for backwards compatability, and should not
 be relied on. Use <cite>opening_angles</cite> instead.</p>
@@ -266,7 +266,7 @@ be relied on. Use <cite>opening_angles</cite> instead.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.plan.OpeningAnglePlanform.shape">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.shape" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#sandplover.plan.OpeningAnglePlanform.shape" title="Link to this definition">¶</a></dt>
 <dd><p>Planform shape.</p>
 </dd></dl>
 
@@ -388,7 +388,7 @@ create a new) <cite>Axes</cite> object.</p></li>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2025, The sandpiper-toolchain Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
     </div>
   </body>
 </html>

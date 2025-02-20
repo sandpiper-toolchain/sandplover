@@ -47,7 +47,7 @@
 <h1>sandplover.mask.ElevationMask<a class="headerlink" href="#sandplover-mask-elevationmask" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sandplover.mask.ElevationMask">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.mask.</span></span><span class="sig-name descname"><span class="pre">ElevationMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_threshold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'eta'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ElevationMask" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.mask.</span></span><span class="sig-name descname"><span class="pre">ElevationMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_threshold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'eta'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ElevationMask" title="Link to this definition">¶</a></dt>
 <dd><p>Elevation mask.</p>
 <p>This mask implements a binarization of a raster based on elevation
 values.</p>
@@ -123,13 +123,13 @@ only ‘mask’ or ‘integer’.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.mask.ElevationMask.elevation_offset">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elevation_offset</span></span><a class="headerlink" href="#sandplover.mask.ElevationMask.elevation_offset" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elevation_offset</span></span><a class="headerlink" href="#sandplover.mask.ElevationMask.elevation_offset" title="Link to this definition">¶</a></dt>
 <dd><p>An optional offset to apply to input threshold.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.mask.ElevationMask.elevation_threshold">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elevation_threshold</span></span><a class="headerlink" href="#sandplover.mask.ElevationMask.elevation_threshold" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elevation_threshold</span></span><a class="headerlink" href="#sandplover.mask.ElevationMask.elevation_threshold" title="Link to this definition">¶</a></dt>
 <dd><p>Elevation value used to threshold the elevation data.</p>
 <p>Determined during instantiation as the sum of input arguments to
 <a class="reference internal" href="#sandplover.mask.ElevationMask.__init__" title="sandplover.mask.ElevationMask.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a> <cite>elevation_threshold</cite> and <cite>elevation_offset</cite>.</p>
@@ -137,7 +137,7 @@ only ‘mask’ or ‘integer’.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.mask.ElevationMask.from_array">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_arr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ElevationMask.from_array" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_arr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ElevationMask.from_array" title="Link to this definition">¶</a></dt>
 <dd><p>Create an <cite>ElevationMask</cite> from an array.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -156,7 +156,7 @@ will be coerced to <cite>boolean</cite>.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.mask.ElevationMask.integer_mask">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">integer_mask</span></span><a class="headerlink" href="#sandplover.mask.ElevationMask.integer_mask" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">integer_mask</span></span><a class="headerlink" href="#sandplover.mask.ElevationMask.integer_mask" title="Link to this definition">¶</a></dt>
 <dd><p>Binary mask values as integer</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -174,7 +174,7 @@ also <a class="reference internal" href="#sandplover.mask.ElevationMask.mask" ti
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.mask.ElevationMask.mask">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask</span></span><a class="headerlink" href="#sandplover.mask.ElevationMask.mask" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask</span></span><a class="headerlink" href="#sandplover.mask.ElevationMask.mask" title="Link to this definition">¶</a></dt>
 <dd><p>Binary mask values.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -191,7 +191,7 @@ also <a class="reference internal" href="#sandplover.mask.ElevationMask.mask" ti
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.mask.ElevationMask.mask_type">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask_type</span></span><a class="headerlink" href="#sandplover.mask.ElevationMask.mask_type" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask_type</span></span><a class="headerlink" href="#sandplover.mask.ElevationMask.mask_type" title="Link to this definition">¶</a></dt>
 <dd><p>Type of the mask (string)</p>
 </dd></dl>
 
@@ -216,7 +216,7 @@ black and white.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.mask.ElevationMask.threshold">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">threshold</span></span><a class="headerlink" href="#sandplover.mask.ElevationMask.threshold" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">threshold</span></span><a class="headerlink" href="#sandplover.mask.ElevationMask.threshold" title="Link to this definition">¶</a></dt>
 <dd><p>Generic property for ThresholdValueMask threshold.</p>
 </dd></dl>
 
@@ -328,7 +328,7 @@ the top domain edge.</p></li>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2025, The sandpiper-toolchain Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
     </div>
   </body>
 </html>

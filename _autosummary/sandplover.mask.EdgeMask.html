@@ -47,7 +47,7 @@
 <h1>sandplover.mask.EdgeMask<a class="headerlink" href="#sandplover-mask-edgemask" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sandplover.mask.EdgeMask">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.mask.</span></span><span class="sig-name descname"><span class="pre">EdgeMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.EdgeMask" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.mask.</span></span><span class="sig-name descname"><span class="pre">EdgeMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.EdgeMask" title="Link to this definition">¶</a></dt>
 <dd><p>Identify the land-water edges.</p>
 <p>An edge mask object, delineates the boundaries between land and water.
 Edge identification is implemented via Canny edge detection from <cite>skimage</cite>
@@ -144,13 +144,13 @@ only ‘mask’ or ‘integer’.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.mask.EdgeMask.from_Planform">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_Planform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_Planform</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.EdgeMask.from_Planform" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_Planform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_Planform</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.EdgeMask.from_Planform" title="Link to this definition">¶</a></dt>
 <dd><p>Create EdgeMask from a Planform.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.mask.EdgeMask.from_Planform_and_WetMask">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_Planform_and_WetMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_Planform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_WetMask</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.EdgeMask.from_Planform_and_WetMask" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_Planform_and_WetMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_Planform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_WetMask</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.EdgeMask.from_Planform_and_WetMask" title="Link to this definition">¶</a></dt>
 <dd><p>Create from a Planform and a WetMask.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -169,7 +169,7 @@ see the static method <a class="reference internal" href="#sandplover.mask.EdgeM
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.mask.EdgeMask.from_array">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_arr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.EdgeMask.from_array" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_arr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.EdgeMask.from_array" title="Link to this definition">¶</a></dt>
 <dd><p>Create an EdgeMask from an array.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -188,13 +188,13 @@ will be coerced to <cite>boolean</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.mask.EdgeMask.from_mask">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.EdgeMask.from_mask" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.EdgeMask.from_mask" title="Link to this definition">¶</a></dt>
 <dd><p>Create a EdgeMask directly from a LandMask and a WetMask.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.mask.EdgeMask.integer_mask">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">integer_mask</span></span><a class="headerlink" href="#sandplover.mask.EdgeMask.integer_mask" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">integer_mask</span></span><a class="headerlink" href="#sandplover.mask.EdgeMask.integer_mask" title="Link to this definition">¶</a></dt>
 <dd><p>Binary mask values as integer</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -212,7 +212,7 @@ also <a class="reference internal" href="#sandplover.mask.EdgeMask.mask" title="
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.mask.EdgeMask.mask">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask</span></span><a class="headerlink" href="#sandplover.mask.EdgeMask.mask" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask</span></span><a class="headerlink" href="#sandplover.mask.EdgeMask.mask" title="Link to this definition">¶</a></dt>
 <dd><p>Binary mask values.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -229,7 +229,7 @@ also <a class="reference internal" href="#sandplover.mask.EdgeMask.mask" title="
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.mask.EdgeMask.mask_type">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask_type</span></span><a class="headerlink" href="#sandplover.mask.EdgeMask.mask_type" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask_type</span></span><a class="headerlink" href="#sandplover.mask.EdgeMask.mask_type" title="Link to this definition">¶</a></dt>
 <dd><p>Type of the mask (string)</p>
 </dd></dl>
 
@@ -360,7 +360,7 @@ the top domain edge.</p></li>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2025, The sandpiper-toolchain Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
     </div>
   </body>
 </html>

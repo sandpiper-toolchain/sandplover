@@ -47,7 +47,7 @@
 <h1>sandplover.mask.ShorelineMask<a class="headerlink" href="#sandplover-mask-shorelinemask" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sandplover.mask.ShorelineMask">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.mask.</span></span><span class="sig-name descname"><span class="pre">ShorelineMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contour_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'OAM'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ShorelineMask" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.mask.</span></span><span class="sig-name descname"><span class="pre">ShorelineMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contour_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'OAM'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ShorelineMask" title="Link to this definition">¶</a></dt>
 <dd><p>Identify the shoreline as a binary mask.</p>
 <p>A shoreline mask object, provides a binary identification of shoreline
 pixels.</p>
@@ -160,19 +160,19 @@ only ‘mask’ or ‘integer’.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.contour">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">contour</span></span><a class="headerlink" href="#sandplover.mask.ShorelineMask.contour" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">contour</span></span><a class="headerlink" href="#sandplover.mask.ShorelineMask.contour" title="Link to this definition">¶</a></dt>
 <dd><p>Path of the contour that was cast to shoreline mask.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.contour_threshold">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">contour_threshold</span></span><a class="headerlink" href="#sandplover.mask.ShorelineMask.contour_threshold" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">contour_threshold</span></span><a class="headerlink" href="#sandplover.mask.ShorelineMask.contour_threshold" title="Link to this definition">¶</a></dt>
 <dd><p>Threshold value used for picking shoreline contour.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.from_array">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contour</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ShorelineMask.from_array" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contour</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ShorelineMask.from_array" title="Link to this definition">¶</a></dt>
 <dd><p>Create a ShorelineMask from an array.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -195,7 +195,7 @@ will be coerced to <cite>boolean</cite>.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.from_mask">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">UnknownMask</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ShorelineMask.from_mask" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">UnknownMask</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.ShorelineMask.from_mask" title="Link to this definition">¶</a></dt>
 <dd><p>Create a ShorelineMask directly from an <a class="reference internal" href="sandplover.mask.ElevationMask.html#sandplover.mask.ElevationMask" title="sandplover.mask.ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElevationMask</span></code></a>.</p>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
@@ -212,7 +212,7 @@ mask is created.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.integer_mask">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">integer_mask</span></span><a class="headerlink" href="#sandplover.mask.ShorelineMask.integer_mask" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">integer_mask</span></span><a class="headerlink" href="#sandplover.mask.ShorelineMask.integer_mask" title="Link to this definition">¶</a></dt>
 <dd><p>Binary mask values as integer</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -230,7 +230,7 @@ also <a class="reference internal" href="#sandplover.mask.ShorelineMask.mask" ti
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.mask">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask</span></span><a class="headerlink" href="#sandplover.mask.ShorelineMask.mask" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask</span></span><a class="headerlink" href="#sandplover.mask.ShorelineMask.mask" title="Link to this definition">¶</a></dt>
 <dd><p>Binary mask values.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -247,7 +247,7 @@ also <a class="reference internal" href="#sandplover.mask.ShorelineMask.mask" ti
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.mask.ShorelineMask.mask_type">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask_type</span></span><a class="headerlink" href="#sandplover.mask.ShorelineMask.mask_type" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mask_type</span></span><a class="headerlink" href="#sandplover.mask.ShorelineMask.mask_type" title="Link to this definition">¶</a></dt>
 <dd><p>Type of the mask (string)</p>
 </dd></dl>
 
@@ -379,7 +379,7 @@ the top domain edge.</p></li>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2025, The sandpiper-toolchain Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
     </div>
   </body>
 </html>

@@ -47,7 +47,7 @@
 <h1>sandplover.strat.BaseStratigraphyAttributes<a class="headerlink" href="#sandplover-strat-basestratigraphyattributes" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sandplover.strat.BaseStratigraphyAttributes">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.strat.</span></span><span class="sig-name descname"><span class="pre">BaseStratigraphyAttributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.strat.BaseStratigraphyAttributes" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.strat.</span></span><span class="sig-name descname"><span class="pre">BaseStratigraphyAttributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.strat.BaseStratigraphyAttributes" title="Link to this definition">¶</a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="sandplover.strat.BaseStratigraphyAttributes.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.strat.BaseStratigraphyAttributes.__init__" title="Link to this definition">¶</a></dt>
@@ -89,14 +89,14 @@
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.strat.BaseStratigraphyAttributes.__call__">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.strat.BaseStratigraphyAttributes.__call__" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.strat.BaseStratigraphyAttributes.__call__" title="Link to this definition">¶</a></dt>
 <dd><p>Slicing operation to get sections and planforms.</p>
 <p>Must be implemented by subclasses.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.strat.BaseStratigraphyAttributes.preserved_index">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">preserved_index</span></span><a class="headerlink" href="#sandplover.strat.BaseStratigraphyAttributes.preserved_index" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">preserved_index</span></span><a class="headerlink" href="#sandplover.strat.BaseStratigraphyAttributes.preserved_index" title="Link to this definition">¶</a></dt>
 <dd><p>Boolean array indicating preservation.</p>
 <p>True where data is preserved in final stratigraphy.</p>
 <dl class="field-list simple">
@@ -108,7 +108,7 @@
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.strat.BaseStratigraphyAttributes.preserved_voxel_count">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">preserved_voxel_count</span></span><a class="headerlink" href="#sandplover.strat.BaseStratigraphyAttributes.preserved_voxel_count" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">preserved_voxel_count</span></span><a class="headerlink" href="#sandplover.strat.BaseStratigraphyAttributes.preserved_voxel_count" title="Link to this definition">¶</a></dt>
 <dd><p>Nmber of preserved voxels per x-y.</p>
 <p>X-Y array indicating number of preserved voxels per x-y pair.</p>
 <dl class="field-list simple">
@@ -196,7 +196,7 @@
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2025, The sandpiper-toolchain Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
     </div>
   </body>
 </html>

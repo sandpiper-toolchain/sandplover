@@ -47,7 +47,7 @@
 <h1>sandplover.io.BaseIO<a class="headerlink" href="#sandplover-io-baseio" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sandplover.io.BaseIO">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.io.</span></span><span class="sig-name descname"><span class="pre">BaseIO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">io_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.io.BaseIO" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.io.</span></span><span class="sig-name descname"><span class="pre">BaseIO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">io_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.io.BaseIO" title="Link to this definition">¶</a></dt>
 <dd><p>BaseIO object other file format wrappers inheririt from.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -85,13 +85,13 @@ subclass <cite>BaseIO</cite> directly, and you just need to implement the
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.io.BaseIO.__getitem__">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.io.BaseIO.__getitem__" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.io.BaseIO.__getitem__" title="Link to this definition">¶</a></dt>
 <dd><p>Should slice the data from file.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.io.BaseIO.keys">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">keys</span></span><a class="headerlink" href="#sandplover.io.BaseIO.keys" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">keys</span></span><a class="headerlink" href="#sandplover.io.BaseIO.keys" title="Link to this definition">¶</a></dt>
 <dd><p>Should link to all key _names_ stored in file.</p>
 </dd></dl>
 
@@ -172,7 +172,7 @@ subclass <cite>BaseIO</cite> directly, and you just need to implement the
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2025, The sandpiper-toolchain Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.0.
     </div>
   </body>
 </html>
