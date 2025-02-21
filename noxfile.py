@@ -10,11 +10,11 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 @nox.session
 def build(session: nox.Session) -> None:
     """Build sdist and wheel dists."""
-    session.install("pip", "build")
-    session.install("setuptools")
-    session.run("python", "--version")
-    session.run("pip", "--version")
-    session.run("python", "-m", "build")
+    outdir = os.path.join(ROOT, "dist")
+    session.install("build")
+    session.run("python", "-m", "build", "--outdir", outdir)
+    session.log(f"Built distributions can be found in {outdir}")
+    return outdir
 
 
 @nox.session
