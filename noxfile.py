@@ -44,11 +44,18 @@ def test(session: nox.Session) -> None:
 @nox.session
 def coverage(session: nox.Session) -> None:
     """Run coverage"""
-    session.install("coverage", "pytest", "-r", "requirements.txt")
-    install(session)
+    session.install("coverage", "pytest")
+    session.install("-e", ".")
 
     session.run(
-        "coverage", "run", "-m", "pytest", "-vvv", env={"COVERAGE_CORE": "sysmon"}
+        "coverage",
+        "run",
+        "-m",
+        "pytest",
+        "sandplover",
+        "tests",
+        "--doctest-modules",
+        env={"COVERAGE_CORE": "sysmon"},
     )
 
     if "CI" in os.environ:
