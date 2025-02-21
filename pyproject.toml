@@ -110,12 +110,10 @@ norecursedirs = [
     "dist",
 ]
 addopts = [
-    "--ignore=setup.py",
     "--tb=native",
     "--durations=16",
     "--strict-markers",
     "--doctest-modules",
-    "-vvv",
 ]
 doctest_optionflags = [
     "NORMALIZE_WHITESPACE",

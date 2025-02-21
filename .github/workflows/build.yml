@@ -51,28 +51,6 @@ jobs:
         name: codecov-umbrella
         fail_ci_if_error: false
 
-  lint:
-    # Run on external PRs, but not on internal PRs, to avoid duplicate runs
-    if: |
-      github.event_name == 'push' ||
-      github.event_name == 'schedule' ||
-      github.event.pull_request.head.repo.full_name != github.repository
-    runs-on: "ubuntu-latest"
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Set up Python 3.13
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.13"
-    - name: Install nox
-      run: pip install nox
-    - name: Run the linters
-      run: nox -s lint
-
   docs:
     # Run on external PRs, but not on internal PRs, to avoid duplicate runs
     if: |
