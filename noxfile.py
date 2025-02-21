@@ -20,11 +20,16 @@ def build(session: nox.Session) -> None:
 @nox.session
 def install(session: nox.Session) -> None:
     """install the package"""
-    first_arg = session.posargs[0] if session.posargs else None
+    arg = session.posargs[0] if session.posargs else build(session)
 
-    if first_arg and not os.path.isfile(first_arg):
-        session.error("path must be a source distribution file")
-    session.install(first_arg or ".")
+    session.install("-r", "requirements.txt")
+
+    if os.path.isdir(arg):
+        session.install("sandplover", f"--find-links={arg}", "--no-deps", "--no-index")
+    elif os.path.isfile(arg):
+        session.install(arg, "--no-deps")
+    else:
+        session.error("first argument must be either a wheel or a wheelhouse folder")
 
 
 @nox.session
