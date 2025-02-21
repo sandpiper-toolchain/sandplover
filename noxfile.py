@@ -35,10 +35,10 @@ def install(session: nox.Session) -> None:
 @nox.session
 def test(session: nox.Session) -> None:
     """Run the tests."""
-    session.install("pytest", "requirements.txt")
+    session.install("pytest")
     install(session)
 
-    session.run("pytest", "-vvv")
+    session.run("pytest", "sandplover", "tests", "--pyargs", "--doctest-modules")
 
 
 @nox.session
