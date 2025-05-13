@@ -408,16 +408,16 @@ class BaseSection(abc.ABC):
         """
         if self._underlying._knows_stratigraphy:
             _xrDA = xr.DataArray(
-                    self._underlying.strata[:, self._dim1_idx, self._dim2_idx],
-                    coords={"s": self._s, self._z.dims[0]: self._z},
-                    dims=[self._z.dims[0], "s"],
-                    name=var,
-                    attrs={
-                        "slicetype": "data_section",
-                        "knows_stratigraphy": self._underlying._knows_stratigraphy,
-                        "knows_spacetime": True,
-                    },
-                )
+                self._underlying.strata[:, self._dim1_idx, self._dim2_idx],
+                coords={"s": self._s, self._z.dims[0]: self._z},
+                dims=[self._z.dims[0], "s"],
+                name=var,
+                attrs={
+                    "slicetype": "data_section",
+                    "knows_stratigraphy": self._underlying._knows_stratigraphy,
+                    "knows_spacetime": True,
+                },
+            )
             return _xrDA
         else:
             raise utils.NoStratigraphyError(obj=self, var="strata")
