@@ -268,6 +268,25 @@ class TestOpeningAnglePlanform:
         with pytest.raises(TypeError, match=r"Bad value .*"):
             oap.show(1000)
 
+    def test_simple_case(self):
+        """
+        this could be an easy benchmark of the method. When the domain is very
+        small, the grid resolution affects the result in the corner. so we
+        make a larger domain with the same style as the sketch below.
+        """
+        # 1 0 0 0 0
+        # 1 0 0 0 0
+        # 1 0 0 0 0
+        # 1 0 0 0 0
+        # 1 1 1 1 1
+        array = np.ones((100, 100))
+        array[:-1, 1:] = 0  # everywhere else ocean
+        em = ElevationMask.from_array(array)
+        oap = OpeningAnglePlanform.from_mask(em)
+        assert oap.opening_angles[0, 0] == 0  # zero at land
+        assert oap.opening_angles[0, -1] == 180  # open water 180
+        assert oap.opening_angles[-2, 1] == pytest.approx(90, abs=1)  # corner approx 90
+
 
 class TestMorphologicalPlanform:
     simple_land = simple_land
