@@ -1,7 +1,7 @@
 nt = 5
 t_idxs = np.linspace(
     0, golfcube.shape[0] - 1, num=nt, dtype=int
-)  # linearly interpolate t_idxs
+)  # evenly space t_idxs across time dimension
 fig, ax = plt.subplots(1, nt, figsize=(12, 2))
 for i, idx in enumerate(t_idxs):
     ax[i].imshow(
