@@ -229,7 +229,7 @@ class NetCDFIO(FileIO):
         if len(_coords_list) == 3:
             _LEGACY = False
             # the coordinates are preconfigured
-            self.dataset = _dataset  # .set_coords(_coords_list)
+            self.dataset = _dataset
             self.coords = list(self.dataset.coords)
             self.dims = copy.deepcopy(self.coords)
 
@@ -274,6 +274,7 @@ class NetCDFIO(FileIO):
         if _LEGACY:
             try:
                 _meta = xr.open_dataset(self.data_path, group="meta", engine=_engine)
+                self.meta = _meta
             except OSError:
                 warnings.warn(
                     "No associated metadata was found in the given data file.",
