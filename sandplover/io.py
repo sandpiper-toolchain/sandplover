@@ -232,9 +232,11 @@ class NetCDFIO(FileIO):
             self.coords = list(self.dataset.coords)
             self.dims = copy.deepcopy(self.coords)
         elif len(_coords_list) == 4:
-            raise NotImplementedError(
-                "sandplover cube does not currently support 4D data."
-            )
+            raise NotImplementedError("sandplover does not currently support 4D data.")
+            # this is a hard check prohibiting 4d data. To fully support the
+            # sandsuet v1.0 spec, we will need to be able to open this type
+            # of data file. The different cube types will then have to
+            # understand how to use (or disallow) 4D data.
         else:
             # coordinates were not found and are not being set
             raise NotImplementedError(
