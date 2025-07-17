@@ -221,54 +221,23 @@ def aeolian():
     return DataCube(aeolian_path)
 
 
+rcm8_removed_text = (
+    "The rcm8 sample data cube, and support for several legacy NetCDF "
+    "formats was removed with sandplover v0.6.0. Use "
+    "`sandplover.sample_data.golf()` instead."
+)
+
+
 def _get_rcm8_path():
-    rcm8_path = REGISTRY.fetch("pyDeltaRCM_Output_8.nc")
-    return rcm8_path
+    raise NotImplementedError(rcm8_removed_text)
 
 
 def rcm8():
     """Rcm8 Delta dataset.
 
-    This is a synthetic delta dataset generated from the pyDeltaRCM numerical
-    model. Unfortunately, we do not know the specific version of pyDeltaRCM
-    the model run was executed with. Moreover, many new coupling features have
-    been added to pyDeltaRCM and sandplover since this run. As a result,
-    this dataset is slated to be deprecated at some point, in favor of the
-    :obj:`golf` dataset.
-
-    .. important::
-
-        If you are learning to use sandplover or developing new codes or
-        documentation, please use the :obj:`golf` delta dataset.
-
-    .. warning:: This cube may be removed in future releases.
-
-    .. plot::
-
-        >>> import matplotlib.pyplot as plt
-        >>> import numpy as np
-        >>> import warnings
-        >>> import sandplover as spl
-
-        >>> with warnings.catch_warnings():
-        ...     warnings.simplefilter("ignore")
-        ...     rcm8 = spl.sample_data.rcm8()
-        ...
-        >>> nt = 5
-        >>> ts = np.linspace(0, rcm8["eta"].shape[0] - 1, num=nt, dtype=int)
-
-        >>> fig, ax = plt.subplots(1, nt, figsize=(12, 2))
-        >>> for i, t in enumerate(ts):
-        ...     _ = ax[i].imshow(rcm8["eta"][t, :, :], vmin=-2, vmax=0.5)
-        ...     _ = ax[i].set_title(f"t = {t}")
-        ...     _ = ax[i].axes.get_xaxis().set_ticks([])
-        ...     _ = ax[i].axes.get_yaxis().set_ticks([])
-        ...
-        >>> _ = ax[0].set_ylabel("y-direction")
-        >>> _ = ax[0].set_xlabel("x-direction")
+    This cube was removed in sandplover v0.6.0.
     """
-    rcm8_path = _get_rcm8_path()
-    return DataCube(rcm8_path)
+    raise NotImplementedError(rcm8_removed_text)
 
 
 def _get_landsat_path():
