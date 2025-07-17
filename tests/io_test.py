@@ -9,9 +9,7 @@ from sandplover.io import DictionaryIO
 from sandplover.io import NetCDFIO
 from sandplover.sample_data.sample_data import _get_golf_path
 from sandplover.sample_data.sample_data import _get_landsat_path
-from sandplover.sample_data.sample_data import _get_rcm8_path
 
-rcm8_path = _get_rcm8_path()
 golf_path = _get_golf_path()
 hdf_path = _get_landsat_path()
 
@@ -36,16 +34,6 @@ def empty_txt_file(tmp_path):
 
 def test_netcdf_io_init():
     netcdf_io = NetCDFIO(golf_path, "netcdf")
-    assert netcdf_io.io_type == "netcdf"
-    assert len(netcdf_io._in_memory_data) == 0
-
-
-def test_netcdf_io_init_legacy():
-    # should raise two warnings
-    with pytest.warns(UserWarning, match=r"Coordinates for .*"):
-        netcdf_io = NetCDFIO(rcm8_path, "netcdf")
-    with pytest.warns(UserWarning, match=r"No associated .*"):
-        netcdf_io = NetCDFIO(rcm8_path, "netcdf")
     assert netcdf_io.io_type == "netcdf"
     assert len(netcdf_io._in_memory_data) == 0
 
@@ -167,7 +155,6 @@ def test_netcdf_no_metadata():
 
 
 class TestDictionaryIO:
-
     _shape = (50, 100, 200)
     dict_xr = {"eta": xr.DataArray(np.random.normal(size=_shape))}
     dict_np = {

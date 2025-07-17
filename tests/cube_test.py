@@ -13,11 +13,12 @@ from sandplover.plot import VariableSet
 from sandplover.sample_data.sample_data import _get_golf_path
 from sandplover.sample_data.sample_data import _get_landsat_path
 from sandplover.sample_data.sample_data import _get_rcm8_path
+from sandplover.sample_data.sample_data import rcm8
 from sandplover.section import BaseSection
 from sandplover.section import StrikeSection
 from sandplover.utils import NoStratigraphyError
 
-rcm8_path = _get_rcm8_path()
+
 golf_path = _get_golf_path()
 hdf_path = _get_landsat_path()
 
@@ -28,7 +29,7 @@ class TestDataCubeNoStratigraphy:
 
     fdc_shape = fixeddatacube.shape
 
-    def test_init_cube_from_path_rcm8(self):
+    def test_init_cube_from_path_golf(self):
         golf = DataCube(golf_path)
         assert golf._data_path == golf_path
         assert golf.dataio.io_type == "netcdf"
@@ -421,33 +422,12 @@ class TestFrozenStratigraphyCube:
 
 class TestLegacyPyDeltaRCMCube:
     def test_init_cube_from_path_rcm8(self):
-        with pytest.warns(UserWarning) as record:
-            rcm8cube = DataCube(rcm8_path)
-        assert rcm8cube._data_path == rcm8_path
-        assert rcm8cube.dataio.io_type == "netcdf"
-        assert rcm8cube._planform_set == {}
-        assert rcm8cube._section_set == {}
-        assert type(rcm8cube.varset) is VariableSet
+        with pytest.raises(RuntimeError):
+            rcm8_path = _get_rcm8_path()
 
-        # check that two warnings were raised
-        assert any(
-            re.match(r'Coordinates for "time", .*', _warning.message.args[0])
-            for _warning in record
-        )
-
-        assert any(
-            re.match(r"No associated metadata .*", _warning.message.args[0])
-            for _warning in record
-        )
-
-    def test_warning_netcdf_no_metadata(self):
-        with pytest.warns(UserWarning, match=r"No associated metadata"):
-            _ = DataCube(rcm8_path)
-
-    def test_metadata_none_nometa(self):
-        with pytest.warns(UserWarning):
-            rcm8cube = DataCube(rcm8_path)
-        assert rcm8cube.meta is None
+    def test_init_cube_from_path_rcm8(self):
+        with pytest.raises(RuntimeError):
+            rcm8cube = rcm8()
 
 
 class TestCubesFromDictionary:
