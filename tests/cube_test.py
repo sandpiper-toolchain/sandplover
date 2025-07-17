@@ -18,7 +18,6 @@ from sandplover.section import BaseSection
 from sandplover.section import StrikeSection
 from sandplover.utils import NoStratigraphyError
 
-
 golf_path = _get_golf_path()
 hdf_path = _get_landsat_path()
 
