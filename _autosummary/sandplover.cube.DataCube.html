@@ -133,7 +133,7 @@ in a dictionary.</p></li>
 <td><p>Number of elements, length coordinate.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.cube.DataCube.T" title="sandplover.cube.DataCube.T"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code></a></p></td>
-<td><p>Vertical mesh.</p></td>
+<td><p>Time mesh.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sandplover.cube.DataCube.W" title="sandplover.cube.DataCube.W"><code class="xref py py-obj docutils literal notranslate"><span class="pre">W</span></code></a></p></td>
 <td><p>Number of elements, width coordinate.</p></td>
@@ -215,7 +215,10 @@ in a dictionary.</p></li>
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.T">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">T</span></span><a class="headerlink" href="#sandplover.cube.DataCube.T" title="Link to this definition">¶</a></dt>
-<dd><p>Vertical mesh.</p>
+<dd><p>Time mesh.</p>
+<p>This is a three-dimensional representation of the time coordinate of
+the <cite>DataCube</cite>. Every element of each row (i.e., layer) of the returned array is filled
+with the corresponding time coordinate value.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -593,6 +596,8 @@ see :obj:_determine_strat_coordinates`.</p></li>
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.t">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">t</span></span><a class="headerlink" href="#sandplover.cube.DataCube.t" title="Link to this definition">¶</a></dt>
 <dd><p>time coordinate.</p>
+<p>This is a one-dimensional array of the time coordinates of the
+<cite>DataCube</cite>.</p>
 </dd></dl>
 
 <dl class="py property">

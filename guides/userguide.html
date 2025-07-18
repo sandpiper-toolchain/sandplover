@@ -124,9 +124,11 @@ Remember that <cite>time</cite> is ordered along the 0th dimension.</p>
 </figure>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The 0th dimension of the cube must be the <em>time</em> dimension, and the 1st and 2nd dimensions represent the spatial dimensions of the data domain, but can have any arbitrary “name” for the dimensions. For example, from <em>pyDeltaRCM</em> the 1st and 2nd dimensions are named <cite>x</cite> and <cite>y</cite> respectively (<cite>x</cite> is considered a downstream coordinate in that model). In <cite>sandplover</cite>, we refer to these spatial dimensions as <cite>dim1</cite> and <cite>dim2</cite>, because they may have any name.</p>
+<p>The 0th dimension of the cube must be the <em>time</em> dimension, and the 1st and 2nd dimensions represent the spatial dimensions of the data domain, but can have any arbitrary “name” for the dimensions.
+For example, from <em>pyDeltaRCM</em> the 1st and 2nd dimensions are named <cite>x</cite> and <cite>y</cite> respectively (<cite>x</cite> is considered a downstream coordinate in that model).
+Internall and within <cite>sandplover</cite> documentation, we refer to the spatial dimensions as <cite>dim1</cite> and <cite>dim2</cite>, because they may have any name.</p>
 </div>
-<p>The CubeVariable supports arbitrary math (using <cite>xarray</cite>).
+<p>The returned array is like most other arrays you are used to in Python, and so supports arbitrary math (using <cite>xarray</cite>).
 For example:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># compute the change in bed elevation between the last two intervals above</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">diff_time</span> <span class="o">=</span> <span class="p">(</span>
@@ -144,6 +146,16 @@ For example:</p>
 <figure class="align-default">
 <img alt="../_images/userguide-3.png" class="plot-directive" src="../_images/userguide-3.png" />
 </figure>
+<p>In addition to slicing the variables in the underlying dataset, the <cite>DataCube</cite> also allows you to slice <cite>“time”</cite>, which is a variable of the same shape as the other variables in the dataset containing every row filled with the corresponding time coordinate value.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>This may not seem helpful at first, but it enables robust and consistent display of information in research concerned with <a class="reference internal" href="#userguide-full-stratigraphy"><span class="std std-ref">stratigraphy</span></a>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>sandplover overrides the slicing behavior to return this special variable called “time”, even if there is a dimension/variable/coordinate in the underlying dataset also called “time”.</p>
+</div>
+<p>To get a one-dimensional array of time coordinates for the <cite>DataCube</cite>, use <a class="reference internal" href="../_autosummary/sandplover.cube.DataCube.html#sandplover.cube.DataCube.t" title="sandplover.cube.DataCube.t"><code class="xref py py-obj docutils literal notranslate"><span class="pre">t</span></code></a>.</p>
 </section>
 <section id="manipulating-planform-data">
 <h2>Manipulating Planform data<a class="headerlink" href="#manipulating-planform-data" title="Link to this heading">¶</a></h2>
@@ -344,6 +356,11 @@ These quick stratigraphy computations create a mesh of preserved elevations and 
 <figure class="align-default">
 <img alt="../_images/userguide_quick_stratigraphy_all_variables.png" class="plot-directive" src="../_images/userguide_quick_stratigraphy_all_variables.png" />
 </figure>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The labels in each panel above are determined by the value of the <cite>label</cite> attribute of the matching <a class="reference internal" href="../_autosummary/sandplover.plot.VariableInfo.html#sandplover.plot.VariableInfo" title="sandplover.plot.VariableInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableInfo</span></code></a> attached to the <cite>DataCube</cite>. These <cite>VariableInfo</cite> objects are used throughout sandplover to style plots and label items, and are typically created during instantiation of the <cite>DataCube</cite>.</p>
+<p>See the <a class="reference internal" href="subject_guides/visualization.html"><span class="doc">Visualization Guide</span></a> for a complete description and examples for configuring and creating visualtions in sandplover.</p>
+</div>
 </section>
 <section id="all-section-types">
 <h3>All Section types<a class="headerlink" href="#all-section-types" title="Link to this heading">¶</a></h3>
@@ -365,17 +382,17 @@ The below figure shows each section type available and the <cite>velocity</cite>
 </figure>
 </section>
 </section>
-<section id="default-colors-in-sandplover">
-<h2>Default Colors in sandplover<a class="headerlink" href="#default-colors-in-sandplover" title="Link to this heading">¶</a></h2>
-<p>You may have noticed the beautiful colors above, and be wondering: “how are the colors set?”
+<section id="visualizations-in-sandplover">
+<h2>Visualizations in sandplover<a class="headerlink" href="#visualizations-in-sandplover" title="Link to this heading">¶</a></h2>
+<p>You may have noticed the colors and labels above, and be wondering: “how are these options set?”
 We use a custom object (<a class="reference internal" href="../_autosummary/sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableSet</span></code></a>) to define common plotting properties for all plots.
 The <cite>VariableSet</cite> supports all kinds of other controls, such as custom colormaps for any variable, addition of new defined variables, fixed color limits, color normalizations, and more.
 You can also use these attributes of the <cite>VariableSet</cite> in your own plotting routines.</p>
-<p>See the <a class="reference internal" href="../reference/plot/index.html#default-styling"><span class="std std-ref">default colors in sandplover here</span></a> for more information.</p>
+<p>See the <a class="reference internal" href="subject_guides/visualization.html"><span class="doc">Visualization Guide</span></a> for a complete description and examples for configuring and creating visualtions in sandplover.</p>
 <p>Additionally, there are a <a class="reference internal" href="../reference/plot/index.html"><span class="doc">number of plotting routines</span></a> that are helpful in visualizations.</p>
 </section>
 <section id="computing-and-manipulating-stratigraphy">
-<h2>Computing and Manipulating Stratigraphy<a class="headerlink" href="#computing-and-manipulating-stratigraphy" title="Link to this heading">¶</a></h2>
+<span id="userguide-full-stratigraphy"></span><h2>Computing and Manipulating Stratigraphy<a class="headerlink" href="#computing-and-manipulating-stratigraphy" title="Link to this heading">¶</a></h2>
 <p><a class="reference internal" href="#userguide-quick-stratigraphy"><span class="std std-ref">Quick stratigraphy</span></a> works great for statistics of what-is-preserved and for quick visualizations, but it has several limitations.
 1) Does not consider volume of sediment filled by preserved-time indicies, 2) cannot be sliced by planform, 3) irregularity does not lend well to computation and other uses (hydrological studies).</p>
 <p>So, we want to be able to create what I refer to as “boxy” stratigraphy.
@@ -595,7 +612,7 @@ See the <a class="reference internal" href="../reference/mask/index.html"><span 
 <li><a class="reference internal" href="#all-section-types">All Section types</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#default-colors-in-sandplover">Default Colors in sandplover</a></li>
+<li><a class="reference internal" href="#visualizations-in-sandplover">Visualizations in sandplover</a></li>
 <li><a class="reference internal" href="#computing-and-manipulating-stratigraphy">Computing and Manipulating Stratigraphy</a><ul>
 <li><a class="reference internal" href="#frozen-stratigraphy-volumes">Frozen stratigraphy volumes</a></li>
 </ul>

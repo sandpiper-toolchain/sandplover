@@ -45,8 +45,25 @@
   <section id="visualization-guide">
 <h1>Visualization Guide<a class="headerlink" href="#visualization-guide" title="Link to this heading">¶</a></h1>
 <p>This guide covers the full range of visualization routines available as part of sandplover, and explains how to create your own visualization routines that build on top of DeltaMetrics.</p>
+<p>There are built-in visualization tools in sandplover, which are for the most part attached to the object that you would want to visualize itself.
+For example, to visualize a section:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spl</span><span class="o">.</span><span class="n">section</span><span class="o">.</span><span class="n">RadialSection</span><span class="p">(</span><span class="n">golfcube</span><span class="p">,</span> <span class="n">azimuth</span><span class="o">=</span><span class="mi">70</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s2">&quot;velocity&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There are also built-in visualization style configurations that control the display of certian variables throughout the software.
+The goal with these style configurations is to reduce the number of steps needed to make visualizations during data analysis and figure production.</p>
+<p>This guide is broken into two sections, first explaining these visualization style configurations, then explaining the various built-in methods for displaying data.</p>
+<section id="style-configurations">
+<h2>Style Configurations<a class="headerlink" href="#style-configurations" title="Link to this heading">¶</a></h2>
+<p>Style configurations for different variables in the underlying data of a <cite>Cube</cite> are determined by <a class="reference internal" href="../../_autosummary/sandplover.plot.VariableInfo.html#sandplover.plot.VariableInfo" title="sandplover.plot.VariableInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableInfo</span></code></a> objects that are organized into a dictionary-like <code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableSet</span></code> object.
+The <cite>VariableSet</cite> is created during instantiation of every <cite>Cube</cite>; an existing <cite>VariableSet</cite> can be provided as an optional argument during <cite>Cube</cite> instantiation.</p>
+<p>There are several variable names that are recognized by the <cite>VariableSet</cite> and receive specific styling (e.g., <cite>eta</cite>, <cite>velocity</cite>).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The automatic detection of variable names may be removed in the future.</p>
+</div>
 <section id="default-styling">
-<h2>Default styling<a class="headerlink" href="#default-styling" title="Link to this heading">¶</a></h2>
+<h3>Default styling<a class="headerlink" href="#default-styling" title="Link to this heading">¶</a></h3>
 <p>By default, each variable receives a set of styling definitions.
 The default parameters of each styling variable are defined below:</p>
 <p>(<a class="reference download internal" download="" href="../../_downloads/0f305c42b50b0e427bb8dd7a6b302590/document_variableset.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../../_downloads/5e9bbe8bbd5284d8a5c551cdf11ad830/document_variableset.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../../_downloads/00e2735d780a586f12fb5c208aedbe2b/document_variableset.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
@@ -54,8 +71,19 @@ The default parameters of each styling variable are defined below:</p>
 <img alt="../../_images/document_variableset.png" class="plot-directive" src="../../_images/document_variableset.png" />
 </figure>
 </section>
-<section id="section-display-types">
-<h2>Section display types<a class="headerlink" href="#section-display-types" title="Link to this heading">¶</a></h2>
+</section>
+<section id="data-visualization-methods">
+<h2>Data Visualization Methods<a class="headerlink" href="#data-visualization-methods" title="Link to this heading">¶</a></h2>
+<section id="cube-display-methods">
+<h3>Cube display methods<a class="headerlink" href="#cube-display-methods" title="Link to this heading">¶</a></h3>
+<p>todo…</p>
+</section>
+<section id="planform-display-methods">
+<h3>Planform display methods<a class="headerlink" href="#planform-display-methods" title="Link to this heading">¶</a></h3>
+<p>todo…</p>
+</section>
+<section id="section-display-methods">
+<h3>Section display methods<a class="headerlink" href="#section-display-methods" title="Link to this heading">¶</a></h3>
 <p><cite>DataCube</cite> with computed “quick” stratigraphy may be visualized a number of different ways.</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">stratigraphy_from</span><span class="p">(</span><span class="s2">&quot;eta&quot;</span><span class="p">)</span>
@@ -90,6 +118,7 @@ The default parameters of each styling variable are defined below:</p>
 </figure>
 </section>
 </section>
+</section>
 
 
             <div class="clearer"></div>
@@ -102,8 +131,16 @@ The default parameters of each styling variable are defined below:</p>
     <h3><a href="../../index.html">Table of Contents</a></h3>
     <ul>
 <li><a class="reference internal" href="#">Visualization Guide</a><ul>
+<li><a class="reference internal" href="#style-configurations">Style Configurations</a><ul>
 <li><a class="reference internal" href="#default-styling">Default styling</a></li>
-<li><a class="reference internal" href="#section-display-types">Section display types</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#data-visualization-methods">Data Visualization Methods</a><ul>
+<li><a class="reference internal" href="#cube-display-methods">Cube display methods</a></li>
+<li><a class="reference internal" href="#planform-display-methods">Planform display methods</a></li>
+<li><a class="reference internal" href="#section-display-methods">Section display methods</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
