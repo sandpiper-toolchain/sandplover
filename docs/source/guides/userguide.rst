@@ -141,7 +141,7 @@ In addition to slicing the variables in the underlying dataset, the `DataCube` a
     
     >>> golfcube["time"]
 
-This may not seem helpful at first, but it enables robust and consistent display of information in research concerned with :ref:`stratigraphy userguide_full_stratigraphy`_. 
+This may not seem helpful at first, but it enables robust and consistent display of information in research concerned with :ref:`stratigraphy <userguide_full_stratigraphy>`.
 
 .. important::
 
@@ -390,6 +390,13 @@ Quick stratigraphy makes it easy to visualize the behavior of the model across e
 .. plot:: guides/userguide_quick_stratigraphy_all_variables.py
 
 
+.. hint::
+    
+    The labels in each panel above are determined by the value of the `label` attribute of the matching :obj:`~sandplover.plot.VariableInfo` attached to the `DataCube`. These `VariableInfo` objects are used throughout sandplover to style plots and label items, and are typically created during instantiation of the `DataCube`. 
+
+    See the :doc:`Visualization Guide </guides/subject_guides/visualization>` for a complete description and examples for configuring and creating visualtions in sandplover. 
+
+
 All Section types
 -----------------
 
@@ -410,15 +417,15 @@ The below figure shows each section type available and the `velocity` spacetime 
 .. plot:: guides/userguide_section_type_demos.py
 
 
-Default Colors in sandplover
-##############################
+Visualizations in sandplover
+############################
 
-You may have noticed the beautiful colors above, and be wondering: "how are the colors set?"
+You may have noticed the colors and labels above, and be wondering: "how are these options set?"
 We use a custom object (:obj:`~sandplover.plot.VariableSet`) to define common plotting properties for all plots.
 The `VariableSet` supports all kinds of other controls, such as custom colormaps for any variable, addition of new defined variables, fixed color limits, color normalizations, and more.
 You can also use these attributes of the `VariableSet` in your own plotting routines.
 
-See the :ref:`default colors in sandplover here <default_styling>` for more information.
+See the :doc:`Visualization Guide </guides/subject_guides/visualization>` for a complete description and examples for configuring and creating visualtions in sandplover. 
 
 Additionally, there are a :doc:`number of plotting routines <../reference/plot/index>` that are helpful in visualizations.
 
