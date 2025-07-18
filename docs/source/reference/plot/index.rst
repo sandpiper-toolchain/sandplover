@@ -13,7 +13,7 @@ This reference page documents the lower-level utilities used to make this happen
 
 .. hint::
 
-  There is a complete :doc:`Visualization Guide </guides/subject_guides/visualization>` about the organization of this area of sandplover and examples for how to use and make visualizations.
+  There is a complete :doc:`Visualization Guide </guides/subject_guides/visualization>`  about the organization of this area of sandplover, and examples for how to use and make visualizations.
 
 The functions are defined in ``sandplover.plot``.
 

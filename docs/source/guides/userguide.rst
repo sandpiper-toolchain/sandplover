@@ -113,9 +113,11 @@ Remember that `time` is ordered along the 0th dimension.
 
 .. note::
 
-    The 0th dimension of the cube must be the *time* dimension, and the 1st and 2nd dimensions represent the spatial dimensions of the data domain, but can have any arbitrary "name" for the dimensions. For example, from *pyDeltaRCM* the 1st and 2nd dimensions are named `x` and `y` respectively (`x` is considered a downstream coordinate in that model). In `sandplover`, we refer to these spatial dimensions as `dim1` and `dim2`, because they may have any name.
+    The 0th dimension of the cube must be the *time* dimension, and the 1st and 2nd dimensions represent the spatial dimensions of the data domain, but can have any arbitrary "name" for the dimensions.
+    For example, from *pyDeltaRCM* the 1st and 2nd dimensions are named `x` and `y` respectively (`x` is considered a downstream coordinate in that model).
+    Internall and within `sandplover` documentation, we refer to the spatial dimensions as `dim1` and `dim2`, because they may have any name.
 
-The CubeVariable supports arbitrary math (using `xarray`).
+The returned array is like most other arrays you are used to in Python, and so supports arbitrary math (using `xarray`).
 For example:
 
 .. plot::
@@ -132,6 +134,20 @@ For example:
     >>> im = ax.imshow(diff_time, cmap="RdBu", vmax=max_delta, vmin=-max_delta)
     >>> cb = spl.plot.append_colorbar(im, ax)  # a convenience function
     >>> plt.show()
+
+In addition to slicing the variables in the underlying dataset, the `DataCube` also allows you to slice `"time"`, which is a variable of the same shape as the other variables in the dataset containing every row filled with the corresponding time coordinate value.
+
+.. code::
+
+    >>> golfcube["time"]
+
+This may not seem helpful at first, but it enables robust and consistent display of information in research concerned with :ref:`stratigraphy <userguide_full_stratigraphy>`.
+
+.. important::
+
+    sandplover overrides the slicing behavior to return this special variable called "time", even if there is a dimension/variable/coordinate in the underlying dataset also called "time".
+
+To get a one-dimensional array of time coordinates for the `DataCube`, use :obj:`~sandplover.cube.DataCube.t`.
 
 
 Manipulating Planform data
@@ -374,6 +390,13 @@ Quick stratigraphy makes it easy to visualize the behavior of the model across e
 .. plot:: guides/userguide_quick_stratigraphy_all_variables.py
 
 
+.. hint::
+
+    The labels in each panel above are determined by the value of the `label` attribute of the matching :obj:`~sandplover.plot.VariableInfo` attached to the `DataCube`. These `VariableInfo` objects are used throughout sandplover to style plots and label items, and are typically created during instantiation of the `DataCube`.
+
+    See the :doc:`Visualization Guide </guides/subject_guides/visualization>` for a complete description and examples for configuring and creating visualtions in sandplover.
+
+
 All Section types
 -----------------
 
@@ -394,18 +417,19 @@ The below figure shows each section type available and the `velocity` spacetime 
 .. plot:: guides/userguide_section_type_demos.py
 
 
-Default Colors in sandplover
-##############################
+Visualizations in sandplover
+############################
 
-You may have noticed the beautiful colors above, and be wondering: "how are the colors set?"
+You may have noticed the colors and labels above, and be wondering: "how are these options set?"
 We use a custom object (:obj:`~sandplover.plot.VariableSet`) to define common plotting properties for all plots.
 The `VariableSet` supports all kinds of other controls, such as custom colormaps for any variable, addition of new defined variables, fixed color limits, color normalizations, and more.
 You can also use these attributes of the `VariableSet` in your own plotting routines.
 
-See the :ref:`default colors in sandplover here <default_styling>` for more information.
+See the :doc:`Visualization Guide </guides/subject_guides/visualization>` for a complete description and examples for configuring and creating visualtions in sandplover.
 
 Additionally, there are a :doc:`number of plotting routines <../reference/plot/index>` that are helpful in visualizations.
 
+.. _userguide_full_stratigraphy:
 
 Computing and Manipulating Stratigraphy
 #######################################

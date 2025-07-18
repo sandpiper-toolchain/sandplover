@@ -543,7 +543,6 @@ class BaseCube(abc.ABC):
         p = pv.Plotter()
         p.add_mesh(mesh.outline(), color="k")
         if style == "mesh":
-
             threshed = mesh.threshold([-np.inf, np.inf], all_scalars=True)
             p.add_mesh(threshed, cmap=self.varset[var].cmap)
 
@@ -800,12 +799,21 @@ class DataCube(BaseCube):
 
     @property
     def t(self):
-        """time coordinate."""
+        """time coordinate.
+
+        This is a one-dimensional array of the time coordinates of the
+        `DataCube`.
+        """
         return self._t
 
     @property
     def T(self):
-        """Vertical mesh."""
+        """Time mesh.
+
+        This is a three-dimensional representation of the time coordinate of
+        the `DataCube`. Every element of each row (i.e., layer) of the returned array is filled
+        with the corresponding time coordinate value.
+        """
         return self._T
 
 
