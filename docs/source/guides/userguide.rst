@@ -391,10 +391,10 @@ Quick stratigraphy makes it easy to visualize the behavior of the model across e
 
 
 .. hint::
-    
-    The labels in each panel above are determined by the value of the `label` attribute of the matching :obj:`~sandplover.plot.VariableInfo` attached to the `DataCube`. These `VariableInfo` objects are used throughout sandplover to style plots and label items, and are typically created during instantiation of the `DataCube`. 
 
-    See the :doc:`Visualization Guide </guides/subject_guides/visualization>` for a complete description and examples for configuring and creating visualtions in sandplover. 
+    The labels in each panel above are determined by the value of the `label` attribute of the matching :obj:`~sandplover.plot.VariableInfo` attached to the `DataCube`. These `VariableInfo` objects are used throughout sandplover to style plots and label items, and are typically created during instantiation of the `DataCube`.
+
+    See the :doc:`Visualization Guide </guides/subject_guides/visualization>` for a complete description and examples for configuring and creating visualtions in sandplover.
 
 
 All Section types
@@ -425,7 +425,7 @@ We use a custom object (:obj:`~sandplover.plot.VariableSet`) to define common pl
 The `VariableSet` supports all kinds of other controls, such as custom colormaps for any variable, addition of new defined variables, fixed color limits, color normalizations, and more.
 You can also use these attributes of the `VariableSet` in your own plotting routines.
 
-See the :doc:`Visualization Guide </guides/subject_guides/visualization>` for a complete description and examples for configuring and creating visualtions in sandplover. 
+See the :doc:`Visualization Guide </guides/subject_guides/visualization>` for a complete description and examples for configuring and creating visualtions in sandplover.
 
 Additionally, there are a :doc:`number of plotting routines <../reference/plot/index>` that are helpful in visualizations.
 
