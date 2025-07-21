@@ -483,8 +483,12 @@ class BaseSection(abc.ABC):
             )
             return _xrDA
         elif self._underlying_type == "array":
+            if isinstance(self._underlying, xr.core.dataarray.DataArray):
+                _data = self._underlying.data[self._dim1_idx, self._dim2_idx]
+            elif isinstance(self._underlying, np.ndarray):
+                _data = self._underlying[self._dim1_idx, self._dim2_idx]
             _xrDA = xr.DataArray(
-                self._underlying[self._dim1_idx, self._dim2_idx],
+                _data,
                 coords={"s": self._s},
                 dims=["s"],
                 name=var,
@@ -1577,7 +1581,6 @@ class CircularSection(BaseSection):
         origin_idx=None,
         **kwargs,
     ):
-
         self._origin = None
         self._radius = None
 
@@ -1594,7 +1597,6 @@ class CircularSection(BaseSection):
         super().__init__("circular", *args, **kwargs)
 
     def _compute_section_coords(self):
-
         dim1_coords = self._underlying_dim1_coords
         dim2_coords = self._underlying_dim2_coords
 
@@ -1828,7 +1830,6 @@ class RadialSection(BaseSection):
     def __init__(
         self, *args, azimuth=None, origin=None, origin_idx=None, length=None, **kwargs
     ):
-
         self._azimuth = None
         self._origin = None
 
