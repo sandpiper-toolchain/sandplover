@@ -21,6 +21,7 @@ from sandplover.plot import VariableInfo
 from sandplover.plot import VariableSet
 from sandplover.plot import append_colorbar
 from sandplover.section import BaseSection
+from sandplover.section import RadialSection
 from sandplover.utils import _points_in_polygon
 from sandplover.utils import is_ndarray_or_xarray
 
@@ -1324,7 +1325,6 @@ def compute_shoreline_rugosity(shore_mask, **kwargs):
 
     Parameters
     ----------
-
     shore_mask : :obj:`~deltametrics.mask.ShorelineMask`, :obj:`ndarray`
         Shoreline mask. Can be a :obj:`~deltametrics.mask.ShorelineMask` object,
         or a binarized array.
@@ -1334,7 +1334,6 @@ def compute_shoreline_rugosity(shore_mask, **kwargs):
 
     Returns
     -------
-
     rugosity : :obj:`float`
         Shoreline rugosity, computed as described above.
 
@@ -1721,13 +1720,13 @@ def _determine_equally_spaced_azimuths(*args, **kwargs):
     Parameters
     ----------
     num : :obj:`int` or :obj:`float`
-        Number of azimuths to return. Coerced to `int`.
+        Number of azimuths to return. Coerced to `int`. Default 11.
 
     start : :obj:`float`
-        Starting azimuth.
+        Starting azimuth. Default 0.
 
     end : :obj:`float`
-        Ending azimuth.
+        Ending azimuth. Default 180.
 
     buffered
         Whether `start` and `end` represent the bounds for the calculation and
@@ -1736,7 +1735,11 @@ def _determine_equally_spaced_azimuths(*args, **kwargs):
         helpful when `start` and `end` represent model or experimental domain
         edges. Default is `True`, include buffer.
 
-    .. doctest::
+    Examples
+    --------
+
+        >>> _determine_equally_spaced_azimuths()
+        [ 15.  30.  45.  60.  75.  90. 105. 120. 135. 150. 165.]
 
         >>> _determine_equally_spaced_azimuths(3, 0, 180, buffered=False)
         [  0.  90. 180.]
@@ -1748,8 +1751,7 @@ def _determine_equally_spaced_azimuths(*args, **kwargs):
         ...     num=5, start=22.5, end=157.5, buffered=True)
         [ 45.   67.5  90.  112.5 135. ]
 
-        >>> _determine_equally_spaced_azimuths()
-        [ 15.  30.  45.  60.  75.  90. 105. 120. 135. 150. 165.]
+
 
     """
     # process the input arguments
@@ -1793,9 +1795,7 @@ def compute_shoreline_radius(shore_mask, origin=[0, 0], return_radii=False, **kw
     radii = np.zeros((len(azimuths),))
     # note:
     for a, azimuth in enumerate(azimuths):
-        a_section = dm.section.RadialSection(
-            cube, azimuth=azimuth, origin_idx=[0, eta_diff.shape[1] // 2]
-        )
+        RadialSection(cube, azimuth=azimuth, origin_idx=[0, eta_diff.shape[1] // 2])
 
         # find where interescts shoreline mask
         shoreline_mask_alongsection = deposit_percentile_line[
@@ -1814,11 +1814,10 @@ def compute_shoreline_radius(shore_mask, origin=[0, 0], return_radii=False, **kw
 
 
 def compute_topset_slope(
-    shore_mask,
     elevation_data,
-    origin=[0, 0],
+    origin=(0, 0),
     elevation_threshold=0,
-    point_threshold=5,
+    count_threshold=5,
     return_slopes=False,
     **kwargs,
 ):
@@ -1826,31 +1825,106 @@ def compute_topset_slope(
 
     Parameters
     ----------
+    elevation_data : array-like
+        Input elevation data.
 
-    point_threshold
-        How many points above sea level must be identified in order to fit a
-        line.
+    origin
+        Origin for :obj:`~sandplover.section.RadialSection`. Default [0,0].
+
+    elevation_threshold : float, optional
+        Elevation threshold for finding the topset. Commonly, this would be
+        sea level. Default is 0.
+
+    count_threshold : int, optional
+        How many pixels above sea level must be identified in order to fit a
+        line. Default is 5 points.
+
+    return_slopes : bool, optional
+        Whether to return the calculated slopes, in addition to the mean and
+        standard deviation.
+
+    **kwargs
+        Passed to :obj:`_determine_equally_spaced_azimuths`.
+
+    Returns
+    -------
+    mean
+
+    std
+
+    slopes
+        Returned only if `return_slopes = True`.
+
+    Examples
+    --------
+
+    To make a calculation with 5 equally spaced sections on the left half of
+    the domain only:
+
+    .. plot::
+        :include-source:
+
+        >>> golf = spl.sample_data.golf()
+        >>>
+        >>> azimuth_kwargs = {"num": 5, "start": 90, "end": 180}
+        >>> origin = (
+        ...     np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
+        ...     )
+        >>> mean_slope, std_slope = spl.plan.compute_topset_slope(
+        ...     golf["eta"][-1, :, :],
+        ...     origin=origin,
+        ...     **azimuth_kwargs)
+
+        >>> # below is to visualize the sections
+        >>> from sandplover.plan import _determine_equally_spaced_azimuths
+        >>> azimuths = _determine_equally_spaced_azimuths(**azimuth_kwargs)
+        >>>
+        >>> fig, ax = plt.subplots()
+        >>> golf.quick_show("eta", -1)
+        >>>
+        >>> for a, azimuth in enumerate(azimuths):
+        ...     a_section = spl.section.RadialSection(
+        ...         golf["eta"][-1, :, :],
+        ...         azimuth=azimuth,
+        ...         origin=origin,
+        ...     )
+        ...
+        ...     a_section.show_trace(ax=ax)
+        >>>
+        >>> ax.set_title(f"{mean_slope:.2e} $\\pm$ {std_slope:.2e}")
+        >>> plt.show()
+
+    To calculate the slope of a deposit, try something like:
+
+    .. code::
+
+        >>> deposit_thickness = self.golf["eta"][-1, :, :] - self.golf["eta"][0, :, :]
+        >>> deposit_thickness[deposit_thickness == 0] = np.nan
+        >>> mean, std = compute_topset_slope(
+        ...     deposit_thickness,
+        ...     elevation_threshold=-np.inf)
+
     """
     azimuths = _determine_equally_spaced_azimuths(**kwargs)
     slopes = np.zeros((len(azimuths),))
     for a, azimuth in enumerate(azimuths):
-        a_section = dm.section.RadialSection(
-            cube, azimuth=azimuth, origin_idx=[0, eta_diff.shape[1] // 2]
+        a_section = RadialSection(
+            elevation_data,
+            azimuth=azimuth,
+            origin=origin,
         )
 
-        _HSL = cube.meta["H_SL"][t_idx].data
-        yvalues = np.array(a_section["eta"][t_idx, :])
+        yvalues = np.array(
+            a_section.__getitem__("")
+        )  # no var name needed to slice array
         xvalues = np.array(a_section.s)
-        if np.isnan(_HSL):
-            # is no sea level, take locations where deposited
-            _keep_bool = yvalues > a_section["eta"][0, :]
-        else:
-            # if sea level, take locations where above sl
-            _keep_bool = yvalues > (_HSL - 0.25)
+
+        # if sea level, take locations where above sl
+        _keep_bool = yvalues > (elevation_threshold)
         yvalues_above = yvalues[_keep_bool]
         xvalues_above = xvalues[_keep_bool]
 
-        if xvalues_above.size > point_threshold:
+        if xvalues_above.size > count_threshold:
             m, b = np.polyfit(xvalues_above, yvalues_above, 1)
         else:
             m = np.nan
