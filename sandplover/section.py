@@ -1914,10 +1914,18 @@ class RadialSection(BaseSection):
 
         # use vector math to determine end point len along azimuth
         #   vector is from (0, b) to (origin)
+        theta_rad = theta * (np.pi / 180)
+        magnitude = 1
         if self.azimuth <= 90.0 and self.azimuth >= 0:
-            vec = np.array([self._origin_idx[1] - 0, self._origin_idx[0] - b])
+            # vec = np.array([self._origin_idx[1] - 0, self._origin_idx[0] - b])
+            x = magnitude * np.cos(theta_rad)
+            y = magnitude * np.sin(theta_rad)
+            vec = [x, y]
         elif self.azimuth > 90 and self.azimuth <= 180:
-            vec = np.array([0 - self._origin_idx[1], b - self._origin_idx[0]])
+            # vec = np.array([0 - self._origin_idx[1], b - self._origin_idx[0]])
+            x = magnitude * np.cos(theta_rad)
+            y = magnitude * np.sin(theta_rad)
+            vec = [x, y]
         else:
             raise ValueError("Azimuth must be in range (0, 180).")
             # note, this logic should be able to be extended to handle
@@ -1966,6 +1974,7 @@ class RadialSection(BaseSection):
 
         # we have (all in indicies) origin, length, and vector
         vec_norm = vec / np.sqrt(vec[1] ** 2 + vec[0] ** 2)
+        # breakpoint()
         end_point = (
             int(self._origin_idx[1] + _length_idx * vec_norm[0]),
             int(self._origin_idx[0] + _length_idx * vec_norm[1]),
