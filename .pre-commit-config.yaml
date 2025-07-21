@@ -13,7 +13,7 @@ repos:
     types_or: [python, pyi]
 
 - repo: https://github.com/keewis/blackdoc
-  rev: v0.3.9
+  rev: v0.4.1
   hooks:
   - id: blackdoc
     description: "Black for doctests"
@@ -21,7 +21,7 @@ repos:
   - id: blackdoc-autoupdate-black
 
 - repo: https://github.com/pycqa/flake8
-  rev: 7.1.2
+  rev: 7.3.0
   hooks:
   - id: flake8
     additional_dependencies:
@@ -31,7 +31,7 @@ repos:
     exclude: ^docs/source/pyplots/guides/.*$
 
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.19.1
+  rev: v3.20.0
   hooks:
   - id: pyupgrade
     args: [--py311-plus]
