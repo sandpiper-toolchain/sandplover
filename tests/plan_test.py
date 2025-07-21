@@ -20,6 +20,10 @@ from sandplover.plan import compute_channel_width
 from sandplover.plan import compute_land_area
 from sandplover.plan import compute_shoreline_distance
 from sandplover.plan import compute_shoreline_length
+from sandplover.plan import _determine_equally_spaced_azimuths
+from sandplover.plan import compute_shoreline_radius
+from sandplover.plan import compute_shoreline_rugosity
+from sandplover.plan import compute_topset_slope
 from sandplover.plan import compute_shoreline_roughness
 from sandplover.plan import compute_surface_deposit_age
 from sandplover.plan import compute_surface_deposit_time
@@ -584,6 +588,77 @@ class TestShorelineDistance:
         assert np.mean(dists) == m
         assert m2 == m
         assert s2 == s
+
+
+class TestDetermineEquallySpacedAzimuths:
+    def test_defaults(self):
+        _ret = _determine_equally_spaced_azimuths()
+        assert _ret == [15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165]
+
+    def test_three_ordered_nobuffer(self):
+        _ret = _determine_equally_spaced_azimuths(3, 0, 180, buffered=False)
+        assert _ret == [0, 90, 180]
+
+    def test_three_buffered(self):
+        _ret = _determine_equally_spaced_azimuths(3, 0, 180, buffered=True)
+        assert _ret == [45, 90, 135]
+
+    def test_five_equal(self):
+        _ret = _determine_equally_spaced_azimuths(
+            num=5, start=22.5, end=157.5, buffered=True
+        )
+        assert _ret == [45, 67.5, 90, 112.5, 135]
+
+
+class TestComputeTopsetSlope:
+    golf_path = _get_golf_path()
+    golf = DataCube(golf_path)
+    origin = (
+        np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
+    )
+
+    def test_compute_topset_slope_insufficient_count(self):
+        """
+        expects NaN for mean and std deviation because point threshold is very
+        high; all calculated slopes will be NaN.
+        """
+        mean, std = compute_topset_slope(
+            self.golf["eta"][-1, :, :], count_threshold=1e6
+        )
+        assert np.isnan(mean)
+        assert np.isnan(std)
+
+    def test_defaults(self):
+        # use initial "empty" domain, has strip of land with negative slope
+        #     but perfect (0 std)
+        mean, std = compute_topset_slope(self.golf["eta"][0, :, :])
+        assert mean < 0
+        assert std == pytest.approx(0.0)
+
+    def test_defaults_set_origin(self):
+        mean, std = compute_topset_slope(self.golf["eta"][-1, :, :], origin=self.origin)
+        assert mean < 0
+        assert std > 0
+
+    def test_defaults_set_elevation_threshold(self):
+        mean, std = compute_topset_slope(
+            self.golf["eta"][-1, :, :], elevation_threshold=-1
+        )
+        assert mean < 0
+        assert std > 0
+
+    def test_returned_lines(self):
+        _, _, slopes = compute_topset_slope(
+            self.golf["eta"][-1, :, :], return_slopes=True, num=10, origin=self.origin
+        )
+        assert len(slopes) == 10
+
+    def test_as_deposit_slope(self):
+        deposit_thickness = self.golf["eta"][-1, :, :] - self.golf["eta"][0, :, :]
+
+        mean, std = compute_topset_slope(deposit_thickness, elevation_threshold=-np.inf)
+        assert mean < 0
+        assert std > 0
 
 
 class TestComputeChannelWidth:
