@@ -611,6 +611,10 @@ class TestDetermineEquallySpacedAzimuths:
         with pytest.raises(ValueError):
             _ret = _determine_equally_spaced_azimuths(3, 0, 180, buffered=False)
 
+    def test_one(self):
+        _ret = _determine_equally_spaced_azimuths(num=1)
+        assert _ret == 90
+
     def test_less_than_four_fails(self):
         with pytest.raises(ValueError):
             _ret2 = _determine_equally_spaced_azimuths(3, 0, 180)
@@ -626,6 +630,33 @@ class TestDetermineEquallySpacedAzimuths:
             num=5, start=22.5, end=157.5, buffered=True
         )
         assert np.all(_ret == np.array([45, 67.5, 90, 112.5, 135]))
+
+
+class TestComputeShorelineRadius:
+    golf_path = _get_golf_path()
+    golf = DataCube(golf_path)
+    origin = (
+        np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
+    )
+
+    empty_shore_mask = ShorelineMask(golf["eta"][0], elevation_threshold=0)
+    shore_mask = ShorelineMask(golf["eta"][0], elevation_threshold=0)
+
+    def test_defaults_empty_domain(self):
+        # use initial "empty" domain, has strip of land that will get picked
+        # up when origin at edge.
+        mean, std = compute_shoreline_radius(self.empty_shore_mask)
+        assert mean == pytest.approx(
+            (self.golf.meta["L0"].data - 1) * self.golf.meta["dx"].data,
+            abs=10,
+        )
+        # assert std == pytest.approx(0.0)
+
+    def test_defaults_empty_domain_actual_origin(self):
+        # use initial "empty" domain, has no land beyond L0, returns nans
+        mean, std = compute_shoreline_radius(self.empty_shore_mask, origin=self.origin)
+        assert np.isnan(mean)
+        assert np.isnan(std)
 
 
 class TestComputeTopsetSlope:
@@ -646,12 +677,19 @@ class TestComputeTopsetSlope:
         assert np.isnan(mean)
         assert np.isnan(std)
 
-    def test_defaults(self):
+    def test_defaults_empty_domain(self):
         # use initial "empty" domain, has strip of land with negative slope
         #     but perfect (0 std)
         mean, std = compute_topset_slope(self.golf["eta"][0, :, :])
         assert mean < 0
         assert std == pytest.approx(0.0)
+
+    def test_defaults_empty_domain_actual_origin(self):
+        # use initial "empty" domain, has strip of land with negative slope
+        #     but perfect (0 std)
+        mean, std = compute_topset_slope(self.golf["eta"][0, :, :], origin=self.origin)
+        assert np.isnan(mean)
+        assert np.isnan(std)
 
     def test_defaults_set_origin(self):
         mean, std = compute_topset_slope(self.golf["eta"][-1, :, :], origin=self.origin)
