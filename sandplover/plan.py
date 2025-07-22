@@ -1328,6 +1328,7 @@ def compute_shoreline_rugosity(shore_mask, **kwargs):
     shore_mask : :obj:`~deltametrics.mask.ShorelineMask`, :obj:`ndarray`
         Shoreline mask. Can be a :obj:`~deltametrics.mask.ShorelineMask` object,
         or a binarized array.
+
     **kwargs
         Keyword argument are passed to :obj:`compute_shoreline_length`
         internally.
@@ -1739,20 +1740,18 @@ def _determine_equally_spaced_azimuths(*args, **kwargs):
     --------
 
         >>> _determine_equally_spaced_azimuths()
-        [ 15.  30.  45.  60.  75.  90. 105. 120. 135. 150. 165.]
+        np.array([15., 30., 45., 60., 75., 90., 105., 120., 135., 150., 165.])
 
         >>> _determine_equally_spaced_azimuths(3, 0, 180, buffered=False)
-        [  0.  90. 180.]
+        np.array([0., 90., 180.])
 
         >>> _determine_equally_spaced_azimuths(3, 0, 180, buffered=True)
-        [ 45.  90. 135.]
+        np.array([ 45., 90., 135.])
 
         >>> _determine_equally_spaced_azimuths(
         ...     num=5, start=22.5, end=157.5, buffered=True
         ... )
-        [ 45.   67.5  90.  112.5 135. ]
-
-
+        np.array([ 45., 67.5, 90., 112.5, 135.])
 
     """
     # process the input arguments
@@ -1800,13 +1799,41 @@ def compute_shoreline_radius(shore_mask, origin=(0, 0), return_radii=False, **kw
         straight-line distance between the origin and every point along the
         shoreline.
 
+    Parameters
+    ----------
+    shore_mask : :obj:`ShorelineMask`
+        Input shoreline mask.
+
+    origin
+        Origin for :obj:`~sandplover.section.RadialSection`. Default (0, 0).
+
+    return_radii : bool, optional
+        Whether to return the calculated radii along each section, in addition
+        to the mean and standard deviation.
+
+    **kwargs
+        Passed to :obj:`_determine_equally_spaced_azimuths`.
+
+    Returns
+    -------
+    mean
+        Mean radius over all sections.
+
+    std
+        Standard deviation of radii along all sections.
+
+    radii
+        Array of radius values calculated along all sections. Returned only if
+        `return_radii = True`.
+
     Examples
     --------
-
     Compute the distance to the shoreline at seven equally spaced `RadialSection`:
 
     .. plot::
         :include-source:
+
+        import sandplover as spl
 
         golf = spl.sample_data.golf()
         origin = np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
@@ -1880,7 +1907,7 @@ def compute_topset_slope(
         Input elevation data.
 
     origin
-        Origin for :obj:`~sandplover.section.RadialSection`. Default [0,0].
+        Origin for :obj:`~sandplover.section.RadialSection`. Default (0, 0).
 
     elevation_threshold : float, optional
         Elevation threshold for finding the topset. Commonly, this would be
@@ -1900,11 +1927,14 @@ def compute_topset_slope(
     Returns
     -------
     mean
+        Mean slope along all sections.
 
     std
+        Standard deviation of slope along sections.
 
     slopes
-        Returned only if `return_slopes = True`.
+        Array of slope values calculated along all sections. Returned only if
+        `return_slopes = True`.
 
     Examples
     --------
@@ -2280,9 +2310,9 @@ def shaw_opening_angle_method(
     #   fill the query points with the value returned from theta
     pad_opening_angles[query_set_idxs[:, 0], query_set_idxs[:, 1]] = theta
     #   fill the rest of the array
-    pad_opening_angles[sea_idxs_outside_hull[:, 0], sea_idxs_outside_hull[:, 1]] = (
-        outside_hull_value  # aka 180
-    )
+    pad_opening_angles[
+        sea_idxs_outside_hull[:, 0], sea_idxs_outside_hull[:, 1]
+    ] = outside_hull_value  # aka 180
     #   grab the data that is the same shape as the input below_mask
     opening_angles = pad_opening_angles[1:-1, 1:-1]
 
