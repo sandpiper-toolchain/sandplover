@@ -1361,7 +1361,7 @@ def compute_shoreline_rugosity(shore_mask, **kwargs):
         _sm = shore_mask
         _dx = 1
     else:
-        raise TypeError("Invalid type {0}".format(type(shore_mask)))
+        raise TypeError(f"Invalid type {type(shore_mask)}")
 
     # _ = kwargs.pop('return_line', None)  # trash this variable if passed
     # shorelength = compute_shoreline_length(
@@ -1748,7 +1748,8 @@ def _determine_equally_spaced_azimuths(*args, **kwargs):
         [ 45.  90. 135.]
 
         >>> _determine_equally_spaced_azimuths(
-        ...     num=5, start=22.5, end=157.5, buffered=True)
+        ...     num=5, start=22.5, end=157.5, buffered=True
+        ... )
         [ 45.   67.5  90.  112.5 135. ]
 
 
@@ -1923,12 +1924,12 @@ def compute_topset_slope(
         >>>
         >>> azimuth_kwargs = {"num": 5, "start": 90, "end": 180}
         >>> origin = (
-        ...     np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
-        ...     )
+        ...     np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
+        ...     * golf.meta["dx"].data
+        ... )
         >>> mean_slope, std_slope = spl.plan.compute_topset_slope(
-        ...     golf["eta"][-1, :, :],
-        ...     origin=origin,
-        ...     **azimuth_kwargs)
+        ...     golf["eta"][-1, :, :], origin=origin, **azimuth_kwargs
+        ... )
 
         >>> # below is to visualize the sections
         >>> from sandplover.plan import _determine_equally_spaced_azimuths
@@ -1945,6 +1946,7 @@ def compute_topset_slope(
         ...     )
         ...
         ...     a_section.show_trace(ax=ax)
+        ...
         >>>
         >>> ax.set_title(f"{mean_slope:.2e} $\\pm$ {std_slope:.2e}")
         >>> plt.show()
@@ -1956,8 +1958,8 @@ def compute_topset_slope(
         >>> deposit_thickness = self.golf["eta"][-1, :, :] - self.golf["eta"][0, :, :]
         >>> deposit_thickness[deposit_thickness == 0] = np.nan
         >>> mean, std = compute_topset_slope(
-        ...     deposit_thickness,
-        ...     elevation_threshold=-np.inf)
+        ...     deposit_thickness, elevation_threshold=-np.inf
+        ... )
 
     """
     azimuths = _determine_equally_spaced_azimuths(**kwargs)
@@ -2278,9 +2280,9 @@ def shaw_opening_angle_method(
     #   fill the query points with the value returned from theta
     pad_opening_angles[query_set_idxs[:, 0], query_set_idxs[:, 1]] = theta
     #   fill the rest of the array
-    pad_opening_angles[
-        sea_idxs_outside_hull[:, 0], sea_idxs_outside_hull[:, 1]
-    ] = outside_hull_value  # aka 180
+    pad_opening_angles[sea_idxs_outside_hull[:, 0], sea_idxs_outside_hull[:, 1]] = (
+        outside_hull_value  # aka 180
+    )
     #   grab the data that is the same shape as the input below_mask
     opening_angles = pad_opening_angles[1:-1, 1:-1]
 
