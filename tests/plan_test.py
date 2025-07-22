@@ -593,21 +593,39 @@ class TestShorelineDistance:
 class TestDetermineEquallySpacedAzimuths:
     def test_defaults(self):
         _ret = _determine_equally_spaced_azimuths()
-        assert _ret == [15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165]
+        assert np.all(
+            _ret == np.array([15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165])
+        )
 
-    def test_three_ordered_nobuffer(self):
-        _ret = _determine_equally_spaced_azimuths(3, 0, 180, buffered=False)
-        assert _ret == [0, 90, 180]
+    def test_four_ordered_nobuffer(self):
+        _ret = _determine_equally_spaced_azimuths(3, 0, 180, False)
+        assert np.all(_ret == np.array([0, 90, 180]))
 
-    def test_three_buffered(self):
-        _ret = _determine_equally_spaced_azimuths(3, 0, 180, buffered=True)
-        assert _ret == [45, 90, 135]
+    def test_nobuffer_all_kwargs(self):
+        _ret = _determine_equally_spaced_azimuths(
+            num=3, start=0, end=180, buffered=False
+        )
+        assert np.all(_ret == np.array([0, 90, 180]))
+
+    def test_mixed_fails(self):
+        with pytest.raises(ValueError):
+            _ret = _determine_equally_spaced_azimuths(3, 0, 180, buffered=False)
+
+    def test_less_than_four_fails(self):
+        with pytest.raises(ValueError):
+            _ret2 = _determine_equally_spaced_azimuths(3, 0, 180)
+
+    def test_buffered_as_default(self):
+        _ret1 = _determine_equally_spaced_azimuths(3, 0, 180, True)
+        _ret2 = _determine_equally_spaced_azimuths(num=3, start=0, end=180)
+        assert np.all(_ret1 == np.array([45, 90, 135]))
+        assert np.all(_ret1 == _ret2)
 
     def test_five_equal(self):
         _ret = _determine_equally_spaced_azimuths(
             num=5, start=22.5, end=157.5, buffered=True
         )
-        assert _ret == [45, 67.5, 90, 112.5, 135]
+        assert np.all(_ret == np.array([45, 67.5, 90, 112.5, 135]))
 
 
 class TestComputeTopsetSlope:
