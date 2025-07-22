@@ -1780,27 +1780,73 @@ def _determine_equally_spaced_azimuths(*args, **kwargs):
     return azimuths
 
 
-def compute_shoreline_radius(shore_mask, origin=[0, 0], return_radii=False, **kwargs):
+def compute_shoreline_radius(shore_mask, origin=(0, 0), return_radii=False, **kwargs):
     """Radially-averaged shoreline radius.
+
+    Algorithm uses equally spaced :obj:`RadialSection` to calculate the
+    distance to the shoreline.
 
     .. note::
 
         In implementation, this metric uses the last (farthest) intersection
-        of the radial section at `azimuth` and the shoreline mask.
+        of the `RadialSection` at a certain `azimuth` and the shoreline mask,
+        if there are multiple intersections.
 
     See also:
-        :obj:`compute_shoreline_distance`.
+
+        This function is similar to, but distinct
+        from :obj:`compute_shoreline_distance`, which computes the
+        straight-line distance between the origin and every point along the
+        shoreline.
+
+    Examples
+    --------
+
+    Compute the distance to the shoreline at seven equally spaced `RadialSection`:
+
+    .. plot::
+        :include-source:
+
+        golf = spl.sample_data.golf()
+        origin = np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
+
+
+        shore_mask = spl.mask.ShorelineMask(golf["eta"][-1], elevation_threshold=0)
+
+        mean_radius, std_radius = spl.plan.compute_shoreline_radius(
+            shore_mask, origin=origin, return_radii=False
+        )
+
+        # make a map to visualize the calculation
+        from sandplover.plan import _determine_equally_spaced_azimuths
+
+        azimuths = _determine_equally_spaced_azimuths(num=5)
+
+        fig, ax = plt.subplots()
+        shore_mask.show(ax=ax, ticks=True)
+        for a, azimuth in enumerate(azimuths):
+            a_section = spl.section.RadialSection(
+                golf["eta"][-1, :, :],
+                azimuth=azimuth,
+                origin=origin,
+            )
+            a_section.show_trace(ax=ax)
+
+        ax.set_title(f"{mean_radius:.0f} $\\pm$ {std_radius:.0f}")
+        plt.show()
+
+
     """
     azimuths = _determine_equally_spaced_azimuths(**kwargs)
     radii = np.zeros((len(azimuths),))
-    # note:
+
     for a, azimuth in enumerate(azimuths):
-        RadialSection(cube, azimuth=azimuth, origin_idx=[0, eta_diff.shape[1] // 2])
+        a_section = RadialSection(shore_mask, azimuth=azimuth, origin=origin)
 
         # find where interescts shoreline mask
-        shoreline_mask_alongsection = deposit_percentile_line[
-            a_section.trace_idx[:, 0], a_section.trace_idx[:, 1]
-        ]
+        shoreline_mask_alongsection = np.array(
+            a_section["mask"]
+        )  # use name "mask" to slice
         where_intersects = np.nonzero(shoreline_mask_alongsection)[0]
         if where_intersects.size > 0:
             radii[a] = a_section.s[where_intersects[-1]]
@@ -1808,9 +1854,9 @@ def compute_shoreline_radius(shore_mask, origin=[0, 0], return_radii=False, **kw
             radii[a] = np.nan
 
     if return_radii:
-        return np.nanmean(slopes), np.nanstd(slopes), slopes
+        return np.nanmean(radii), np.nanstd(radii), radii
     else:
-        return np.nanmean(slopes), np.nanstd(slopes)
+        return np.nanmean(radii), np.nanstd(radii)
 
 
 def compute_topset_slope(
@@ -1822,6 +1868,10 @@ def compute_topset_slope(
     **kwargs,
 ):
     """
+    Compute the slope of a fan or delta topset.
+
+    Algorithm uses equally spaced :obj:`RadialSection` to calculate the slope
+    of input `elevation_data` that is above `elevation_threshold`.
 
     Parameters
     ----------
@@ -1857,6 +1907,11 @@ def compute_topset_slope(
 
     Examples
     --------
+
+    .. hint::
+
+        See also some examples using `compute_topset_slope` in computations
+        here: :doc:`/guides/examples/computations/radially_averaged_topset_slope`.
 
     To make a calculation with 5 equally spaced sections on the left half of
     the domain only:
