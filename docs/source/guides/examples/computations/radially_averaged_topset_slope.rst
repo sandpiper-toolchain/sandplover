@@ -95,5 +95,3 @@ Limit the computation to a proximal region of the delta
         )
 
     plt.show()
-
-

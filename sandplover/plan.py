@@ -2309,9 +2309,9 @@ def shaw_opening_angle_method(
     #   fill the query points with the value returned from theta
     pad_opening_angles[query_set_idxs[:, 0], query_set_idxs[:, 1]] = theta
     #   fill the rest of the array
-    pad_opening_angles[
-        sea_idxs_outside_hull[:, 0], sea_idxs_outside_hull[:, 1]
-    ] = outside_hull_value  # aka 180
+    pad_opening_angles[sea_idxs_outside_hull[:, 0], sea_idxs_outside_hull[:, 1]] = (
+        outside_hull_value  # aka 180
+    )
     #   grab the data that is the same shape as the input below_mask
     opening_angles = pad_opening_angles[1:-1, 1:-1]
 
