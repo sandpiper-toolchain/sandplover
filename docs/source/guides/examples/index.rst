@@ -15,6 +15,7 @@ Planforms
    computations/shoreline_roughness_perfect_direct
    io/instantiate_mask_directly
    computations/radially_averaged_topset_slope
+   computations/comparing_shoreline_metrics
 
 
 Sections
