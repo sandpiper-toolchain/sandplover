@@ -23,7 +23,6 @@ from sandplover.plan import compute_shoreline_distance
 from sandplover.plan import compute_shoreline_length
 from sandplover.plan import compute_shoreline_radius
 from sandplover.plan import compute_shoreline_roughness
-from sandplover.plan import compute_shoreline_rugosity
 from sandplover.plan import compute_surface_deposit_age
 from sandplover.plan import compute_surface_deposit_time
 from sandplover.plan import compute_topset_slope
@@ -584,7 +583,7 @@ class TestDetermineEquallySpacedAzimuths:
 
     def test_mixed_fails(self):
         with pytest.raises(ValueError):
-            _ret = _determine_equally_spaced_azimuths(3, 0, 180, buffered=False)
+            _ = _determine_equally_spaced_azimuths(3, 0, 180, buffered=False)
 
     def test_one(self):
         _ret = _determine_equally_spaced_azimuths(num=1)
@@ -592,7 +591,7 @@ class TestDetermineEquallySpacedAzimuths:
 
     def test_less_than_four_fails(self):
         with pytest.raises(ValueError):
-            _ret2 = _determine_equally_spaced_azimuths(3, 0, 180)
+            _ = _determine_equally_spaced_azimuths(3, 0, 180)
 
     def test_buffered_as_default(self):
         _ret1 = _determine_equally_spaced_azimuths(3, 0, 180, True)
