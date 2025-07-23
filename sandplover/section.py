@@ -483,8 +483,12 @@ class BaseSection(abc.ABC):
             )
             return _xrDA
         elif self._underlying_type == "array":
+            if isinstance(self._underlying, xr.core.dataarray.DataArray):
+                _data = self._underlying.data[self._dim1_idx, self._dim2_idx]
+            elif isinstance(self._underlying, np.ndarray):
+                _data = self._underlying[self._dim1_idx, self._dim2_idx]
             _xrDA = xr.DataArray(
-                self._underlying[self._dim1_idx, self._dim2_idx],
+                _data,
                 coords={"s": self._s},
                 dims=["s"],
                 name=var,
@@ -1577,7 +1581,6 @@ class CircularSection(BaseSection):
         origin_idx=None,
         **kwargs,
     ):
-
         self._origin = None
         self._radius = None
 
@@ -1594,7 +1597,6 @@ class CircularSection(BaseSection):
         super().__init__("circular", *args, **kwargs)
 
     def _compute_section_coords(self):
-
         dim1_coords = self._underlying_dim1_coords
         dim2_coords = self._underlying_dim2_coords
 
@@ -1828,7 +1830,6 @@ class RadialSection(BaseSection):
     def __init__(
         self, *args, azimuth=None, origin=None, origin_idx=None, length=None, **kwargs
     ):
-
         self._azimuth = None
         self._origin = None
 
@@ -1913,10 +1914,18 @@ class RadialSection(BaseSection):
 
         # use vector math to determine end point len along azimuth
         #   vector is from (0, b) to (origin)
+        theta_rad = theta * (np.pi / 180)
+        magnitude = 1
         if self.azimuth <= 90.0 and self.azimuth >= 0:
-            vec = np.array([self._origin_idx[1] - 0, self._origin_idx[0] - b])
+            # vec = np.array([self._origin_idx[1] - 0, self._origin_idx[0] - b])
+            x = magnitude * np.cos(theta_rad)
+            y = magnitude * np.sin(theta_rad)
+            vec = [x, y]
         elif self.azimuth > 90 and self.azimuth <= 180:
-            vec = np.array([0 - self._origin_idx[1], b - self._origin_idx[0]])
+            # vec = np.array([0 - self._origin_idx[1], b - self._origin_idx[0]])
+            x = magnitude * np.cos(theta_rad)
+            y = magnitude * np.sin(theta_rad)
+            vec = [x, y]
         else:
             raise ValueError("Azimuth must be in range (0, 180).")
             # note, this logic should be able to be extended to handle
@@ -1965,6 +1974,7 @@ class RadialSection(BaseSection):
 
         # we have (all in indicies) origin, length, and vector
         vec_norm = vec / np.sqrt(vec[1] ** 2 + vec[0] ** 2)
+        # breakpoint()
         end_point = (
             int(self._origin_idx[1] + _length_idx * vec_norm[0]),
             int(self._origin_idx[0] + _length_idx * vec_norm[1]),

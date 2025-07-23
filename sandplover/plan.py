@@ -21,6 +21,7 @@ from sandplover.plot import VariableInfo
 from sandplover.plot import VariableSet
 from sandplover.plot import append_colorbar
 from sandplover.section import BaseSection
+from sandplover.section import RadialSection
 from sandplover.utils import _points_in_polygon
 from sandplover.utils import is_ndarray_or_xarray
 
@@ -1314,6 +1315,71 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
     return rough
 
 
+def compute_shoreline_rugosity(shore_mask, **kwargs):
+    """Compute shoreline rugosity.
+
+    Computes the shoreline rugosity metric:
+
+    .. math::
+        R_j = \\sqrt{1/N \\sum_{i=1}^N \\left( \\frac{r_{i,j}-\\bar{r}}{\\bar{r}}\\right)^2}
+
+    Parameters
+    ----------
+    shore_mask : :obj:`~deltametrics.mask.ShorelineMask`, :obj:`ndarray`
+        Shoreline mask. Can be a :obj:`~deltametrics.mask.ShorelineMask` object,
+        or a binarized array.
+
+    **kwargs
+        Keyword argument are passed to :obj:`compute_shoreline_length`
+        internally.
+
+    Returns
+    -------
+    rugosity : :obj:`float`
+        Shoreline rugosity, computed as described above.
+
+    Examples
+    --------
+    Compare the rugosity of the shoreline early in the model simulation with
+    the rugosity later. Here, we use the `elevation_offset` parameter (passed
+    to :obj:`~deltametrics.mask.ElevationMask`) to better capture the
+    topography of the `pyDeltaRCM` model results.
+
+    """
+    # extract data from masks
+    if isinstance(shore_mask, mask.ShorelineMask):
+        shore_mask = shore_mask.mask
+        _sm = shore_mask.values
+        _dx = float(
+            shore_mask[shore_mask.dims[0]][1] - shore_mask[shore_mask.dims[0]][0]
+        )
+    elif isinstance(shore_mask, xr.core.dataarray.DataArray):
+        _sm = shore_mask.values
+        _dx = float(
+            shore_mask[shore_mask.dims[0]][1] - shore_mask[shore_mask.dims[0]][0]
+        )
+    elif isinstance(shore_mask, np.ndarray):
+        _sm = shore_mask
+        _dx = 1
+    else:
+        raise TypeError(f"Invalid type {type(shore_mask)}")
+
+    # _ = kwargs.pop('return_line', None)  # trash this variable if passed
+    # shorelength = compute_shoreline_length(
+    #     shore_mask, return_line=False, **kwargs)
+    # find where the mask is True (all x-y pairs along shore)
+    _y, _x = np.argwhere(_sm).T
+
+    N = np.sum(_sm)
+    if N > 0:
+        # compute rugosity
+        rugosity = np.sqrt(1 / N * np.sum())
+    else:
+        raise ValueError("No pixels in land mask.")
+
+    return rugosity
+
+
 def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
     """Compute the length of a shoreline from a mask of the shoreline.
 
@@ -1647,6 +1713,313 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
         return np.nanmean(_dists), np.nanstd(_dists), _dists
     else:
         return np.nanmean(_dists), np.nanstd(_dists)
+
+
+def _determine_equally_spaced_azimuths(*args, **kwargs):
+    """Helper to determine equally spaced azimuths for other computations.
+
+    Parameters
+    ----------
+    num : :obj:`int` or :obj:`float`
+        Number of azimuths to return. Coerced to `int`. Default 11.
+
+    start : :obj:`float`
+        Starting azimuth. Default 0.
+
+    end : :obj:`float`
+        Ending azimuth. Default 180.
+
+    buffered
+        Whether `start` and `end` represent the bounds for the calculation and
+        should be buffered before the first and last azimuth, or if `start`
+        and `end` are the actual end points of the azimuth array. This is
+        helpful when `start` and `end` represent model or experimental domain
+        edges. Default is `True`, include buffer.
+
+    Examples
+    --------
+
+        >>> _determine_equally_spaced_azimuths()
+        array([ 15.,  30.,  45.,  60.,  75.,  90., 105., 120., 135., 150., 165.])
+
+        >>> _determine_equally_spaced_azimuths(num=3, start=0, end=180, buffered=False)
+        array([ 0., 90., 180.])
+
+        >>> _determine_equally_spaced_azimuths(num=3, start=0, end=180, buffered=True)
+        array([ 45., 90., 135.])
+
+        >>> _determine_equally_spaced_azimuths(
+        ...     num=5, start=22.5, end=157.5, buffered=True
+        ... )
+        array([ 45. ,  67.5,  90. , 112.5, 135. ])
+
+    """
+    # process the input arguments
+    if len(args) > 0:
+        # must specify all four as args
+        if len(args) != 4:
+            raise ValueError(
+                "Must specify all four arguments as positional, "
+                "if specifying any as positional."
+            )
+        # unpack args
+        num, start, end, buffered = args[0], args[1], args[2], args[3]
+    else:
+        # arguments have been specified as keywords or use defaults
+        num = kwargs.pop("num", 11)
+        start = kwargs.pop("start", 0)
+        end = kwargs.pop("end", 180)
+        buffered = kwargs.pop("buffered", True)
+
+    # create the azimuths
+    if buffered:
+        azimuths = np.linspace(start, end, num + 2, dtype=float)
+        azimuths = azimuths[1:-1]
+    else:
+        azimuths = np.linspace(start, end, num, dtype=float)
+    return azimuths
+
+
+def compute_shoreline_radius(shore_mask, origin=(0, 0), return_radii=False, **kwargs):
+    """Radially-averaged shoreline radius.
+
+    Algorithm uses equally spaced :obj:`RadialSection` to calculate the
+    distance to the shoreline.
+
+    .. note::
+
+        In implementation, this metric uses the last (farthest) intersection
+        of the `RadialSection` at a certain `azimuth` and the shoreline mask,
+        if there are multiple intersections.
+
+    See also:
+
+        This function is similar to, but distinct
+        from :obj:`compute_shoreline_distance`, which computes the
+        straight-line distance between the origin and every point along the
+        shoreline.
+
+    Parameters
+    ----------
+    shore_mask : :obj:`ShorelineMask`
+        Input shoreline mask.
+
+    origin
+        Origin for :obj:`~sandplover.section.RadialSection`. Default (0, 0).
+
+    return_radii : bool, optional
+        Whether to return the calculated radii along each section, in addition
+        to the mean and standard deviation.
+
+    **kwargs
+        Passed to :obj:`_determine_equally_spaced_azimuths`.
+
+    Returns
+    -------
+    mean
+        Mean radius over all sections.
+
+    std
+        Standard deviation of radii along all sections.
+
+    radii
+        Array of radius values calculated along all sections. Returned only if
+        `return_radii = True`.
+
+    Examples
+    --------
+    Compute the distance to the shoreline at seven equally spaced `RadialSection`:
+
+    .. plot::
+        :include-source:
+
+        import sandplover as spl
+
+        golf = spl.sample_data.golf()
+        origin = np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
+
+        azimuth_kwargs = {"num": 7}
+        shore_mask = spl.mask.ShorelineMask(golf["eta"][-1], elevation_threshold=0)
+
+        mean_radius, std_radius = spl.plan.compute_shoreline_radius(
+            shore_mask, origin=origin, **azimuth_kwargs
+        )
+
+        # make a map to visualize the calculation
+        from sandplover.plan import _determine_equally_spaced_azimuths
+
+        azimuths = _determine_equally_spaced_azimuths(**azimuth_kwargs)
+
+        fig, ax = plt.subplots()
+        shore_mask.show(ax=ax, ticks=True)
+        for a, azimuth in enumerate(azimuths):
+            a_section = spl.section.RadialSection(
+                golf["eta"][-1, :, :],
+                azimuth=azimuth,
+                origin=origin,
+            )
+            a_section.show_trace(ax=ax)
+
+        ax.set_title(f"{mean_radius:.0f} $\\pm$ {std_radius:.0f}")
+
+    """
+    azimuths = _determine_equally_spaced_azimuths(**kwargs)
+    radii = np.zeros((len(azimuths),))
+
+    for a, azimuth in enumerate(azimuths):
+        a_section = RadialSection(shore_mask, azimuth=azimuth, origin=origin)
+
+        # find where interescts shoreline mask
+        shoreline_mask_alongsection = np.array(
+            a_section["mask"]
+        )  # use name "mask" to slice
+        where_intersects = np.nonzero(shoreline_mask_alongsection)[0]
+        if where_intersects.size > 0:
+            radii[a] = a_section.s[where_intersects[-1]]
+        else:
+            radii[a] = np.nan
+
+    if return_radii:
+        return np.nanmean(radii), np.nanstd(radii), radii
+    else:
+        return np.nanmean(radii), np.nanstd(radii)
+
+
+def compute_topset_slope(
+    elevation_data,
+    origin=(0, 0),
+    elevation_threshold=0,
+    count_threshold=5,
+    return_slopes=False,
+    **kwargs,
+):
+    """
+    Compute the slope of a fan or delta topset.
+
+    Algorithm uses equally spaced :obj:`RadialSection` to calculate the slope
+    of input `elevation_data` that is above `elevation_threshold`.
+
+    Parameters
+    ----------
+    elevation_data : array-like
+        Input elevation data.
+
+    origin
+        Origin for :obj:`~sandplover.section.RadialSection`. Default (0, 0).
+
+    elevation_threshold : float, optional
+        Elevation threshold for finding the topset. Commonly, this would be
+        sea level. Default is 0.
+
+    count_threshold : int, optional
+        How many pixels above sea level must be identified in order to fit a
+        line. Default is 5 points.
+
+    return_slopes : bool, optional
+        Whether to return the calculated slopes, in addition to the mean and
+        standard deviation.
+
+    **kwargs
+        Passed to :obj:`_determine_equally_spaced_azimuths`.
+
+    Returns
+    -------
+    mean
+        Mean slope along all sections.
+
+    std
+        Standard deviation of slope along sections.
+
+    slopes
+        Array of slope values calculated along all sections. Returned only if
+        `return_slopes = True`.
+
+    Examples
+    --------
+
+    .. hint::
+
+        See also some examples using `compute_topset_slope` in computations
+        here: :doc:`/guides/examples/computations/radially_averaged_topset_slope`.
+
+    To make a calculation with 5 equally spaced sections on the left half of
+    the domain only:
+
+    .. plot::
+
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.section import RadialSection
+
+        >>> golf = golf()
+        >>>
+        >>> azimuth_kwargs = {"num": 5, "start": 90, "end": 180}
+        >>> origin = (
+        ...     np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
+        ...     * golf.meta["dx"].data
+        ... )
+        >>> mean_slope, std_slope = compute_topset_slope(
+        ...     golf["eta"][-1, :, :], origin=origin, **azimuth_kwargs
+        ... )
+
+        >>> # below is to visualize the sections
+        >>> from sandplover.plan import _determine_equally_spaced_azimuths
+        >>> azimuths = _determine_equally_spaced_azimuths(**azimuth_kwargs)
+        >>>
+        >>> fig, ax = plt.subplots()
+        >>> golf.quick_show("eta", -1)
+        >>>
+        >>> for a, azimuth in enumerate(azimuths):
+        ...     a_section = RadialSection(
+        ...         golf["eta"][-1, :, :],
+        ...         azimuth=azimuth,
+        ...         origin=origin,
+        ...     )
+        ...
+        ...     a_section.show_trace(ax=ax)
+        ...
+        >>>
+        >>> _ = ax.set_title(f"{mean_slope:.2e} $\\pm$ {std_slope:.2e}")
+
+    To calculate the slope of a deposit, try something like:
+
+    .. code::
+
+        >>> deposit_thickness = golf["eta"][-1, :, :] - golf["eta"][0, :, :]
+        >>> deposit_thickness.data[deposit_thickness == 0] = np.nan
+        >>> mean, std = compute_topset_slope(
+        ...     deposit_thickness, elevation_threshold=-np.inf
+        ... )
+
+    """
+    azimuths = _determine_equally_spaced_azimuths(**kwargs)
+    slopes = np.zeros((len(azimuths),))
+    for a, azimuth in enumerate(azimuths):
+        a_section = RadialSection(
+            elevation_data,
+            azimuth=azimuth,
+            origin=origin,
+        )
+
+        yvalues = np.array(
+            a_section.__getitem__("")
+        )  # no var name needed to slice array
+        xvalues = np.array(a_section.s)
+
+        # if sea level, take locations where above sl
+        _keep_bool = yvalues > (elevation_threshold)
+        yvalues_above = yvalues[_keep_bool]
+        xvalues_above = xvalues[_keep_bool]
+
+        if xvalues_above.size > count_threshold:
+            m, b = np.polyfit(xvalues_above, yvalues_above, 1)
+        else:
+            m = np.nan
+        slopes[a] = m
+
+    if return_slopes:
+        return np.nanmean(slopes), np.nanstd(slopes), slopes
+    else:
+        return np.nanmean(slopes), np.nanstd(slopes)
 
 
 @njit(parallel=True)

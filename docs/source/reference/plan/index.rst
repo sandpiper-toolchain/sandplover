@@ -41,8 +41,11 @@ Functions
 
     compute_land_area
     compute_shoreline_roughness
+    compute_shoreline_rugosity
     compute_shoreline_length
     compute_shoreline_distance
+    compute_shoreline_radius
+    compute_topset_slope
     compute_channel_width
     compute_channel_depth
     compute_surface_deposit_time
