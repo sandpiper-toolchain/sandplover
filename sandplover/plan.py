@@ -1193,6 +1193,16 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
     given binary masks of the shoreline and land area. The length of the
     shoreline is computed internally with :obj:`compute_shoreline_length`.
 
+    This metric is a convex hull-like characterization of the shoreline
+    roughness; though a convex hull is not computed and the land area is
+    explicitly used.
+
+    .. hint::
+        **See also:** This function is similar to, but distinct
+          from :obj:`compute_shoreline_rugosity`, which uses an approach
+          based on the deviation of the shoreline distance at all points from
+          the mean shoreline distance.
+
     Parameters
     ----------
     shore_mask : :obj:`~sandplover.mask.ShorelineMask`, :obj:`ndarray`
@@ -1220,10 +1230,10 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
     topography of the `pyDeltaRCM` model results.
 
     .. plot::
+        :include-source:
 
         >>> from sandplover.mask import LandMask
         >>> from sandplover.mask import ShorelineMask
-        >>> from sandplover.plan import compute_land_area
         >>> from sandplover.sample_data.sample_data import golf
 
         >>> golf = golf()
@@ -1315,23 +1325,40 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
     return rough
 
 
-def compute_shoreline_rugosity(shore_mask, **kwargs):
+def compute_shoreline_rugosity(shore_mask, origin=(0, 0)):
     """Compute shoreline rugosity.
 
     Computes the shoreline rugosity metric:
 
     .. math::
-        R_j = \\sqrt{1/N \\sum_{i=1}^N \\left( \\frac{r_{i,j}-\\bar{r}}{\\bar{r}}\\right)^2}
+        R = \\sqrt{1/N \\sum_{i=1}^N \\left( \\frac{r_{i}-\\bar{r}}{\\bar{r}}\\right)^2}
+
+    where R is the rugosity of the shoreline, where N is the total number of
+    pixels defining the shoreline, r_i is the individual distance measurement
+    to each point of the shoreline, and :math:`\\hat{r}` is the mean distance
+    from `origin` to the shoreline in `shore_mask`.
+
+    This metric has been described as the "shoreline roughness" in the
+    literature.
+    This metric compares the actual shoreline length to  but we choose the descriptor rugosity, as the metric compares
+    to the computed mean distance
+
+    .. hint::
+        **See also:** This function is similar to, but distinct
+          from :obj:`compute_shoreline_roughness`, which uses an approach
+          based on the shoreline convexity to characterize the shoreline.
+
+
+    .. [1] Straub, K. M., Q. Li, and W. M. Benson (2015), Influence of sediment
+       cohesion on deltaic shoreline dynamics and bulk sediment retention: A
+       laboratory study, Geophys. Res. Lett., 42, 9808–9815,
+       doi:10.1002/2015GL066131.
 
     Parameters
     ----------
     shore_mask : :obj:`~deltametrics.mask.ShorelineMask`, :obj:`ndarray`
         Shoreline mask. Can be a :obj:`~deltametrics.mask.ShorelineMask` object,
         or a binarized array.
-
-    **kwargs
-        Keyword argument are passed to :obj:`compute_shoreline_length`
-        internally.
 
     Returns
     -------
@@ -1340,14 +1367,34 @@ def compute_shoreline_rugosity(shore_mask, **kwargs):
 
     Examples
     --------
-    Compare the rugosity of the shoreline early in the model simulation with
-    the rugosity later. Here, we use the `elevation_offset` parameter (passed
-    to :obj:`~deltametrics.mask.ElevationMask`) to better capture the
-    topography of the `pyDeltaRCM` model results.
+    Calculate the shoreline rugosity.
+
+    .. plot::
+        :include-source:
+
+        >>> from sandplover.mask import ShorelineMask
+        >>> from sandplover.plan import compute_shoreline_rugosity
+        >>> from sandplover.sample_data.sample_data import golf
+
+        >>> golf = golf()
+        >>> sm = ShorelineMask(
+        ...     golf["eta"][-1, :, :], elevation_threshold=0, elevation_offset=-0.5
+        ... )
+        >>> sm.trim_mask(length=golf.meta["L0"].data + 1)
+
+        Compute roughnesses
+
+        >>> rug = compute_shoreline_rugosity(sm)
+
+
+        >>> fig, ax = plt.subplots()
+        >>> sm.show(ax=ax)
+        >>> ax.set_title("rugosity = {:.2f}".format(rug))
+
 
     """
     # extract data from masks
-    if isinstance(shore_mask, mask.ShorelineMask):
+    if isinstance(shore_mask, ShorelineMask):
         shore_mask = shore_mask.mask
         _sm = shore_mask.values
         _dx = float(
@@ -1364,18 +1411,15 @@ def compute_shoreline_rugosity(shore_mask, **kwargs):
     else:
         raise TypeError(f"Invalid type {type(shore_mask)}")
 
-    # _ = kwargs.pop('return_line', None)  # trash this variable if passed
-    # shorelength = compute_shoreline_length(
-    #     shore_mask, return_line=False, **kwargs)
-    # find where the mask is True (all x-y pairs along shore)
-    _y, _x = np.argwhere(_sm).T
-
     N = np.sum(_sm)
     if N > 0:
         # compute rugosity
-        rugosity = np.sqrt(1 / N * np.sum())
+        r_bar, _, r_ij = compute_shoreline_distance(
+            _sm, origin=origin, return_distances=True
+        )
+        rugosity = np.sqrt((1 / N) * np.sum(((r_ij - r_bar) / r_bar) ** 2))
     else:
-        raise ValueError("No pixels in land mask.")
+        raise ValueError("No pixels in ShorelineMask.")
 
     return rugosity
 
@@ -1426,6 +1470,7 @@ def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
     of the `pyDeltaRCM` model results.
 
     .. plot::
+        :include-source:
 
         >>> from sandplover.mask import ShorelineMask
         >>> from sandplover.plan import compute_shoreline_length
@@ -1792,9 +1837,9 @@ def compute_shoreline_radius(shore_mask, origin=(0, 0), return_radii=False, **kw
         of the `RadialSection` at a certain `azimuth` and the shoreline mask,
         if there are multiple intersections.
 
-    See also:
+    .. hint::
 
-        This function is similar to, but distinct
+        **See also:** This function is similar to, but distinct
         from :obj:`compute_shoreline_distance`, which computes the
         straight-line distance between the origin and every point along the
         shoreline.
