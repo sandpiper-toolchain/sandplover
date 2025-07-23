@@ -1740,18 +1740,18 @@ def _determine_equally_spaced_azimuths(*args, **kwargs):
     --------
 
         >>> _determine_equally_spaced_azimuths()
-        np.array([15., 30., 45., 60., 75., 90., 105., 120., 135., 150., 165.])
+        array([ 15.,  30.,  45.,  60.,  75.,  90., 105., 120., 135., 150., 165.])
 
-        >>> _determine_equally_spaced_azimuths(3, 0, 180, buffered=False)
-        np.array([0., 90., 180.])
+        >>> _determine_equally_spaced_azimuths(num=3, start=0, end=180, buffered=False)
+        array([ 0., 90., 180.])
 
-        >>> _determine_equally_spaced_azimuths(3, 0, 180, buffered=True)
-        np.array([ 45., 90., 135.])
+        >>> _determine_equally_spaced_azimuths(num=3, start=0, end=180, buffered=True)
+        array([ 45., 90., 135.])
 
         >>> _determine_equally_spaced_azimuths(
         ...     num=5, start=22.5, end=157.5, buffered=True
         ... )
-        np.array([ 45., 67.5, 90., 112.5, 135.])
+        array([ 45. ,  67.5,  90. , 112.5, 135. ])
 
     """
     # process the input arguments
@@ -1838,17 +1838,17 @@ def compute_shoreline_radius(shore_mask, origin=(0, 0), return_radii=False, **kw
         golf = spl.sample_data.golf()
         origin = np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
 
-
+        azimuth_kwargs = {"num": 7}
         shore_mask = spl.mask.ShorelineMask(golf["eta"][-1], elevation_threshold=0)
 
         mean_radius, std_radius = spl.plan.compute_shoreline_radius(
-            shore_mask, origin=origin, return_radii=False
+            shore_mask, origin=origin, **azimuth_kwargs
         )
 
         # make a map to visualize the calculation
         from sandplover.plan import _determine_equally_spaced_azimuths
 
-        azimuths = _determine_equally_spaced_azimuths(num=5)
+        azimuths = _determine_equally_spaced_azimuths(**azimuth_kwargs)
 
         fig, ax = plt.subplots()
         shore_mask.show(ax=ax, ticks=True)
@@ -1861,8 +1861,6 @@ def compute_shoreline_radius(shore_mask, origin=(0, 0), return_radii=False, **kw
             a_section.show_trace(ax=ax)
 
         ax.set_title(f"{mean_radius:.0f} $\\pm$ {std_radius:.0f}")
-        plt.show()
-
 
     """
     azimuths = _determine_equally_spaced_azimuths(**kwargs)
@@ -1948,16 +1946,18 @@ def compute_topset_slope(
     the domain only:
 
     .. plot::
-        :include-source:
 
-        >>> golf = spl.sample_data.golf()
+        >>> from sandplover.sample_data.sample_data import golf
+        >>> from sandplover.section import RadialSection
+
+        >>> golf = golf()
         >>>
         >>> azimuth_kwargs = {"num": 5, "start": 90, "end": 180}
         >>> origin = (
         ...     np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
         ...     * golf.meta["dx"].data
         ... )
-        >>> mean_slope, std_slope = spl.plan.compute_topset_slope(
+        >>> mean_slope, std_slope = compute_topset_slope(
         ...     golf["eta"][-1, :, :], origin=origin, **azimuth_kwargs
         ... )
 
@@ -1969,7 +1969,7 @@ def compute_topset_slope(
         >>> golf.quick_show("eta", -1)
         >>>
         >>> for a, azimuth in enumerate(azimuths):
-        ...     a_section = spl.section.RadialSection(
+        ...     a_section = RadialSection(
         ...         golf["eta"][-1, :, :],
         ...         azimuth=azimuth,
         ...         origin=origin,
@@ -1978,15 +1978,14 @@ def compute_topset_slope(
         ...     a_section.show_trace(ax=ax)
         ...
         >>>
-        >>> ax.set_title(f"{mean_slope:.2e} $\\pm$ {std_slope:.2e}")
-        >>> plt.show()
+        >>> _ = ax.set_title(f"{mean_slope:.2e} $\\pm$ {std_slope:.2e}")
 
     To calculate the slope of a deposit, try something like:
 
     .. code::
 
-        >>> deposit_thickness = self.golf["eta"][-1, :, :] - self.golf["eta"][0, :, :]
-        >>> deposit_thickness[deposit_thickness == 0] = np.nan
+        >>> deposit_thickness = golf["eta"][-1, :, :] - golf["eta"][0, :, :]
+        >>> deposit_thickness.data[deposit_thickness == 0] = np.nan
         >>> mean, std = compute_topset_slope(
         ...     deposit_thickness, elevation_threshold=-np.inf
         ... )
