@@ -1197,11 +1197,12 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
     roughness; though a convex hull is not computed and the land area is
     explicitly used.
 
-    .. hint::
-        **See also:** This function is similar to, but distinct
-          from :obj:`compute_shoreline_rugosity`, which uses an approach
-          based on the deviation of the shoreline distance at all points from
-          the mean shoreline distance.
+    .. seealso::
+
+        This function is similar to, but distinct
+        from :obj:`compute_shoreline_rugosity`, which uses an approach based
+        on the deviation of the shoreline distance at all points from the
+        mean shoreline distance.
 
     Parameters
     ----------
@@ -1338,10 +1339,15 @@ def compute_shoreline_rugosity(shore_mask, origin=(0, 0)):
     to each point of the shoreline, and :math:`\\hat{r}` is the mean distance
     from `origin` to the shoreline in `shore_mask`.
 
+    .. note::
+
+        Internally, :obj:`compute_shoreline_distance` is used to compute the
+        mean distance to the shoreline :math:`\\hat{r}`.
+
     This metric has been described as the "shoreline roughness" in the
-    literature.
-    This metric compares the actual shoreline length to  but we choose the descriptor rugosity, as the metric compares
-    to the computed mean distance
+    literature. This metric compares the actual shoreline length to  but we
+    choose the descriptor rugosity, as the metric compares to the computed
+    mean distance
 
     .. hint::
         **See also:** This function is similar to, but distinct
@@ -1359,6 +1365,11 @@ def compute_shoreline_rugosity(shore_mask, origin=(0, 0)):
     shore_mask : :obj:`~deltametrics.mask.ShorelineMask`, :obj:`ndarray`
         Shoreline mask. Can be a :obj:`~deltametrics.mask.ShorelineMask` object,
         or a binarized array.
+
+    origin : :obj:`tuple`, :obj:`np.ndarray`, optional
+        Origin from which the distance to all shoreline points is computed,
+        specified in data dimensions (not indices) along `dim1, dim2` of the
+        data. Default (0, 0).
 
     Returns
     -------
@@ -1441,7 +1452,7 @@ def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
         Shoreline mask. Can be a :obj:`~sandplover.mask.ShorelineMask`
         object, or a binarized array.
 
-    origin : :obj:`list`, :obj:`np.ndarray`, optional
+    origin : :obj:`tuple`, :obj:`np.ndarray`, optional
         Determines the location from where the starting point of the line
         sorting is initialized. The starting point of the line is determined
         as the point nearest to `origin`. For non-standard data
@@ -1674,9 +1685,10 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
         Shoreline mask. Can be a :obj:`~sandplover.mask.ShorelineMask`
         object, or a binarized array.
 
-    origin : :obj:`list`, :obj:`np.ndarray`, optional
-        Determines the location from where the distance to all shoreline
-        points is computed.
+    origin : :obj:`tuple`, :obj:`np.ndarray`, optional
+        Origin from which the distance to all shoreline points is computed,
+        specified in data dimensions (not indices) along `dim1, dim2` of the
+        data. Default (0, 0).
 
     return_distances : :obj:`bool`
         Whether to return the sorted line as a second argument. If True, a
@@ -1837,9 +1849,9 @@ def compute_shoreline_radius(shore_mask, origin=(0, 0), return_radii=False, **kw
         of the `RadialSection` at a certain `azimuth` and the shoreline mask,
         if there are multiple intersections.
 
-    .. hint::
+    .. seealso::
 
-        **See also:** This function is similar to, but distinct
+        This function is similar to, but distinct
         from :obj:`compute_shoreline_distance`, which computes the
         straight-line distance between the origin and every point along the
         shoreline.
@@ -1850,7 +1862,9 @@ def compute_shoreline_radius(shore_mask, origin=(0, 0), return_radii=False, **kw
         Input shoreline mask.
 
     origin
-        Origin for :obj:`~sandplover.section.RadialSection`. Default (0, 0).
+        Origin for :obj:`~sandplover.section.RadialSection` objects, specified
+        in data dimensions (not indices) along `dim1, dim2` of the data.
+        Default (0, 0).
 
     return_radii : bool, optional
         Whether to return the calculated radii along each section, in addition
@@ -1950,7 +1964,9 @@ def compute_topset_slope(
         Input elevation data.
 
     origin
-        Origin for :obj:`~sandplover.section.RadialSection`. Default (0, 0).
+        Origin for :obj:`~sandplover.section.RadialSection` objects, specified
+        in data dimensions (not indices) along `dim1, dim2` of the data.
+        Default (0, 0).
 
     elevation_threshold : float, optional
         Elevation threshold for finding the topset. Commonly, this would be
@@ -1982,7 +1998,7 @@ def compute_topset_slope(
     Examples
     --------
 
-    .. hint::
+    .. seealso::
 
         See also some examples using `compute_topset_slope` in computations
         here: :doc:`/guides/examples/computations/radially_averaged_topset_slope`.
