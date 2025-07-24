@@ -41,7 +41,8 @@ Functions
 
     compute_land_area
     compute_shoreline_roughness
-    compute_shoreline_rugosity
+    compute_shoreline_roughness_area
+    compute_shoreline_roughness_deviation
     compute_shoreline_length
     compute_shoreline_distance
     compute_shoreline_radius
