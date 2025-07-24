@@ -1181,8 +1181,26 @@ def compute_land_area(land_mask):
     return np.sum(_lm) * _dx * _dx
 
 
-def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
-    """Compute shoreline roughness.
+def compute_shoreline_roughness(*args, **kwargs):
+    """
+    Computes shoreline roughness.
+
+    .. deprecated::
+
+        This function will be deprecated in v0.6 and will result in an error.
+        To use a function with identical calculation and features, switch to
+        `compute_shoreline_roughness_area`.
+    """
+    warnings.warn(
+        "This function will be deprecated in v0.6 and will result in an error. "
+        "To use a function with identical calculation and features, switch to "
+        "`compute_shoreline_roughness_area`."
+    )
+    return compute_shoreline_roughness_area(*args, **kwargs)
+
+
+def compute_shoreline_roughness_area(shore_mask, land_mask, **kwargs):
+    """Compute shoreline roughness, using land area.
 
     Computes the shoreline roughness metric:
 
@@ -1193,16 +1211,28 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
     given binary masks of the shoreline and land area. The length of the
     shoreline is computed internally with :obj:`compute_shoreline_length`.
 
-    This metric is a convex hull-like characterization of the shoreline
-    roughness; though a convex hull is not computed and the land area is
-    explicitly used.
+    .. versionchanged::
+        This function was formerly named `compute_shoreline_roughness`.
+
+    .. important::
+
+        The theoretical basis of the calculation assumes a (semi-, quarter-,
+        etc)circular shape of the land area, as would be expected for a fan
+        or delta. This calculation will still give a valid result on a
+        straighter shoreline, but the absolute value of the result may be
+        difficult to interpret in physical sense.
 
     .. seealso::
 
         This function is similar to, but distinct
-        from :obj:`compute_shoreline_rugosity`, which uses an approach based
+        from :obj:`compute_shoreline_roughness_deviation`, which uses an approach based
         on the deviation of the shoreline distance at all points from the
         mean shoreline distance.
+
+    .. seealso::
+
+        For a measure of shoreline roughness that is more appropriate for a
+        straight shoreline, see :obj:`compute_shoreline_rugosity`.
 
     Parameters
     ----------
@@ -1220,13 +1250,13 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
 
     Returns
     -------
-    roughness : :obj:`float`
-        Shoreline roughness, computed as described above.
+    rugosity : :obj:`float`
+        Shoreline rugosity, computed as described above.
 
     Examples
     --------
-    Compare the roughness of the shoreline early in the model simulation with
-    the roughness later. Here, we use the `elevation_offset` parameter (passed
+    Compare the rugosity of the shoreline early in the model simulation with
+    the rugosity later. Here, we use the `elevation_offset` parameter (passed
     to :obj:`~sandplover.mask.ElevationMask`) to better capture the
     topography of the `pyDeltaRCM` model results.
 
@@ -1265,7 +1295,7 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
         >>> lm0.show(ax=ax[0])
         >>> sm0.show(ax=ax[1])
 
-        In order for these masks to work as expected in the shoreline roughness
+        In order for these masks to work as expected in the shoreline rugosity
         computation, we need to modify the mask values slightly, to remove the
         land-water boundary that is not really a part of the delta. We use the
         :meth:`~sandplover.mask.BaseMask.trim_mask` method to trim a mask.
@@ -1281,20 +1311,20 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
 
         And now, we can proceed with the calculation.
 
-        Compute roughnesses
+        Compute rugosityes
 
-        >>> from sandplover.plan import compute_shoreline_roughness
+        >>> from sandplover.plan import compute_shoreline_rugosity
 
-        >>> rgh0 = compute_shoreline_roughness(sm0, lm0)
-        >>> rgh1 = compute_shoreline_roughness(sm1, lm1)
+        >>> rgh0 = compute_shoreline_rugosity(sm0, lm0)
+        >>> rgh1 = compute_shoreline_rugosity(sm1, lm1)
 
         Make the plot
 
         >>> fig, ax = plt.subplots(1, 2, figsize=(6, 3))
         >>> golf.quick_show("eta", idx=15, ax=ax[0])
-        >>> _ = ax[0].set_title("roughness = {:.2f}".format(rgh0))
+        >>> _ = ax[0].set_title("rugosity = {:.2f}".format(rgh0))
         >>> golf.quick_show("eta", idx=-1, ax=ax[1])
-        >>> _ = ax[1].set_title("roughness = {:.2f}".format(rgh1))
+        >>> _ = ax[1].set_title("rugosity = {:.2f}".format(rgh1))
     """
     # extract data from masks
     if isinstance(land_mask, LandMask):
@@ -1315,10 +1345,10 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
 
     # compute the length of the shoreline and area of land
     shore_len_pix = shorelength
-    land_area_pix = np.sum(_lm) * _dx * _dx
+    land_area_pix = np.sum(_lm) * _dx * _dx  # use compute_land_area ?
 
     if land_area_pix > 0:
-        # compute roughness
+        # compute rugosity
         rough = shore_len_pix / np.sqrt(land_area_pix)
     else:
         raise ValueError("No pixels in land mask.")
@@ -1326,28 +1356,24 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
     return rough
 
 
-def compute_shoreline_rugosity(shore_mask, origin=(0, 0)):
-    """Compute shoreline rugosity.
+def compute_shoreline_roughness_deviation(shore_mask, origin=(0, 0)):
+    """Compute shoreline roughness, as deviation from mean.
 
-    Computes the shoreline rugosity metric:
+    Computes the shoreline roughness metric:
 
     .. math::
         R = \\sqrt{1/N \\sum_{i=1}^N \\left( \\frac{r_{i}-\\bar{r}}{\\bar{r}}\\right)^2}
 
-    where R is the rugosity of the shoreline, where N is the total number of
-    pixels defining the shoreline, r_i is the individual distance measurement
-    to each point of the shoreline, and :math:`\\hat{r}` is the mean distance
-    from `origin` to the shoreline in `shore_mask`.
+    where R is the roughness of the shoreline, N is the total number of pixels
+    defining the shoreline, :math:`r_i` is the individual distance
+    measurement to each point of the shoreline, and :math:`\\hat{r}` is the
+    mean distance from `origin` to the shoreline in `shore_mask`.
 
     .. note::
 
         Internally, :obj:`compute_shoreline_distance` is used to compute the
-        mean distance to the shoreline :math:`\\hat{r}`.
-
-    This metric has been described as the "shoreline roughness" in the
-    literature. This metric compares the actual shoreline length to  but we
-    choose the descriptor rugosity, as the metric compares to the computed
-    mean distance
+        distances to :math:`r_i` and mean distance to the
+        shoreline :math:`\\hat{r}`.
 
     .. hint::
         **See also:** This function is similar to, but distinct
@@ -1393,14 +1419,13 @@ def compute_shoreline_rugosity(shore_mask, origin=(0, 0)):
         ... )
         >>> sm.trim_mask(length=golf.meta["L0"].data + 1)
 
-        Compute roughnesses
+        Compute roughness
 
-        >>> rug = compute_shoreline_rugosity(sm)
-
+        >>> rough = compute_shoreline_rugosity(sm)
 
         >>> fig, ax = plt.subplots()
         >>> sm.show(ax=ax)
-        >>> ax.set_title("rugosity = {:.2f}".format(rug))
+        >>> ax.set_title("roughness = {:.2f}".format(rough))
 
 
     """
@@ -1460,7 +1485,7 @@ def compute_shoreline_length(shore_mask, start=(0, 0), origin=None, return_line=
     start : :obj:`tuple`, :obj:`np.ndarray`, optional
         Determines the location from where the starting point of the line
         sorting is initialized. The starting point of the line is determined
-        as the point nearest to `origin`. For non-standard data
+        as the point nearest to `start`. For non-standard data
         configurations, it may be important to set this to an appropriate
         value. Default is (0, 0).
 
