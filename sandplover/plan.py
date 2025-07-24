@@ -1194,7 +1194,9 @@ def compute_shoreline_roughness(*args, **kwargs):
     warnings.warn(
         "This function will be deprecated in v0.6 and will result in an error. "
         "To use a function with identical calculation and features, switch to "
-        "`compute_shoreline_roughness_area`."
+        "`compute_shoreline_roughness_area`.",
+        category=FutureWarning,
+        stacklevel=2,
     )
     return compute_shoreline_roughness_area(*args, **kwargs)
 
@@ -1377,7 +1379,7 @@ def compute_shoreline_roughness_deviation(shore_mask, origin=(0, 0)):
 
     .. hint::
         **See also:** This function is similar to, but distinct
-          from :obj:`compute_shoreline_roughness`, which uses an approach
+          from :obj:`compute_shoreline_roughness_area`, which uses an approach
           based on the shoreline convexity to characterize the shoreline.
 
 
@@ -1399,18 +1401,18 @@ def compute_shoreline_roughness_deviation(shore_mask, origin=(0, 0)):
 
     Returns
     -------
-    rugosity : :obj:`float`
-        Shoreline rugosity, computed as described above.
+    roughness : :obj:`float`
+        Shoreline roughness, computed as described above.
 
     Examples
     --------
-    Calculate the shoreline rugosity.
+    Calculate the shoreline roughness.
 
     .. plot::
         :include-source:
 
         >>> from sandplover.mask import ShorelineMask
-        >>> from sandplover.plan import compute_shoreline_rugosity
+        >>> from sandplover.plan import compute_shoreline_roughness_deviation
         >>> from sandplover.sample_data.sample_data import golf
 
         >>> golf = golf()
@@ -1421,7 +1423,7 @@ def compute_shoreline_roughness_deviation(shore_mask, origin=(0, 0)):
 
         Compute roughness
 
-        >>> rough = compute_shoreline_rugosity(sm)
+        >>> rough = compute_shoreline_roughness_deviation(sm)
 
         >>> fig, ax = plt.subplots()
         >>> sm.show(ax=ax)

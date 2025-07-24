@@ -23,6 +23,8 @@ from sandplover.plan import compute_shoreline_distance
 from sandplover.plan import compute_shoreline_length
 from sandplover.plan import compute_shoreline_radius
 from sandplover.plan import compute_shoreline_roughness
+from sandplover.plan import compute_shoreline_roughness_deviation
+from sandplover.plan import compute_shoreline_roughness_area
 from sandplover.plan import compute_surface_deposit_age
 from sandplover.plan import compute_surface_deposit_time
 from sandplover.plan import compute_topset_slope
@@ -419,6 +421,12 @@ class TestDeltaArea:
 
 
 class TestShorelineRoughness:
+    def test_deprecated_warning(self):
+        with pytest.warns(FutureWarning):
+            _ = compute_shoreline_roughness(simple_shore, simple_land)
+
+
+class TestShorelineRoughnessArea:
     golf_path = _get_golf_path()
     golfcube = DataCube(golf_path)
 
@@ -429,7 +437,7 @@ class TestShorelineRoughness:
     sm = ShorelineMask.from_Planform(OAP)
 
     def test_simple_case(self):
-        simple_rgh = compute_shoreline_roughness(simple_shore, simple_land)
+        simple_rgh = compute_shoreline_roughness_area(simple_shore, simple_land)
         exp_area = 45
         exp_len = (7 * 1) + (2 * 1.41421356)
         exp_rgh = exp_len / np.sqrt(exp_area)
@@ -437,17 +445,17 @@ class TestShorelineRoughness:
 
     def test_golf_defaults(self):
         # test it with default options
-        rgh_0 = compute_shoreline_roughness(self.sm, self.lm)
+        rgh_0 = compute_shoreline_roughness_area(self.sm, self.lm)
         assert rgh_0 > 0
 
     def test_golf_ignore_return_line(self):
         # test that it ignores return_line arg
-        rgh_1 = compute_shoreline_roughness(self.sm, self.lm, return_line=False)
+        rgh_1 = compute_shoreline_roughness_area(self.sm, self.lm, return_line=False)
         assert rgh_1 > 0
 
     def test_golf_defaults_opposite(self):
         # test that it is the same with opposite side origin
-        rgh_2 = compute_shoreline_roughness(
+        rgh_2 = compute_shoreline_roughness_area(
             self.sm, self.lm, origin=[0, self.golfcube.shape[1]]
         )
         assert rgh_2 > 0
@@ -455,20 +463,20 @@ class TestShorelineRoughness:
     def test_golf_fail_no_shoreline(self):
         # check raises error
         with pytest.raises(ValueError, match=r"No pixels in shoreline mask."):
-            compute_shoreline_roughness(np.zeros((10, 10)), self.lm)
+            compute_shoreline_roughness_area(np.zeros((10, 10)), self.lm)
 
     def test_golf_fail_no_land(self):
         # check raises error
         with pytest.raises(ValueError, match=r"No pixels in land mask."):
-            compute_shoreline_roughness(self.sm, np.zeros((10, 10)))
+            compute_shoreline_roughness_area(self.sm, np.zeros((10, 10)))
 
-    def test_compute_shoreline_roughness_asarray(self):
+    def test_compute_shoreline_roughness_area_asarray(self):
         # test it with default options
         _smarr = np.copy(self.sm.mask)
         _lmarr = np.copy(self.lm.mask)
         assert isinstance(_smarr, np.ndarray)
         assert isinstance(_lmarr, np.ndarray)
-        rgh_3 = compute_shoreline_roughness(_smarr, _lmarr)
+        rgh_3 = compute_shoreline_roughness_area(_smarr, _lmarr)
         assert rgh_3 > 0
 
 
