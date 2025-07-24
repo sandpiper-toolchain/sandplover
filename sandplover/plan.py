@@ -1435,7 +1435,7 @@ def compute_shoreline_rugosity(shore_mask, origin=(0, 0)):
     return rugosity
 
 
-def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
+def compute_shoreline_length(shore_mask, start=(0, 0), origin=None, return_line=False):
     """Compute the length of a shoreline from a mask of the shoreline.
 
     Algorithm attempts to determine the sorted coordinates of the shoreline
@@ -1446,18 +1446,23 @@ def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
         Imperfect algorithm, which may not include all `True` pixels in the
         `ShorelineMask` in the determined shoreline.
 
+    .. versionchanged::
+
+        With v0.5 the input keyword argument `origin` is deprecated, and
+        replaced with keyword argument `start`.
+
     Parameters
     ----------
     shore_mask : :obj:`~sandplover.mask.ShorelineMask`, :obj:`ndarray`
         Shoreline mask. Can be a :obj:`~sandplover.mask.ShorelineMask`
         object, or a binarized array.
 
-    origin : :obj:`tuple`, :obj:`np.ndarray`, optional
+    start : :obj:`tuple`, :obj:`np.ndarray`, optional
         Determines the location from where the starting point of the line
         sorting is initialized. The starting point of the line is determined
         as the point nearest to `origin`. For non-standard data
         configurations, it may be important to set this to an appropriate
-        value. Default is [0, 0].
+        value. Default is (0, 0).
 
     return_line : :obj:`bool`
         Whether to return the sorted line as a second argument. If True, a
@@ -1517,6 +1522,28 @@ def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
         >>> _ = ax[1].plot(line1[:, 0], line1[:, 1], "r-")
         >>> _ = ax[1].set_title("length = {:.2f}".format(len1))
     """
+    # process inputs and handle deprecated inputs
+    _start = None  # begin with this as None
+    if origin is not None:
+        warnings.warn(
+            "`origin` argument is deprecated and will be removed in a "
+            "future version. Please use `start` argument instead, "
+            "specifying the start in data coordinates (not array "
+            "indices). See documentation for additional information on "
+            "making this change.",
+            category=FutureWarning,
+            stacklevel=2,
+        )
+        # to keep the legacy `origin` behavior, we leave it in array indices
+        # and reverse the order to be (dim1, dim2)
+        _start = (origin[1], origin[0])
+
+    # if _start has been filled, we ignore whatever has been specified in
+    # kwarg start and use _start. otherwise, we need to process start
+    # into _start
+    if _start is None:
+        _start = start  # no swapping of order needed here
+
     # check if mask or already array
     if isinstance(shore_mask, ShorelineMask):
         shore_mask = shore_mask.mask
@@ -1553,8 +1580,8 @@ def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
         len(_y),
     )
 
-    # determine a starting coordinate based on the proximity to the origin
-    _closest = np.argmin(np.sqrt((_x - origin[0]) ** 2 + (_y - origin[1]) ** 2))
+    # determine a starting coordinate based on the proximity to the start
+    _closest = np.argmin(np.sqrt((_x - _start[1]) ** 2 + (_y - _start[0]) ** 2))
     line_xs_0[0] = _x[_closest]
     line_ys_0[0] = _y[_closest]
 

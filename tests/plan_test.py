@@ -489,9 +489,15 @@ class TestShorelineLength:
         assert simple_len == pytest.approx(exp_len, abs=0.1)
 
     def test_simple_case_opposite(self):
-        simple_len = compute_shoreline_length(simple_shore, origin=[10, 0])
+        # first test deprecated "origin"
+        with pytest.warns(FutureWarning):
+            # warns of deprecation
+            simple_len0 = compute_shoreline_length(simple_shore, origin=[10, 0])
+        # second test new "start"
+        simple_len1 = compute_shoreline_length(simple_shore, start=(0, 10))
         exp_len = (7 * 1) + (2 * 1.41421356)
-        assert simple_len == pytest.approx(exp_len, abs=0.1)
+        assert simple_len1 == pytest.approx(exp_len, abs=0.1)
+        assert simple_len0 == simple_len1
 
     def test_simple_case_return_line(self):
         simple_len, simple_line = compute_shoreline_length(
@@ -511,7 +517,7 @@ class TestShorelineLength:
         # test that it is the same with opposite side origin
         len_0, line_0 = compute_shoreline_length(self.sm, return_line=True)
         _o = [self.golfcube.shape[2], 0]
-        len_1, line_1 = compute_shoreline_length(self.sm, origin=_o, return_line=True)
+        len_1, line_1 = compute_shoreline_length(self.sm, start=_o, return_line=True)
         assert len_0 == pytest.approx(
             len_1, (len_1 * 0.5)
         )  # within 5%, not great, not terrible
