@@ -1744,6 +1744,11 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
 
     .. note:: uses `np.nanmean` and `np.nanstd`.
 
+    .. changedversion:: 0.5
+        The expected order of dimensions in the `origin` keyword parameter has
+        switched. This is now consistent with other uses of this keyword,
+        expecting the tuple to be ordered `(dim1, dim2)`.
+
     Parameters
     ----------
     shore_mask : :obj:`~sandplover.mask.ShorelineMask`, :obj:`ndarray`
@@ -1829,7 +1834,7 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
     _y, _x = np.argwhere(_sm).T
 
     # determine the distances (multiply by dx)
-    _dists = np.sqrt((_x - origin[0]) ** 2 + (_y - origin[1]) ** 2) * _dx
+    _dists = np.sqrt((_x - origin[1]) ** 2 + (_y - origin[0]) ** 2) * _dx
 
     if return_distances:
         return np.nanmean(_dists), np.nanstd(_dists), _dists

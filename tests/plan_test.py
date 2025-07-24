@@ -548,7 +548,7 @@ class TestShorelineDistance:
         _arr = np.zeros((10, 10))
         _arr[7, 5] = 1
         mean00, stddev00 = compute_shoreline_distance(_arr)
-        mean05, stddev05 = compute_shoreline_distance(_arr, origin=[5, 0])
+        mean05, stddev05 = compute_shoreline_distance(_arr, origin=(0, 5))
         assert mean00 == np.sqrt(49 + 25)
         assert mean05 == 7
         assert stddev00 == 0
