@@ -1474,7 +1474,7 @@ def compute_shoreline_roughness_variation(shore_mask, origin=(0, 0)):
         )
         roughness = np.sqrt((1 / N) * np.sum(((r_i - r_bar) / r_bar) ** 2))
     else:
-        raise ValueError("No pixels in ShorelineMask.")
+        raise ValueError("No pixels in shoreline mask.")
 
     return roughness
 
