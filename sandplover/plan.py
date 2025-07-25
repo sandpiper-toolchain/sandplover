@@ -1370,7 +1370,7 @@ def compute_shoreline_roughness_area(shore_mask, land_mask, **kwargs):
 
 
 def compute_shoreline_roughness_deviation(shore_mask, origin=(0, 0)):
-    """Compute shoreline roughness, as deviation from mean.
+    """Compute shoreline roughness, as coefficient of variation.
 
     Computes the shoreline roughness metric:
 
@@ -1380,7 +1380,9 @@ def compute_shoreline_roughness_deviation(shore_mask, origin=(0, 0)):
     where R is the roughness of the shoreline, N is the total number of pixels
     defining the shoreline, :math:`r_i` is the individual distance
     measurement to each point of the shoreline, and :math:`\\hat{r}` is the
-    mean distance from `origin` to the shoreline in `shore_mask` (after [1]_).
+    mean distance from `origin` to the shoreline in `shore_mask` (after
+    [1]_). This metric is consistent with a measure of the coefficient of
+    variation for distances from the channel inlet to the shoreline.
 
     .. note::
 
@@ -1443,7 +1445,9 @@ def compute_shoreline_roughness_deviation(shore_mask, origin=(0, 0)):
 
 
     """
-    # extract data from masks
+    # process the shore_mask, stripping down to array coordinates regardless of
+    # the input. This simplifies the roughness calculation, because we know
+    # we are dealing with array coords always.
     if isinstance(shore_mask, ShorelineMask):
         shore_mask = shore_mask.mask
         _sm = shore_mask.values
@@ -1462,12 +1466,13 @@ def compute_shoreline_roughness_deviation(shore_mask, origin=(0, 0)):
         raise TypeError(f"Invalid type {type(shore_mask)}")
 
     N = np.sum(_sm)
+    origin_idx = (origin[0] / _dx, origin[1] / _dx)
     if N > 0:
         # compute roughness
-        r_bar, _, r_ij = compute_shoreline_distance(
-            _sm, origin=origin, return_distances=True
+        r_bar, _, r_i = compute_shoreline_distance(
+            _sm, origin=origin_idx, return_distances=True
         )
-        roughness = np.sqrt((1 / N) * np.sum(((r_ij - r_bar) / r_bar) ** 2))
+        roughness = np.sqrt((1 / N) * np.sum(((r_i - r_bar) / r_bar) ** 2))
     else:
         raise ValueError("No pixels in ShorelineMask.")
 
@@ -1551,6 +1556,9 @@ def compute_shoreline_roughness_count(
         >>> sm.show(ax=ax)
         >>> ax.set_title("roughness = {:.2f}".format(rough))
     """
+    # process the shore_mask, stripping down to array coordinates regardless of
+    # the input. This simplifies the roughness calculation, because we know
+    # we are dealing with array coords always.
     if isinstance(shore_mask, ShorelineMask):
         shore_mask = shore_mask.mask
         _sm = shore_mask.values
@@ -1577,9 +1585,10 @@ def compute_shoreline_roughness_count(
     else:
         _length = np.sum(_sm)
 
-    r_bar, _ = compute_shoreline_distance(_sm, origin=origin)
-    r_bar_pix = float(r_bar) / float(_dx)
-    return _length / r_bar_pix
+    origin_idx = (origin[0] / _dx, origin[1] / _dx)
+    r_bar, _ = compute_shoreline_distance(_sm, origin=origin_idx)
+    roughness = _length / r_bar  # both already in array coordinates
+    return roughness
 
 
 def compute_shoreline_roughness_OAM(shore_mask_45, shore_mask_120, origin=(0, 0)):
