@@ -1431,10 +1431,11 @@ def compute_shoreline_roughness_deviation(shore_mask, origin=(0, 0)):
         ...     golf["eta"][-1, :, :], elevation_threshold=0, elevation_offset=-0.5
         ... )
         >>> sm.trim_mask(length=golf.meta["L0"].data + 1)
+        >>> origin = np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
 
         Compute roughness
 
-        >>> rough = compute_shoreline_roughness_deviation(sm)
+        >>> rough = compute_shoreline_roughness_deviation(sm, origin=origin)
 
         >>> fig, ax = plt.subplots()
         >>> sm.show(ax=ax)
@@ -1471,6 +1472,164 @@ def compute_shoreline_roughness_deviation(shore_mask, origin=(0, 0)):
         raise ValueError("No pixels in ShorelineMask.")
 
     return roughness
+
+
+def compute_shoreline_roughness_count(
+    shore_mask, origin=(0, 0), calculate_length=False, **kwargs
+):
+    """Compute shoreline roughness, as shoreline count over mean radius.
+
+    Computes the shoreline roughness metric:
+
+    .. math::
+        R =
+
+    where R is the roughness of the shoreline, N is the number of pixels in
+    the shoreline in the `shore_mask`, and :math:\\hat{r}` is the mean
+    shoreline radius (after [1]_).
+
+    .. note::
+
+        Internally, :obj:`compute_shoreline_distance` is used to compute the
+        mean shoreline distance :math:`\\hat{r}`. If `calculate_length=True`,
+        then :obj:`compute_shoreline_length` is used.
+
+    .. hint::
+        **See also:** This function is similar to, but distinct
+          from :obj:`compute_shoreline_roughness_length`, which uses an approach
+          based on the shoreline convexity to characterize the shoreline.
+
+    .. [1] Liang, M., Voller, V. R., and Paola, C.: A reduced-complexity model
+       for river delta formation – Part 1: Modeling deltas with channel
+       dynamics, Earth Surf. Dynam., 3, 67–86,
+       https://doi.org/10.5194/esurf-3-67-2015, 2015.
+
+    Parameters
+    ----------
+    shore_mask : :obj:`~deltametrics.mask.ShorelineMask`, :obj:`ndarray`
+        Shoreline mask. Can be a :obj:`~deltametrics.mask.ShorelineMask` object,
+        or a binarized array.
+
+    origin : :obj:`tuple`, :obj:`np.ndarray`, optional
+        Origin from which the distance to all shoreline points is computed,
+        specified in data dimensions (not indices) along `dim1, dim2` of the
+        data. Default (0, 0).
+
+    calculate_length
+
+    **kwargs
+        Passed to `compute_shoreline_length`.
+
+    Returns
+    -------
+    roughness : :obj:`float`
+        Shoreline roughness, computed as described above.
+
+    Examples
+    --------
+    Calculate the shoreline roughness.
+
+    .. plot::
+        :include-source:
+
+        >>> from sandplover.mask import ShorelineMask
+        >>> from sandplover.plan import compute_shoreline_roughness_count
+        >>> from sandplover.sample_data.sample_data import golf
+
+        >>> golf = golf()
+        >>> sm = ShorelineMask(
+        ...     golf["eta"][-1, :, :], elevation_threshold=0, elevation_offset=-0.5
+        ... )
+        >>> sm.trim_mask(length=golf.meta["L0"].data + 1)
+        >>> origin = np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
+
+        Compute roughness
+
+        >>> rough = compute_shoreline_roughness_count(sm, origin=origin)
+
+        >>> fig, ax = plt.subplots()
+        >>> sm.show(ax=ax)
+        >>> ax.set_title("roughness = {:.2f}".format(rough))
+    """
+    if isinstance(shore_mask, ShorelineMask):
+        shore_mask = shore_mask.mask
+        _sm = shore_mask.values
+        _dx = float(
+            shore_mask[shore_mask.dims[0]][1] - shore_mask[shore_mask.dims[0]][0]
+        )
+    elif isinstance(shore_mask, xr.core.dataarray.DataArray):
+        _sm = shore_mask.values
+        _dx = float(
+            shore_mask[shore_mask.dims[0]][1] - shore_mask[shore_mask.dims[0]][0]
+        )
+    elif isinstance(shore_mask, np.ndarray):
+        _sm = shore_mask
+        _dx = 1
+        # should we have a warning that no dx was found here?
+    else:
+        raise TypeError(f"Invalid type {type(shore_mask)}")
+
+    if calculate_length:
+        _ = kwargs.pop("return_line", None)  # don't allow this to be passed
+        _length = compute_shoreline_length(
+            _sm, **kwargs
+        )  # does not need origin kw, but will take `start`
+    else:
+        _length = np.sum(_sm)
+
+    r_bar, _ = compute_shoreline_distance(_sm, origin=origin)
+    r_bar_pix = float(r_bar) / float(_dx)
+    return _length / r_bar_pix
+
+
+def compute_shoreline_roughness_OAM(shore_mask_45, shore_mask_120, origin=(0, 0)):
+    """Compute shoreline roughness, as shoreline count over mean radius.
+
+    Computes the shoreline roughness metric:
+
+    .. math::
+        R =
+
+    where R is the roughness of the shoreline,  (after [1]_).
+
+    .. [1]  Broaddus, C. M., Vulis, L. M., Nienhuis, J. H., Tejedor, A.,
+       Brown, J., Foufoula-Georgiou, E., & Edmonds, D. A. (2022). First-order
+       river delta morphology is explained by the sediment flux balance from
+       rivers, waves, and tides. Geophysical Research Letters, 49,
+       e2022GL100355. https://doi.org/10.1029/2022GL100355
+
+    Parameters
+    ----------
+    shore_mask_45 : :obj:`~deltametrics.mask.ShorelineMask`, :obj:`ndarray`
+        Shoreline mask. Can be a :obj:`~deltametrics.mask.ShorelineMask` object,
+        or a binarized array.
+
+    shore_mask_120
+
+    Returns
+    -------
+    roughness : :obj:`float`
+        Shoreline roughness, computed as described above.
+
+    Examples
+    --------
+    Calculate the shoreline roughness.
+
+
+    """
+    raise NotImplementedError
+
+
+def compute_shoreline_rugosity(shore_mask, origin=(0, 0)):
+    """Compute shoreline rugosity.
+
+    Shoreline rugosity is measured as the ratio between the total
+    shoreline length and the longest straightline distance between any two
+    points on the shoreline.
+
+    This is likely the closest thing to a rugosity as measured in the rest of science.
+    """
+    raise NotImplementedError
 
 
 def compute_shoreline_length(shore_mask, start=(0, 0), origin=None, return_line=False):
