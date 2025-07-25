@@ -23,7 +23,7 @@ from sandplover.plan import compute_shoreline_distance
 from sandplover.plan import compute_shoreline_length
 from sandplover.plan import compute_shoreline_radius
 from sandplover.plan import compute_shoreline_roughness
-from sandplover.plan import compute_shoreline_roughness_deviation
+from sandplover.plan import compute_shoreline_roughness_variation
 from sandplover.plan import compute_shoreline_roughness_area
 from sandplover.plan import compute_surface_deposit_age
 from sandplover.plan import compute_surface_deposit_time
