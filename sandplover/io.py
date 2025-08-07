@@ -227,32 +227,16 @@ class NetCDFIO(FileIO):
             warnings.filterwarnings("ignore", category=FutureWarning)
             _dims_set = set(_dataset.dims.keys())
         if len(_coords_list) == 3:
-            _LEGACY = False
             # the coordinates are preconfigured
             self.dataset = _dataset
             self.coords = list(self.dataset.coords)
             self.dims = copy.deepcopy(self.coords)
-
-        elif {"total_time", "length", "width"}.issubset(_dims_set):
-            # ONLY SUPPORT UNTIL v1.0
-            _LEGACY = True
-            # the coordinates are not set, but there are matching arrays
-            #   need to reopen the dataset as old non-tree version
-            _dataset = xr.open_dataset(self.data_path, engine=_engine)
-            self.dataset = _dataset.set_coords(["x", "y", "time"])
-            self.dims = ["time", "length", "width"]
-            self.coords = ["total_time", "x", "y"]
-            # this is a legacy option, so issue a warning here
-            warnings.warn(
-                'Coordinates for "time", and ("y", "x") were found as '
-                "variables in the underlying data file, "
-                "but are not specified as coordinates in the undelying "
-                "data file. Please reformat the data file for use "
-                "with sandplover. This warning may be replaced "
-                "with an Error in a future version.",
-                UserWarning,
-                stacklevel=2,
-            )
+        elif len(_coords_list) == 4:
+            raise NotImplementedError("sandplover does not currently support 4D data.")
+            # this is a hard check prohibiting 4d data. To fully support the
+            # sandsuet v1.0 spec, we will need to be able to open this type
+            # of data file. The different cube types will then have to
+            # understand how to use (or disallow) 4D data.
         else:
             # coordinates were not found and are not being set
             raise NotImplementedError(
@@ -271,37 +255,24 @@ class NetCDFIO(FileIO):
             # warn('Coordinates for "time", and set("x", "y") not provided in the \
             #       given data file.', UserWarning)
 
-        if _LEGACY:
-            try:
-                _meta = xr.open_dataset(self.data_path, group="meta", engine=_engine)
-                self.meta = _meta
-            except OSError:
-                warnings.warn(
-                    "No associated metadata was found in the given data file.",
-                    UserWarning,
-                    stacklevel=2,
-                )
-                self.meta = None
-
+        # check for a matching meta field, and set it accordingly
+        if "/metadata" in self.dataset.groups:
+            self.meta = self.dataset["metadata"]
+        elif "/meta" in self.dataset.groups:
+            self.meta = self.dataset["meta"]
+            warnings.warn(
+                "Metadata found with group name `meta`, but this specification "
+                "is deprecated. Change group name to `metadata`.",
+                UserWarning,
+                stacklevel=2,
+            )
         else:
-            # check for a matching meta field, and set it accordingly
-            if "/metadata" in self.dataset.groups:
-                self.meta = self.dataset["metadata"]
-            elif "/meta" in self.dataset.groups:
-                self.meta = self.dataset["meta"]
-                warnings.warn(
-                    "Metadata found with group name `meta`, but this specification "
-                    "is deprecated. Change group name to `metadata`.",
-                    UserWarning,
-                    stacklevel=2,
-                )
-            else:
-                warnings.warn(
-                    "No associated metadata was found in the given data file.",
-                    UserWarning,
-                    stacklevel=2,
-                )
-                self.meta = None
+            warnings.warn(
+                "No associated metadata was found in the given data file.",
+                UserWarning,
+                stacklevel=2,
+            )
+            self.meta = None
 
     def get_known_variables(self):
         """List known variables.

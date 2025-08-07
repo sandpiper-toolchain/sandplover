@@ -28,7 +28,6 @@ golf_path = _get_golf_path()
 
 
 class TestVariableInfo:
-
     def test_initialize_default_VariableInfo(self):
         vi = VariableInfo("testinfo")
         assert vi.cmap.N == 64
@@ -87,7 +86,6 @@ class TestVariableInfo:
 
 
 class TestVariableSet:
-
     def test_initialize_default_VariableSet(self):
         vs = VariableSet()
         assert "eta" in vs.known_list
@@ -175,7 +173,6 @@ class TestVariableSet:
 
 
 class TestAppendColorbar:
-
     def test_append_colorbar_working(self):
         """Test that the routine works.
         Doesn't really make any meaningful assertions.
@@ -208,9 +205,7 @@ class TestAppendColorbar:
 
 
 class TestStyleAxesKm:
-
     def test_style_axes_km_ax(self):
-
         fig, ax = plt.subplots(1, 6)
         style_axes_km(ax[0])  # both
         style_axes_km(ax[1], "x")  # x only
@@ -346,7 +341,7 @@ class TestSODTTST:
         plt.close()
 
     def test_sodttst_makes_plot_sample_data(self):
-        rcm8cube = DataCube(golf_path)
+        golfcube = DataCube(golf_path)
         locs = np.array(
             [
                 [48, 152],
@@ -362,7 +357,7 @@ class TestSODTTST:
             ]
         )
         for i in range(10):
-            _e = rcm8cube["eta"][:, locs[i, 0], locs[i, 1]]
+            _e = golfcube["eta"][:, locs[i, 0], locs[i, 1]]
             fig, ax = plt.subplots()
             show_one_dimensional_trajectory_to_strata(_e, ax=ax, dz=0.1)
             plt.close()
@@ -401,19 +396,18 @@ class TestSODTTST:
 
 
 class TestGetDisplayArrays:
+    golfcube_nostrat = DataCube(golf_path)
+    golfcube_nostrat.register_section("test", StrikeSection(distance_idx=5))
+    dsv_nostrat = golfcube_nostrat.sections["test"]["velocity"]
 
-    rcm8cube_nostrat = DataCube(golf_path)
-    rcm8cube_nostrat.register_section("test", StrikeSection(distance_idx=5))
-    dsv_nostrat = rcm8cube_nostrat.sections["test"]["velocity"]
+    golfcube = DataCube(golf_path)
+    golfcube.stratigraphy_from("eta", dz=0.1)
+    golfcube.register_section("test", StrikeSection(distance_idx=5))
+    dsv = golfcube.sections["test"]["velocity"]
 
-    rcm8cube = DataCube(golf_path)
-    rcm8cube.stratigraphy_from("eta", dz=0.1)
-    rcm8cube.register_section("test", StrikeSection(distance_idx=5))
-    dsv = rcm8cube.sections["test"]["velocity"]
-
-    sc8cube = StratigraphyCube.from_DataCube(rcm8cube, dz=0.1)
-    sc8cube.register_section("test", StrikeSection(distance_idx=5))
-    ssv = sc8cube.sections["test"]["velocity"]
+    scgolfcube = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+    scgolfcube.register_section("test", StrikeSection(distance_idx=5))
+    ssv = scgolfcube.sections["test"]["velocity"]
 
     def test_dsv_nostrat_get_display_arrays_spacetime(self):
         _data, _X, _Y = get_display_arrays(self.dsv_nostrat, data="spacetime")
@@ -479,19 +473,18 @@ class TestGetDisplayArrays:
 
 
 class TestGetDisplayLines:
+    golfcube_nostrat = DataCube(golf_path)
+    golfcube_nostrat.register_section("test", StrikeSection(distance_idx=5))
+    dsv_nostrat = golfcube_nostrat.sections["test"]["velocity"]
 
-    rcm8cube_nostrat = DataCube(golf_path)
-    rcm8cube_nostrat.register_section("test", StrikeSection(distance_idx=5))
-    dsv_nostrat = rcm8cube_nostrat.sections["test"]["velocity"]
+    golfcube = DataCube(golf_path)
+    golfcube.stratigraphy_from("eta", dz=0.1)
+    golfcube.register_section("test", StrikeSection(distance_idx=5))
+    dsv = golfcube.sections["test"]["velocity"]
 
-    rcm8cube = DataCube(golf_path)
-    rcm8cube.stratigraphy_from("eta", dz=0.1)
-    rcm8cube.register_section("test", StrikeSection(distance_idx=5))
-    dsv = rcm8cube.sections["test"]["velocity"]
-
-    sc8cube = StratigraphyCube.from_DataCube(rcm8cube, dz=0.1)
-    sc8cube.register_section("test", StrikeSection(distance_idx=5))
-    ssv = sc8cube.sections["test"]["velocity"]
+    scgolfcube = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+    scgolfcube.register_section("test", StrikeSection(distance_idx=5))
+    ssv = scgolfcube.sections["test"]["velocity"]
 
     def test_dsv_nostrat_get_display_lines_spacetime(self):
         _data, _segments = get_display_lines(self.dsv_nostrat, data="spacetime")
@@ -543,19 +536,18 @@ class TestGetDisplayLines:
 
 
 class TestGetDisplayLimits:
+    golfcube_nostrat = DataCube(golf_path)
+    golfcube_nostrat.register_section("test", StrikeSection(distance_idx=5))
+    dsv_nostrat = golfcube_nostrat.sections["test"]["velocity"]
 
-    rcm8cube_nostrat = DataCube(golf_path)
-    rcm8cube_nostrat.register_section("test", StrikeSection(distance_idx=5))
-    dsv_nostrat = rcm8cube_nostrat.sections["test"]["velocity"]
+    golfcube = DataCube(golf_path)
+    golfcube.stratigraphy_from("eta", dz=0.1)
+    golfcube.register_section("test", StrikeSection(distance_idx=5))
+    dsv = golfcube.sections["test"]["velocity"]
 
-    rcm8cube = DataCube(golf_path)
-    rcm8cube.stratigraphy_from("eta", dz=0.1)
-    rcm8cube.register_section("test", StrikeSection(distance_idx=5))
-    dsv = rcm8cube.sections["test"]["velocity"]
-
-    sc8cube = StratigraphyCube.from_DataCube(rcm8cube, dz=0.1)
-    sc8cube.register_section("test", StrikeSection(distance_idx=5))
-    ssv = sc8cube.sections["test"]["velocity"]
+    scgolfcube = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+    scgolfcube.register_section("test", StrikeSection(distance_idx=5))
+    ssv = scgolfcube.sections["test"]["velocity"]
 
     def test_dsv_nostrat_get_display_limits_spacetime(self):
         _lims = get_display_limits(self.dsv_nostrat, data="spacetime")
@@ -605,7 +597,7 @@ class TestGetDisplayLimits:
 class TestColorMapFunctions:
     # note, no plotting, just boundaries and values checking
 
-    rcm8cube = DataCube(golf_path)
+    golfcube = DataCube(golf_path)
 
     def test_cartographic_SL0_defaults(self):
         H_SL = 0
@@ -708,7 +700,6 @@ class TestColorMapFunctions:
 
 
 class TestScaleLightness:
-
     def test_no_scaling_one(self):
         _in = (0.12156862745098039, 0.4666666666666667, 0.7058823529411765)
         _out = _scale_lightness(_in, 1)
@@ -733,7 +724,6 @@ class TestScaleLightness:
 
 
 class TestShowHistograms:
-
     locs = [0.25, 1, 0.5, 4, 2]
     scales = [0.1, 0.25, 0.4, 0.5, 0.1]
     bins = np.linspace(0, 6, num=40)

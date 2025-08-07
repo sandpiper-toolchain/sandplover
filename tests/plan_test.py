@@ -29,7 +29,6 @@ from sandplover.plan import compute_surface_deposit_time
 from sandplover.plan import compute_topset_slope
 from sandplover.plan import shaw_opening_angle_method
 from sandplover.sample_data.sample_data import _get_golf_path
-from sandplover.sample_data.sample_data import _get_rcm8_path
 from sandplover.section import CircularSection
 
 # a simple custom layout
@@ -421,33 +420,14 @@ class TestDeltaArea:
 
 
 class TestShorelineRoughness:
-    rcm8_path = _get_rcm8_path()
-    with pytest.warns(UserWarning):
-        rcm8 = DataCube(rcm8_path)
+    golf_path = _get_golf_path()
+    golfcube = DataCube(golf_path)
 
-    em = ElevationMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
+    em = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
     em.trim_mask(value=1, length=1)
     OAP = OpeningAnglePlanform(~(em.mask))
     lm = LandMask.from_Planform(OAP)
     sm = ShorelineMask.from_Planform(OAP)
-    em0 = ElevationMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
-    em0.trim_mask(value=1, length=1)
-    OAP0 = OpeningAnglePlanform(~(em0.mask))
-    lm0 = LandMask.from_Planform(OAP0)
-    sm0 = ShorelineMask.from_Planform(OAP0)
-
-    # lm = LandMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
-    # sm = ShorelineMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
-    # lm0 = LandMask(rcm8["eta"][0, :, :], elevation_threshold=0)
-    # sm0 = ShorelineMask(rcm8["eta"][0, :, :], elevation_threshold=0)
-
-    # _trim_length = 4
-    # lm.trim_mask(length=_trim_length)
-    # sm.trim_mask(length=_trim_length)
-    # lm0.trim_mask(length=_trim_length)
-    # sm0.trim_mask(length=_trim_length)
-
-    rcm8_expected = 4.476379600936939
 
     def test_simple_case(self):
         simple_rgh = compute_shoreline_roughness(simple_shore, simple_land)
@@ -456,32 +436,29 @@ class TestShorelineRoughness:
         exp_rgh = exp_len / np.sqrt(exp_area)
         assert simple_rgh == pytest.approx(exp_rgh)
 
-    def test_rcm8_defaults(self):
+    def test_golf_defaults(self):
         # test it with default options
         rgh_0 = compute_shoreline_roughness(self.sm, self.lm)
-        # assert rgh_0 == pytest.approx(self.rcm8_expected, abs=0.1)
         assert rgh_0 > 0
 
-    def test_rcm8_ignore_return_line(self):
+    def test_golf_ignore_return_line(self):
         # test that it ignores return_line arg
         rgh_1 = compute_shoreline_roughness(self.sm, self.lm, return_line=False)
-        # assert rgh_1 == pytest.approx(self.rcm8_expected, abs=0.1)
         assert rgh_1 > 0
 
-    def test_rcm8_defaults_opposite(self):
+    def test_golf_defaults_opposite(self):
         # test that it is the same with opposite side origin
         rgh_2 = compute_shoreline_roughness(
-            self.sm, self.lm, origin=[0, self.rcm8.shape[1]]
+            self.sm, self.lm, origin=[0, self.golfcube.shape[1]]
         )
-        # assert rgh_2 == pytest.approx(self.rcm8_expected, abs=0.2)
         assert rgh_2 > 0
 
-    def test_rcm8_fail_no_shoreline(self):
+    def test_golf_fail_no_shoreline(self):
         # check raises error
         with pytest.raises(ValueError, match=r"No pixels in shoreline mask."):
             compute_shoreline_roughness(np.zeros((10, 10)), self.lm)
 
-    def test_rcm8_fail_no_land(self):
+    def test_golf_fail_no_land(self):
         # check raises error
         with pytest.raises(ValueError, match=r"No pixels in land mask."):
             compute_shoreline_roughness(self.sm, np.zeros((10, 10)))
@@ -493,17 +470,15 @@ class TestShorelineRoughness:
         assert isinstance(_smarr, np.ndarray)
         assert isinstance(_lmarr, np.ndarray)
         rgh_3 = compute_shoreline_roughness(_smarr, _lmarr)
-        # assert rgh_3 == pytest.approx(self.rcm8_expected, abs=0.1)
         assert rgh_3 > 0
 
 
 class TestShorelineLength:
-    rcm8_path = _get_rcm8_path()
-    with pytest.warns(UserWarning):
-        rcm8 = DataCube(rcm8_path)
+    golf_path = _get_golf_path()
+    golfcube = DataCube(golf_path)
 
-    sm = ShorelineMask(rcm8["eta"][-1, :, :], elevation_threshold=0)
-    sm0 = ShorelineMask(rcm8["eta"][0, :, :], elevation_threshold=0)
+    sm = ShorelineMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
+    sm0 = ShorelineMask(golfcube["eta"][0, :, :], elevation_threshold=0)
 
     _trim_length = 4
     sm.trim_mask(length=_trim_length)
@@ -527,16 +502,16 @@ class TestShorelineLength:
         assert simple_len == pytest.approx(exp_len)
         assert np.all(simple_line == np.fliplr(simple_shore_array))
 
-    def test_rcm8_defaults(self):
+    def test_golf_defaults(self):
         # test that it is the same with opposite side origin
         len_0 = compute_shoreline_length(self.sm)
         assert len_0 > 0
-        assert len_0 > self.rcm8.shape[1]
+        assert len_0 > self.golfcube.shape[1]
 
-    def test_rcm8_defaults_opposite(self):
+    def test_golf_defaults_opposite(self):
         # test that it is the same with opposite side origin
         len_0, line_0 = compute_shoreline_length(self.sm, return_line=True)
-        _o = [self.rcm8.shape[2], 0]
+        _o = [self.golfcube.shape[2], 0]
         len_1, line_1 = compute_shoreline_length(self.sm, origin=_o, return_line=True)
         assert len_0 == pytest.approx(
             len_1, (len_1 * 0.5)

@@ -15,11 +15,11 @@ from sandplover.mobility import calculate_planform_overlap
 from sandplover.mobility import calculate_reworking_fraction
 from sandplover.mobility import channel_presence
 from sandplover.mobility import check_inputs
-from sandplover.sample_data.sample_data import _get_rcm8_path
+from sandplover.sample_data.sample_data import _get_golf_path
 
-rcm8_path = _get_rcm8_path()
-with pytest.warns(UserWarning):
-    rcm8cube = DataCube(rcm8_path)
+# golf
+golf_path = _get_golf_path()
+golfcube = DataCube(golf_path)
 
 # define some masks once up top
 chmask = []
@@ -27,13 +27,13 @@ landmask = []
 for i in range(20, 23):
     chmask.append(
         ChannelMask(
-            rcm8cube["eta"][i, :, :],
-            rcm8cube["velocity"][i, :, :],
+            golfcube["eta"][i, :, :],
+            golfcube["velocity"][i, :, :],
             elevation_threshold=0,
             flow_threshold=0.3,
         )
     )
-    landmask.append(LandMask(rcm8cube["eta"][i, :, :], elevation_threshold=0))
+    landmask.append(LandMask(golfcube["eta"][i, :, :], elevation_threshold=0))
 
 # make them into xarrays (list of xarrays)
 dims = ("time", "x", "y")  # assumes an ultimate t-x-y shape
