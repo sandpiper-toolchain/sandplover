@@ -1591,13 +1591,15 @@ def compute_shoreline_roughness_count(
     return roughness
 
 
-def compute_shoreline_roughness_OAM(shore_mask_45, shore_mask_120, origin=(0, 0)):
-    """Compute shoreline roughness, as shoreline count over mean radius.
+def compute_shoreline_roughness_OAM(
+    shore_mask_45, shore_mask_120, calculate_length=False, **kwargs
+):
+    """Compute shoreline roughness, as ration of shoreline lengths at different scales.
 
     Computes the shoreline roughness metric:
 
     .. math::
-        R =
+        R = L_{45} / L_{120}
 
     where R is the roughness of the shoreline,  (after [1]_).
 
@@ -1615,6 +1617,8 @@ def compute_shoreline_roughness_OAM(shore_mask_45, shore_mask_120, origin=(0, 0)
 
     shore_mask_120
 
+    orgin =
+
     Returns
     -------
     roughness : :obj:`float`
@@ -1626,7 +1630,70 @@ def compute_shoreline_roughness_OAM(shore_mask_45, shore_mask_120, origin=(0, 0)
 
 
     """
-    raise NotImplementedError
+    # process the shore_mask, stripping down to array coordinates regardless of
+    # the input. This simplifies the roughness calculation, because we know
+    # we are dealing with array coords always
+    if isinstance(shore_mask_45, ShorelineMask):
+        shore_mask_45 = shore_mask_45.mask
+        _sm_45 = shore_mask_45.values
+        _dx_45 = float(
+            shore_mask_45[shore_mask_45.dims[0]][1]
+            - shore_mask_45[shore_mask_45.dims[0]][0]
+        )
+    elif isinstance(shore_mask_45, xr.core.dataarray.DataArray):
+        _sm_45 = shore_mask_45.values
+        _dx_45 = float(
+            shore_mask_45[shore_mask_45.dims[0]][1]
+            - shore_mask_45[shore_mask_45.dims[0]][0]
+        )
+    elif isinstance(shore_mask_45, np.ndarray):
+        _sm_45 = shore_mask_45
+        _dx_45 = 1
+        # should we have a warning that no dx was found here?
+    else:
+        raise TypeError(f"Invalid type for shore_mask_45 {type(shore_mask_45)}")
+
+    if isinstance(shore_mask_120, ShorelineMask):
+        shore_mask_120 = shore_mask_120.mask
+        _sm_120 = shore_mask_120.values
+        _dx_120 = float(
+            shore_mask_120[shore_mask_120.dims[0]][1]
+            - shore_mask_120[shore_mask_120.dims[0]][0]
+        )
+    elif isinstance(shore_mask_120, xr.core.dataarray.DataArray):
+        _sm_120 = shore_mask_120.values
+        _dx_120 = float(
+            shore_mask_120[shore_mask_120.dims[0]][1]
+            - shore_mask_120[shore_mask_120.dims[0]][0]
+        )
+    elif isinstance(shore_mask_120, np.ndarray):
+        _sm_120 = shore_mask_120
+        _dx_120 = 1
+        # should we have a warning that no dx was found here?
+    else:
+        raise TypeError(f"Invalid type for shore_mask_120 {type(shore_mask_120)}")
+
+    if _dx_45 != _dx_120:
+        raise ValueError("Inconsistent grid spacing for input ShorelineMasks.")
+
+    if calculate_length:
+        _ = kwargs.pop("return_line", None)  # don't allow this to be passed
+        _length_45 = compute_shoreline_length(
+            _sm_45, **kwargs
+        )  # does not need origin kw, but will take `start`
+        # _length_45 = _length_45 * _dx_45
+
+        _length_120 = compute_shoreline_length(
+            _sm_120, **kwargs
+        )  # does not need origin kw, but will take `start`
+        # _length_120 = _length_120 * _dx_120
+    else:
+        _length_45 = np.sum(_sm_45)
+
+        _length_120 = np.sum(_sm_120)
+
+    roughness = _length_45 / _length_120
+    return roughness
 
 
 def compute_shoreline_rugosity(shore_mask, origin=(0, 0)):
