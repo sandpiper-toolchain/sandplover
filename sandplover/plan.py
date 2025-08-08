@@ -1202,7 +1202,7 @@ def compute_shoreline_roughness(*args, **kwargs):
 
 
 def compute_shoreline_roughness_area(
-    shore_mask, land_mask, calculate_length=True, **kwargs
+    shore_mask, land_mask, calculate_length=False, **kwargs
 ):
     """Compute shoreline roughness, using land area.
 
@@ -1210,7 +1210,7 @@ def compute_shoreline_roughness_area(
 
     .. math::
 
-        L_{shore} / \\sqrt{A_{land}}
+        R = L_{shore} / \\sqrt{A_{land}} \\quad \\approx (N \\times dx) / (\\sqrt{A_{land}}
 
     given binary masks of the shoreline and land area. The length of the
     shoreline is computed internally with :obj:`compute_shoreline_length`.
@@ -1254,7 +1254,7 @@ def compute_shoreline_roughness_area(
     calculate_length : bool, optional
         If `calculate_length=True`, then :obj:`compute_shoreline_length` is
         used to calculate the length of the shoreline explicitly, rather than
-        counting the pixels in `shore_mask`. Default is `True`.
+        counting the pixels in `shore_mask`. Default is `False`.
 
     **kwargs
         Keyword argument are passed to :obj:`compute_shoreline_length`
