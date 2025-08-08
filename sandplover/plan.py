@@ -1210,7 +1210,7 @@ def compute_shoreline_roughness_area(
 
     .. math::
 
-        R = L_{shore} / \\sqrt{A_{land}} \\quad \\approx (N \\times dx) / (\\sqrt{A_{land}}
+        R = L_{shore} / \\sqrt{A_{land}} \\approx (N \\times dx) / (\\sqrt{A_{land}}
 
     given binary masks of the shoreline and land area. The length of the
     shoreline is computed internally with :obj:`compute_shoreline_length`.
@@ -1511,11 +1511,11 @@ def compute_shoreline_roughness_radius(
     Computes the shoreline roughness metric:
 
     .. math::
-        R = N / (\\bar{r} / dx)  \\quad \\approx L_{shore} / \\bar{r}
+        R = N / (\\bar{r} / dx) \\approx L_{shore} / \\bar{r}
 
     where R is the roughness of the shoreline, N is the number of pixels in
     the shoreline in the `shore_mask`, :math:`dx` is the grid spacing,
-    and :math:\\bar{r}` is the mean shoreline radius (after [1]_).
+    and :math:`\\bar{r}` is the mean shoreline radius (after [1]_).
 
     .. note::
 
@@ -1620,14 +1620,16 @@ def compute_shoreline_roughness_radius(
 def compute_shoreline_roughness_OAM(
     shore_mask_45, shore_mask_120, calculate_length=False, **kwargs
 ):
-    """Compute shoreline roughness, as ration of shoreline lengths at different scales.
+    """Compute shoreline roughness, as ratio of shoreline lengths at different thresholds.
 
     Computes the shoreline roughness metric:
 
     .. math::
-        R = L_{45} / L_{120}
+        R = N_{45} / N_{120} \\approx L_{45} / L_{120}
 
-    where R is the roughness of the shoreline,  (after [1]_).
+    where R is the roughness of the shoreline, N is the number of pixels in
+    the shoreline in the `shore_mask` inputs, and :math:`L` is the shoreline
+    length (after [1]_).
 
     .. [1]  Broaddus, C. M., Vulis, L. M., Nienhuis, J. H., Tejedor, A.,
        Brown, J., Foufoula-Georgiou, E., & Edmonds, D. A. (2022). First-order
@@ -1674,7 +1676,7 @@ def compute_shoreline_roughness_OAM(
         origin = np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
 
         em = spl.mask.ElevationMask(
-            golf["eta"][30, :, :], elevation_threshold=0, elevation_offset=-0.5
+            golf["eta"][30, :, :], elevation_threshold=0, elevation_offset=-0.1
         )
         em.trim_mask(length=golf.meta["L0"].data + 1, value=1)
         oam = spl.plan.OpeningAnglePlanform.from_mask(em)
@@ -1682,15 +1684,13 @@ def compute_shoreline_roughness_OAM(
         sm45 = spl.mask.ShorelineMask.from_Planform(oam, contour_threshold=45)
         sm120 = spl.mask.ShorelineMask.from_Planform(oam, contour_threshold=120)
 
-        sm45.trim_mask(length=golf.meta["L0"].data + 1)
-        sm120.trim_mask(length=golf.meta["L0"].data + 1)
-
-        roughness_oam = compute_shoreline_roughness_OAM(sm45, sm120)
-
         fig, ax = plt.subplots(1, 2)
         sm45.show(ax=ax[0])
         sm120.show(ax=ax[1])
-        plt.show()
+        plt.show(block=False)
+
+
+        roughness_oam = compute_shoreline_roughness_OAM(sm45, sm120)
 
         fig, ax = plt.subplots()
         oam.show(ax=ax)
@@ -1703,6 +1703,7 @@ def compute_shoreline_roughness_OAM(
         )
         ax.set_title(f"roughness: {roughness_oam:.1f}")
         plt.show()
+
     """
     # process the shore_mask, stripping down to array coordinates regardless of
     # the input. This simplifies the roughness calculation, because we know
