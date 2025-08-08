@@ -535,8 +535,8 @@ class TestShorelineRoughnessVariation:
         assert rgh_2 > 0
 
     def test_rcm8_fail_no_shoreline(self):
-        # check raises error
-        with pytest.raises(ValueError, match=r"No pixels in shoreline mask."):
+        # check raises warning
+        with pytest.warns(UserWarning, match=r"No shoreline identified.*"):
             compute_shoreline_roughness_variation(np.zeros((10, 10)))
 
     def test_compute_shoreline_roughness_variation_asarray(self):
