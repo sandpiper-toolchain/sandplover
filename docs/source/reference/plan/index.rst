@@ -43,7 +43,7 @@ Functions
     compute_shoreline_roughness
     compute_shoreline_roughness_area
     compute_shoreline_roughness_variation
-    compute_shoreline_roughness_count
+    compute_shoreline_roughness_radius
     compute_shoreline_roughness_OAM
     compute_shoreline_rugosity
     compute_shoreline_length

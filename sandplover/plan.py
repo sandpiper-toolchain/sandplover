@@ -1503,7 +1503,7 @@ def compute_shoreline_roughness_variation(shore_mask, origin=(0, 0)):
     return roughness
 
 
-def compute_shoreline_roughness_count(
+def compute_shoreline_roughness_radius(
     shore_mask, origin=(0, 0), calculate_length=False, **kwargs
 ):
     """Compute shoreline roughness, as shoreline count over mean radius.
@@ -1564,7 +1564,7 @@ def compute_shoreline_roughness_count(
         :include-source:
 
         >>> from sandplover.mask import ShorelineMask
-        >>> from sandplover.plan import compute_shoreline_roughness_count
+        >>> from sandplover.plan import compute_shoreline_roughness_radius
         >>> from sandplover.sample_data.sample_data import golf
 
         >>> golf = golf()
@@ -1576,7 +1576,7 @@ def compute_shoreline_roughness_count(
 
         Compute roughness
 
-        >>> rough = compute_shoreline_roughness_count(sm, origin=origin)
+        >>> rough = compute_shoreline_roughness_radius(sm, origin=origin)
 
         >>> fig, ax = plt.subplots()
         >>> sm.show(ax=ax)
