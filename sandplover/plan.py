@@ -1344,10 +1344,17 @@ def compute_shoreline_roughness_area(
 
     .. seealso::
 
-        See also an :doc:`example using this metric
+        See this :doc:`example using this metric
         </guides/examples/computations/shoreline_roughness_perfect_direct>`
         and comparing it to the theoretical value for a perfect half-circle
         delta
+
+    .. seealso::
+
+        See :doc:`this example
+        </guides/examples/computations/comparing_shoreline_roughness_metrics>`,
+        which compares all of the "shoreline roughness" metrics implemented
+        in sandplover.
 
     """
     # process the shore_mask, stripping down to array coordinates regardless of
@@ -1419,11 +1426,11 @@ def compute_shoreline_roughness_variation(shore_mask, origin=(0, 0)):
         distances to :math:`r_i` and mean distance to the
         shoreline :math:`\\bar{r}`.
 
-    .. hint::
-        **See also:** This function is similar to, but distinct
-          from :obj:`compute_shoreline_roughness_area`, which uses an approach
-          based on the shoreline convexity to characterize the shoreline.
+    .. seealso::
 
+        This function is similar to, but distinct
+        from :obj:`compute_shoreline_roughness_area`, which uses an approach
+        ased on the shoreline convexity to characterize the shoreline.
 
     .. [1] Straub, K. M., Q. Li, and W. M. Benson (2015), Influence of sediment
        cohesion on deltaic shoreline dynamics and bulk sediment retention: A
@@ -1472,6 +1479,12 @@ def compute_shoreline_roughness_variation(shore_mask, origin=(0, 0)):
         >>> sm.show(ax=ax)
         >>> ax.set_title("roughness = {:.2f}".format(rough))
 
+    .. seealso::
+
+        See :doc:`this example
+        </guides/examples/computations/comparing_shoreline_roughness_metrics>`,
+        which compares all of the "shoreline roughness" metrics implemented
+        in sandplover.
 
     """
     # process the shore_mask, stripping down to array coordinates regardless of
@@ -1521,7 +1534,7 @@ def compute_shoreline_roughness_radius(
     Computes the shoreline roughness metric:
 
     .. math::
-        R = N / (\\bar{r} / dx) \\approx L_{shore} / \\bar{r}
+        R = \\frac{N}{(\\bar{r} / dx)} \\approx \\frac{L_{shore}}{\\bar{r}}
 
     where R is the roughness of the shoreline, N is the number of pixels in
     the shoreline in the `shore_mask`, :math:`dx` is the grid spacing,
@@ -1532,10 +1545,11 @@ def compute_shoreline_roughness_radius(
         Internally, :obj:`compute_shoreline_distance` is used to compute the
         mean shoreline distance :math:`\\bar{r}`.
 
-    .. hint::
-        **See also:** This function is similar to, but distinct
-          from :obj:`compute_shoreline_roughness_length`, which uses an approach
-          based on the shoreline convexity to characterize the shoreline.
+    .. seealso::
+
+        This function is similar to, but distinct
+        rom :obj:`compute_shoreline_roughness_area`, which uses an approach
+        ased on the shoreline convexity to characterize the shoreline.
 
     .. [1] Liang, M., Voller, V. R., and Paola, C.: A reduced-complexity model
        for river delta formation – Part 1: Modeling deltas with channel
@@ -1591,6 +1605,14 @@ def compute_shoreline_roughness_radius(
         >>> fig, ax = plt.subplots()
         >>> sm.show(ax=ax)
         >>> ax.set_title("roughness = {:.2f}".format(rough))
+
+    .. seealso::
+
+        See :doc:`this example
+        </guides/examples/computations/comparing_shoreline_roughness_metrics>`,
+        which compares all of the "shoreline roughness" metrics implemented
+        in sandplover.
+
     """
     # process the shore_mask, stripping down to array coordinates regardless of
     # the input. This simplifies the roughness calculation, because we know
@@ -1713,6 +1735,13 @@ def compute_shoreline_roughness_OAM(
         )
         ax.set_title(f"roughness: {roughness_oam:.1f}")
         plt.show()
+
+    .. seealso::
+
+        See :doc:`this example
+        </guides/examples/computations/comparing_shoreline_roughness_metrics>`,
+        which compares all of the "shoreline roughness" metrics implemented
+        in sandplover.
 
     """
     # process the shore_mask, stripping down to array coordinates regardless of
