@@ -1388,7 +1388,12 @@ def compute_shoreline_roughness_area(
         # compute rugosity
         rough = shore_len / np.sqrt(land_area)
     else:
-        raise ValueError("No pixels in land mask.")
+        rough = np.nan
+        warnings.warn(
+            "No land area identified in input land_mask, returning np.nan.",
+            category=UserWarning,
+            stacklevel=2,
+        )
 
     return rough
 
@@ -1914,9 +1919,6 @@ def compute_shoreline_length(shore_mask, start=(0, 0), origin=None, return_line=
         # should we have a warning that no dx was found here?
     else:
         raise TypeError(f"Invalid type {type(shore_mask)}")
-
-    if not (np.sum(_sm) > 0):
-        raise ValueError("No pixels in shoreline mask.")
 
     if _sm.ndim == 3:
         _sm = _sm.squeeze()

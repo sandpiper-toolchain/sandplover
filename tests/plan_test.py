@@ -439,9 +439,20 @@ class TestShorelineRoughnessArea:
     def test_simple_case(self):
         simple_rgh = compute_shoreline_roughness_area(simple_shore, simple_land)
         exp_area = 45
-        exp_len = (7 * 1) + (2 * 1.41421356)
+        exp_len = 10
+        exp_len2 = np.sum(simple_shore)
+        assert exp_len == exp_len2
         exp_rgh = exp_len / np.sqrt(exp_area)
         assert simple_rgh == pytest.approx(exp_rgh)
+
+    def test_simple_case_calculate(self):
+        simple_rgh = compute_shoreline_roughness_area(
+            simple_shore, simple_land, caclulate_length=True
+        )
+        exp_area = 45
+        exp_len = (7 * 1) + (2 * 1.41421356)
+        exp_rgh = exp_len / np.sqrt(exp_area)
+        assert simple_rgh == pytest.approx(exp_rgh, abs=0.1)
 
     def test_golf_defaults(self):
         # test it with default options
@@ -460,14 +471,22 @@ class TestShorelineRoughnessArea:
         )
         assert rgh_2 > 0
 
-    def test_golf_fail_no_shoreline(self):
+    def test_golf_zero_if_no_shoreline(self):
+        # this can pass and we get a zero, because
+        rgh = compute_shoreline_roughness_area(np.zeros((10, 10)), self.lm)
+        assert rgh == 0
+
+    def test_golf_warning_no_shoreline_if_calculate_True(self):
         # check raises error
-        with pytest.raises(ValueError, match=r"No pixels in shoreline mask."):
-            compute_shoreline_roughness_area(np.zeros((10, 10)), self.lm)
+        # with pytest.warns(UserWarning, match=r"No shoreline identified.*"):
+        rgh = compute_shoreline_roughness_area(
+            np.zeros((10, 10)), self.lm, caclulate_length=True
+        )
+        assert rgh == 0
 
     def test_golf_fail_no_land(self):
         # check raises error
-        with pytest.raises(ValueError, match=r"No pixels in land mask."):
+        with pytest.warns(UserWarning, match=r"No land area identified.*"):
             compute_shoreline_roughness_area(self.sm, np.zeros((10, 10)))
 
     def test_compute_shoreline_roughness_area_asarray(self):
