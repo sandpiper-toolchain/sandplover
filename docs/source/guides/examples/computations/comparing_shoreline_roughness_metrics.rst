@@ -3,6 +3,13 @@ Comparing shoreline roughness metrics
 
 Compare the various approaches to measuring the concept of shoreline roughness.
 
+* :obj:`~sandplover.plan.compute_shoreline_roughness_area`
+* :obj:`~sandplover.plan.compute_shoreline_roughness_variation`
+* :obj:`~sandplover.plan.compute_shoreline_roughness_count`
+* :obj:`~sandplover.plan.compute_shoreline_roughness_OAM`
+
+For functions that depend on the "shoreline length", the result is computed using both the count of shoreline pixels in a :obj:`~sandplover.mask.ShorelineMask`, and using the :obj:`~sandplover.plan.compute_shoreline_length` function.
+
 .. plot::
     :include-source:
     :context: close-figs
@@ -20,8 +27,6 @@ Compare the various approaches to measuring the concept of shoreline roughness.
     golf = spl.sample_data.golf()
 
     origin = np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
-    origin_idx_for_distance = origin[::-1] / (golf.meta["dx"].data)
-
 
     time_idxs = np.linspace(5, golf.shape[0] - 1, num=30, dtype=int)
 
@@ -33,8 +38,7 @@ Compare the various approaches to measuring the concept of shoreline roughness.
     roughness_oam_calc = np.zeros(len(time_idxs))
     for t, time_idx in enumerate(time_idxs):
         # make masks
-        em = spl.mask.ElevationMask(golf["eta"][time_idx, :, :], elevation_threshold=-1)
-        # mp = spl.plan.MorphologicalPlanform(em, int(golf.meta["N0"].data) + 1)
+        em = spl.mask.ElevationMask(golf["eta"][time_idx, :, :], elevation_threshold=0, elevation_offset=-0.5)
         oam = spl.plan.OpeningAnglePlanform.from_mask(em)
 
         sm = spl.mask.ShorelineMask.from_Planform(oam, contour_threshold=75)
@@ -75,7 +79,7 @@ Compare the various approaches to measuring the concept of shoreline roughness.
     ax[1].plot(times, roughness_oam, label="oam")
     ax[1].plot(times, roughness_oam_calc, label="oam_calc")
 
-    ax[2].plot(times, roughness_var, label="dev")
+    ax[2].plot(times, roughness_var, label="var")
 
     ax[0].legend()
     ax[1].legend()

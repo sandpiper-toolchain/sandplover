@@ -1218,7 +1218,7 @@ def compute_shoreline_roughness_area(shore_mask, land_mask, **kwargs):
     .. important::
 
         The theoretical basis of the calculation assumes a (semi-, quarter-,
-        etc)circular shape of the land area, as would be expected for a fan
+        etc) circular shape of the land area, as would be expected for a fan
         or delta. This calculation will still give a valid result on a
         straighter shoreline, but the absolute value of the result may be
         difficult to interpret in physical sense.
@@ -1226,7 +1226,7 @@ def compute_shoreline_roughness_area(shore_mask, land_mask, **kwargs):
     .. seealso::
 
         This function is similar to, but distinct
-        from :obj:`compute_shoreline_roughness_deviation`, which uses an approach based
+        from :obj:`compute_shoreline_roughness_variation`, which uses an approach based
         on the deviation of the shoreline distance at all points from the
         mean shoreline distance.
 
@@ -1379,7 +1379,7 @@ def compute_shoreline_roughness_variation(shore_mask, origin=(0, 0)):
 
     where R is the roughness of the shoreline, N is the total number of pixels
     defining the shoreline, :math:`r_i` is the individual distance
-    measurement to each point of the shoreline, and :math:`\\hat{r}` is the
+    measurement to each point of the shoreline, and :math:`\\bar{r}` is the
     mean distance from `origin` to the shoreline in `shore_mask` (after
     [1]_). This metric is consistent with a measure of the coefficient of
     variation for distances from the channel inlet to the shoreline.
@@ -1388,7 +1388,7 @@ def compute_shoreline_roughness_variation(shore_mask, origin=(0, 0)):
 
         Internally, :obj:`compute_shoreline_distance` is used to compute the
         distances to :math:`r_i` and mean distance to the
-        shoreline :math:`\\hat{r}`.
+        shoreline :math:`\\bar{r}`.
 
     .. hint::
         **See also:** This function is similar to, but distinct
@@ -1487,17 +1487,16 @@ def compute_shoreline_roughness_count(
     Computes the shoreline roughness metric:
 
     .. math::
-        R =
+        R = N / \\bar{r}  \\quad \\approx L_{shore} / \\bar{r}
 
     where R is the roughness of the shoreline, N is the number of pixels in
-    the shoreline in the `shore_mask`, and :math:\\hat{r}` is the mean
+    the shoreline in the `shore_mask`, and :math:\\bar{r}` is the mean
     shoreline radius (after [1]_).
 
     .. note::
 
         Internally, :obj:`compute_shoreline_distance` is used to compute the
-        mean shoreline distance :math:`\\hat{r}`. If `calculate_length=True`,
-        then :obj:`compute_shoreline_length` is used.
+        mean shoreline distance :math:`\\bar{r}`.
 
     .. hint::
         **See also:** This function is similar to, but distinct
@@ -1521,6 +1520,7 @@ def compute_shoreline_roughness_count(
         data. Default (0, 0).
 
     calculate_length
+        If `calculate_length=True`, then :obj:`compute_shoreline_length` is used.
 
     **kwargs
         Passed to `compute_shoreline_length`.
@@ -1704,6 +1704,10 @@ def compute_shoreline_rugosity(shore_mask, origin=(0, 0)):
     points on the shoreline.
 
     This is likely the closest thing to a rugosity as measured in the rest of science.
+
+    .. warning::
+
+        Not Implemented!
     """
     raise NotImplementedError
 
