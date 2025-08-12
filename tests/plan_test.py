@@ -750,6 +750,7 @@ class TestComputeShorelineRadius:
     def test_defaults_empty_domain(self):
         # use initial "empty" domain, has strip of land that will get picked
         # up when origin at edge.
+
         mean, std = compute_shoreline_radius(self.empty_shore_mask)
         assert mean == pytest.approx(
             (self.golf.meta["L0"].data - 1) * self.golf.meta["dx"].data,
@@ -759,7 +760,10 @@ class TestComputeShorelineRadius:
 
     def test_defaults_empty_domain_actual_origin(self):
         # use initial "empty" domain, has no land beyond L0, returns nans
-        mean, std = compute_shoreline_radius(self.empty_shore_mask, origin=self.origin)
+        with pytest.warns(UserWarning, match=r"No shoreline identified.*"):
+            mean, std = compute_shoreline_radius(
+                self.empty_shore_mask, origin=self.origin
+            )
         assert np.isnan(mean)
         assert np.isnan(std)
 
@@ -776,9 +780,10 @@ class TestComputeTopsetSlope:
         expects NaN for mean and std deviation because point threshold is very
         high; all calculated slopes will be NaN.
         """
-        mean, std = compute_topset_slope(
-            self.golf["eta"][-1, :, :], count_threshold=1e6
-        )
+        with pytest.warns(UserWarning, match=r"Insufficient elevation data.*"):
+            mean, std = compute_topset_slope(
+                self.golf["eta"][-1, :, :], count_threshold=1e6
+            )
         assert np.isnan(mean)
         assert np.isnan(std)
 
@@ -792,7 +797,10 @@ class TestComputeTopsetSlope:
     def test_defaults_empty_domain_actual_origin(self):
         # use initial "empty" domain, has strip of land with negative slope
         #     but perfect (0 std)
-        mean, std = compute_topset_slope(self.golf["eta"][0, :, :], origin=self.origin)
+        with pytest.warns(UserWarning, match=r"Insufficient elevation data.*"):
+            mean, std = compute_topset_slope(
+                self.golf["eta"][0, :, :], origin=self.origin
+            )
         assert np.isnan(mean)
         assert np.isnan(std)
 

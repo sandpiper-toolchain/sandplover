@@ -2376,10 +2376,21 @@ def compute_shoreline_radius(shore_mask, origin=(0, 0), return_radii=False, **kw
         else:
             radii[a] = np.nan
 
-    if return_radii:
-        return np.nanmean(radii), np.nanstd(radii), radii
+    if np.all(np.isnan(radii)):  # if all nan
+        warnings.warn(
+            "No shoreline identified in shore_mask at intersection with any RadialSection, returning np.nan.",
+            category=UserWarning,
+            stacklevel=2,
+        )
+        if return_radii:
+            return np.nan, np.nan, np.nan
+        else:
+            return np.nan, np.nan
     else:
-        return np.nanmean(radii), np.nanstd(radii)
+        if return_radii:
+            return np.nanmean(radii), np.nanstd(radii), radii
+        else:
+            return np.nanmean(radii), np.nanstd(radii)
 
 
 def compute_topset_slope(
@@ -2516,10 +2527,21 @@ def compute_topset_slope(
             m = np.nan
         slopes[a] = m
 
-    if return_slopes:
-        return np.nanmean(slopes), np.nanstd(slopes), slopes
+    if np.all(np.isnan(slopes)):  # if all nan
+        warnings.warn(
+            "Insufficient elevation data above elevation_threshold identified along any RadialSection, returning np.nan.",
+            category=UserWarning,
+            stacklevel=2,
+        )
+        if return_slopes:
+            return np.nan, np.nan, np.nan
+        else:
+            return np.nan, np.nan
     else:
-        return np.nanmean(slopes), np.nanstd(slopes)
+        if return_slopes:
+            return np.nanmean(slopes), np.nanstd(slopes), slopes
+        else:
+            return np.nanmean(slopes), np.nanstd(slopes)
 
 
 @njit(parallel=True)
