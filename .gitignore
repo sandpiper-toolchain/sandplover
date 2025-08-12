@@ -128,9 +128,3 @@ playground*
 
 # ignore any files in here by default, use -f to add anything.
 deltametrics/sample_data/files/*
-
-# macOS
-.DS_Store
-
-# macOS
-.DS_Store
