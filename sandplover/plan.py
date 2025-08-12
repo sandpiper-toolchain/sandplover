@@ -1645,7 +1645,17 @@ def compute_shoreline_roughness_radius(
 
     origin_idx = (origin[0] / _dx, origin[1] / _dx)
     r_bar, _ = compute_shoreline_distance(_sm, origin=origin_idx)
-    roughness = _length / r_bar  # both already in array coordinates
+
+    if r_bar > 0:
+        roughness = _length / r_bar  # both already in array coordinates
+    else:
+        roughness = np.nan
+        # warnings.warn(
+        #     "No shoreline identified in input shore_mask, returning np.nan.",
+        #     category=UserWarning,
+        #     stacklevel=2,
+        # )
+
     return roughness
 
 
@@ -2174,9 +2184,6 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
     else:
         raise TypeError(f"Invalid type {type(shore_mask)}")
 
-    if not (np.sum(_sm) > 0):
-        raise ValueError("No pixels in shoreline mask.")
-
     if _sm.ndim == 3:
         _sm = _sm.squeeze()
 
@@ -2186,10 +2193,21 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
     # determine the distances (multiply by dx)
     _dists = np.sqrt((_x - origin[1]) ** 2 + (_y - origin[0]) ** 2) * _dx
 
-    if return_distances:
-        return np.nanmean(_dists), np.nanstd(_dists), _dists
+    if not np.sum(_sm) > 0:
+        warnings.warn(
+            "No shoreline identified in input shore_mask, returning np.nan.",
+            category=UserWarning,
+            stacklevel=2,
+        )
+        if return_distances:
+            return np.nan, np.nan, [np.nan]
+        else:
+            return np.nan, np.nan
     else:
-        return np.nanmean(_dists), np.nanstd(_dists)
+        if return_distances:
+            return np.nanmean(_dists), np.nanstd(_dists), _dists
+        else:
+            return np.nanmean(_dists), np.nanstd(_dists)
 
 
 def _determine_equally_spaced_azimuths(*args, **kwargs):

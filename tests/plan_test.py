@@ -25,6 +25,7 @@ from sandplover.plan import compute_shoreline_radius
 from sandplover.plan import compute_shoreline_roughness
 from sandplover.plan import compute_shoreline_roughness_variation
 from sandplover.plan import compute_shoreline_roughness_area
+from sandplover.plan import compute_shoreline_roughness_radius
 from sandplover.plan import compute_surface_deposit_age
 from sandplover.plan import compute_surface_deposit_time
 from sandplover.plan import compute_topset_slope
@@ -431,7 +432,7 @@ class TestShorelineRoughnessArea:
     golfcube = DataCube(golf_path)
 
     em = ElevationMask(golfcube["eta"][-1, :, :], elevation_threshold=0)
-    em.trim_mask(value=1, length=1)
+    em.trim_mask(value=1, length=3)
     OAP = OpeningAnglePlanform(~(em.mask))
     lm = LandMask.from_Planform(OAP)
     sm = ShorelineMask.from_Planform(OAP)
@@ -504,7 +505,7 @@ class TestShorelineRoughnessVariation:
     golf = DataCube(golf_path)
 
     em = ElevationMask(golf["eta"][-1, :, :], elevation_threshold=0)
-    em.trim_mask(value=1, length=1)
+    em.trim_mask(value=1, length=3)
     OAP = OpeningAnglePlanform.from_mask(em)
     lm = LandMask.from_Planform(OAP)
     sm = ShorelineMask.from_Planform(OAP)
@@ -531,7 +532,6 @@ class TestShorelineRoughnessVariation:
         rgh_2 = compute_shoreline_roughness_variation(
             self.sm, origin=(0, self.golf.shape[1])
         )
-        # assert rgh_2 == pytest.approx(self.rcm8_expected, abs=0.2)
         assert rgh_2 > 0
 
     def test_rcm8_fail_no_shoreline(self):
@@ -544,6 +544,54 @@ class TestShorelineRoughnessVariation:
         _smarr = np.copy(self.sm.mask)
         assert isinstance(_smarr, np.ndarray)
         rgh_3 = compute_shoreline_roughness_variation(_smarr)
+        assert rgh_3 > 0
+
+
+class TestShorelineRoughnessRadius:
+    golf_path = _get_golf_path()
+    golf = DataCube(golf_path)
+
+    em = ElevationMask(golf["eta"][-1, :, :], elevation_threshold=0)
+    em.trim_mask(value=1, length=3)
+    OAP = OpeningAnglePlanform.from_mask(em)
+    lm = LandMask.from_Planform(OAP)
+    sm = ShorelineMask.from_Planform(OAP)
+
+    super_simple_shore = np.zeros((5, 5))
+    super_simple_shore[1, 1] = 1
+    super_simple_shore[1, 0] = 1
+    super_simple_shore[0, 1] = 1
+
+    def test_simple_case(self):
+        simple_rgh = compute_shoreline_roughness_radius(self.super_simple_shore)
+        exp_distances = [(1.41), 1, 1]
+        exp_mean = np.mean(exp_distances)
+        exp_len = 3
+        assert simple_rgh == pytest.approx(exp_len / exp_mean, rel=0.01)
+
+    def test_golf_defaults(self):
+        # test it with default options
+        rgh_0 = compute_shoreline_roughness_radius(self.sm)
+        assert rgh_0 > 0
+
+    def test_golf_defaults_opposite(self):
+        # test that it is the same with opposite side origin
+        rgh_2 = compute_shoreline_roughness_radius(
+            self.sm, origin=(0, self.golf.shape[1])
+        )
+        # assert rgh_2 == pytest.approx(self.rcm8_expected, abs=0.2)
+        assert rgh_2 > 0
+
+    def test_rcm8_fail_no_shoreline(self):
+        # check raises warning
+        with pytest.warns(UserWarning, match=r"No shoreline identified.*"):
+            compute_shoreline_roughness_radius(np.zeros((10, 10)))
+
+    def test_compute_shoreline_roughness_variation_asarray(self):
+        # test it with default options
+        _smarr = np.copy(self.sm.mask)
+        assert isinstance(_smarr, np.ndarray)
+        rgh_3 = compute_shoreline_roughness_radius(_smarr)
         assert rgh_3 > 0
 
 
@@ -608,8 +656,10 @@ class TestShorelineDistance:
 
     def test_empty(self):
         _arr = np.zeros((10, 10))
-        with pytest.raises(ValueError):
-            _, _ = compute_shoreline_distance(_arr)
+        with pytest.warns(UserWarning, match=r"No shoreline identified.*"):
+            m, s = compute_shoreline_distance(_arr)
+        assert np.isnan(m)
+        assert np.isnan(m)
 
     def test_single_point(self):
         _arr = np.zeros((10, 10))
