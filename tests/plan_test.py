@@ -26,6 +26,8 @@ from sandplover.plan import compute_shoreline_roughness
 from sandplover.plan import compute_shoreline_roughness_variation
 from sandplover.plan import compute_shoreline_roughness_area
 from sandplover.plan import compute_shoreline_roughness_radius
+from sandplover.plan import compute_shoreline_roughness_OAM
+from sandplover.plan import compute_shoreline_rugosity
 from sandplover.plan import compute_surface_deposit_age
 from sandplover.plan import compute_surface_deposit_time
 from sandplover.plan import compute_topset_slope
@@ -593,6 +595,40 @@ class TestShorelineRoughnessRadius:
         assert isinstance(_smarr, np.ndarray)
         rgh_3 = compute_shoreline_roughness_radius(_smarr)
         assert rgh_3 > 0
+
+
+class TestShorelineRoughnessOAM:
+    golf_path = _get_golf_path()
+    golf = DataCube(golf_path)
+
+    em = ElevationMask(golf["eta"][-1, :, :], elevation_threshold=0)
+    em.trim_mask(value=1, length=3)
+    OAP = OpeningAnglePlanform.from_mask(em)
+
+    simple_em = ElevationMask.from_array(simple_land)
+    simple_OAP = OpeningAnglePlanform.from_mask(simple_em)
+
+    def test_OAP_golf(self):
+        sm45 = ShorelineMask.from_Planform(self.OAP, contour_threshold=45)
+        sm120 = ShorelineMask.from_Planform(self.OAP, contour_threshold=120)
+
+        roughness_oam = compute_shoreline_roughness_OAM(sm45, sm120)
+
+        assert roughness_oam > 1
+
+    def test_simple(self):
+        sm45 = ShorelineMask.from_Planform(self.simple_OAP, contour_threshold=45)
+        sm120 = ShorelineMask.from_Planform(self.simple_OAP, contour_threshold=120)
+
+        roughness_oam = compute_shoreline_roughness_OAM(sm45, sm120)
+        # the two countours should be the same in the simple case
+        assert roughness_oam == 1
+
+
+class TestShorelineRugosity:
+    def test_not_implemented(self):
+        with pytest.raises(NotImplementedError):
+            compute_shoreline_rugosity(np.zeros((10, 10)))
 
 
 class TestShorelineLength:
