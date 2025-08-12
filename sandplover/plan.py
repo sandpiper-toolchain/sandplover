@@ -1477,7 +1477,7 @@ def compute_shoreline_roughness_variation(shore_mask, origin=(0, 0)):
 
         >>> fig, ax = plt.subplots()
         >>> sm.show(ax=ax)
-        >>> ax.set_title("roughness = {:.2f}".format(rough))
+        >>> _ = ax.set_title("roughness = {:.2f}".format(rough))
 
     .. seealso::
 
@@ -1604,7 +1604,7 @@ def compute_shoreline_roughness_radius(
 
         >>> fig, ax = plt.subplots()
         >>> sm.show(ax=ax)
-        >>> ax.set_title("roughness = {:.2f}".format(rough))
+        >>> _ = ax.set_title("roughness = {:.2f}".format(rough))
 
     .. seealso::
 
