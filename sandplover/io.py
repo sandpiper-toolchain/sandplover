@@ -386,7 +386,9 @@ class DictionaryIO(BaseIO):
         if dimensions is not None:
             if not isinstance(dimensions, dict):
                 raise TypeError(
-                    "Input type for `dimensions` must be `dict` but was {}".format(type(dimensions))
+                    "Input type for `dimensions` must be `dict` but was {}".format(
+                        type(dimensions)
+                    )
                 )
             if len(dimensions) != 3:
                 raise ValueError("`dimensions` must contain exactly three dimensions!")
@@ -405,8 +407,9 @@ class DictionaryIO(BaseIO):
                     if len(dimensions[k]) != ref_shp[i]:
                         raise ValueError(
                             "Shape of `dimensions` at position {} was {}, "
-                            "which does not match the variables dimensions {}."
-                            .format(i, len(dimensions[k]), ref_shp)
+                            "which does not match the variables dimensions {}.".format(
+                                i, len(dimensions[k]), ref_shp
+                            )
                         )
 
             self.dimensions = dict(zip(self.dims, self.coords, strict=True))
@@ -461,4 +464,3 @@ class DictionaryIO(BaseIO):
     def keys(self):
         """Variable names in 'file' (dict keys)."""
         return list(self.dataset.keys())
-

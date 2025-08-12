@@ -694,7 +694,9 @@ class DataCube(BaseCube):
         super().__init__(data, read, varset, dimensions=dimensions)
 
         # Set up the time mesh (DataCube is t–x–y)
-        _, self._T, _ = np.meshgrid(self.dim1_coords, self.dim0_coords, self.dim2_coords)
+        _, self._T, _ = np.meshgrid(
+            self.dim1_coords, self.dim0_coords, self.dim2_coords
+        )
 
         # Establish view dimensions/coordinates used by __getitem__ and plotting
         self._view_dimensions = self._dataio.dims
