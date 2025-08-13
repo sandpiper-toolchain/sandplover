@@ -1469,7 +1469,10 @@ def compute_shoreline_roughness_variation(shore_mask, origin=(0, 0)):
         ...     golf["eta"][-1, :, :], elevation_threshold=0, elevation_offset=-0.5
         ... )
         >>> sm.trim_mask(length=golf.meta["L0"].data + 1)
-        >>> origin = np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
+        >>> origin = (
+        ...     np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
+        ...     * golf.meta["dx"].data
+        ... )
 
         Compute roughness
 
@@ -1596,7 +1599,10 @@ def compute_shoreline_roughness_radius(
         ...     golf["eta"][-1, :, :], elevation_threshold=0, elevation_offset=-0.5
         ... )
         >>> sm.trim_mask(length=golf.meta["L0"].data + 1)
-        >>> origin = np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
+        >>> origin = (
+        ...     np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
+        ...     * golf.meta["dx"].data
+        ... )
 
         Compute roughness
 
@@ -2831,9 +2837,9 @@ def shaw_opening_angle_method(
     #   fill the query points with the value returned from theta
     pad_opening_angles[query_set_idxs[:, 0], query_set_idxs[:, 1]] = theta
     #   fill the rest of the array
-    pad_opening_angles[
-        sea_idxs_outside_hull[:, 0], sea_idxs_outside_hull[:, 1]
-    ] = outside_hull_value  # aka 180
+    pad_opening_angles[sea_idxs_outside_hull[:, 0], sea_idxs_outside_hull[:, 1]] = (
+        outside_hull_value  # aka 180
+    )
     #   grab the data that is the same shape as the input below_mask
     opening_angles = pad_opening_angles[1:-1, 1:-1]
 
