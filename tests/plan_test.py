@@ -450,7 +450,7 @@ class TestShorelineRoughnessArea:
 
     def test_simple_case_calculate(self):
         simple_rgh = compute_shoreline_roughness_area(
-            simple_shore, simple_land, caclulate_length=True
+            simple_shore, simple_land, calculate_length=True
         )
         exp_area = 45
         exp_len = (7 * 1) + (2 * 1.41421356)
@@ -461,6 +461,24 @@ class TestShorelineRoughnessArea:
         # test it with default options
         rgh_0 = compute_shoreline_roughness_area(self.sm, self.lm)
         assert rgh_0 > 0
+
+    def test_golf_defaults_same_with_xarray(self):
+        # test it with default options
+        rgh_0 = compute_shoreline_roughness_area(self.sm, self.lm)
+        # following line is an xarray as input
+        _xr = self.sm.mask
+        assert isinstance(_xr, xr.core.dataarray.DataArray)
+        rgh_1 = compute_shoreline_roughness_area(_xr, self.lm)
+        assert rgh_0 == rgh_1
+
+    def test_golf_calculate_length(self):
+        # test it with default options
+        rgh_0 = compute_shoreline_roughness_area(self.sm, self.lm)
+        rgh_1 = compute_shoreline_roughness_area(
+            self.sm, self.lm, calculate_length=True, start=(0, 0)
+        )
+        # calculated length is expected to be longer, so roughness should be higher
+        assert rgh_1 > rgh_0
 
     def test_golf_ignore_return_line(self):
         # test that it ignores return_line arg
@@ -500,6 +518,13 @@ class TestShorelineRoughnessArea:
         assert isinstance(_lmarr, np.ndarray)
         rgh_3 = compute_shoreline_roughness_area(_smarr, _lmarr)
         assert rgh_3 > 0
+
+    def test_bad_types(self):
+        # test it with default options
+        with pytest.raises(TypeError):
+            _ = compute_shoreline_roughness_area(None, self.lm)
+        with pytest.raises(TypeError):
+            _ = compute_shoreline_roughness_area(self.sm, None)
 
 
 class TestShorelineRoughnessVariation:
@@ -548,6 +573,11 @@ class TestShorelineRoughnessVariation:
         rgh_3 = compute_shoreline_roughness_variation(_smarr)
         assert rgh_3 > 0
 
+    def test_bad_type(self):
+        # test it with default options
+        with pytest.raises(TypeError):
+            _ = compute_shoreline_roughness_variation(None)
+
 
 class TestShorelineRoughnessRadius:
     golf_path = _get_golf_path()
@@ -558,6 +588,10 @@ class TestShorelineRoughnessRadius:
     OAP = OpeningAnglePlanform.from_mask(em)
     lm = LandMask.from_Planform(OAP)
     sm = ShorelineMask.from_Planform(OAP)
+
+    golf_origin = (
+        np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
+    )
 
     super_simple_shore = np.zeros((5, 5))
     super_simple_shore[1, 1] = 1
@@ -575,6 +609,32 @@ class TestShorelineRoughnessRadius:
         # test it with default options
         rgh_0 = compute_shoreline_roughness_radius(self.sm)
         assert rgh_0 > 0
+
+    def test_golf_origin(self):
+        # test it with default options
+        rgh_0 = compute_shoreline_roughness_radius(self.sm, origin=self.golf_origin)
+        assert rgh_0 > 0
+        # check that it is actually doing something different when given the origin?
+        rgh_1 = compute_shoreline_roughness_radius(self.sm)
+        assert rgh_0 != rgh_1
+
+    def test_golf_origin_same_with_xarray(self):
+        # test it with default options
+        rgh_0 = compute_shoreline_roughness_radius(self.sm, origin=self.golf_origin)
+        # following line is an xarray as input
+        _xr = self.sm.mask
+        assert isinstance(_xr, xr.core.dataarray.DataArray)
+        rgh_1 = compute_shoreline_roughness_radius(_xr, origin=self.golf_origin)
+        assert rgh_0 == rgh_1
+
+    def test_golf_origin_calculate_length(self):
+        # test it with default options
+        rgh_0 = compute_shoreline_roughness_radius(self.sm, origin=self.golf_origin)
+        rgh_1 = compute_shoreline_roughness_radius(
+            self.sm, calculate_length=True, start=(0, 0), origin=self.golf_origin
+        )
+        # calculated length is expected to be longer, so roughness should be higher
+        assert rgh_1 > rgh_0
 
     def test_golf_defaults_opposite(self):
         # test that it is the same with opposite side origin
@@ -624,6 +684,30 @@ class TestShorelineRoughnessOAM:
         # the two countours should be the same in the simple case
         assert roughness_oam == 1
 
+    def test_golf_origin_same_with_xarray(self):
+        # test it with default options
+        sm45 = ShorelineMask.from_Planform(self.simple_OAP, contour_threshold=45)
+        sm120 = ShorelineMask.from_Planform(self.simple_OAP, contour_threshold=120)
+
+        sm45_xr = sm45.mask
+        sm120_xr = sm120.mask
+        assert isinstance(sm45_xr, xr.core.dataarray.DataArray)
+        assert isinstance(sm120_xr, xr.core.dataarray.DataArray)
+
+        rgh_0 = compute_shoreline_roughness_OAM(sm45, sm120_xr)
+        rgh_1 = compute_shoreline_roughness_OAM(sm45_xr, sm120)
+        assert rgh_1 == rgh_0
+
+    def test_OAP_golf_calculate_length(self):
+        sm45 = ShorelineMask.from_Planform(self.OAP, contour_threshold=45)
+        sm120 = ShorelineMask.from_Planform(self.OAP, contour_threshold=120)
+
+        roughness_oam = compute_shoreline_roughness_OAM(
+            sm45, sm120, calculate_length=True
+        )
+
+        assert roughness_oam > 1
+
 
 class TestShorelineRugosity:
     def test_not_implemented(self):
@@ -646,6 +730,9 @@ class TestShorelineLength:
         simple_len = compute_shoreline_length(simple_shore)
         exp_len = (7 * 1) + (2 * 1.41421356)
         assert simple_len == pytest.approx(exp_len, abs=0.1)
+
+        # length should be about the same as the sum
+        assert simple_len == pytest.approx(np.sum(simple_shore), abs=0.5)
 
     def test_simple_case_opposite(self):
         # first test deprecated "origin"
@@ -695,7 +782,13 @@ class TestShorelineDistance:
         with pytest.warns(UserWarning, match=r"No shoreline identified.*"):
             m, s = compute_shoreline_distance(_arr)
         assert np.isnan(m)
+        assert np.isnan(s)
+
+        with pytest.warns(UserWarning, match=r"No shoreline identified.*"):
+            m, s, d = compute_shoreline_distance(_arr, return_distances=True)
         assert np.isnan(m)
+        assert np.isnan(s)
+        assert np.all(np.isnan(d))
 
     def test_single_point(self):
         _arr = np.zeros((10, 10))
@@ -715,7 +808,7 @@ class TestShorelineDistance:
         assert mean > stddev
         assert stddev > 0
 
-    def test_simple_case_distances(self):
+    def test_golf_distances_depends_on_origin(self):
         m, s = compute_shoreline_distance(
             self.sm, origin=[self.golf.meta["CTR"].data, self.golf.meta["L0"].data]
         )
@@ -729,6 +822,10 @@ class TestShorelineDistance:
         assert np.mean(dists) == m
         assert m2 == m
         assert s2 == s
+
+    def test_bad_type(self):
+        with pytest.raises(TypeError):
+            _, _ = compute_shoreline_distance(None)
 
 
 class TestDetermineEquallySpacedAzimuths:
@@ -803,6 +900,18 @@ class TestComputeShorelineRadius:
         assert np.isnan(mean)
         assert np.isnan(std)
 
+    def test_truly_empty(self):
+        with pytest.warns(UserWarning, match=r"No shoreline identified.*"):
+            m, s = compute_shoreline_radius(np.zeros((100, 200)))
+        assert np.isnan(m)
+        assert np.isnan(s)
+
+        with pytest.warns(UserWarning, match=r"No shoreline identified.*"):
+            m, s, d = compute_shoreline_radius(np.zeros((100, 200)), return_radii=True)
+        assert np.isnan(m)
+        assert np.isnan(s)
+        assert np.all(np.isnan(d))
+
 
 class TestComputeTopsetSlope:
     golf_path = _get_golf_path()
@@ -864,6 +973,20 @@ class TestComputeTopsetSlope:
         mean, std = compute_topset_slope(deposit_thickness, elevation_threshold=-np.inf)
         assert mean < 0
         assert std > 0
+
+    def test_truly_empty(self):
+        with pytest.warns(UserWarning, match=r"Insufficient elevation.*"):
+            m, s = compute_topset_slope(np.zeros((100, 200)), elevation_threshold=1)
+        assert np.isnan(m)
+        assert np.isnan(s)
+
+        with pytest.warns(UserWarning, match=r"Insufficient elevation.*"):
+            m, s, d = compute_topset_slope(
+                np.zeros((100, 200)), elevation_threshold=1, return_slopes=True
+            )
+        assert np.isnan(m)
+        assert np.isnan(s)
+        assert np.all(np.isnan(d))
 
 
 class TestComputeChannelWidth:
