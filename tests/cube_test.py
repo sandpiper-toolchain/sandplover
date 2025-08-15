@@ -474,6 +474,36 @@ class TestCubesFromDictionary:
         with pytest.raises(AttributeError):
             dict_cube.meta
 
+    @pytest.mark.parametrize(
+        "order",
+        [
+            ("station_id", "temperature"),  # 1-D first
+            ("temperature", "station_id"),  # 3-D first
+        ],
+    )
+    def test_DataCube_shape_from_coords_not_order(self, order):
+        """Shape must come from provided coords, not dict insertion order."""
+        shape = (10, 50, 60)
+        dims = {
+            "t_ax": np.arange(shape[0]),
+            "y_ax": np.arange(shape[1]),
+            "x_ax": np.arange(shape[2]),
+        }
+
+        mapping = {
+            "station_id": np.arange(100),  # extra 1-D var
+            "temperature": np.random.rand(*shape),  # main 3-D var
+        }
+        # build dict preserving the requested insertion order
+        data = {name: mapping[name] for name in order}
+
+        cube = DataCube(data, dimensions=dims)
+
+        # shape is derived from coords (dims), regardless of variable order
+        assert cube.shape == (len(dims["t_ax"]), len(dims["y_ax"]), len(dims["x_ax"]))
+        # dimension names also respect the provided order
+        assert cube._dataio.dims == list(dims.keys())
+
 
 class TestLandsatCube:
     with pytest.warns(UserWarning, match=r"No associated metadata"):
