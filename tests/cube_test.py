@@ -521,10 +521,10 @@ class TestReadMetaFallbacks:
             var_name="temperature",
             dnames=("t", "y", "x"),
             # NEW knobs to drive scanner behavior:
-            scan_vars=None,          # list of names to appear in known_variables (scan order)
-            raise_on=(),             # names that should raise when __getitem__ is called
-            three_d=None,            # names that should return a 3-D DataArray
-            two_d=(),                # names that should return a 2-D (y,x) DataArray
+            scan_vars=None,  # list of names to appear in known_variables (scan order)
+            raise_on=(),  # names that should raise when __getitem__ is called
+            three_d=None,  # names that should return a 3-D DataArray
+            two_d=(),  # names that should return a 2-D (y,x) DataArray
         ):
             self._shape = (t, y, x)
             self._dnames = dnames
@@ -532,7 +532,9 @@ class TestReadMetaFallbacks:
 
             # Force the "no dims" path so the code scans known_variables:
             self.dims = []
-            self.known_variables = list(scan_vars) if scan_vars is not None else [var_name]
+            self.known_variables = (
+                list(scan_vars) if scan_vars is not None else [var_name]
+            )
             self.known_coords = list(dnames)
 
             self._raise_on = set(raise_on)
@@ -548,7 +550,10 @@ class TestReadMetaFallbacks:
                 yy, xx = np.meshgrid(y_ax, x_ax, indexing="ij")  # (y,x)
                 coord_y, coord_x = yy, xx
             elif bad_coord:
-                coord_y, coord_x = np.zeros((y, x, 2)), x_ax  # invalid 3-D coord to hit TypeError
+                coord_y, coord_x = (
+                    np.zeros((y, x, 2)),
+                    x_ax,
+                )  # invalid 3-D coord to hit TypeError
             else:
                 coord_y, coord_x = y_ax, x_ax
 
@@ -576,7 +581,7 @@ class TestReadMetaFallbacks:
 
             # Otherwise treat it like a coordinate lookup (1-D or 2-D/invalid as configured)
             return self.dataset[key]
-        
+
     def _fresh_cube(self, t=4, y=5, x=6):
         """Create any DataCube instance; we'll overwrite its IO before reading meta."""
         # trivial in-memory cube that successfully constructs
@@ -619,19 +624,21 @@ class TestReadMetaFallbacks:
         cube._dataio = fake_io
         with pytest.raises(
             TypeError,
-            match=r"(?i)shape of coordinate array was not 1[-\s]?d or 2[-\s]?d"
+            match=r"(?i)shape of coordinate array was not 1[-\s]?d or 2[-\s]?d",
         ):
             cube._read_meta_from_file()
-    
+
     def test_scan_3d_var_handles_getitem_error(self):
         """Cover the `except: continue` branch while scanning known_variables."""
         t, y, x = 2, 3, 4
         cube = self._fresh_cube(t, y, x)
         fake_io = self.FakeIO(
-            t=t, y=y, x=x,
+            t=t,
+            y=y,
+            x=x,
             scan_vars=["bad", "temperature"],  # scan order
-            raise_on={"bad"},                   # first var raises
-            three_d={"temperature"},            # second var is the 3-D one
+            raise_on={"bad"},  # first var raises
+            three_d={"temperature"},  # second var is the 3-D one
         )
         cube._dataio = fake_io
         cube._read_meta_from_file()
@@ -641,22 +648,23 @@ class TestReadMetaFallbacks:
         assert np.array_equal(cube._dim1_coords, np.arange(y))
         assert np.array_equal(cube._dim2_coords, np.arange(x))
 
-
     def test_scan_3d_var_raises_when_none_found(self):
         """Cover the final ValueError when the scan never encounters a true 3-D var."""
         t, y, x = 2, 3, 4
         cube = self._fresh_cube(t, y, x)
         fake_io = self.FakeIO(
-            t=t, y=y, x=x,
-            scan_vars=["a", "b"],     # two variables to scan
-            three_d=set(),            # none are 3-D
-            two_d={"a", "b"},         # both are 2-D, so scan never finds ndim==3
+            t=t,
+            y=y,
+            x=x,
+            scan_vars=["a", "b"],  # two variables to scan
+            three_d=set(),  # none are 3-D
+            two_d={"a", "b"},  # both are 2-D, so scan never finds ndim==3
         )
         cube._dataio = fake_io
         with pytest.raises(ValueError, match=r"Could not infer 3-D dimensions"):
             cube._read_meta_from_file()
-    
-    
+
+
 class TestLandsatCube:
     with pytest.warns(UserWarning, match=r"No associated metadata"):
         landsatcube = DataCube(hdf_path)
@@ -692,5 +700,3 @@ class TestLandsatCube:
     def test_get_coords(self):
         assert self.landsatcube.coords == ["time", "x", "y"]
         assert self.landsatcube._coords == ["time", "x", "y"]
-
-
