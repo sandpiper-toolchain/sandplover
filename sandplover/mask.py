@@ -2324,20 +2324,30 @@ class GeometricMask(BaseMask):
             >>> _ = ax[1].set_yticks([])
             >>> _ = ax[1].set_title("Mask * Topography")
         """
+        # width must exceed 2x length
         if (self._L / self._W) > 0.5:
             raise ValueError("Width of input array must exceed 2x length.")
 
-        w = self._L if (self._L % 2 == 0) else self._L + 1
-        y, x = np.ogrid[0 : self._W, -self._L : w]
+        # helper grid: at least W columns, and even so center is integral
+        B = max(self._W, 2 * self._L)
+        if B % 2:
+            B += 1
+
+        # build helper coordinates
+        y = np.arange(self._W)[:, None]          # (W, 1)
+        x = np.arange(-B // 2, B // 2)[None, :]   # (1, B), total columns = B (even)
+
         theta = np.arctan2(x, y) - theta1 + np.pi / 2
         theta %= 2 * np.pi
-        anglemask = theta <= (theta2 - theta1)
-        _, B = np.shape(anglemask)
-        anglemap = anglemask[
-            : self._L, int(B / 2 - self._W / 2) : int(B / 2 + self._W / 2)
-        ]
+        anglemask = theta <= (theta2 - theta1)    # (W, B) boolean
 
-        self._mask[:] = self._mask * anglemap
+        # centered crop of width W
+        left = B // 2 - self._W // 2
+        right = left + self._W
+        anglemap = anglemask[: self._L, left:right]   # (L, W)
+
+        self._mask[:] *= anglemap
+
 
     def circular(self, rad1=0, rad2=None, origin=None):
         """Make a circular mask bounded by two radii.
