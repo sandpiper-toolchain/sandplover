@@ -40,7 +40,7 @@ class BaseCube(abc.ABC):
 
     """
 
-    def __init__(self, data, read=(), varset=None, dimensions=None):
+    def __init__(self, data, varset=None, dimensions=None):
         """Initialize the BaseCube.
 
         Parameters
@@ -52,10 +52,6 @@ class BaseCube(abc.ABC):
             :obj:`dict` with keys indicating variable names, and values with
             corresponding t-x-y `ndarray` of data.
 
-        read : :obj:`bool`, optional
-            Which variables to read from dataset into memory. Special option
-            for ``read=True`` to read all available variables into memory.
-
         varset : :class:`~sandplover.plot.VariableSet`, optional
             Pass a `~sandplover.plot.VariableSet` instance if you wish
             to style this cube similarly to another cube.
@@ -64,6 +60,12 @@ class BaseCube(abc.ABC):
             A dictionary with names and coordinates for dimensions of the
             cube, if instantiating the cube from data loaded in memory
             in a dictionary.
+
+        Notes
+        -----
+        Data is not loaded into memory during initialization. To load
+        variables into memory for faster access, use the :meth:`read` method
+        explicitly after initialization.
         """
         if type(data) is str:
             # handle a path to netCDF file
@@ -158,13 +160,24 @@ class BaseCube(abc.ABC):
         # DEVELOPER NOTE: can we remvoe the _dimX_idx altogether and just use
         # the _dimX_coords arrays?
 
-    def read(self, variables):
+    def read(self, variables, force=False):
         """Read variable into memory.
 
         Parameters
         ----------
-        variables : :obj:`list` of :obj:`str`, :obj:`str`
-            Which variables to read into memory.
+        variables : :obj:`list` of :obj:`str`, :obj:`str`, :obj:`bool`
+            Which variables to read into memory. Pass `True` to read all
+            variables.
+
+        force : `bool`, optional
+            If True, bypass memory safety checks and load the data regardless
+            of size. Default is False.
+
+        Warnings
+        --------
+        If any variable size exceeds 80% of currently available RAM and
+        `force=False`, a warning will be issued for that variable and it will
+        NOT be loaded into memory. Set `force=True` to override this check.
         """
         if variables is True:  # special case, read all variables
             variables = self.variables
@@ -174,7 +187,7 @@ class BaseCube(abc.ABC):
             raise TypeError('Invalid type for "variables": %s ' % variables)
 
         for var in variables:
-            self._dataio.read(var)
+            self._dataio.read(var, force=force)
 
     @property
     def meta(self):
@@ -640,9 +653,9 @@ class DataCube(BaseCube):
     """
 
     def __init__(
-        self, data, read=(), varset=None, stratigraphy_from=None, dimensions=None
+        self, data, varset=None, stratigraphy_from=None, dimensions=None
     ):
-        """Initialize the BaseCube.
+        """Initialize the DataCube.
 
         Parameters
         ----------
@@ -652,10 +665,6 @@ class DataCube(BaseCube):
             output from the pyDeltaRCM model. Alternatively, pass a
             :obj:`dict` with keys indicating variable names, and values with
             corresponding t-x-y `ndarray` of data.
-
-        read : :obj:`bool`, optional
-            Which variables to read from dataset into memory. Special option
-            for ``read=True`` to read all available variables into memory.
 
         varset : :class:`~sandplover.plot.VariableSet`, optional
             Pass a `~sandplover.plot.VariableSet` instance if you wish
@@ -674,8 +683,14 @@ class DataCube(BaseCube):
             A dictionary with names and coordinates for dimensions of the
             `DataCube`, if instantiating the cube from data loaded in memory
             in a dictionary.
+
+        Notes
+        -----
+        Data is not loaded into memory during initialization. To load
+        variables into memory for faster access, use the :meth:`read` method
+        explicitly after initialization.
         """
-        super().__init__(data, read, varset, dimensions=dimensions)
+        super().__init__(data, varset, dimensions=dimensions)
 
         # set up the grid for time
         _, self._T, _ = np.meshgrid(
@@ -885,7 +900,6 @@ class StratigraphyCube(BaseCube):
     def __init__(
         self,
         data,
-        read=(),
         varset=None,
         stratigraphy_from=None,
         sigma_dist=None,
@@ -907,16 +921,18 @@ class StratigraphyCube(BaseCube):
             :obj:`dict` with keys indicating variable names, and values with
             corresponding t-x-y `ndarray` of data.
 
-        read : :obj:`bool`, optional
-            Which variables to read from dataset into memory. Special option
-            for ``read=True`` to read all available variables into memory.
-
         varset : :class:`~sandplover.plot.VariableSet`, optional
             Pass a `~sandplover.plot.VariableSet` instance if you wish
             to style this cube similarly to another cube. If no argument is
             supplied, a new default VariableSet instance is created.
+
+        Notes
+        -----
+        Data is not loaded into memory during initialization. To load
+        variables into memory for faster access, use the :meth:`read` method
+        explicitly after initialization.
         """
-        super().__init__(data, read, varset)
+        super().__init__(data, varset)
         if isinstance(data, str):
             raise NotImplementedError("Precomputed NetCDF?")
         elif isinstance(data, np.ndarray):
