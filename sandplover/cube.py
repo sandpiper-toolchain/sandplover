@@ -652,9 +652,7 @@ class DataCube(BaseCube):
     number of attached attributes (grain size, mud frac, elevation).
     """
 
-    def __init__(
-        self, data, varset=None, stratigraphy_from=None, dimensions=None
-    ):
+    def __init__(self, data, varset=None, stratigraphy_from=None, dimensions=None):
         """Initialize the DataCube.
 
         Parameters
