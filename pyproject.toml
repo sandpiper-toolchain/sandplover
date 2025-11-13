@@ -3,8 +3,12 @@ name = "sandplover"
 requires-python = ">=3.11"
 description = "Tools for manipulating sedimentologic data cubes."
 keywords = []
-authors = [{ name = "Andrew Moodie", email = "amoodie@tamu.edu" }]
-maintainers = [{ name = "Andrew Moodie", email = "amoodie@tamu.edu" }]
+authors = [
+    { name = "Andrew Moodie", email = "amoodie@tamu.edu" },
+]
+maintainers = [
+    { name = "Andrew Moodie", email = "amoodie@tamu.edu" },
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
@@ -33,7 +37,10 @@ dependencies = [
     "scipy",
     "xarray",
 ]
-dynamic = ["version", "readme"]
+dynamic = [
+    "version",
+    "readme",
+]
 
 [project.license]
 text = "MIT"
@@ -44,11 +51,20 @@ homepage = "https://github.com/sandpiper-toolchain/sandplover"
 repository = "https://github.com/sandpiper-toolchain/sandplover"
 
 [project.optional-dependencies]
-docs = ["pyvista", "sphinx"]
-testing = ["coveralls", "pytest", "pytest-cov"]
+docs = [
+    "pyvista",
+    "sphinx",
+]
+testing = [
+    "coveralls",
+    "pytest",
+    "pytest-cov",
+]
 
 [build-system]
-requires = ["setuptools >=61"]
+requires = [
+    "setuptools >=61",
+]
 build-backend = "setuptools.build_meta"
 
 [tool.isort]
@@ -67,19 +83,33 @@ content-type = "text/x-rst"
 attr = "sandplover._version.__version__"
 
 [tool.setuptools.package-data]
-sandplover = ["sample_data/registry.txt"]
+sandplover = [
+    "sample_data/registry.txt",
+]
 
 [tool.setuptools.packages.find]
-where = ["."]
-include = ["sandplover*"]
+where = [
+    ".",
+]
+include = [
+    "sandplover*",
+]
 
 [tool.coverage.run]
 relative_files = true
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-testpaths = ["sandplover", "tests"]
-norecursedirs = [".*", "*.egg*", "build", "dist"]
+testpaths = [
+    "sandplover",
+    "tests",
+]
+norecursedirs = [
+    ".*",
+    "*.egg*",
+    "build",
+    "dist",
+]
 addopts = [
     "--ignore=setup.py",
     "--tb=native",
