@@ -4,7 +4,7 @@ Comparing shoreline roughness metrics
 Compare the various approaches to measuring the concept of shoreline roughness.
 
 * :obj:`~sandplover.plan.compute_shoreline_roughness_area`
-* :obj:`~sandplover.plan.compute_shoreline_roughness_variation`
+* :obj:`~sandplover.plan.compute_shoreline_roughness_coefvar`
 * :obj:`~sandplover.plan.compute_shoreline_roughness_radius`
 * :obj:`~sandplover.plan.compute_shoreline_roughness_OAM`
 
@@ -20,7 +20,7 @@ For functions that depend on the "shoreline length", the result is computed usin
     import sandplover as spl
 
     from sandplover.plan import compute_shoreline_roughness_area
-    from sandplover.plan import compute_shoreline_roughness_variation
+    from sandplover.plan import compute_shoreline_roughness_coefvar
     from sandplover.plan import compute_shoreline_roughness_radius
     from sandplover.plan import compute_shoreline_roughness_OAM
 
@@ -62,8 +62,8 @@ For functions that depend on the "shoreline length", the result is computed usin
                 sm, lm, calculate_length=True
             )
 
-            # compute roughness variation
-            roughness_var[t] = compute_shoreline_roughness_variation(sm, origin=origin)
+            # compute roughness as coef of variation
+            roughness_var[t] = compute_shoreline_roughness_coefvar(sm, origin=origin)
 
             # compute Liang roughness
             roughness_radius[t] = compute_shoreline_roughness_radius(sm, origin=origin)
@@ -93,7 +93,7 @@ For functions that depend on the "shoreline length", the result is computed usin
         label="compute_shoreline_roughness_radius(..., calculate_length=True)",
     )
 
-    ax[1].plot(times, roughness_var, label="compute_shoreline_roughness_variation(...)")
+    ax[1].plot(times, roughness_var, label="compute_shoreline_roughness_coefvar(...)")
 
     ax[2].plot(times, roughness_oam, label="compute_shoreline_roughness_OAM(...)")
     ax[2].plot(

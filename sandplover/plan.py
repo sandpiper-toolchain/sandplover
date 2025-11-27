@@ -1228,7 +1228,7 @@ def compute_shoreline_roughness_area(
     .. seealso::
 
         This function is similar to, but distinct
-        from :obj:`compute_shoreline_roughness_variation`, which uses an approach based
+        from :obj:`compute_shoreline_roughness_coefvar`, which uses an approach based
         on the deviation of the shoreline distance at all points from the
         mean shoreline distance.
 
@@ -1405,7 +1405,7 @@ def compute_shoreline_roughness_area(
     return rough
 
 
-def compute_shoreline_roughness_variation(shore_mask, origin=(0, 0)):
+def compute_shoreline_roughness_coefvar(shore_mask, origin=(0, 0)):
     """Compute shoreline roughness, as coefficient of variation.
 
     Computes the shoreline roughness metric:
@@ -1461,7 +1461,7 @@ def compute_shoreline_roughness_variation(shore_mask, origin=(0, 0)):
         :include-source:
 
         >>> from sandplover.mask import ShorelineMask
-        >>> from sandplover.plan import compute_shoreline_roughness_variation
+        >>> from sandplover.plan import compute_shoreline_roughness_coefvar
         >>> from sandplover.sample_data.sample_data import golf
 
         >>> golf = golf()
@@ -1473,7 +1473,7 @@ def compute_shoreline_roughness_variation(shore_mask, origin=(0, 0)):
 
         Compute roughness
 
-        >>> rough = compute_shoreline_roughness_variation(sm, origin=origin)
+        >>> rough = compute_shoreline_roughness_coefvar(sm, origin=origin)
 
         >>> fig, ax = plt.subplots()
         >>> sm.show(ax=ax)

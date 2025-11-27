@@ -23,7 +23,7 @@ from sandplover.plan import compute_shoreline_distance
 from sandplover.plan import compute_shoreline_length
 from sandplover.plan import compute_shoreline_radius
 from sandplover.plan import compute_shoreline_roughness
-from sandplover.plan import compute_shoreline_roughness_variation
+from sandplover.plan import compute_shoreline_roughness_coefvar
 from sandplover.plan import compute_shoreline_roughness_area
 from sandplover.plan import compute_shoreline_roughness_radius
 from sandplover.plan import compute_shoreline_roughness_OAM
@@ -543,7 +543,7 @@ class TestShorelineRoughnessVariation:
     super_simple_shore[0, 1] = 1
 
     def test_simple_case(self):
-        simple_rgh = compute_shoreline_roughness_variation(self.super_simple_shore)
+        simple_rgh = compute_shoreline_roughness_coefvar(self.super_simple_shore)
         exp_distances = [(1.41), 1, 1]
         exp_mean = np.mean(exp_distances)
         exp_stddev = np.std(exp_distances)
@@ -551,12 +551,12 @@ class TestShorelineRoughnessVariation:
 
     def test_golf_defaults(self):
         # test it with default options
-        rgh_0 = compute_shoreline_roughness_variation(self.sm)
+        rgh_0 = compute_shoreline_roughness_coefvar(self.sm)
         assert rgh_0 > 0
 
     def test_golf_defaults_opposite(self):
         # test that it is the same with opposite side origin
-        rgh_2 = compute_shoreline_roughness_variation(
+        rgh_2 = compute_shoreline_roughness_coefvar(
             self.sm, origin=(0, self.golf.shape[1])
         )
         assert rgh_2 > 0
@@ -564,19 +564,19 @@ class TestShorelineRoughnessVariation:
     def test_rcm8_fail_no_shoreline(self):
         # check raises warning
         with pytest.warns(UserWarning, match=r"No shoreline identified.*"):
-            compute_shoreline_roughness_variation(np.zeros((10, 10)))
+            compute_shoreline_roughness_coefvar(np.zeros((10, 10)))
 
-    def test_compute_shoreline_roughness_variation_asarray(self):
+    def test_compute_shoreline_roughness_coefvar_asarray(self):
         # test it with default options
         _smarr = np.copy(self.sm.mask)
         assert isinstance(_smarr, np.ndarray)
-        rgh_3 = compute_shoreline_roughness_variation(_smarr)
+        rgh_3 = compute_shoreline_roughness_coefvar(_smarr)
         assert rgh_3 > 0
 
     def test_bad_type(self):
         # test it with default options
         with pytest.raises(TypeError):
-            _ = compute_shoreline_roughness_variation(None)
+            _ = compute_shoreline_roughness_coefvar(None)
 
 
 class TestShorelineRoughnessRadius:
@@ -649,7 +649,7 @@ class TestShorelineRoughnessRadius:
         with pytest.warns(UserWarning, match=r"No shoreline identified.*"):
             compute_shoreline_roughness_radius(np.zeros((10, 10)))
 
-    def test_compute_shoreline_roughness_variation_asarray(self):
+    def test_compute_shoreline_roughness_coefvar_asarray(self):
         # test it with default options
         _smarr = np.copy(self.sm.mask)
         assert isinstance(_smarr, np.ndarray)
