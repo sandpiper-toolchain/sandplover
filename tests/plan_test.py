@@ -23,8 +23,8 @@ from sandplover.plan import compute_shoreline_distance
 from sandplover.plan import compute_shoreline_length
 from sandplover.plan import compute_shoreline_radius
 from sandplover.plan import compute_shoreline_roughness
-from sandplover.plan import compute_shoreline_roughness_coefvar
 from sandplover.plan import compute_shoreline_roughness_area
+from sandplover.plan import compute_shoreline_roughness_coefvar
 from sandplover.plan import compute_shoreline_roughness_OAM
 from sandplover.plan import compute_shoreline_roughness_radius
 from sandplover.plan import compute_shoreline_rugosity
