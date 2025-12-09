@@ -2277,11 +2277,6 @@ class GeometricMask(BaseMask):
 
         .. note::
 
-           Requires a domain with a width greater than 2x its length right now.
-           Function should be re-factored to be more flexible.
-
-        .. note::
-
            Currently origin point is fixed, function should be extended to
            allow for an input origin point from which the angular bounds are
            determined.
