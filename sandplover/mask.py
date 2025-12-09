@@ -2277,11 +2277,6 @@ class GeometricMask(BaseMask):
 
         .. note::
 
-           Requires a domain with a width greater than 2x its length right now.
-           Function should be re-factored to be more flexible.
-
-        .. note::
-
            Currently origin point is fixed, function should be extended to
            allow for an input origin point from which the angular bounds are
            determined.
@@ -2324,20 +2319,36 @@ class GeometricMask(BaseMask):
             >>> _ = ax[1].set_yticks([])
             >>> _ = ax[1].set_title("Mask * Topography")
         """
-        if (self._L / self._W) > 0.5:
-            raise ValueError("Width of input array must exceed 2x length.")
+        # Helper grid notes:
+        # - We build a polar-angle field θ(y,x) on a rectangular helper grid, then
+        #   crop a centered (L, W) window from it.
+        # - Columns (x) span an EVEN number B so that the grid has a well-defined
+        #   integer center column; this makes the centered crop stable for any parity
+        #   of L and W.
+        # - Rows (y) follow L (not W) so the cropped window always has L rows, which
+        #   prevents broadcast errors when L > W.
 
-        w = self._L if (self._L % 2 == 0) else self._L + 1
-        y, x = np.ogrid[0 : self._W, -self._L : w]
+        B = max(self._W, 2 * self._L)
+        if B % 2:
+            B += 1
+
+        y = np.arange(self._L)[
+            :, None
+        ]  # (L, 1)   row index (distance “up” from origin)
+        x = np.arange(-B // 2, B // 2)[None, :]  # (1, B)   centered symmetric columns
+
         theta = np.arctan2(x, y) - theta1 + np.pi / 2
         theta %= 2 * np.pi
-        anglemask = theta <= (theta2 - theta1)
-        _, B = np.shape(anglemask)
-        anglemap = anglemask[
-            : self._L, int(B / 2 - self._W / 2) : int(B / 2 + self._W / 2)
-        ]
+        anglemask = theta <= (
+            theta2 - theta1
+        )  # (L, B) boolean band between theta1..theta2
 
-        self._mask[:] = self._mask * anglemap
+        # Centered crop to the requested (L, W)
+        left = B // 2 - self._W // 2
+        right = left + self._W
+        anglemap = anglemask[:, left:right]  # (L, W)
+
+        self._mask[:] *= anglemap
 
     def circular(self, rad1=0, rad2=None, origin=None):
         """Make a circular mask bounded by two radii.
