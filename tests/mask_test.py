@@ -1790,10 +1790,9 @@ class TestGeometricMask:
         L, W = 51, 120
         arr = np.zeros((L, W))
         gm = GeometricMask(arr)
-        gm.angular(0, np.pi/3)
+        gm.angular(0, np.pi / 3)
         assert gm.mask.shape == (L, W)
         assert gm.mask.any() and not gm.mask.all()
-
 
 
 class TestDepositMask:

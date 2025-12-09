@@ -2332,20 +2332,23 @@ class GeometricMask(BaseMask):
         if B % 2:
             B += 1
 
-        y = np.arange(self._L)[:, None]           # (L, 1)   row index (distance “up” from origin)
-        x = np.arange(-B // 2, B // 2)[None, :]   # (1, B)   centered symmetric columns
+        y = np.arange(self._L)[
+            :, None
+        ]  # (L, 1)   row index (distance “up” from origin)
+        x = np.arange(-B // 2, B // 2)[None, :]  # (1, B)   centered symmetric columns
 
         theta = np.arctan2(x, y) - theta1 + np.pi / 2
         theta %= 2 * np.pi
-        anglemask = theta <= (theta2 - theta1)    # (L, B) boolean band between theta1..theta2
+        anglemask = theta <= (
+            theta2 - theta1
+        )  # (L, B) boolean band between theta1..theta2
 
         # Centered crop to the requested (L, W)
         left = B // 2 - self._W // 2
         right = left + self._W
-        anglemap = anglemask[:, left:right]       # (L, W)
+        anglemap = anglemask[:, left:right]  # (L, W)
 
         self._mask[:] *= anglemap
-
 
     def circular(self, rad1=0, rad2=None, origin=None):
         """Make a circular mask bounded by two radii.
