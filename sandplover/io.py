@@ -382,15 +382,6 @@ class DictionaryIO(BaseIO):
     """
 
     def __init__(self, data_dictionary, dimensions=None):
-        """Initialize the dictionary handler.
-
-        Parameters
-        ----------
-        data_dictionary : `dict`
-            The dictionary, containing `np.ndarray` or `xr.DataArray` data for
-            each variable.
-        """
-
         super().__init__(io_type="dictionary")
 
         self.dataset = data_dictionary
@@ -400,70 +391,88 @@ class DictionaryIO(BaseIO):
         self.get_known_coords(dimensions)
 
     def get_known_variables(self):
-        """List known variables.
-
-        These variables are pulled from the loaded dataset.
-        """
+        """List known variables."""
         _vars = self.dataset.keys()
         self.known_variables = list(_vars)
 
     def get_known_coords(self, dimensions):
         """List known coordinates.
 
-        These coordinates must be supplied during instantiation.
+        Priority:
+          1) If any value is an xarray.DataArray -> IGNORE `dimensions` and use its dims/coords.
+          2) Else if `dimensions` provided -> validate against first 3-D var's shape.
+          3) Else -> infer from first 3-D var; if none, error.
         """
-        # start with a grab of underlying data
-        under = list(self.dataset.values())[0]
-        under_shp = under.shape
+        values = list(self.dataset.values())
 
-        # if the underlying data variables are xarray,
-        #   then we ignore any of the other argument passed
-        if isinstance(under, xr.core.dataarray.DataArray):
-            # get the coordinates and dimensions from the data
-            self.dims = under.dims
-            self.coords = [under.coords[dim].data for dim in self.dims]
+        # (1) Any xarray.DataArray present? Ignore `dimensions` (legacy behavior).
+        xr_arrays = [v for v in values if isinstance(v, xr.DataArray)]
+        if xr_arrays:
+            under = xr_arrays[0]
+            self.dims = list(under.dims)
+            self.coords = [under.coords[d].data for d in self.dims]
             self.dimensions = dict(zip(self.dims, self.coords, strict=True))
-        # otherwise, check for the arguments passed
-        elif not (dimensions is None):
-            # if dimensions was passed, it must be a dictionary
+            self.known_coords = self.dims
+            return
+
+        # Helper: find first 3-D ndarray-like to act as reference
+        def _first_3d_shape(arrs):
+            for v in arrs:
+                a = np.asarray(v)
+                if a.ndim == 3:
+                    return tuple(a.shape)
+            return None
+
+        # (2) Dimensions provided
+        if dimensions is not None:
             if not isinstance(dimensions, dict):
                 raise TypeError(
-                    "Input type for `dimensions` must be "
-                    "`dict` but was {}".format(type(dimensions))
-                )
-            # there should be exactly 3 keys
-            if not (len(dimensions.keys()) == 3):
-                raise ValueError("`dimensions` must contain three dimensions!")
-            # use the dimensions keys as dims and the vals as coords
-            #   note, we check the size against the underlying a we go
-            for i, k in enumerate(dimensions):
-                if not (len(dimensions[k]) == under_shp[i]):
-                    raise ValueError(
-                        "Shape of `dimensions` at position {} was {}, "
-                        "which does not match the variables dimensions "
-                        "{}.".format(i, len(dimensions[k]), under_shp)
+                    "Input type for `dimensions` must be `dict` but was {}".format(
+                        type(dimensions)
                     )
-            # make the assignment
-            self.dims = list(dimensions.keys())
-            self.coords = list(dimensions.values())
-            self.dimensions = dimensions
-        # otherwise, fill with np.arange(shape)
-        else:
-            self.dims = ["dim0", "dim1", "dim2"]
-            coords = []
-            for i in range(3):
-                coords.append(np.arange(under_shp[i]))
-            self.coords = coords
+                )
+            if len(dimensions) != 3:
+                raise ValueError("`dimensions` must contain exactly three dimensions!")
 
-        self.known_coords = self.dims
+            # Preserve insertion order; ensure 1-D coords
+            self.dims = list(dimensions.keys())
+            self.coords = [np.asarray(dimensions[k]) for k in self.dims]
+            for k, c in zip(self.dims, self.coords):
+                if c.ndim != 1:
+                    raise ValueError(f"Coordinate '{k}' must be 1-D, got {c.ndim}D.")
+
+            ref_shp = _first_3d_shape(values)
+            if ref_shp is not None:
+                # Validate like the original (wording kept for tests)
+                for i, k in enumerate(self.dims):
+                    if len(dimensions[k]) != ref_shp[i]:
+                        raise ValueError(
+                            "Shape of `dimensions` at position {} was {}, "
+                            "which does not match the variables dimensions {}.".format(
+                                i, len(dimensions[k]), ref_shp
+                            )
+                        )
+
+            self.dimensions = dict(zip(self.dims, self.coords, strict=True))
+            self.known_coords = self.dims
+            return
+
+        # (3) No dimensions: infer from first 3-D var
+        ref_shp = _first_3d_shape(values)
+        if ref_shp is None:
+            raise ValueError(
+                "Cannot infer coordinates: supply `dimensions` or include at least one 3-D variable."
+            )
+        self.dims = ["dim0", "dim1", "dim2"]
+        self.coords = [np.arange(n) for n in ref_shp]
         self.dimensions = dict(zip(self.dims, self.coords, strict=True))
+        self.known_coords = self.dims
 
     def connect(self, *args, **kwargs):
         """Connect to the data file.
 
         .. warning::
             Not Implemented.
-
         """
         raise NotImplementedError
 
@@ -472,27 +481,19 @@ class DictionaryIO(BaseIO):
 
         .. warning::
             Not Implemented. Data is always in memory.
-
         """
         raise NotImplementedError
 
     def write(self):
         """Write data to file.
 
-        Take a :obj:`~sandplover.cube.Cube` and write it to file.
-
         .. warning::
             Not Implemented.
-
         """
         raise NotImplementedError
 
     def __getitem__(self, var):
-        """Get item reimplemented for dictionaires.
-
-        Returns the variables exactly as they are: either a numpy ndarray or
-        xarray.
-        """
+        """Get item reimplemented for dictionaries."""
         if var in self.dataset:
             return self.dataset[var]
         elif var in self.known_coords:
@@ -502,5 +503,5 @@ class DictionaryIO(BaseIO):
 
     @property
     def keys(self):
-        """Variable names in file."""
-        return list(self.dataset.variables)
+        """Variable names in 'file' (dict keys)."""
+        return list(self.dataset.keys())

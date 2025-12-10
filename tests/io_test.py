@@ -230,3 +230,40 @@ class TestDictionaryIO:
             dict_io.read()
         with pytest.raises(NotImplementedError):
             dict_io.write()
+
+    def test_dict_1d_first_with_dimensions_works(self):
+        """Leading 1-D var must not poison dims validation."""
+        shape = (10, 50, 60)
+        dims = {
+            "t_ax": np.arange(shape[0]),
+            "y_ax": np.arange(shape[1]),
+            "x_ax": np.arange(shape[2]),
+        }
+        data = {
+            "station_id": np.arange(100),  # 1-D comes first
+            "temperature": np.random.rand(*shape),  # 3-D ref var
+        }
+        dict_io = DictionaryIO(data, dimensions=dims)  # should not raise
+
+        assert dict_io.dims == list(dims.keys())
+        for k in dims:
+            assert np.array_equal(dict_io[k], np.asarray(dims[k]))
+        assert ("station_id" in dict_io._in_memory_data) is True
+        assert dict_io["temperature"].shape == shape
+
+    def test_dict_no_3d_with_dimensions_works(self):
+        """No 3-D vars present, but explicit dimensions → accept."""
+        dims = {"t_ax": np.arange(2), "y_ax": np.arange(3), "x_ax": np.arange(4)}
+        data = {"station_id": np.arange(100), "quality": np.arange(50)}  # only 1-D
+        dict_io = DictionaryIO(data, dimensions=dims)  # should not raise
+
+        assert dict_io.dims == list(dims.keys())
+        for k in dims:
+            assert len(dict_io[k]) == len(dims[k])
+        assert set(data.keys()).issubset(set(dict_io._in_memory_data.keys()))
+
+    def test_dict_no_3d_no_dimensions_errors(self):
+        """No 3-D vars and no dimensions → clear error."""
+        data = {"station_id": np.arange(100), "quality": np.arange(50)}  # only 1-D
+        with pytest.raises(ValueError, match=r"Cannot infer coordinates"):
+            _ = DictionaryIO(data)  # must raise

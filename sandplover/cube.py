@@ -123,36 +123,52 @@ class BaseCube(abc.ABC):
     def _read_meta_from_file(self):
         """Read metadata information from variables in file.
 
-        This method is used internally to gather some useful info for
-        navigating the variable trees in the stored files.
+        Robustly determine dimension names by preferring explicitly
+        provided dims, otherwise by scanning for the first 3-D data variable.
         """
         self._coords = self._dataio.known_coords
         self._variables = self._dataio.known_variables
 
-        # process the dimensions into attributes
-        if len(self._dataio.dims) > 0:
-            d0, d1, d2 = self._dataio.dims
+        # 1) Determine (d0, d1, d2)
+        if hasattr(self._dataio, "dims") and len(self._dataio.dims) >= 3:
+            d0, d1, d2 = tuple(self._dataio.dims[:3])
         else:
-            # try taking a slice of the dataset to get the coordinates
-            d0, d1, d2 = self.dataio[self._dataio.known_variables[0]].dims
+            d0 = d1 = d2 = None
+            # Find the first true 3-D variable and use its dims
+            for v in self._dataio.known_variables:
+                try:
+                    da = self.dataio[v]  # xarray.DataArray
+                except Exception:
+                    continue
+                if hasattr(da, "dims") and len(da.dims) == 3:
+                    d0, d1, d2 = da.dims
+                    break
+            if d0 is None:
+                raise ValueError(
+                    "Could not infer 3-D dimensions from the dataset. "
+                    "Provide `dimensions=` when constructing the cube, "
+                    "or include at least one 3-D variable."
+                )
+
+        # 2) Build coordinate index arrays
         self._dim0_idx = self._dataio[d0]
 
-        # if x is 2-D then we assume x and y are mesh grid values
+        # If second coordinate is a 2-D mesh, collapse to 1-D along each axis
         if np.ndim(self._dataio[d1]) == 2:
             self._dim1_idx = self._dataio.dataset[d1][:, 0].squeeze()
             self._dim2_idx = self._dataio.dataset[d2][0, :].squeeze()
-        # if x is 1-D we do mesh-gridding
+        # If second coordinate is 1-D, use both directly
         elif np.ndim(self._dataio[d1]) == 1:
             self._dim1_idx = self._dataio[d1]
             self._dim2_idx = self._dataio[d2]
         else:
             raise TypeError(
-                "Shape of coordinate array was not 1d or 2d. "
+                "Shape of coordinate array was not 1-D or 2-D. "
                 "Maybe the name was not correctly identified in the dataset, "
                 "or the array is misformatted."
             )
 
-        # assign values to dimensions of cube
+        # 3) Expose coords
         self._dim0_coords = self._t = self._dim0_idx
         self._dim1_coords = self._dim1_idx
         self._dim2_coords = self._dim2_idx
@@ -690,26 +706,12 @@ class DataCube(BaseCube):
         """
         super().__init__(data, varset, dimensions=dimensions)
 
-        # set up the grid for time
+        # Set up the time mesh (DataCube is t–x–y)
         _, self._T, _ = np.meshgrid(
             self.dim1_coords, self.dim0_coords, self.dim2_coords
         )
 
-        # get shape from a variable that is not x, y, or time
-        i = 0
-        while i < len(self.variables):
-            if (
-                self.variables[i] == "x"
-                or self.variables[i] == "y"
-                or self.variables[i] == "time"
-            ):
-                i += 1
-            else:
-                _var = self.variables[i]
-                i = len(self.variables)
-
-        # set up dimension and coordinate fields for when slices of the cube
-        # are made
+        # Establish view dimensions/coordinates used by __getitem__ and plotting
         self._view_dimensions = self._dataio.dims
         self._view_coordinates = copy.deepcopy(
             {
@@ -719,10 +721,12 @@ class DataCube(BaseCube):
             }
         )
 
-        # set the shape of the cube
-        self._H, self._L, self._W = self[_var].data.shape
+        # IMPORTANT: derive shape strictly from coordinates (not variable order/names)
+        self._H = int(len(self.dim0_coords))
+        self._L = int(len(self.dim1_coords))
+        self._W = int(len(self.dim2_coords))
 
-        # determine stratigraphy information
+        # Optional stratigraphy bootstrap
         self._knows_stratigraphy = False
         if stratigraphy_from:
             self.stratigraphy_from(variable=stratigraphy_from)

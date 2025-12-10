@@ -1785,12 +1785,14 @@ class TestGeometricMask:
         gmsk2 = GeometricMask(arr, angular={"theta1": theta1, "theta2": theta2})
         assert np.all(gmsk2.mask == gmsk.mask)
 
-    def test_angular_bad_dims(self):
-        """raise error."""
-        arr = np.zeros((5, 5))
-        gmsk = GeometricMask(arr)
-        with pytest.raises(ValueError):
-            gmsk.angular(0, np.pi / 2)
+    def test_angular_odd_L_smoke(self):
+        """Test angular mask with odd L."""
+        L, W = 51, 120
+        arr = np.zeros((L, W))
+        gm = GeometricMask(arr)
+        gm.angular(0, np.pi / 3)
+        assert gm.mask.shape == (L, W)
+        assert gm.mask.any() and not gm.mask.all()
 
 
 class TestDepositMask:

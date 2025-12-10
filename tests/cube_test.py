@@ -474,6 +474,196 @@ class TestCubesFromDictionary:
         with pytest.raises(AttributeError):
             dict_cube.meta
 
+    @pytest.mark.parametrize(
+        "order",
+        [
+            ("station_id", "temperature"),  # 1-D first
+            ("temperature", "station_id"),  # 3-D first
+        ],
+    )
+    def test_DataCube_shape_from_coords_not_order(self, order):
+        """Shape must come from provided coords, not dict insertion order."""
+        shape = (10, 50, 60)
+        dims = {
+            "t_ax": np.arange(shape[0]),
+            "y_ax": np.arange(shape[1]),
+            "x_ax": np.arange(shape[2]),
+        }
+
+        mapping = {
+            "station_id": np.arange(100),  # extra 1-D var
+            "temperature": np.random.rand(*shape),  # main 3-D var
+        }
+        # build dict preserving the requested insertion order
+        data = {name: mapping[name] for name in order}
+
+        cube = DataCube(data, dimensions=dims)
+
+        # shape is derived from coords (dims), regardless of variable order
+        assert cube.shape == (len(dims["t_ax"]), len(dims["y_ax"]), len(dims["x_ax"]))
+        # dimension names also respect the provided order
+        assert cube._dataio.dims == list(dims.keys())
+
+
+class TestReadMetaFallbacks:
+
+    class FakeIO:
+        """Very small IO stub exposing only what _read_meta_from_file uses."""
+
+        def __init__(
+            self,
+            t=4,
+            y=5,
+            x=6,
+            *,
+            mesh=False,
+            bad_coord=False,
+            var_name="temperature",
+            dnames=("t", "y", "x"),
+            # NEW knobs to drive scanner behavior:
+            scan_vars=None,  # list of names to appear in known_variables (scan order)
+            raise_on=(),  # names that should raise when __getitem__ is called
+            three_d=None,  # names that should return a 3-D DataArray
+            two_d=(),  # names that should return a 2-D (y,x) DataArray
+        ):
+            self._shape = (t, y, x)
+            self._dnames = dnames
+            self.var_name = var_name
+
+            # Force the "no dims" path so the code scans known_variables:
+            self.dims = []
+            self.known_variables = (
+                list(scan_vars) if scan_vars is not None else [var_name]
+            )
+            self.known_coords = list(dnames)
+
+            self._raise_on = set(raise_on)
+            self._three_d = set(three_d) if three_d is not None else {var_name}
+            self._two_d = set(two_d)
+
+            # Build coords (1-D default; 2-D mesh or bad 3-D if requested)
+            t_ax = np.arange(t)
+            y_ax = np.arange(y)
+            x_ax = np.arange(x)
+
+            if mesh:
+                yy, xx = np.meshgrid(y_ax, x_ax, indexing="ij")  # (y,x)
+                coord_y, coord_x = yy, xx
+            elif bad_coord:
+                coord_y, coord_x = (
+                    np.zeros((y, x, 2)),
+                    x_ax,
+                )  # invalid 3-D coord to hit TypeError
+            else:
+                coord_y, coord_x = y_ax, x_ax
+
+            self.dataset = {
+                dnames[0]: t_ax,
+                dnames[1]: coord_y,
+                dnames[2]: coord_x,
+            }
+
+        def __getitem__(self, key):
+            # Simulate read failures during the scan
+            if key in self._raise_on:
+                raise KeyError("simulated read error for testing")
+
+            t, y, x = self._shape
+            d0, d1, d2 = self._dnames
+
+            # Return a real 3-D DataArray for any requested name in three_d
+            if key in self._three_d:
+                return xr.DataArray(np.zeros((t, y, x)), dims=(d0, d1, d2), name=key)
+
+            # Return a 2-D array for names in two_d (so scanner never finds a 3-D var)
+            if key in self._two_d:
+                return xr.DataArray(np.zeros((y, x)), dims=(d1, d2), name=key)
+
+            # Otherwise treat it like a coordinate lookup (1-D or 2-D/invalid as configured)
+            return self.dataset[key]
+
+    def _fresh_cube(self, t=4, y=5, x=6):
+        """Create any DataCube instance; we'll overwrite its IO before reading meta."""
+        # trivial in-memory cube that successfully constructs
+        da = xr.DataArray(np.zeros((t, y, x)), dims=("t", "y", "x"))
+        return DataCube({"eta": da})
+
+    def test_no_dims_scans_for_3d_var_and_builds_coords(self):
+        """When IO has no .dims, cube should scan for a 3-D var and use its dim names."""
+        t, y, x = 4, 5, 6
+        fake_io = self.FakeIO(t=t, y=y, x=x, mesh=False, bad_coord=False)
+        cube = self._fresh_cube(t, y, x)
+
+        # Swap in the stub IO and re-run metadata discovery
+        cube._dataio = fake_io
+        cube._read_meta_from_file()
+
+        # Indices/coords should come from the stubbed 1-D arrays
+        assert np.array_equal(cube._dim0_coords, np.arange(t))
+        assert np.array_equal(cube._dim1_coords, np.arange(y))
+        assert np.array_equal(cube._dim2_coords, np.arange(x))
+
+    def test_2d_meshgrid_coords_collapsed_to_1d(self):
+        """If y/x are provided as 2-D meshgrids, they are collapsed to their 1-D axes."""
+        t, y, x = 3, 7, 8
+        fake_io = self.FakeIO(t=t, y=y, x=x, mesh=True, bad_coord=False)
+        cube = self._fresh_cube(t, y, x)
+
+        cube._dataio = fake_io
+        cube._read_meta_from_file()
+
+        # Collapsed coords must match the original 1-D ranges that produced the mesh
+        assert np.array_equal(cube._dim1_coords, np.arange(y))  # from [:, 0]
+        assert np.array_equal(cube._dim2_coords, np.arange(x))  # from [0, :]
+
+    def test_invalid_coord_ndim_raises_typeerror(self):
+        """Non 1-D/2-D coordinate arrays should raise a clear TypeError."""
+        fake_io = self.FakeIO(mesh=False, bad_coord=True)
+        cube = self._fresh_cube()
+
+        cube._dataio = fake_io
+        with pytest.raises(
+            TypeError,
+            match=r"(?i)shape of coordinate array was not 1[-\s]?d or 2[-\s]?d",
+        ):
+            cube._read_meta_from_file()
+
+    def test_scan_3d_var_handles_getitem_error(self):
+        """Cover the `except: continue` branch while scanning known_variables."""
+        t, y, x = 2, 3, 4
+        cube = self._fresh_cube(t, y, x)
+        fake_io = self.FakeIO(
+            t=t,
+            y=y,
+            x=x,
+            scan_vars=["bad", "temperature"],  # scan order
+            raise_on={"bad"},  # first var raises
+            three_d={"temperature"},  # second var is the 3-D one
+        )
+        cube._dataio = fake_io
+        cube._read_meta_from_file()
+
+        # Confirm we built coords successfully from the stub
+        assert np.array_equal(cube._dim0_coords, np.arange(t))
+        assert np.array_equal(cube._dim1_coords, np.arange(y))
+        assert np.array_equal(cube._dim2_coords, np.arange(x))
+
+    def test_scan_3d_var_raises_when_none_found(self):
+        """Cover the final ValueError when the scan never encounters a true 3-D var."""
+        t, y, x = 2, 3, 4
+        cube = self._fresh_cube(t, y, x)
+        fake_io = self.FakeIO(
+            t=t,
+            y=y,
+            x=x,
+            scan_vars=["a", "b"],  # two variables to scan
+            three_d=set(),  # none are 3-D
+            two_d={"a", "b"},  # both are 2-D, so scan never finds ndim==3
+        )
+        cube._dataio = fake_io
+        with pytest.raises(ValueError, match=r"Could not infer 3-D dimensions"):
+            cube._read_meta_from_file()
+
 
 class TestLandsatCube:
     with pytest.warns(UserWarning, match=r"No associated metadata"):

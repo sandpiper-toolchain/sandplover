@@ -1181,17 +1181,65 @@ def compute_land_area(land_mask):
     return np.sum(_lm) * _dx * _dx
 
 
-def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
-    """Compute shoreline roughness.
+def compute_shoreline_roughness(*args, **kwargs):
+    """
+    DEPRECATED. Computes shoreline roughness.
+
+    .. deprecated:: 0.6
+
+        This function will be deprecated in v0.6 and will result in an error.
+        To use a function with identical calculation and features, switch to
+        `compute_shoreline_roughness_area`.
+    """
+    warnings.warn(
+        "This function will be deprecated in v0.6 and will result in an error. "
+        "To use a function with identical calculation and features, switch to "
+        "`compute_shoreline_roughness_area`.",
+        category=FutureWarning,
+        stacklevel=2,
+    )
+    return compute_shoreline_roughness_area(*args, **kwargs)
+
+
+def compute_shoreline_roughness_area(
+    shore_mask, land_mask, calculate_length=False, **kwargs
+):
+    """Compute shoreline roughness, using land area.
 
     Computes the shoreline roughness metric:
 
     .. math::
 
-        L_{shore} / \\sqrt{A_{land}}
+        R = L_{shore} / \\sqrt{A_{land}} \\approx (N \\times dx) / (\\sqrt{A_{land}}
 
     given binary masks of the shoreline and land area. The length of the
     shoreline is computed internally with :obj:`compute_shoreline_length`.
+
+    .. versionchanged:: 0.5 This function was formerly named `compute_shoreline_roughness`.
+
+    .. important::
+
+        The theoretical basis of the calculation assumes a (semi-, quarter-,
+        etc) circular shape of the land area, as would be expected for a fan
+        or delta. This calculation will still give a valid result on a
+        straighter shoreline, but the absolute value of the result may be
+        difficult to interpret in physical sense.
+
+    .. seealso::
+
+        This function is similar to, but distinct
+        from :obj:`compute_shoreline_roughness_coefvar`, which uses an approach based
+        on the deviation of the shoreline distance at all points from the
+        mean shoreline distance.
+
+    .. seealso::
+
+        For a measure of shoreline roughness that is more appropriate for a
+        straight shoreline, see :obj:`compute_shoreline_rugosity`.
+
+    .. warning::
+        `shore_mask` and `land_mask` must share coordinates, including grid
+        resolution.
 
     Parameters
     ----------
@@ -1203,33 +1251,38 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
         Land mask. Can be a :obj:`~sandplover.mask.LandMask` object,
         or a binarized array.
 
+    calculate_length : bool, optional
+        If `calculate_length=True`, then :obj:`compute_shoreline_length` is
+        used to calculate the length of the shoreline explicitly, rather than
+        counting the pixels in `shore_mask`. Default is `False`.
+
     **kwargs
         Keyword argument are passed to :obj:`compute_shoreline_length`
         internally.
 
     Returns
     -------
-    roughness : :obj:`float`
-        Shoreline roughness, computed as described above.
+    rugosity : :obj:`float`
+        Shoreline rugosity, computed as described above.
 
     Examples
     --------
-    Compare the roughness of the shoreline early in the model simulation with
-    the roughness later. Here, we use the `elevation_offset` parameter (passed
+    Compare the rugosity of the shoreline early in the model simulation with
+    the rugosity later. Here, we use the `elevation_offset` parameter (passed
     to :obj:`~sandplover.mask.ElevationMask`) to better capture the
     topography of the `pyDeltaRCM` model results.
 
     .. plot::
+        :include-source:
+        :context: close-figs
 
         >>> from sandplover.mask import LandMask
         >>> from sandplover.mask import ShorelineMask
-        >>> from sandplover.plan import compute_land_area
         >>> from sandplover.sample_data.sample_data import golf
 
         >>> golf = golf()
 
-        Early in model run
-
+        >>> # Early in model run
         >>> lm0 = LandMask(
         ...     golf["eta"][15, :, :], elevation_threshold=0, elevation_offset=-0.5
         ... )
@@ -1237,8 +1290,7 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
         ...     golf["eta"][15, :, :], elevation_threshold=0, elevation_offset=-0.5
         ... )
 
-        Late in model run
-
+        >>> # Late in model run
         >>> lm1 = LandMask(
         ...     golf["eta"][-1, :, :], elevation_threshold=0, elevation_offset=-0.5
         ... )
@@ -1254,7 +1306,11 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
         >>> lm0.show(ax=ax[0])
         >>> sm0.show(ax=ax[1])
 
-        In order for these masks to work as expected in the shoreline roughness
+    .. plot::
+        :include-source:
+        :context: close-figs
+
+        In order for these masks to work as expected in the shoreline rugosity
         computation, we need to modify the mask values slightly, to remove the
         land-water boundary that is not really a part of the delta. We use the
         :meth:`~sandplover.mask.BaseMask.trim_mask` method to trim a mask.
@@ -1270,84 +1326,41 @@ def compute_shoreline_roughness(shore_mask, land_mask, **kwargs):
 
         And now, we can proceed with the calculation.
 
-        Compute roughnesses
+    .. plot::
+        :include-source:
+        :context: close-figs
 
-        >>> from sandplover.plan import compute_shoreline_roughness
+        >>> # Compute roughnesses
+        >>> from sandplover.plan import compute_shoreline_roughness_area
+        >>> rgh0 = compute_shoreline_roughness_area(sm0, lm0)
+        >>> rgh1 = compute_shoreline_roughness_area(sm1, lm1)
 
-        >>> rgh0 = compute_shoreline_roughness(sm0, lm0)
-        >>> rgh1 = compute_shoreline_roughness(sm1, lm1)
-
-        Make the plot
-
+        >>> # Make the plot
         >>> fig, ax = plt.subplots(1, 2, figsize=(6, 3))
         >>> golf.quick_show("eta", idx=15, ax=ax[0])
         >>> _ = ax[0].set_title("roughness = {:.2f}".format(rgh0))
         >>> golf.quick_show("eta", idx=-1, ax=ax[1])
         >>> _ = ax[1].set_title("roughness = {:.2f}".format(rgh1))
-    """
-    # extract data from masks
-    if isinstance(land_mask, LandMask):
-        land_mask = land_mask.mask
-        _lm = land_mask.values
-        _dx = float(land_mask[land_mask.dims[0]][1] - land_mask[land_mask.dims[0]][0])
-    elif isinstance(land_mask, xr.core.dataarray.DataArray):
-        _lm = land_mask.values
-        _dx = float(land_mask[land_mask.dims[0]][1] - land_mask[land_mask.dims[0]][0])
-    elif isinstance(land_mask, np.ndarray):
-        _lm = land_mask
-        _dx = 1
-    else:
-        raise TypeError(f"Invalid type {type(land_mask)}")
 
-    _ = kwargs.pop("return_line", None)  # trash this variable if passed
-    shorelength = compute_shoreline_length(shore_mask, return_line=False, **kwargs)
+    .. seealso::
 
-    # compute the length of the shoreline and area of land
-    shore_len_pix = shorelength
-    land_area_pix = np.sum(_lm) * _dx * _dx
+        See this :doc:`example using this metric
+        </guides/examples/computations/shoreline_roughness_perfect_direct>`
+        and comparing it to the theoretical value for a perfect half-circle
+        delta
 
-    if land_area_pix > 0:
-        # compute roughness
-        rough = shore_len_pix / np.sqrt(land_area_pix)
-    else:
-        raise ValueError("No pixels in land mask.")
+    .. seealso::
 
-    return rough
-
-
-def compute_shoreline_rugosity(shore_mask, **kwargs):
-    """Compute shoreline rugosity.
-
-    Computes the shoreline rugosity metric:
-
-    .. math::
-        R_j = \\sqrt{1/N \\sum_{i=1}^N \\left( \\frac{r_{i,j}-\\bar{r}}{\\bar{r}}\\right)^2}
-
-    Parameters
-    ----------
-    shore_mask : :obj:`~deltametrics.mask.ShorelineMask`, :obj:`ndarray`
-        Shoreline mask. Can be a :obj:`~deltametrics.mask.ShorelineMask` object,
-        or a binarized array.
-
-    **kwargs
-        Keyword argument are passed to :obj:`compute_shoreline_length`
-        internally.
-
-    Returns
-    -------
-    rugosity : :obj:`float`
-        Shoreline rugosity, computed as described above.
-
-    Examples
-    --------
-    Compare the rugosity of the shoreline early in the model simulation with
-    the rugosity later. Here, we use the `elevation_offset` parameter (passed
-    to :obj:`~deltametrics.mask.ElevationMask`) to better capture the
-    topography of the `pyDeltaRCM` model results.
+        See :doc:`this example
+        </guides/examples/computations/comparing_shoreline_roughness_metrics>`,
+        which compares all of the "shoreline roughness" metrics implemented
+        in sandplover.
 
     """
-    # extract data from masks
-    if isinstance(shore_mask, mask.ShorelineMask):
+    # process the shore_mask, stripping down to array coordinates regardless of
+    # the input. This simplifies the roughness calculation, because we know
+    # we are dealing with array coords always.
+    if isinstance(shore_mask, ShorelineMask):
         shore_mask = shore_mask.mask
         _sm = shore_mask.values
         _dx = float(
@@ -1364,23 +1377,472 @@ def compute_shoreline_rugosity(shore_mask, **kwargs):
     else:
         raise TypeError(f"Invalid type {type(shore_mask)}")
 
-    # _ = kwargs.pop('return_line', None)  # trash this variable if passed
-    # shorelength = compute_shoreline_length(
-    #     shore_mask, return_line=False, **kwargs)
-    # find where the mask is True (all x-y pairs along shore)
-    _y, _x = np.argwhere(_sm).T
+    if calculate_length:
+        _ = kwargs.pop("return_line", None)  # don't allow this to be passed
+        _length = compute_shoreline_length(
+            _sm, return_line=False, **kwargs
+        )  # does not need origin kw, but will take `start`
+    else:
+        _length = np.sum(_sm)
+
+    _area = compute_land_area(land_mask)
+
+    # convert length and area to data coordinates
+    shore_len = _length * _dx
+    land_area = _area  # * _dx * _dx # returned area already in data coordinates!
+
+    if land_area > 0:
+        # compute rugosity
+        rough = shore_len / np.sqrt(land_area)
+    else:
+        rough = np.nan
+        warnings.warn(
+            "No land area identified in input land_mask, returning np.nan.",
+            category=UserWarning,
+            stacklevel=2,
+        )
+
+    return rough
+
+
+def compute_shoreline_roughness_coefvar(shore_mask, origin=(0, 0)):
+    """Compute shoreline roughness, as coefficient of variation.
+
+    Computes the shoreline roughness metric:
+
+    .. math::
+        R = \\sqrt{1/N \\sum_{i=1}^N \\left( \\frac{r_{i}-\\bar{r}}{\\bar{r}}\\right)^2}
+
+    where R is the roughness of the shoreline, N is the total number of pixels
+    defining the shoreline, :math:`r_i` is the individual distance
+    measurement to each point of the shoreline, and :math:`\\bar{r}` is the
+    mean distance from `origin` to the shoreline in `shore_mask` (after
+    [1]_). This metric is consistent with a measure of the coefficient of
+    variation for distances from the channel inlet to the shoreline.
+
+    .. note::
+
+        Internally, :obj:`compute_shoreline_distance` is used to compute the
+        distances to :math:`r_i` and mean distance to the
+        shoreline :math:`\\bar{r}`.
+
+    .. seealso::
+
+        This function is similar to, but distinct
+        from :obj:`compute_shoreline_roughness_area`, which uses an approach
+        ased on the shoreline convexity to characterize the shoreline.
+
+    .. [1] Straub, K. M., Q. Li, and W. M. Benson (2015), Influence of sediment
+       cohesion on deltaic shoreline dynamics and bulk sediment retention: A
+       laboratory study, Geophys. Res. Lett., 42, 9808–9815,
+       doi:10.1002/2015GL066131.
+
+    Parameters
+    ----------
+    shore_mask : :obj:`~deltametrics.mask.ShorelineMask`, :obj:`ndarray`
+        Shoreline mask. Can be a :obj:`~deltametrics.mask.ShorelineMask` object,
+        or a binarized array.
+
+    origin : :obj:`tuple`, :obj:`np.ndarray`, optional
+        Origin from which the distance to all shoreline points is computed,
+        specified in data dimensions (not indices) along `dim1, dim2` of the
+        data. Default (0, 0).
+
+    Returns
+    -------
+    roughness : :obj:`float`
+        Shoreline roughness, computed as described above.
+
+    Examples
+    --------
+    Calculate the shoreline roughness.
+
+    .. plot::
+        :include-source:
+
+        >>> from sandplover.mask import ShorelineMask
+        >>> from sandplover.plan import compute_shoreline_roughness_coefvar
+        >>> from sandplover.sample_data.sample_data import golf
+
+        >>> golf = golf()
+        >>> sm = ShorelineMask(
+        ...     golf["eta"][-1, :, :], elevation_threshold=0, elevation_offset=-0.5
+        ... )
+        >>> sm.trim_mask(length=golf.meta["L0"].data + 1)
+        >>> origin = (
+        ...     np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
+        ...     * golf.meta["dx"].data
+        ... )
+
+        Compute roughness
+
+        >>> rough = compute_shoreline_roughness_coefvar(sm, origin=origin)
+
+        >>> fig, ax = plt.subplots()
+        >>> sm.show(ax=ax)
+        >>> _ = ax.set_title("roughness = {:.2f}".format(rough))
+
+    .. seealso::
+
+        See :doc:`this example
+        </guides/examples/computations/comparing_shoreline_roughness_metrics>`,
+        which compares all of the "shoreline roughness" metrics implemented
+        in sandplover.
+
+    """
+    # process the shore_mask, stripping down to array coordinates regardless of
+    # the input. This simplifies the roughness calculation, because we know
+    # we are dealing with array coords always.
+    if isinstance(shore_mask, ShorelineMask):
+        shore_mask = shore_mask.mask
+        _sm = shore_mask.values
+        _dx = float(
+            shore_mask[shore_mask.dims[0]][1] - shore_mask[shore_mask.dims[0]][0]
+        )
+    elif isinstance(shore_mask, xr.core.dataarray.DataArray):
+        _sm = shore_mask.values
+        _dx = float(
+            shore_mask[shore_mask.dims[0]][1] - shore_mask[shore_mask.dims[0]][0]
+        )
+    elif isinstance(shore_mask, np.ndarray):
+        _sm = shore_mask
+        _dx = 1
+    else:
+        raise TypeError(f"Invalid type {type(shore_mask)}")
 
     N = np.sum(_sm)
+    origin_idx = (origin[0] / _dx, origin[1] / _dx)
     if N > 0:
-        # compute rugosity
-        rugosity = np.sqrt(1 / N * np.sum())
+        # compute roughness
+        r_bar, _, r_i = compute_shoreline_distance(
+            _sm, origin=origin_idx, return_distances=True
+        )
+        roughness = np.sqrt((1 / N) * np.sum(((r_i - r_bar) / r_bar) ** 2))
     else:
-        raise ValueError("No pixels in land mask.")
+        roughness = np.nan
+        warnings.warn(
+            "No shoreline identified in input shore_mask, returning np.nan.",
+            category=UserWarning,
+            stacklevel=2,
+        )
 
-    return rugosity
+    return roughness
 
 
-def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
+def compute_shoreline_roughness_radius(
+    shore_mask, origin=(0, 0), calculate_length=False, **kwargs
+):
+    """Compute shoreline roughness, as shoreline count over mean radius.
+
+    Computes the shoreline roughness metric:
+
+    .. math::
+        R = \\frac{N}{(\\bar{r} / dx)} \\approx \\frac{L_{shore}}{\\bar{r}}
+
+    where R is the roughness of the shoreline, N is the number of pixels in
+    the shoreline in the `shore_mask`, :math:`dx` is the grid spacing,
+    and :math:`\\bar{r}` is the mean shoreline radius (after [1]_).
+
+    .. note::
+
+        Internally, :obj:`compute_shoreline_distance` is used to compute the
+        mean shoreline distance :math:`\\bar{r}`.
+
+    .. seealso::
+
+        This function is similar to, but distinct
+        rom :obj:`compute_shoreline_roughness_area`, which uses an approach
+        ased on the shoreline convexity to characterize the shoreline.
+
+    .. [1] Liang, M., Voller, V. R., and Paola, C.: A reduced-complexity model
+       for river delta formation – Part 1: Modeling deltas with channel
+       dynamics, Earth Surf. Dynam., 3, 67–86,
+       https://doi.org/10.5194/esurf-3-67-2015, 2015.
+
+    Parameters
+    ----------
+    shore_mask : :obj:`~deltametrics.mask.ShorelineMask`, :obj:`ndarray`
+        Shoreline mask. Can be a :obj:`~deltametrics.mask.ShorelineMask` object,
+        or a binarized array.
+
+    origin : :obj:`tuple`, :obj:`np.ndarray`, optional
+        Origin from which the distance to all shoreline points is computed,
+        specified in data dimensions (not indices) along `dim1, dim2` of the
+        data. Default (0, 0).
+
+    calculate_length : bool, optional
+        If `calculate_length=True`, then :obj:`compute_shoreline_length` is
+        used to calculate the length of the shoreline explicitly, rather than
+        counting the pixels in `shore_mask`. Default is `False`.
+
+    **kwargs
+        Passed to `compute_shoreline_length`.
+
+    Returns
+    -------
+    roughness : :obj:`float`
+        Shoreline roughness, computed as described above.
+
+    Examples
+    --------
+    Calculate the shoreline roughness.
+
+    .. plot::
+        :include-source:
+
+        >>> from sandplover.mask import ShorelineMask
+        >>> from sandplover.plan import compute_shoreline_roughness_radius
+        >>> from sandplover.sample_data.sample_data import golf
+
+        >>> golf = golf()
+        >>> sm = ShorelineMask(
+        ...     golf["eta"][-1, :, :], elevation_threshold=0, elevation_offset=-0.5
+        ... )
+        >>> sm.trim_mask(length=golf.meta["L0"].data + 1)
+        >>> origin = (
+        ...     np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
+        ...     * golf.meta["dx"].data
+        ... )
+
+        Compute roughness
+
+        >>> rough = compute_shoreline_roughness_radius(sm, origin=origin)
+
+        >>> fig, ax = plt.subplots()
+        >>> sm.show(ax=ax)
+        >>> _ = ax.set_title("roughness = {:.2f}".format(rough))
+
+    .. seealso::
+
+        See :doc:`this example
+        </guides/examples/computations/comparing_shoreline_roughness_metrics>`,
+        which compares all of the "shoreline roughness" metrics implemented
+        in sandplover.
+
+    """
+    # process the shore_mask, stripping down to array coordinates regardless of
+    # the input. This simplifies the roughness calculation, because we know
+    # we are dealing with array coords always.
+    if isinstance(shore_mask, ShorelineMask):
+        shore_mask = shore_mask.mask
+        _sm = shore_mask.values
+        _dx = float(
+            shore_mask[shore_mask.dims[0]][1] - shore_mask[shore_mask.dims[0]][0]
+        )
+    elif isinstance(shore_mask, xr.core.dataarray.DataArray):
+        _sm = shore_mask.values
+        _dx = float(
+            shore_mask[shore_mask.dims[0]][1] - shore_mask[shore_mask.dims[0]][0]
+        )
+    elif isinstance(shore_mask, np.ndarray):
+        _sm = shore_mask
+        _dx = 1
+        # should we have a warning that no dx was found here?
+    else:
+        raise TypeError(f"Invalid type {type(shore_mask)}")
+
+    if calculate_length:
+        _ = kwargs.pop("return_line", None)  # don't allow this to be passed
+        _length = compute_shoreline_length(
+            _sm, **kwargs
+        )  # does not need origin kw, but will take `start`
+    else:
+        _length = np.sum(_sm)
+
+    origin_idx = (origin[0] / _dx, origin[1] / _dx)
+    r_bar, _ = compute_shoreline_distance(_sm, origin=origin_idx)
+
+    if r_bar > 0:
+        roughness = _length / r_bar  # both already in array coordinates
+    else:
+        roughness = np.nan
+        # warnings.warn(
+        #     "No shoreline identified in input shore_mask, returning np.nan.",
+        #     category=UserWarning,
+        #     stacklevel=2,
+        # )
+
+    return roughness
+
+
+def compute_shoreline_roughness_OAM(
+    shore_mask_45, shore_mask_120, calculate_length=False, **kwargs
+):
+    """Compute shoreline roughness, as ratio of shoreline lengths at different thresholds.
+
+    Computes the shoreline roughness metric:
+
+    .. math::
+        R = N_{45} / N_{120} \\approx L_{45} / L_{120}
+
+    where R is the roughness of the shoreline, N is the number of pixels in
+    the shoreline in the `shore_mask` inputs, and :math:`L` is the shoreline
+    length (after [1]_).
+
+    .. [1]  Broaddus, C. M., Vulis, L. M., Nienhuis, J. H., Tejedor, A.,
+       Brown, J., Foufoula-Georgiou, E., & Edmonds, D. A. (2022). First-order
+       river delta morphology is explained by the sediment flux balance from
+       rivers, waves, and tides. Geophysical Research Letters, 49,
+       e2022GL100355. https://doi.org/10.1029/2022GL100355
+
+    Parameters
+    ----------
+    shore_mask_45 : :obj:`~deltametrics.mask.ShorelineMask`, :obj:`ndarray`
+        Shoreline mask, derived from the Opening Angle Method, at the 45
+        degree contour. Can be a :obj:`~deltametrics.mask.ShorelineMask`
+        object, or a binarized array.
+
+    shore_mask_120 : :obj:`~deltametrics.mask.ShorelineMask`, :obj:`ndarray`
+        Shoreline mask, derived from the Opening Angle Method, at the 120
+        degree contour. Can be a :obj:`~deltametrics.mask.ShorelineMask`
+        object, or a binarized array.
+
+    calculate_length : bool, optional
+        If `calculate_length=True`, then :obj:`compute_shoreline_length` is
+        used to calculate the length of the shoreline explicitly, rather than
+        counting the pixels in `shore_mask_45` and `shore_mask_120`. Default
+        is `False`.
+
+    **kwargs
+        Passed to `compute_shoreline_length`, if `calculate_length=True`.
+
+    Returns
+    -------
+    roughness : :obj:`float`
+        Shoreline roughness, computed as described above.
+
+    Examples
+    --------
+    Calculate the shoreline roughness.
+
+    .. plot::
+        :include-source:
+
+        from sandplover.plan import compute_shoreline_roughness_OAM
+
+        golf = spl.sample_data.golf()
+        origin = np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
+
+        em = spl.mask.ElevationMask(
+            golf["eta"][30, :, :], elevation_threshold=0, elevation_offset=-0.1
+        )
+        em.trim_mask(length=golf.meta["L0"].data + 1, value=1)
+        oam = spl.plan.OpeningAnglePlanform.from_mask(em)
+
+        sm45 = spl.mask.ShorelineMask.from_Planform(oam, contour_threshold=45)
+        sm120 = spl.mask.ShorelineMask.from_Planform(oam, contour_threshold=120)
+
+        fig, ax = plt.subplots(1, 2)
+        sm45.show(ax=ax[0])
+        sm120.show(ax=ax[1])
+        plt.show(block=False)
+
+
+        roughness_oam = compute_shoreline_roughness_OAM(sm45, sm120)
+
+        fig, ax = plt.subplots()
+        oam.show(ax=ax)
+        ax.contour(
+            oam.opening_angles.y,
+            oam.opening_angles.x,
+            oam.opening_angles,
+            levels=[45, 120],
+            colors=["w"],
+        )
+        ax.set_title(f"roughness: {roughness_oam:.1f}")
+        plt.show()
+
+    .. seealso::
+
+        See :doc:`this example
+        </guides/examples/computations/comparing_shoreline_roughness_metrics>`,
+        which compares all of the "shoreline roughness" metrics implemented
+        in sandplover.
+
+    """
+    # process the shore_mask, stripping down to array coordinates regardless of
+    # the input. This simplifies the roughness calculation, because we know
+    # we are dealing with array coords always
+    if isinstance(shore_mask_45, ShorelineMask):
+        shore_mask_45 = shore_mask_45.mask
+        _sm_45 = shore_mask_45.values
+        _dx_45 = float(
+            shore_mask_45[shore_mask_45.dims[0]][1]
+            - shore_mask_45[shore_mask_45.dims[0]][0]
+        )
+    elif isinstance(shore_mask_45, xr.core.dataarray.DataArray):
+        _sm_45 = shore_mask_45.values
+        _dx_45 = float(
+            shore_mask_45[shore_mask_45.dims[0]][1]
+            - shore_mask_45[shore_mask_45.dims[0]][0]
+        )
+    elif isinstance(shore_mask_45, np.ndarray):
+        _sm_45 = shore_mask_45
+        _dx_45 = 1
+        # should we have a warning that no dx was found here?
+    else:
+        raise TypeError(f"Invalid type for shore_mask_45 {type(shore_mask_45)}")
+
+    if isinstance(shore_mask_120, ShorelineMask):
+        shore_mask_120 = shore_mask_120.mask
+        _sm_120 = shore_mask_120.values
+        _dx_120 = float(
+            shore_mask_120[shore_mask_120.dims[0]][1]
+            - shore_mask_120[shore_mask_120.dims[0]][0]
+        )
+    elif isinstance(shore_mask_120, xr.core.dataarray.DataArray):
+        _sm_120 = shore_mask_120.values
+        _dx_120 = float(
+            shore_mask_120[shore_mask_120.dims[0]][1]
+            - shore_mask_120[shore_mask_120.dims[0]][0]
+        )
+    elif isinstance(shore_mask_120, np.ndarray):
+        _sm_120 = shore_mask_120
+        _dx_120 = 1
+        # should we have a warning that no dx was found here?
+    else:
+        raise TypeError(f"Invalid type for shore_mask_120 {type(shore_mask_120)}")
+
+    if _dx_45 != _dx_120:
+        raise ValueError("Inconsistent grid spacing for input ShorelineMasks.")
+
+    if calculate_length:
+        _ = kwargs.pop("return_line", None)  # don't allow this to be passed
+        _length_45 = compute_shoreline_length(
+            _sm_45, **kwargs
+        )  # does not need origin kw, but will take start
+        # _length_45 = _length_45 * _dx_45
+
+        _length_120 = compute_shoreline_length(
+            _sm_120, **kwargs
+        )  # does not need origin kw, but will take start
+        # _length_120 = _length_120 * _dx_120
+    else:
+        _length_45 = np.sum(_sm_45)
+
+        _length_120 = np.sum(_sm_120)
+
+    roughness = _length_45 / _length_120
+    return roughness
+
+
+def compute_shoreline_rugosity(shore_mask, origin=(0, 0)):
+    """Compute shoreline rugosity.
+
+    Shoreline rugosity is measured as the ratio between the total
+    shoreline length and the longest straightline distance between any two
+    points on the shoreline.
+
+    This is likely the closest thing to a rugosity as measured in the rest of science.
+
+    .. warning::
+
+        Not Implemented!
+    """
+    raise NotImplementedError
+
+
+def compute_shoreline_length(shore_mask, start=(0, 0), origin=None, return_line=False):
     """Compute the length of a shoreline from a mask of the shoreline.
 
     Algorithm attempts to determine the sorted coordinates of the shoreline
@@ -1391,18 +1853,23 @@ def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
         Imperfect algorithm, which may not include all `True` pixels in the
         `ShorelineMask` in the determined shoreline.
 
+    .. versionchanged:: 0.5 Changed keyword `origin` to `start`.
+
+        With v0.5 the input keyword argument `origin` is deprecated, and
+        replaced with keyword argument `start`.
+
     Parameters
     ----------
     shore_mask : :obj:`~sandplover.mask.ShorelineMask`, :obj:`ndarray`
         Shoreline mask. Can be a :obj:`~sandplover.mask.ShorelineMask`
         object, or a binarized array.
 
-    origin : :obj:`list`, :obj:`np.ndarray`, optional
+    start : :obj:`tuple`, :obj:`np.ndarray`, optional
         Determines the location from where the starting point of the line
         sorting is initialized. The starting point of the line is determined
-        as the point nearest to `origin`. For non-standard data
+        as the point nearest to `start`. For non-standard data
         configurations, it may be important to set this to an appropriate
-        value. Default is [0, 0].
+        value. Default is (0, 0).
 
     return_line : :obj:`bool`
         Whether to return the sorted line as a second argument. If True, a
@@ -1426,6 +1893,7 @@ def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
     of the `pyDeltaRCM` model results.
 
     .. plot::
+        :include-source:
 
         >>> from sandplover.mask import ShorelineMask
         >>> from sandplover.plan import compute_shoreline_length
@@ -1461,6 +1929,28 @@ def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
         >>> _ = ax[1].plot(line1[:, 0], line1[:, 1], "r-")
         >>> _ = ax[1].set_title("length = {:.2f}".format(len1))
     """
+    # process inputs and handle deprecated inputs
+    _start = None  # begin with this as None
+    if origin is not None:
+        warnings.warn(
+            "`origin` argument is deprecated and will be removed in a "
+            "future version. Please use `start` argument instead, "
+            "specifying the start in data coordinates (not array "
+            "indices). See documentation for additional information on "
+            "making this change.",
+            category=FutureWarning,
+            stacklevel=2,
+        )
+        # to keep the legacy `origin` behavior, we leave it in array indices
+        # and reverse the order to be (dim1, dim2)
+        _start = (origin[1], origin[0])
+
+    # if _start has been filled, we ignore whatever has been specified in
+    # kwarg start and use _start. otherwise, we need to process start
+    # into _start
+    if _start is None:
+        _start = start  # no swapping of order needed here
+
     # check if mask or already array
     if isinstance(shore_mask, ShorelineMask):
         shore_mask = shore_mask.mask
@@ -1480,9 +1970,6 @@ def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
     else:
         raise TypeError(f"Invalid type {type(shore_mask)}")
 
-    if not (np.sum(_sm) > 0):
-        raise ValueError("No pixels in shoreline mask.")
-
     if _sm.ndim == 3:
         _sm = _sm.squeeze()
 
@@ -1497,8 +1984,8 @@ def compute_shoreline_length(shore_mask, origin=(0, 0), return_line=False):
         len(_y),
     )
 
-    # determine a starting coordinate based on the proximity to the origin
-    _closest = np.argmin(np.sqrt((_x - origin[0]) ** 2 + (_y - origin[1]) ** 2))
+    # determine a starting coordinate based on the proximity to the start
+    _closest = np.argmin(np.sqrt((_x - _start[1]) ** 2 + (_y - _start[0]) ** 2))
     line_xs_0[0] = _x[_closest]
     line_ys_0[0] = _y[_closest]
 
@@ -1623,15 +2110,21 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
 
     .. note:: uses `np.nanmean` and `np.nanstd`.
 
+    .. versionchanged:: 0.5
+        The expected order of dimensions in the `origin` keyword parameter has
+        switched. This is now consistent with other uses of this keyword,
+        expecting the tuple to be ordered `(dim1, dim2)`.
+
     Parameters
     ----------
     shore_mask : :obj:`~sandplover.mask.ShorelineMask`, :obj:`ndarray`
         Shoreline mask. Can be a :obj:`~sandplover.mask.ShorelineMask`
         object, or a binarized array.
 
-    origin : :obj:`list`, :obj:`np.ndarray`, optional
-        Determines the location from where the distance to all shoreline
-        points is computed.
+    origin : :obj:`tuple`, :obj:`np.ndarray`, optional
+        Origin from which the distance to all shoreline points is computed,
+        specified in data dimensions (not indices) along `dim1, dim2` of the
+        data. Default (0, 0).
 
     return_distances : :obj:`bool`
         Whether to return the sorted line as a second argument. If True, a
@@ -1697,9 +2190,6 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
     else:
         raise TypeError(f"Invalid type {type(shore_mask)}")
 
-    if not (np.sum(_sm) > 0):
-        raise ValueError("No pixels in shoreline mask.")
-
     if _sm.ndim == 3:
         _sm = _sm.squeeze()
 
@@ -1707,12 +2197,23 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
     _y, _x = np.argwhere(_sm).T
 
     # determine the distances (multiply by dx)
-    _dists = np.sqrt((_x - origin[0]) ** 2 + (_y - origin[1]) ** 2) * _dx
+    _dists = np.sqrt((_x - origin[1]) ** 2 + (_y - origin[0]) ** 2) * _dx
 
-    if return_distances:
-        return np.nanmean(_dists), np.nanstd(_dists), _dists
+    if not np.sum(_sm) > 0:
+        warnings.warn(
+            "No shoreline identified in input shore_mask, returning np.nan.",
+            category=UserWarning,
+            stacklevel=2,
+        )
+        if return_distances:
+            return np.nan, np.nan, [np.nan]
+        else:
+            return np.nan, np.nan
     else:
-        return np.nanmean(_dists), np.nanstd(_dists)
+        if return_distances:
+            return np.nanmean(_dists), np.nanstd(_dists), _dists
+        else:
+            return np.nanmean(_dists), np.nanstd(_dists)
 
 
 def _determine_equally_spaced_azimuths(*args, **kwargs):
@@ -1792,7 +2293,7 @@ def compute_shoreline_radius(shore_mask, origin=(0, 0), return_radii=False, **kw
         of the `RadialSection` at a certain `azimuth` and the shoreline mask,
         if there are multiple intersections.
 
-    See also:
+    .. seealso::
 
         This function is similar to, but distinct
         from :obj:`compute_shoreline_distance`, which computes the
@@ -1805,7 +2306,9 @@ def compute_shoreline_radius(shore_mask, origin=(0, 0), return_radii=False, **kw
         Input shoreline mask.
 
     origin
-        Origin for :obj:`~sandplover.section.RadialSection`. Default (0, 0).
+        Origin for :obj:`~sandplover.section.RadialSection` objects, specified
+        in data dimensions (not indices) along `dim1, dim2` of the data.
+        Default (0, 0).
 
     return_radii : bool, optional
         Whether to return the calculated radii along each section, in addition
@@ -1879,10 +2382,21 @@ def compute_shoreline_radius(shore_mask, origin=(0, 0), return_radii=False, **kw
         else:
             radii[a] = np.nan
 
-    if return_radii:
-        return np.nanmean(radii), np.nanstd(radii), radii
+    if np.all(np.isnan(radii)):  # if all nan
+        warnings.warn(
+            "No shoreline identified in shore_mask at intersection with any RadialSection, returning np.nan.",
+            category=UserWarning,
+            stacklevel=2,
+        )
+        if return_radii:
+            return np.nan, np.nan, np.nan
+        else:
+            return np.nan, np.nan
     else:
-        return np.nanmean(radii), np.nanstd(radii)
+        if return_radii:
+            return np.nanmean(radii), np.nanstd(radii), radii
+        else:
+            return np.nanmean(radii), np.nanstd(radii)
 
 
 def compute_topset_slope(
@@ -1905,7 +2419,9 @@ def compute_topset_slope(
         Input elevation data.
 
     origin
-        Origin for :obj:`~sandplover.section.RadialSection`. Default (0, 0).
+        Origin for :obj:`~sandplover.section.RadialSection` objects, specified
+        in data dimensions (not indices) along `dim1, dim2` of the data.
+        Default (0, 0).
 
     elevation_threshold : float, optional
         Elevation threshold for finding the topset. Commonly, this would be
@@ -1937,7 +2453,7 @@ def compute_topset_slope(
     Examples
     --------
 
-    .. hint::
+    .. seealso::
 
         See also some examples using `compute_topset_slope` in computations
         here: :doc:`/guides/examples/computations/radially_averaged_topset_slope`.
@@ -1949,6 +2465,7 @@ def compute_topset_slope(
 
         >>> from sandplover.sample_data.sample_data import golf
         >>> from sandplover.section import RadialSection
+        >>> from sandplover.plan import compute_topset_slope
 
         >>> golf = golf()
         >>>
@@ -2016,10 +2533,21 @@ def compute_topset_slope(
             m = np.nan
         slopes[a] = m
 
-    if return_slopes:
-        return np.nanmean(slopes), np.nanstd(slopes), slopes
+    if np.all(np.isnan(slopes)):  # if all nan
+        warnings.warn(
+            "Insufficient elevation data above elevation_threshold identified along any RadialSection, returning np.nan.",
+            category=UserWarning,
+            stacklevel=2,
+        )
+        if return_slopes:
+            return np.nan, np.nan, np.nan
+        else:
+            return np.nan, np.nan
     else:
-        return np.nanmean(slopes), np.nanstd(slopes)
+        if return_slopes:
+            return np.nanmean(slopes), np.nanstd(slopes), slopes
+        else:
+            return np.nanmean(slopes), np.nanstd(slopes)
 
 
 @njit(parallel=True)
