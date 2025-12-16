@@ -40,7 +40,7 @@ class BaseCube(abc.ABC):
 
     """
 
-    def __init__(self, data, varset=None, dimensions=None):
+    def __init__(self, data, read=(), varset=None, dimensions=None):
         """Initialize the BaseCube.
 
         Parameters
@@ -52,6 +52,10 @@ class BaseCube(abc.ABC):
             :obj:`dict` with keys indicating variable names, and values with
             corresponding t-x-y `ndarray` of data.
 
+        read : :obj:`bool`, optional
+            Which variables to read from dataset into memory. Special option
+            for ``read=True`` to read all available variables into memory.
+
         varset : :class:`~sandplover.plot.VariableSet`, optional
             Pass a `~sandplover.plot.VariableSet` instance if you wish
             to style this cube similarly to another cube.
@@ -60,12 +64,6 @@ class BaseCube(abc.ABC):
             A dictionary with names and coordinates for dimensions of the
             cube, if instantiating the cube from data loaded in memory
             in a dictionary.
-
-        Notes
-        -----
-        Data is not loaded into memory during initialization. To load
-        variables into memory for faster access, use the :meth:`read` method
-        explicitly after initialization.
         """
         if type(data) is str:
             # handle a path to netCDF file
@@ -96,6 +94,10 @@ class BaseCube(abc.ABC):
         # some undocumented aliases
         self.plans = self._planform_set
         self.plan_set = self._planform_set
+
+        # Actually use the read parameter to load variables into memory
+        if read:
+            self.read(read)
 
     @abc.abstractmethod
     def __getitem__(self, var):
@@ -183,7 +185,7 @@ class BaseCube(abc.ABC):
         ----------
         variables : :obj:`list` of :obj:`str`, :obj:`str`, :obj:`bool`
             Which variables to read into memory. Pass `True` to read all
-            variables.
+            available variables.
 
         force : `bool`, optional
             If True, bypass memory safety checks and load the data regardless
@@ -668,8 +670,10 @@ class DataCube(BaseCube):
     number of attached attributes (grain size, mud frac, elevation).
     """
 
-    def __init__(self, data, varset=None, stratigraphy_from=None, dimensions=None):
-        """Initialize the DataCube.
+    def __init__(
+        self, data, read=(), varset=None, stratigraphy_from=None, dimensions=None
+    ):
+        """Initialize the BaseCube.
 
         Parameters
         ----------
@@ -679,6 +683,10 @@ class DataCube(BaseCube):
             output from the pyDeltaRCM model. Alternatively, pass a
             :obj:`dict` with keys indicating variable names, and values with
             corresponding t-x-y `ndarray` of data.
+
+        read : :obj:`bool`, optional
+            Which variables to read from dataset into memory. Special option
+            for ``read=True`` to read all available variables into memory.
 
         varset : :class:`~sandplover.plot.VariableSet`, optional
             Pass a `~sandplover.plot.VariableSet` instance if you wish
@@ -697,14 +705,8 @@ class DataCube(BaseCube):
             A dictionary with names and coordinates for dimensions of the
             `DataCube`, if instantiating the cube from data loaded in memory
             in a dictionary.
-
-        Notes
-        -----
-        Data is not loaded into memory during initialization. To load
-        variables into memory for faster access, use the :meth:`read` method
-        explicitly after initialization.
         """
-        super().__init__(data, varset, dimensions=dimensions)
+        super().__init__(data, read, varset, dimensions=dimensions)
 
         # Set up the time mesh (DataCube is t–x–y)
         _, self._T, _ = np.meshgrid(
@@ -761,7 +763,7 @@ class DataCube(BaseCube):
             _obj = _xrt
         elif (var in self._coords) or (var in self._variables):
             # ensure coords can be called by cube[var]
-            _obj = self._dataio.dataset[var]
+            _obj = self._dataio[var]
 
         else:
             raise AttributeError(f"No variable of {str(self)} named {var}")
@@ -902,6 +904,7 @@ class StratigraphyCube(BaseCube):
     def __init__(
         self,
         data,
+        read=(),
         varset=None,
         stratigraphy_from=None,
         sigma_dist=None,
@@ -923,18 +926,16 @@ class StratigraphyCube(BaseCube):
             :obj:`dict` with keys indicating variable names, and values with
             corresponding t-x-y `ndarray` of data.
 
+        read : :obj:`bool`, optional
+            Which variables to read from dataset into memory. Special option
+            for ``read=True`` to read all available variables into memory.
+
         varset : :class:`~sandplover.plot.VariableSet`, optional
             Pass a `~sandplover.plot.VariableSet` instance if you wish
             to style this cube similarly to another cube. If no argument is
             supplied, a new default VariableSet instance is created.
-
-        Notes
-        -----
-        Data is not loaded into memory during initialization. To load
-        variables into memory for faster access, use the :meth:`read` method
-        explicitly after initialization.
         """
-        super().__init__(data, varset)
+        super().__init__(data, read, varset)
         if isinstance(data, str):
             raise NotImplementedError("Precomputed NetCDF?")
         elif isinstance(data, np.ndarray):
