@@ -580,7 +580,7 @@ class TestComputeSedimentograph:
 
     def test_two_bins(self):
         background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
-        (s, r, b) = compute_sedimentograph(
+        s, r, b = compute_sedimentograph(
             self.golfstrat["sandfrac"], background=background
         )
         assert np.all(np.logical_or(s <= 1, np.isnan(s)))
@@ -592,7 +592,7 @@ class TestComputeSedimentograph:
 
     def test_two_bins_with_origin(self):
         background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
-        (s, r, b) = compute_sedimentograph(
+        s, r, b = compute_sedimentograph(
             self.golfstrat["sandfrac"], background=background, origin_idx=[3, 100]
         )
         assert np.all(np.logical_or(s <= 1, np.isnan(s)))
@@ -602,7 +602,7 @@ class TestComputeSedimentograph:
 
     def test_two_bins_more_sects(self):
         background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
-        (s, r, b) = compute_sedimentograph(
+        s, r, b = compute_sedimentograph(
             self.golfstrat["sandfrac"],
             num_sections=50,
             background=background,
@@ -615,7 +615,7 @@ class TestComputeSedimentograph:
 
     def test_two_bins_cust_rad(self):
         background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
-        (s, r, b) = compute_sedimentograph(
+        s, r, b = compute_sedimentograph(
             self.golfstrat["sandfrac"],
             last_section_radius=2750,
             background=background,
@@ -628,7 +628,7 @@ class TestComputeSedimentograph:
 
     def test_two_bins_cust_rad_long(self):
         background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
-        (s, r, b) = compute_sedimentograph(
+        s, r, b = compute_sedimentograph(
             self.golfstrat["sandfrac"],
             last_section_radius=4000,
             background=background,
@@ -642,7 +642,7 @@ class TestComputeSedimentograph:
 
     def test_five_bins(self):
         background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
-        (s, r, b) = compute_sedimentograph(
+        s, r, b = compute_sedimentograph(
             self.golfstrat["sandfrac"],
             sediment_bins=np.linspace(0, 1, num=6, endpoint=True),
             background=background,
@@ -657,7 +657,7 @@ class TestComputeSedimentograph:
     def test_time_variable(self):
         background = self.golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
 
-        (s, r, b) = compute_sedimentograph(
+        s, r, b = compute_sedimentograph(
             self.golfstrat["time"],
             num_sections=50,
             last_section_radius=2750,
