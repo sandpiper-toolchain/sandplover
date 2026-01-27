@@ -864,6 +864,15 @@ class StratigraphyCube(BaseCube):
             elevation data. Typically, this is ``'eta'`` in pyDeltaRCM model
             outputs.
 
+        sigma_dist : :obj:`float`, :obj:`list` of `float`, optional
+            Subsidence distance per timestep or list of subsidence per
+            timestep. When a singular (integer or float) value for subsidence
+            is provided, it is assumed that the provided value is the rate of
+            subsidence in terms of some vertical distance per timestep.
+            Conversely, when a time-series is provided, the each value is
+            assumed to be the cumulative distance subsided up until that
+            point in time. Does not currently support spatially variable subsidence.
+
         **kwargs
             Keyword arguments passed to stratigraphy initialization. Can
             include specification for vertical resolution in `Boxy` case,

@@ -56,6 +56,6 @@ Then, make the animation with matplotlib's `FuncAnimation`.
 
     plt.show()
 
-An view the gif:
+And view the gif:
 
 .. image:: ../../../../build/plot_directive/guides/examples/plot/simple_movie.gif

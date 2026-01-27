@@ -6,31 +6,6 @@ import xarray as xr
 
 from sandplover.section import CircularSection
 
-# def compute_compensation(line1, line2):
-#     """Compute compensation statistic betwen two lines.
-
-#     .. warning::
-
-#         Not Implemented.
-
-#     Parameters
-#     ----------
-#     line1 : ndarray
-#         First surface to use (two-dimensional matrix with x-z coordinates of
-#         line).
-
-#     line2 : ndarray
-#         Second surface to use (two-dimensional matrix with x-z coordinates of
-#         line).
-
-#     Returns
-#     -------
-#     CV : float
-#         Compensation statistic.
-
-#     """
-#     raise NotImplementedError()
-
 
 def compute_compensation(stratal_surfaces, time_idxs=None, clip_ends=0):
     """Compute compensation, given stratal surfaces.
@@ -46,19 +21,22 @@ def compute_compensation(stratal_surfaces, time_idxs=None, clip_ends=0):
         \\sigma_{ss}(T) = \\left( \\int_L \\left[ \\frac{r(T;x)}{\\hat{r}(x)}
             - 1 \\right]^2 dL \\right)^{1/2}
 
-    where, xxxxx.
+    where, :math:`r(T;x)` is the local sedimentation rate measured at a
+    specific point x over the time interval T, :math:`\\hat{r}(x)` is the
+    average sedimentation rate at point x over the entire timeseries,
+    and :math:`L` is the length of the stratigraphic sections for
+    computation.
 
     Here, we implement an adaptable and flexible function to help asses
     compensational stacking. To understand the conceptual meaning of function
     outputs and how to work with these outputs to assess compensational
-    stacking patterns in stratigraphy, see the :doc:`Example on Compensational
+    stacking patterns in stratigraphy, see the :doc:`example on Compensational
     Stacking <../guides/examples/computations/compensational_stacking>`
     and especially references therein.
 
-    This function operates on a three-, two-, or one-dimensional array of
-    stratal surfaces. Time is expected to be oriented along the first axis
-    dimension. Note, that a one-dimensional array will always return a
-    `sigma` array of all ones. See the examples below for function use.
+    This function operates on a two-dimensional array of stratal surfaces.
+    Time is expected to be oriented along the first axis dimension. See the
+    examples below for function use.
 
     .. [1] Kyle M. Straub, Chris Paola, David Mohrig, Matthew A. Wolinsky,
            Terra George; Compensational Stacking of Channelized Sedimentary
@@ -81,9 +59,10 @@ def compute_compensation(stratal_surfaces, time_idxs=None, clip_ends=0):
         occupied a higher stratigraphic height.
 
     time_idxs : :obj:`ndarray`, optional
-        Which time indices of the :obj:`stratal_surfaces` array to use for
-        computation. I.e., specifying indices will subset the
-        `stratal_surfaces` array for faster computations.
+        NOT IMPLEMENTED; only works for all input surfaces. Which time indices
+        of the :obj:`stratal_surfaces` array to use for computation. I.e.,
+        specifying indices will subset the `stratal_surfaces` array for
+        faster computations.
 
     clip_ends : :obj:`int`, optional
         How many stratigraphic columns from the edge of the section to ignore
@@ -109,6 +88,8 @@ def compute_compensation(stratal_surfaces, time_idxs=None, clip_ends=0):
     Examples
     --------
 
+    * :doc:`Example on Compensational Stacking <../guides/examples/computations/compensational_stacking>`
+
     """
     if time_idxs is None:
         time_idxs = np.arange(stratal_surfaces.shape[0])
@@ -127,6 +108,8 @@ def compute_compensation(stratal_surfaces, time_idxs=None, clip_ends=0):
 
     if stratal_surfaces.ndim != 2:
         raise ValueError("Not able to handle 3d or 1d yet.")
+        #  Note, that a one-dimensional array will always return a `sigma`
+        #  array of all ones. How to compute over 3d?
 
     # clip domain edges if specified
     if clip_ends == 0:
