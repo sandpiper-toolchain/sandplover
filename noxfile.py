@@ -30,8 +30,10 @@ def install(session: nox.Session) -> None:
 @nox.session
 def test(session: nox.Session) -> None:
     """Run the tests."""
-    session.install("pytest", "requirements.txt")
+    session.install("pytest", "-r", "requirements.txt")
     install(session)
+
+    session.run("pip", "list")  # list packages and versions in venv
 
     session.run("pytest", "-vvv")
 
@@ -41,6 +43,8 @@ def coverage(session: nox.Session) -> None:
     """Run coverage"""
     session.install("coverage", "pytest", "-r", "requirements.txt")
     install(session)
+
+    session.run("pip", "list")  # list packages and versions in venv
 
     session.run(
         "coverage", "run", "-m", "pytest", "-vvv", env={"COVERAGE_CORE": "sysmon"}

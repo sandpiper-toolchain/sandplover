@@ -3,6 +3,7 @@ import sys
 import warnings
 
 import pooch
+from pooch import DOIDownloader
 
 if sys.version_info >= (3, 12):  # pragma: no cover (PY12+)
     import importlib.resources as importlib_resources
@@ -22,7 +23,7 @@ REGISTRY = pooch.create(
         "https://github.com/sandpiper-toolchain/sandplover/raw/develop/"
         "sandplover/sample_data/files/"
     ),
-    env="DELTAMETRICS_DATA_DIR",
+    env="SANDPLOVER_DATA_DIR",
 )
 path_to_registry = importlib_resources.files("sandplover.sample_data").joinpath(
     "registry.txt"
@@ -235,7 +236,7 @@ def _get_rcm8_path():
 def rcm8():
     """Rcm8 Delta dataset.
 
-    This cube was removed in sandplover v0.6.0.
+    This cube was removed in sandplover v0.4.0.
     """
     raise NotImplementedError(rcm8_removed_text)
 

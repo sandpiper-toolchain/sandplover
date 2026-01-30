@@ -36,11 +36,11 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
+    - name: Install nox
       run: |
         pip install nox
     - name: Test with pytest
-      run: |
+      run: |  # also installs package dependencies
         nox -s coverage
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5

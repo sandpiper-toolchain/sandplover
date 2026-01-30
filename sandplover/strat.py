@@ -379,7 +379,7 @@ def compute_sedimentograph(
 
         >>> background = golfstrat.Z < np.min(golfcube["eta"].data, axis=0)
 
-        >>> (sedimentograph, radii, bins) = compute_sedimentograph(
+        >>> sedimentograph, radii, bins = compute_sedimentograph(
         ...     golfstrat["sandfrac"],
         ...     num_sections=50,
         ...     last_section_radius=2750,
