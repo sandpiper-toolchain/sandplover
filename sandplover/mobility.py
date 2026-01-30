@@ -742,7 +742,7 @@ def channel_presence(chmap):
         >>> from sandplover.sample_data.sample_data import golf
 
         >>> golfcube = golf()
-        >>> (x, y) = np.shape(golfcube["eta"][-1, ...])
+        >>> x, y = np.shape(golfcube["eta"][-1, ...])
 
         Calculate channel masks/presence over final 5 timesteps
 
