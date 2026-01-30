@@ -23,16 +23,7 @@ hdf_path = _get_landsat_path()
 
 
 class TestDataCubeNoStratigraphy:
-<<<<<<< Updated upstream
-    # create a fixed cube for variable existing, type checks
-    fixeddatacube = DataCube(golf_path)
-
-    fdc_shape = fixeddatacube.shape
-
-    def test_init_cube_from_path_golf(self):
-=======
     def test_init_cube_from_path_rcm8(self):
->>>>>>> Stashed changes
         golf = DataCube(golf_path)
         assert golf._data_path == golf_path
         assert golf.dataio.io_type == "netcdf"
@@ -576,7 +567,6 @@ class TestCubesFromDictionary:
 
 
 class TestReadMetaFallbacks:
-
     class FakeIO:
         """Very small IO stub exposing only what _read_meta_from_file uses."""
 
