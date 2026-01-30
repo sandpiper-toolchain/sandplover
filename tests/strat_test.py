@@ -15,6 +15,7 @@ from sandplover.strat import compute_boxy_stratigraphy_coordinates
 from sandplover.strat import compute_boxy_stratigraphy_volume
 from sandplover.strat import compute_net_to_gross
 from sandplover.strat import compute_sedimentograph
+from sandplover.strat import compute_compensation
 from sandplover.strat import compute_thickness_surfaces
 
 golf_path = _get_golf_path()
@@ -22,7 +23,6 @@ golfcube = DataCube(golf_path)
 
 
 class TestComputeBoxyStratigraphyVolume:
-
     elev = golfcube["eta"]
     time = golfcube["time"]
 
@@ -103,7 +103,6 @@ class TestComputeBoxyStratigraphyVolume:
 
 
 class TestComputeBoxyStratigraphyCoordinates:
-
     elev = golfcube["eta"]
     time = golfcube["time"]
 
@@ -163,7 +162,6 @@ class TestComputeBoxyStratigraphyCoordinates:
 
 
 class TestComputeElevationToPreservation:
-
     def test_1d_shorts(self):
         s1, p1 = _compute_elevation_to_preservation(np.array([1]))
         s15, p15 = _compute_elevation_to_preservation(np.array([5]))
@@ -275,7 +273,6 @@ class TestComputeElevationToPreservation:
 
 
 class TestComputePreservationToCube:
-
     def test_1d_shorts(self):
         z = np.arange(0, 5, step=0.25)
         sc1, dc1 = _compute_preservation_to_cube(np.array([1]), z)
@@ -349,7 +346,6 @@ class TestOneDimStratigraphyExamples:
 
 
 class TestDetermineStratCoordinates:
-
     def test_given_none_chooses_default(self):
         e = np.array([0, 1, 1, 2, 1])
         with pytest.warns(UserWarning, match=r"No specification *."):
@@ -447,7 +443,6 @@ class TestDetermineStratCoordinates:
 
 
 class TestSubsidenceElevationAdjustment:
-
     def test_shapes_not_matching(self):
         e = np.zeros((5, 2, 1))
         s = np.zeros((2, 4, 2))
@@ -504,7 +499,6 @@ class TestSubsidenceElevationAdjustment:
 
 
 class TestComputeNetToGross:
-
     golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
 
     def test_net_to_gross_nobg(self):
@@ -547,7 +541,6 @@ class TestComputeNetToGross:
 
 
 class TestComputeThicknessSurfaces:
-
     def test_compute_thickness_0(self):
         deposit_thickness0 = compute_thickness_surfaces(
             golfcube["eta"][0, :, :], golfcube["eta"][0, :, :]
@@ -575,7 +568,6 @@ class TestComputeThicknessSurfaces:
 
 
 class TestComputeSedimentograph:
-
     golfstrat = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
 
     def test_two_bins(self):
@@ -666,3 +658,25 @@ class TestComputeSedimentograph:
             origin_idx=[3, 100],
         )
         assert np.all(np.logical_or(s <= 1, np.isnan(s)))
+
+
+class TestCompensation:
+    def test_compute_compensation_invalid_dims(self):
+        # Test that 1D or 3D arrays raise ValueError
+        with pytest.raises(ValueError, match="Not able to handle 3d or 1d yet."):
+            compute_compensation(np.random.rand(10))
+        with pytest.raises(ValueError, match="Not able to handle 3d or 1d yet."):
+            compute_compensation(np.random.rand(10, 10, 10))
+
+    def test_compute_compensation_nans(self):
+        # Test that NaNs trigger a ValueError
+        data = np.zeros((5, 10))
+        data[0, 0] = np.nan
+        with pytest.raises(ValueError, match="NaN found in stratal surfaces."):
+            compute_compensation(data)
+
+    def test_compute_compensation_not_implemented_time_idxs(self):
+        # Test that passing time_idxs (not yet supported) raises error
+        data = np.zeros((5, 10))
+        with pytest.raises(NotImplementedError):
+            compute_compensation(data, time_idxs=np.array([1, 2]))

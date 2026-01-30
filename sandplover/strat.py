@@ -123,7 +123,10 @@ def compute_compensation(stratal_surfaces, time_idxs=None, clip_ends=0):
     if np.any(np.isnan(stratal_surfaces)):
         # this could probably be relaxed, to clip out any
         #    columns with any nans
-        raise ValueError("NaN found in stratal surfaces.")
+        raise ValueError(
+            "NaN found in stratal surfaces. Please remove all NaN values "
+            "before proceeding."
+        )
 
     # run the computation routine (jitted?)
     sigmas, windows = _compute_compensation(ss, times)
