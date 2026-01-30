@@ -211,13 +211,17 @@ class NetCDFIO(FileIO):
         elif _ext == ".hdf5":
             _engine = "h5netcdf"
         else:
-            TypeError("File format is not supported " "by sandplover: {}".format(_ext))
+            _engine = None  # not sure, let xarray figure it out
 
         try:
             # open the dataset
             _dataset = xr.open_datatree(self.data_path, engine=_engine)
         except Exception as e:
-            raise TypeError(f"File format out of scope for sandplover: {e}") from e
+            raise TypeError(
+                f"Could not open dataset, raising error: {e}.\n\n"
+                f"This may be because the file is corrupted, not recognized, "
+                f"or not supported by xarray or sandplover."
+            ) from e
 
         # try to find if coordinates have been preconfigured
         _coords_list = list(_dataset.coords)
