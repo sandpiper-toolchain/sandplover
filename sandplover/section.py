@@ -200,11 +200,8 @@ class BaseSection(abc.ABC):
 
         # check that zero or one postitional argument was given
         if len(args) > 1:
-            raise ValueError(
-                "Expected single positional argument to \
-                             %s instantiation."
-                % type(self)
-            )
+            raise ValueError("Expected single positional argument to \
+                             %s instantiation." % type(self))
 
         # if one positional argument was given, connect to the cube,
         #    otherwise return an unconnected section.
