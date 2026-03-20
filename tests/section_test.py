@@ -886,6 +886,15 @@ class TestSectionFromDataCubeWithStratigraphy:
         assert sa["s"].shape == (self.golfcube.shape[2],)
         assert sa["s_sp"].shape == sa["z_sp"].shape
 
+
+@pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
+class TestSectionFromDataCubeWithStratigraphy:
+    """same as above class, but all "show" related tests"""
+
+    golfcube = DataCube(golf_path)
+    golfcube.stratigraphy_from("eta", dz=0.1)
+    golfcube.register_section("test", StrikeSection(distance_idx=5))
+
     def test_withstrat_show_shaded_spacetime(self):
         self.golfcube.sections["test"].show("time", style="shaded", data="spacetime")
 
@@ -987,6 +996,16 @@ class TestSectionFromStratigraphyCube:
     def test_variables(self):
         assert isinstance(self.golfcube.sections["test"].variables, list)
         assert isinstance(self.sc8cube.sections["test"].variables, list)
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
+class TestSectionFromStratigraphyCube_SHOW:
+    """same as above class, but all "show" related tests"""
+
+    golfcube = DataCube(golf_path)
+    sc8cube = StratigraphyCube.from_DataCube(golfcube, dz=0.1)
+    golfcube.register_section("test", StrikeSection(distance_idx=5))
+    sc8cube.register_section("test", StrikeSection(distance_idx=5))
 
     def test_strat_show_noargs(self):
         self.sc8cube.sections["test"].show("time")

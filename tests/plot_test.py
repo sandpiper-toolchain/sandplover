@@ -205,6 +205,7 @@ class TestAppendColorbar:
         assert cb.formatter is _formatter
 
 
+@pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
 class TestStyleAxesKm:
     def test_style_axes_km_ax(self):
         fig, ax = plt.subplots(1, 6)
