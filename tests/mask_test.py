@@ -1,4 +1,5 @@
 """Tests for the mask.py script."""
+import sys
 
 import unittest.mock as mock
 
