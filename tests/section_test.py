@@ -655,6 +655,7 @@ class TestCubesWithManySections:
         t1, t2 = self.golfcube.sections["test1"], self.golfcube.sections["test2"]
         assert not (t1 is t2)
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
     def test_show_trace_sections_multiple(self):
         self.golfcube.register_section("show_test1", StrikeSection(distance_idx=5))
         self.golfcube.register_section("show_test2", StrikeSection(distance_idx=50))
@@ -739,6 +740,14 @@ class TestSectionFromDataCubeNoStratigraphy:
         _v = self.golfcube_nostrat.sections["test"].variables
         assert len(_v) > 0
         assert isinstance(_v, list)
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
+class TestSectionFromDataCubeNoStratigraphy:
+    """same as above class, but all "show" related tests"""
+
+    golfcube_nostrat = DataCube(golf_path)
+    golfcube_nostrat.register_section("test", StrikeSection(distance_idx=5))
 
     def test_nostrat_show_shaded_spacetime(self):
         self.golfcube_nostrat.sections["test"].show(
