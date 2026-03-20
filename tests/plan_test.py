@@ -1,5 +1,4 @@
 import sys
-
 import unittest.mock as mock
 
 import matplotlib.pyplot as plt

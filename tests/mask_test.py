@@ -1,6 +1,6 @@
 """Tests for the mask.py script."""
-import sys
 
+import sys
 import unittest.mock as mock
 
 import matplotlib.pyplot as plt
