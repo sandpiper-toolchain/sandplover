@@ -35,7 +35,13 @@ def test(session: nox.Session) -> None:
 
     session.run("pip", "list")  # list packages and versions in venv
 
-    session.run("pytest", "-vvv")
+    # session.run("pytest", "-vvv")
+    if sys.platform == "linux":
+        # run tests WITH doctests
+        session.run("pytest", "--doctest-modules", "-vvv", *session.posargs)
+    else:
+        # run tests WITHOUT doctests (win and macos)
+        session.run("pytest", "-p", "no:doctest", "-vvv", *session.posargs)
 
 
 @nox.session
