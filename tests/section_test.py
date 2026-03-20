@@ -1303,12 +1303,14 @@ class TestSectionsIntoMasks:
         assert _got.ndim == 1
         assert np.all(np.logical_or(_got == 1, _got == 0))
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
     def test_show(self):
         mss = StrikeSection(self.EM, distance=500)
         fig, ax = plt.subplots()
         mss.show("mask", ax=ax)
         plt.close()
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
     def test_show_trace(self):
         mss = StrikeSection(self.EM, distance=500)
         fig, ax = plt.subplots()
@@ -1334,12 +1336,14 @@ class TestSectionsIntoPlans:
         assert _got.ndim == 1
         assert np.all(np.isfinite(_got))
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
     def test_show(self):
         mss = StrikeSection(self.pl, distance=500)
         fig, ax = plt.subplots()
         mss.show("eta", ax=ax)
         plt.close()
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
     def test_show_trace(self):
         mss = StrikeSection(self.pl, distance=500)
         fig, ax = plt.subplots()
@@ -1364,12 +1368,14 @@ class TestSectionsIntoArrays:
         assert _got.ndim == 1
         assert np.all(np.logical_or(_got <= 1, _got >= 0))
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
     def test_show(self):
         mss = StrikeSection(self.arr, distance=500)
         fig, ax = plt.subplots()
         mss.show("mask", ax=ax)
         plt.close()
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
     def test_show_trace(self):
         mss = StrikeSection(self.arr, distance=500)
         fig, ax = plt.subplots()
