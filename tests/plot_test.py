@@ -1,3 +1,4 @@
+import sys
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
@@ -297,6 +298,7 @@ class TestFillSteps:
         assert np.all(pc.get_facecolors()[0] == _exp)
 
 
+@pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
 class TestSODTTST:
     """Test the `show_one_dimensional_trajectory_to_strata` function."""
 
