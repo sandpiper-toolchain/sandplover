@@ -36,7 +36,6 @@ def test(session: nox.Session) -> None:
 
     session.run("pip", "list")  # list packages and versions in venv
 
-    # session.run("pytest", "-vvv")
     if sys.platform == "linux":
         # run tests WITH doctests
         session.run("pytest", "--doctest-modules", "-vvv", *session.posargs)
@@ -53,9 +52,23 @@ def coverage(session: nox.Session) -> None:
 
     session.run("pip", "list")  # list packages and versions in venv
 
-    session.run(
-        "coverage", "run", "-m", "pytest", "-vvv", env={"COVERAGE_CORE": "sysmon"}
-    )
+    if sys.platform == "linux":
+        # run tests WITH doctests
+        session.run(
+            "coverage", "run", "-m", "pytest", "-vvv", env={"COVERAGE_CORE": "sysmon"}
+        )
+    else:
+        # run tests WITHOUT doctests (win and macos)
+        session.run(
+            "coverage",
+            "run",
+            "-m",
+            "pytest",
+            "-p",
+            "no:doctest",
+            "-vvv",
+            env={"COVERAGE_CORE": "sysmon"},
+        )
 
     if "CI" in os.environ:
         session.run("coverage", "xml", "-o", os.path.join(ROOT, "coverage.xml"))
