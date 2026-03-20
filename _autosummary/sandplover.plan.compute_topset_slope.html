@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sandplover.plan.compute_topset_slope &#8212; sandplover 0.5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sandplover.plan.compute_channel_width" href="sandplover.plan.compute_channel_width.html" />
+    <link rel="prev" title="sandplover.plan.compute_shoreline_radius" href="sandplover.plan.compute_shoreline_radius.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_channel_width.html" title="sandplover.plan.compute_channel_width"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_shoreline_radius.html" title="sandplover.plan.compute_shoreline_radius"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/plan/index.html" accesskey="U">Planview operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.plan.compute_topset_slope</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="sandplover-plan-compute-topset-slope">
+<h1>sandplover.plan.compute_topset_slope<a class="headerlink" href="#sandplover-plan-compute-topset-slope" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="sandplover.plan.compute_topset_slope">
+<span class="sig-prename descclassname"><span class="pre">sandplover.plan.</span></span><span class="sig-name descname"><span class="pre">compute_topset_slope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_slopes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.compute_topset_slope" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the slope of a fan or delta topset.</p>
+<p>Algorithm uses equally spaced <code class="xref py py-obj docutils literal notranslate"><span class="pre">RadialSection</span></code> to calculate the slope
+of input <cite>elevation_data</cite> that is above <cite>elevation_threshold</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>elevation_data</strong> (<em>array-like</em>) – Input elevation data.</p></li>
+<li><p><strong>origin</strong> – Origin for <a class="reference internal" href="sandplover.section.RadialSection.html#sandplover.section.RadialSection" title="sandplover.section.RadialSection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RadialSection</span></code></a> objects, specified
+in data dimensions (not indices) along <cite>dim1, dim2</cite> of the data.
+Default (0, 0).</p></li>
+<li><p><strong>elevation_threshold</strong> (<em>float</em><em>, </em><em>optional</em>) – Elevation threshold for finding the topset. Commonly, this would be
+sea level. Default is 0.</p></li>
+<li><p><strong>count_threshold</strong> (<em>int</em><em>, </em><em>optional</em>) – How many pixels above sea level must be identified in order to fit a
+line. Default is 5 points.</p></li>
+<li><p><strong>return_slopes</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to return the calculated slopes, in addition to the mean and
+standard deviation.</p></li>
+<li><p><strong>**kwargs</strong> – Passed to <code class="xref py py-obj docutils literal notranslate"><span class="pre">_determine_equally_spaced_azimuths</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>mean</em> – Mean slope along all sections.</p></li>
+<li><p><em>std</em> – Standard deviation of slope along sections.</p></li>
+<li><p><em>slopes</em> – Array of slope values calculated along all sections. Returned only if
+<cite>return_slopes = True</cite>.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>See also some examples using <cite>compute_topset_slope</cite> in computations
+here: <a class="reference internal" href="../guides/examples/computations/radially_averaged_topset_slope.html"><span class="doc">Radially-averaged topset slope</span></a>.</p>
+</div>
+<p>To make a calculation with 5 equally spaced sections on the left half of
+the domain only:</p>
+<p>(<a class="reference download internal" download="" href="../_downloads/e313d6e45c217b8a2f7da949a076b67c/sandplover-plan-compute_topset_slope-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/c90b44969a5f01a4c32925cd5b3e3657/sandplover-plan-compute_topset_slope-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/f37526fa8381cce86853ec393d415515/sandplover-plan-compute_topset_slope-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../_images/sandplover-plan-compute_topset_slope-1.png" class="plot-directive" src="../_images/sandplover-plan-compute_topset_slope-1.png" />
+</figure>
+<p>To calculate the slope of a deposit, try something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">deposit_thickness</span> <span class="o">=</span> <span class="n">golf</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">golf</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deposit_thickness</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">deposit_thickness</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="n">compute_topset_slope</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">deposit_thickness</span><span class="p">,</span> <span class="n">elevation_threshold</span><span class="o">=-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">sandplover.plan.compute_topset_slope</a><ul>
+<li><a class="reference internal" href="#sandplover.plan.compute_topset_slope"><code class="docutils literal notranslate"><span class="pre">compute_topset_slope()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="sandplover.plan.compute_shoreline_radius.html"
+                          title="previous chapter">sandplover.plan.compute_shoreline_radius</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="sandplover.plan.compute_channel_width.html"
+                          title="next chapter">sandplover.plan.compute_channel_width</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/_autosummary/sandplover.plan.compute_topset_slope.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_channel_width.html" title="sandplover.plan.compute_channel_width"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_shoreline_radius.html" title="sandplover.plan.compute_shoreline_radius"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/plan/index.html" >Planview operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.plan.compute_topset_slope</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, The sandpiper-toolchain Team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

@@ -5,4 +5,4 @@ em0 = spl.mask.ElevationMask.from_array(
 sm0 = spl.mask.ShorelineMask.from_mask(
     em0)
 
-rgh0 = spl.plan.compute_shoreline_roughness(sm0, lm0)
+rgh0 = spl.plan.compute_shoreline_roughness_area(sm0, lm0)

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sandplover.plan.compute_shoreline_radius &#8212; sandplover 0.5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sandplover.plan.compute_topset_slope" href="sandplover.plan.compute_topset_slope.html" />
+    <link rel="prev" title="sandplover.plan.compute_shoreline_distance" href="sandplover.plan.compute_shoreline_distance.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_topset_slope.html" title="sandplover.plan.compute_topset_slope"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_shoreline_distance.html" title="sandplover.plan.compute_shoreline_distance"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/plan/index.html" accesskey="U">Planview operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.plan.compute_shoreline_radius</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="sandplover-plan-compute-shoreline-radius">
+<h1>sandplover.plan.compute_shoreline_radius<a class="headerlink" href="#sandplover-plan-compute-shoreline-radius" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="sandplover.plan.compute_shoreline_radius">
+<span class="sig-prename descclassname"><span class="pre">sandplover.plan.</span></span><span class="sig-name descname"><span class="pre">compute_shoreline_radius</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shore_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_radii</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.compute_shoreline_radius" title="Link to this definition">¶</a></dt>
+<dd><p>Radially-averaged shoreline radius.</p>
+<p>Algorithm uses equally spaced <code class="xref py py-obj docutils literal notranslate"><span class="pre">RadialSection</span></code> to calculate the
+distance to the shoreline.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In implementation, this metric uses the last (farthest) intersection
+of the <cite>RadialSection</cite> at a certain <cite>azimuth</cite> and the shoreline mask,
+if there are multiple intersections.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>This function is similar to, but distinct
+from <a class="reference internal" href="sandplover.plan.compute_shoreline_distance.html#sandplover.plan.compute_shoreline_distance" title="sandplover.plan.compute_shoreline_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_shoreline_distance</span></code></a>, which computes the
+straight-line distance between the origin and every point along the
+shoreline.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shore_mask</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ShorelineMask</span></code>) – Input shoreline mask.</p></li>
+<li><p><strong>origin</strong> – Origin for <a class="reference internal" href="sandplover.section.RadialSection.html#sandplover.section.RadialSection" title="sandplover.section.RadialSection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RadialSection</span></code></a> objects, specified
+in data dimensions (not indices) along <cite>dim1, dim2</cite> of the data.
+Default (0, 0).</p></li>
+<li><p><strong>return_radii</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to return the calculated radii along each section, in addition
+to the mean and standard deviation.</p></li>
+<li><p><strong>**kwargs</strong> – Passed to <code class="xref py py-obj docutils literal notranslate"><span class="pre">_determine_equally_spaced_azimuths</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>mean</em> – Mean radius over all sections.</p></li>
+<li><p><em>std</em> – Standard deviation of radii along all sections.</p></li>
+<li><p><em>radii</em> – Array of radius values calculated along all sections. Returned only if
+<cite>return_radii = True</cite>.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Compute the distance to the shoreline at seven equally spaced <cite>RadialSection</cite>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sandplover</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">spl</span>
+
+<span class="n">golf</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
+<span class="n">origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;L0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;CTR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">])</span> <span class="o">*</span> <span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;dx&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+
+<span class="n">azimuth_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">}</span>
+<span class="n">shore_mask</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ShorelineMask</span><span class="p">(</span><span class="n">golf</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">mean_radius</span><span class="p">,</span> <span class="n">std_radius</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">compute_shoreline_radius</span><span class="p">(</span>
+    <span class="n">shore_mask</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">,</span> <span class="o">**</span><span class="n">azimuth_kwargs</span>
+<span class="p">)</span>
+
+<span class="c1"># make a map to visualize the calculation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.plan</span><span class="w"> </span><span class="kn">import</span> <span class="n">_determine_equally_spaced_azimuths</span>
+
+<span class="n">azimuths</span> <span class="o">=</span> <span class="n">_determine_equally_spaced_azimuths</span><span class="p">(</span><span class="o">**</span><span class="n">azimuth_kwargs</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">shore_mask</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">azimuth</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">azimuths</span><span class="p">):</span>
+    <span class="n">a_section</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">section</span><span class="o">.</span><span class="n">RadialSection</span><span class="p">(</span>
+        <span class="n">golf</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
+        <span class="n">azimuth</span><span class="o">=</span><span class="n">azimuth</span><span class="p">,</span>
+        <span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">a_section</span><span class="o">.</span><span class="n">show_trace</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mean_radius</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> $\pm$ </span><span class="si">{</span><span class="n">std_radius</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="../_downloads/aa75a10952ba7617731b91ab572cc710/sandplover-plan-compute_shoreline_radius-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/9bd0998d87c1d17bda224345d09b9e55/sandplover-plan-compute_shoreline_radius-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/19cefd4fca5a40f9de431d21f42f4ca5/sandplover-plan-compute_shoreline_radius-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../_images/sandplover-plan-compute_shoreline_radius-1.png" class="plot-directive" src="../_images/sandplover-plan-compute_shoreline_radius-1.png" />
+</figure>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">sandplover.plan.compute_shoreline_radius</a><ul>
+<li><a class="reference internal" href="#sandplover.plan.compute_shoreline_radius"><code class="docutils literal notranslate"><span class="pre">compute_shoreline_radius()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="sandplover.plan.compute_shoreline_distance.html"
+                          title="previous chapter">sandplover.plan.compute_shoreline_distance</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="sandplover.plan.compute_topset_slope.html"
+                          title="next chapter">sandplover.plan.compute_topset_slope</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/_autosummary/sandplover.plan.compute_shoreline_radius.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_topset_slope.html" title="sandplover.plan.compute_topset_slope"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_shoreline_distance.html" title="sandplover.plan.compute_shoreline_distance"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/plan/index.html" >Planview operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.plan.compute_shoreline_radius</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, The sandpiper-toolchain Team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

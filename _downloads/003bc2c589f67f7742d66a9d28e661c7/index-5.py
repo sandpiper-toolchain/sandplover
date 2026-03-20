@@ -1,19 +1,18 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import warnings
 import sandplover as spl
 #
-with warnings.catch_warnings():
-    warnings.simplefilter("ignore")
-    rcm8 = spl.sample_data.rcm8()
+img, scans = spl.sample_data.savi2020()
 nt = 5
-ts = np.linspace(0, rcm8["eta"].shape[0] - 1, num=nt, dtype=int)
+ts_i = np.linspace(0, img["red"].shape[0] - 1, num=nt, dtype=int)
+ts_s = np.linspace(0, scans["eta"].shape[0] - 1, num=nt, dtype=int)
 #
-fig, ax = plt.subplots(1, nt, figsize=(12, 2))
-for i, t in enumerate(ts):
-    _ = ax[i].imshow(rcm8["eta"][t, :, :], vmin=-2, vmax=0.5)
-    _ = ax[i].set_title(f"t = {t}")
-    _ = ax[i].axes.get_xaxis().set_ticks([])
-    _ = ax[i].axes.get_yaxis().set_ticks([])
-_ = ax[0].set_ylabel("y-direction")
-_ = ax[0].set_xlabel("x-direction")
+fig, ax = plt.subplots(2, nt, figsize=(9, 6))
+for i in range(nt):
+    _ = ax[0, i].imshow(img["red"][ts_i[i], :, :], vmin=0, vmax=1)
+    _ = ax[0, i].set_title(f"t = {ts_i[i]}")
+    _ = ax[1, i].imshow(scans["eta"][ts_s[i], :, :])
+    _ = ax[1, i].set_title(f"t = {ts_s[i]}")
+#
+_ = ax[1, 0].set_ylabel("dim1 direction")
+_ = ax[1, 0].set_xlabel("dim2 direction")

@@ -1,0 +1,6 @@
+﻿sandplover.plan.compute\_shoreline\_rugosity
+============================================
+
+.. currentmodule:: sandplover.plan
+
+.. autofunction:: compute_shoreline_rugosity

@@ -1,0 +1,6 @@
+﻿sandplover.plan.compute\_topset\_slope
+======================================
+
+.. currentmodule:: sandplover.plan
+
+.. autofunction:: compute_topset_slope

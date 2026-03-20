@@ -12,8 +12,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
     <script src="../_static/documentation_options.js?v=1dd76d02"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="sandplover.cube.StratigraphyCube" href="sandplover.cube.StratigraphyCube.html" />
@@ -47,7 +47,7 @@
 <h1>sandplover.cube.DataCube<a class="headerlink" href="#sandplover-cube-datacube" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sandplover.cube.</span></span><span class="sig-name descname"><span class="pre">DataCube</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stratigraphy_from</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.cube.DataCube" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">sandplover.cube.</span></span><span class="sig-name descname"><span class="pre">DataCube</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stratigraphy_from</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.cube.DataCube" title="Link to this definition">¶</a></dt>
 <dd><p>DataCube object.</p>
 <p>DataCube contains t-x-y information. It may have any
 number of attached attributes (grain size, mud frac, elevation).</p>
@@ -202,19 +202,19 @@ in a dictionary.</p></li>
 </table>
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.H">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">H</span></span><a class="headerlink" href="#sandplover.cube.DataCube.H" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">H</span></span><a class="headerlink" href="#sandplover.cube.DataCube.H" title="Link to this definition">¶</a></dt>
 <dd><p>Number of elements, vertical (height) coordinate.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.L">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">L</span></span><a class="headerlink" href="#sandplover.cube.DataCube.L" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">L</span></span><a class="headerlink" href="#sandplover.cube.DataCube.L" title="Link to this definition">¶</a></dt>
 <dd><p>Number of elements, length coordinate.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.T">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">T</span></span><a class="headerlink" href="#sandplover.cube.DataCube.T" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">T</span></span><a class="headerlink" href="#sandplover.cube.DataCube.T" title="Link to this definition">¶</a></dt>
 <dd><p>Time mesh.</p>
 <p>This is a three-dimensional representation of the time coordinate of
 the <cite>DataCube</cite>. Every element of each row (i.e., layer) of the returned array is filled
@@ -223,13 +223,13 @@ with the corresponding time coordinate value.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.W">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">W</span></span><a class="headerlink" href="#sandplover.cube.DataCube.W" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">W</span></span><a class="headerlink" href="#sandplover.cube.DataCube.W" title="Link to this definition">¶</a></dt>
 <dd><p>Number of elements, width coordinate.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.Z">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Z</span></span><a class="headerlink" href="#sandplover.cube.DataCube.Z" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Z</span></span><a class="headerlink" href="#sandplover.cube.DataCube.Z" title="Link to this definition">¶</a></dt>
 <dd><p>Vertical mesh.</p>
 </dd></dl>
 
@@ -254,7 +254,7 @@ with the corresponding time coordinate value.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.coords">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">coords</span></span><a class="headerlink" href="#sandplover.cube.DataCube.coords" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">coords</span></span><a class="headerlink" href="#sandplover.cube.DataCube.coords" title="Link to this definition">¶</a></dt>
 <dd><p>List of coordinate names as strings.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -265,7 +265,7 @@ with the corresponding time coordinate value.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.data_path">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_path</span></span><a class="headerlink" href="#sandplover.cube.DataCube.data_path" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">data_path</span></span><a class="headerlink" href="#sandplover.cube.DataCube.data_path" title="Link to this definition">¶</a></dt>
 <dd><p>Path connected to for file IO.</p>
 <p>Returns a string if connected to file, or None if cube initialized
 from <code class="docutils literal notranslate"><span class="pre">dict</span></code>.</p>
@@ -278,7 +278,7 @@ from <code class="docutils literal notranslate"><span class="pre">dict</span></c
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.dataio">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dataio</span></span><a class="headerlink" href="#sandplover.cube.DataCube.dataio" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">dataio</span></span><a class="headerlink" href="#sandplover.cube.DataCube.dataio" title="Link to this definition">¶</a></dt>
 <dd><p>Data I/O handler.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -289,19 +289,19 @@ from <code class="docutils literal notranslate"><span class="pre">dict</span></c
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.dim0_coords">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dim0_coords</span></span><a class="headerlink" href="#sandplover.cube.DataCube.dim0_coords" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">dim0_coords</span></span><a class="headerlink" href="#sandplover.cube.DataCube.dim0_coords" title="Link to this definition">¶</a></dt>
 <dd><p>Coordinates along the first dimension of <cite>cube</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.dim1_coords">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dim1_coords</span></span><a class="headerlink" href="#sandplover.cube.DataCube.dim1_coords" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">dim1_coords</span></span><a class="headerlink" href="#sandplover.cube.DataCube.dim1_coords" title="Link to this definition">¶</a></dt>
 <dd><p>Coordinates along the second dimension of <cite>cube</cite>.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.dim2_coords">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dim2_coords</span></span><a class="headerlink" href="#sandplover.cube.DataCube.dim2_coords" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">dim2_coords</span></span><a class="headerlink" href="#sandplover.cube.DataCube.dim2_coords" title="Link to this definition">¶</a></dt>
 <dd><p>Coordinates along the third dimension of <cite>cube</cite>.</p>
 </dd></dl>
 
@@ -319,28 +319,28 @@ data off-disk as needed.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.extent">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extent</span></span><a class="headerlink" href="#sandplover.cube.DataCube.extent" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">extent</span></span><a class="headerlink" href="#sandplover.cube.DataCube.extent" title="Link to this definition">¶</a></dt>
 <dd><p>The limits of the dim1 by dim2 plane.</p>
 <p>Useful for plotting.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.extent_flipud">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extent_flipud</span></span><a class="headerlink" href="#sandplover.cube.DataCube.extent_flipud" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">extent_flipud</span></span><a class="headerlink" href="#sandplover.cube.DataCube.extent_flipud" title="Link to this definition">¶</a></dt>
 <dd><p>The <cite>extent</cite>, reversed up-down for special plotting.</p>
 <p>limits of the dim1 by dim2 plane,</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.extent_zeros">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extent_zeros</span></span><a class="headerlink" href="#sandplover.cube.DataCube.extent_zeros" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">extent_zeros</span></span><a class="headerlink" href="#sandplover.cube.DataCube.extent_zeros" title="Link to this definition">¶</a></dt>
 <dd><p>A dummy variable of zeros with shape of <cite>extent</cite>.</p>
 <p>Returns an array of zeros with the shape of the cube.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.planform_set">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">planform_set</span></span><a class="headerlink" href="#sandplover.cube.DataCube.planform_set" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">planform_set</span></span><a class="headerlink" href="#sandplover.cube.DataCube.planform_set" title="Link to this definition">¶</a></dt>
 <dd><p>Set of planform instances.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -351,7 +351,7 @@ data off-disk as needed.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.planforms">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">planforms</span></span><a class="headerlink" href="#sandplover.cube.DataCube.planforms" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">planforms</span></span><a class="headerlink" href="#sandplover.cube.DataCube.planforms" title="Link to this definition">¶</a></dt>
 <dd><p>Set of plan instances.</p>
 <p>Alias to <code class="xref py py-meth docutils literal notranslate"><span class="pre">plan_set()</span></code>.</p>
 <dl class="field-list simple">
@@ -451,7 +451,7 @@ the <code class="docutils literal notranslate"><span class="pre">register_sectio
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.section_set">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">section_set</span></span><a class="headerlink" href="#sandplover.cube.DataCube.section_set" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">section_set</span></span><a class="headerlink" href="#sandplover.cube.DataCube.section_set" title="Link to this definition">¶</a></dt>
 <dd><p>Set of section instances.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -462,7 +462,7 @@ the <code class="docutils literal notranslate"><span class="pre">register_sectio
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.sections">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sections</span></span><a class="headerlink" href="#sandplover.cube.DataCube.sections" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">sections</span></span><a class="headerlink" href="#sandplover.cube.DataCube.sections" title="Link to this definition">¶</a></dt>
 <dd><p>Set of section instances.</p>
 <p>Alias to <a class="reference internal" href="#sandplover.cube.DataCube.section_set" title="sandplover.cube.DataCube.section_set"><code class="xref py py-meth docutils literal notranslate"><span class="pre">section_set()</span></code></a>.</p>
 <dl class="field-list simple">
@@ -474,7 +474,7 @@ the <code class="docutils literal notranslate"><span class="pre">register_sectio
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.shape">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#sandplover.cube.DataCube.shape" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#sandplover.cube.DataCube.shape" title="Link to this definition">¶</a></dt>
 <dd><p>Number of elements in data (HxLxW).</p>
 </dd></dl>
 
@@ -594,7 +594,7 @@ see :obj:_determine_strat_coordinates`.</p></li>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.t">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">t</span></span><a class="headerlink" href="#sandplover.cube.DataCube.t" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">t</span></span><a class="headerlink" href="#sandplover.cube.DataCube.t" title="Link to this definition">¶</a></dt>
 <dd><p>time coordinate.</p>
 <p>This is a one-dimensional array of the time coordinates of the
 <cite>DataCube</cite>.</p>
@@ -602,7 +602,7 @@ see :obj:_determine_strat_coordinates`.</p></li>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.variables">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">variables</span></span><a class="headerlink" href="#sandplover.cube.DataCube.variables" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">variables</span></span><a class="headerlink" href="#sandplover.cube.DataCube.variables" title="Link to this definition">¶</a></dt>
 <dd><p>List of variable names as strings.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -613,7 +613,7 @@ see :obj:_determine_strat_coordinates`.</p></li>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.varset">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">varset</span></span><a class="headerlink" href="#sandplover.cube.DataCube.varset" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">varset</span></span><a class="headerlink" href="#sandplover.cube.DataCube.varset" title="Link to this definition">¶</a></dt>
 <dd><p>Variable styling for plotting.</p>
 <p>Can be set with <code class="code docutils literal notranslate"><span class="pre">cube.varset</span> <span class="pre">=</span> <span class="pre">VariableSetInstance</span></code> where
 <code class="docutils literal notranslate"><span class="pre">VariableSetInstance</span></code> is a valid instance of
@@ -627,7 +627,7 @@ see :obj:_determine_strat_coordinates`.</p></li>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.DataCube.z">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#sandplover.cube.DataCube.z" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#sandplover.cube.DataCube.z" title="Link to this definition">¶</a></dt>
 <dd><p>Vertical coordinate.</p>
 </dd></dl>
 
@@ -741,7 +741,7 @@ see :obj:_determine_strat_coordinates`.</p></li>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2025, The sandpiper-toolchain Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     </div>
   </body>
 </html>

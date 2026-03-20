@@ -12,12 +12,12 @@
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
     <script src="../_static/documentation_options.js?v=1dd76d02"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="sandplover.plan.compute_shoreline_distance" href="sandplover.plan.compute_shoreline_distance.html" />
-    <link rel="prev" title="sandplover.plan.compute_shoreline_roughness" href="sandplover.plan.compute_shoreline_roughness.html" /> 
+    <link rel="prev" title="sandplover.plan.compute_shoreline_rugosity" href="sandplover.plan.compute_shoreline_rugosity.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
@@ -29,7 +29,7 @@
           <a href="sandplover.plan.compute_shoreline_distance.html" title="sandplover.plan.compute_shoreline_distance"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="sandplover.plan.compute_shoreline_roughness.html" title="sandplover.plan.compute_shoreline_roughness"
+          <a href="sandplover.plan.compute_shoreline_rugosity.html" title="sandplover.plan.compute_shoreline_rugosity"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
@@ -47,7 +47,7 @@
 <h1>sandplover.plan.compute_shoreline_length<a class="headerlink" href="#sandplover-plan-compute-shoreline-length" title="Link to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="sandplover.plan.compute_shoreline_length">
-<span class="sig-prename descclassname"><span class="pre">sandplover.plan.</span></span><span class="sig-name descname"><span class="pre">compute_shoreline_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shore_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.compute_shoreline_length" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">sandplover.plan.</span></span><span class="sig-name descname"><span class="pre">compute_shoreline_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shore_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.compute_shoreline_length" title="Link to this definition">¶</a></dt>
 <dd><p>Compute the length of a shoreline from a mask of the shoreline.</p>
 <p>Algorithm attempts to determine the sorted coordinates of the shoreline
 from a <code class="xref py py-obj docutils literal notranslate"><span class="pre">ShorelineMask</span></code>.</p>
@@ -56,16 +56,21 @@ from a <code class="xref py py-obj docutils literal notranslate"><span class="pr
 <p>Imperfect algorithm, which may not include all <cite>True</cite> pixels in the
 <cite>ShorelineMask</cite> in the determined shoreline.</p>
 </div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.5: </span>Changed keyword <cite>origin</cite> to <cite>start</cite>.</p>
+<p>With v0.5 the input keyword argument <cite>origin</cite> is deprecated, and
+replaced with keyword argument <cite>start</cite>.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>shore_mask</strong> (<a class="reference internal" href="sandplover.mask.ShorelineMask.html#sandplover.mask.ShorelineMask" title="sandplover.mask.ShorelineMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShorelineMask</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – Shoreline mask. Can be a <a class="reference internal" href="sandplover.mask.ShorelineMask.html#sandplover.mask.ShorelineMask" title="sandplover.mask.ShorelineMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShorelineMask</span></code></a>
 object, or a binarized array.</p></li>
-<li><p><strong>origin</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code>, optional) – Determines the location from where the starting point of the line
+<li><p><strong>start</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code>, optional) – Determines the location from where the starting point of the line
 sorting is initialized. The starting point of the line is determined
-as the point nearest to <cite>origin</cite>. For non-standard data
+as the point nearest to <cite>start</cite>. For non-standard data
 configurations, it may be important to set this to an appropriate
-value. Default is [0, 0].</p></li>
+value. Default is (0, 0).</p></li>
 <li><p><strong>return_line</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to return the sorted line as a second argument. If True, a
 <code class="docutils literal notranslate"><span class="pre">Nx2</span></code> array of x-y points is returned. Default is <cite>False</cite>.</p></li>
 </ul>
@@ -84,6 +89,43 @@ x-y points, is returned.</p></li>
 the length later. Here, we use the <cite>elevation_offset</cite> parameter (passed to
 <a class="reference internal" href="sandplover.mask.ElevationMask.html#sandplover.mask.ElevationMask" title="sandplover.mask.ElevationMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElevationMask</span></code></a>) to better capture the topography
 of the <cite>pyDeltaRCM</cite> model results.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.mask</span><span class="w"> </span><span class="kn">import</span> <span class="n">ShorelineMask</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.plan</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_shoreline_length</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.sample_data.sample_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">golf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golf</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Early in model run</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sm0</span> <span class="o">=</span> <span class="n">ShorelineMask</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">golf</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="mi">15</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">elevation_offset</span><span class="o">=-</span><span class="mf">0.5</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Late in model run</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sm1</span> <span class="o">=</span> <span class="n">ShorelineMask</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">golf</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">elevation_offset</span><span class="o">=-</span><span class="mf">0.5</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Compute lengths</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">len0</span> <span class="o">=</span> <span class="n">compute_shoreline_length</span><span class="p">(</span><span class="n">sm0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">len1</span><span class="p">,</span> <span class="n">line1</span> <span class="o">=</span> <span class="n">compute_shoreline_length</span><span class="p">(</span><span class="n">sm1</span><span class="p">,</span> <span class="n">return_line</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Make the plot</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golf</span><span class="o">.</span><span class="n">quick_show</span><span class="p">(</span><span class="s2">&quot;eta&quot;</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;length = </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">len0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golf</span><span class="o">.</span><span class="n">quick_show</span><span class="p">(</span><span class="s2">&quot;eta&quot;</span><span class="p">,</span> <span class="n">idx</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">line1</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">line1</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;r-&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;length = </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">len1</span><span class="p">))</span>
+</pre></div>
+</div>
 <p>(<a class="reference download internal" download="" href="../_downloads/6aa6344022949c9880a63dc7f127cc31/sandplover-plan-compute_shoreline_length-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/6253be0d85165446d7c719e45faeb92a/sandplover-plan-compute_shoreline_length-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/0cc3e3a0c721155dec5d03156c7a9f6d/sandplover-plan-compute_shoreline_length-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
 <figure class="align-default">
 <img alt="../_images/sandplover-plan-compute_shoreline_length-1.png" class="plot-directive" src="../_images/sandplover-plan-compute_shoreline_length-1.png" />
@@ -111,8 +153,8 @@ of the <cite>pyDeltaRCM</cite> model results.</p>
   </div>
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="sandplover.plan.compute_shoreline_roughness.html"
-                          title="previous chapter">sandplover.plan.compute_shoreline_roughness</a></p>
+    <p class="topless"><a href="sandplover.plan.compute_shoreline_rugosity.html"
+                          title="previous chapter">sandplover.plan.compute_shoreline_rugosity</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
@@ -150,7 +192,7 @@ of the <cite>pyDeltaRCM</cite> model results.</p>
           <a href="sandplover.plan.compute_shoreline_distance.html" title="sandplover.plan.compute_shoreline_distance"
              >next</a> |</li>
         <li class="right" >
-          <a href="sandplover.plan.compute_shoreline_roughness.html" title="sandplover.plan.compute_shoreline_roughness"
+          <a href="sandplover.plan.compute_shoreline_rugosity.html" title="sandplover.plan.compute_shoreline_rugosity"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
@@ -160,7 +202,7 @@ of the <cite>pyDeltaRCM</cite> model results.</p>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2025, The sandpiper-toolchain Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     </div>
   </body>
 </html>

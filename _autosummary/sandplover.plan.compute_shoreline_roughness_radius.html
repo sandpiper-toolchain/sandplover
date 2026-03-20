@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sandplover.plan.compute_shoreline_roughness_radius &#8212; sandplover 0.5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" href="../_static/style.css" type="text/css" />
+    <script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sandplover.plan.compute_shoreline_roughness_OAM" href="sandplover.plan.compute_shoreline_roughness_OAM.html" />
+    <link rel="prev" title="sandplover.plan.compute_shoreline_roughness_coefvar" href="sandplover.plan.compute_shoreline_roughness_coefvar.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_shoreline_roughness_OAM.html" title="sandplover.plan.compute_shoreline_roughness_OAM"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_shoreline_roughness_coefvar.html" title="sandplover.plan.compute_shoreline_roughness_coefvar"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/plan/index.html" accesskey="U">Planview operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.plan.compute_shoreline_roughness_radius</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="sandplover-plan-compute-shoreline-roughness-radius">
+<h1>sandplover.plan.compute_shoreline_roughness_radius<a class="headerlink" href="#sandplover-plan-compute-shoreline-roughness-radius" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="sandplover.plan.compute_shoreline_roughness_radius">
+<span class="sig-prename descclassname"><span class="pre">sandplover.plan.</span></span><span class="sig-name descname"><span class="pre">compute_shoreline_roughness_radius</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shore_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculate_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.compute_shoreline_roughness_radius" title="Link to this definition">¶</a></dt>
+<dd><p>Compute shoreline roughness, as shoreline count over mean radius.</p>
+<p>Computes the shoreline roughness metric:</p>
+<div class="math notranslate nohighlight">
+\[R = \frac{N}{(\bar{r} / dx)} \approx \frac{L_{shore}}{\bar{r}}\]</div>
+<p>where R is the roughness of the shoreline, N is the number of pixels in
+the shoreline in the <cite>shore_mask</cite>, <span class="math notranslate nohighlight">\(dx\)</span> is the grid spacing,
+and <span class="math notranslate nohighlight">\(\bar{r}\)</span> is the mean shoreline radius (after <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Internally, <a class="reference internal" href="sandplover.plan.compute_shoreline_distance.html#sandplover.plan.compute_shoreline_distance" title="sandplover.plan.compute_shoreline_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_shoreline_distance</span></code></a> is used to compute the
+mean shoreline distance <span class="math notranslate nohighlight">\(\bar{r}\)</span>.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>This function is similar to, but distinct
+rom <a class="reference internal" href="sandplover.plan.compute_shoreline_roughness_area.html#sandplover.plan.compute_shoreline_roughness_area" title="sandplover.plan.compute_shoreline_roughness_area"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_shoreline_roughness_area</span></code></a>, which uses an approach
+ased on the shoreline convexity to characterize the shoreline.</p>
+</div>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Liang, M., Voller, V. R., and Paola, C.: A reduced-complexity model
+for river delta formation – Part 1: Modeling deltas with channel
+dynamics, Earth Surf. Dynam., 3, 67–86,
+<a class="reference external" href="https://doi.org/10.5194/esurf-3-67-2015">https://doi.org/10.5194/esurf-3-67-2015</a>, 2015.</p>
+</aside>
+</aside>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shore_mask</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ShorelineMask</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – Shoreline mask. Can be a <code class="xref py py-obj docutils literal notranslate"><span class="pre">ShorelineMask</span></code> object,
+or a binarized array.</p></li>
+<li><p><strong>origin</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code>, optional) – Origin from which the distance to all shoreline points is computed,
+specified in data dimensions (not indices) along <cite>dim1, dim2</cite> of the
+data. Default (0, 0).</p></li>
+<li><p><strong>calculate_length</strong> (<em>bool</em><em>, </em><em>optional</em>) – If <cite>calculate_length=True</cite>, then <a class="reference internal" href="sandplover.plan.compute_shoreline_length.html#sandplover.plan.compute_shoreline_length" title="sandplover.plan.compute_shoreline_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_shoreline_length</span></code></a> is
+used to calculate the length of the shoreline explicitly, rather than
+counting the pixels in <cite>shore_mask</cite>. Default is <cite>False</cite>.</p></li>
+<li><p><strong>**kwargs</strong> – Passed to <cite>compute_shoreline_length</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>roughness</strong> – Shoreline roughness, computed as described above.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Calculate the shoreline roughness.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.mask</span><span class="w"> </span><span class="kn">import</span> <span class="n">ShorelineMask</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.plan</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_shoreline_roughness_radius</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.sample_data.sample_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">golf</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golf</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span> <span class="o">=</span> <span class="n">ShorelineMask</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">golf</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">elevation_offset</span><span class="o">=-</span><span class="mf">0.5</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span><span class="o">.</span><span class="n">trim_mask</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;L0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;L0&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;CTR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">])</span>
+<span class="gp">... </span>    <span class="o">*</span> <span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s2">&quot;dx&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Compute roughness</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rough</span> <span class="o">=</span> <span class="n">compute_shoreline_roughness_radius</span><span class="p">(</span><span class="n">sm</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sm</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;roughness = </span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rough</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>(<a class="reference download internal" download="" href="../_downloads/da079ec4fbaa0b9a992cfd0e2bbbde4b/sandplover-plan-compute_shoreline_roughness_radius-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/2b99a7d1ba82b208c17c0eae4a4d67e0/sandplover-plan-compute_shoreline_roughness_radius-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/ea27e3e6d22bb476719395c7dc5dbada/sandplover-plan-compute_shoreline_roughness_radius-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../_images/sandplover-plan-compute_shoreline_roughness_radius-1.png" class="plot-directive" src="../_images/sandplover-plan-compute_shoreline_roughness_radius-1.png" />
+</figure>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>See <a class="reference internal" href="../guides/examples/computations/comparing_shoreline_roughness_metrics.html"><span class="doc">this example</span></a>,
+which compares all of the “shoreline roughness” metrics implemented
+in sandplover.</p>
+</div>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">sandplover.plan.compute_shoreline_roughness_radius</a><ul>
+<li><a class="reference internal" href="#sandplover.plan.compute_shoreline_roughness_radius"><code class="docutils literal notranslate"><span class="pre">compute_shoreline_roughness_radius()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="sandplover.plan.compute_shoreline_roughness_coefvar.html"
+                          title="previous chapter">sandplover.plan.compute_shoreline_roughness_coefvar</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="sandplover.plan.compute_shoreline_roughness_OAM.html"
+                          title="next chapter">sandplover.plan.compute_shoreline_roughness_OAM</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/_autosummary/sandplover.plan.compute_shoreline_roughness_radius.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_shoreline_roughness_OAM.html" title="sandplover.plan.compute_shoreline_roughness_OAM"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sandplover.plan.compute_shoreline_roughness_coefvar.html" title="sandplover.plan.compute_shoreline_roughness_coefvar"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../reference/plan/index.html" >Planview operations</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">sandplover.plan.compute_shoreline_roughness_radius</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, The sandpiper-toolchain Team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    </div>
+  </body>
+</html>

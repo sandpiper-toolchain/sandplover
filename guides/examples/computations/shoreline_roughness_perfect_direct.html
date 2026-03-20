@@ -12,9 +12,9 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
     <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
     <script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
-    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="How to create a LandMask from arbitrary data" href="../io/instantiate_mask_directly.html" />
@@ -111,7 +111,7 @@ The intuition of shoreline roughness derives from the ratio of a circle’s circ
 <span class="n">sm0</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ShorelineMask</span><span class="o">.</span><span class="n">from_mask</span><span class="p">(</span>
     <span class="n">em0</span><span class="p">)</span>
 
-<span class="n">rgh0</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">compute_shoreline_roughness</span><span class="p">(</span><span class="n">sm0</span><span class="p">,</span> <span class="n">lm0</span><span class="p">)</span>
+<span class="n">rgh0</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">compute_shoreline_roughness_area</span><span class="p">(</span><span class="n">sm0</span><span class="p">,</span> <span class="n">lm0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>(<a class="reference download internal" download="" href="../../../_downloads/1853ec683753ef2157a14a6f2061f4d3/shoreline_roughness_perfect_direct-3.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
@@ -201,7 +201,7 @@ The intuition of shoreline roughness derives from the ratio of a circle’s circ
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2025, The sandpiper-toolchain Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     </div>
   </body>
 </html>

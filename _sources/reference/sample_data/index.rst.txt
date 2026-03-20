@@ -37,7 +37,6 @@ Example data cubes
 .. autofunction:: xslope
 .. autofunction:: aeolian
 .. autofunction:: landsat
-.. autofunction:: rcm8
 .. autofunction:: savi2020
 
 

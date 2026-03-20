@@ -12,11 +12,11 @@
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
     <script src="../_static/documentation_options.js?v=1dd76d02"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="sandplover.plan.compute_channel_width" href="sandplover.plan.compute_channel_width.html" />
+    <link rel="next" title="sandplover.plan.compute_shoreline_radius" href="sandplover.plan.compute_shoreline_radius.html" />
     <link rel="prev" title="sandplover.plan.compute_shoreline_length" href="sandplover.plan.compute_shoreline_length.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="Related">
@@ -26,7 +26,7 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="sandplover.plan.compute_channel_width.html" title="sandplover.plan.compute_channel_width"
+          <a href="sandplover.plan.compute_shoreline_radius.html" title="sandplover.plan.compute_shoreline_radius"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="sandplover.plan.compute_shoreline_length.html" title="sandplover.plan.compute_shoreline_length"
@@ -61,13 +61,19 @@ angle of the delta.</p>
 <p class="admonition-title">Note</p>
 <p>uses <cite>np.nanmean</cite> and <cite>np.nanstd</cite>.</p>
 </div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.5: </span>The expected order of dimensions in the <cite>origin</cite> keyword parameter has
+switched. This is now consistent with other uses of this keyword,
+expecting the tuple to be ordered <cite>(dim1, dim2)</cite>.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>shore_mask</strong> (<a class="reference internal" href="sandplover.mask.ShorelineMask.html#sandplover.mask.ShorelineMask" title="sandplover.mask.ShorelineMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShorelineMask</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>) – Shoreline mask. Can be a <a class="reference internal" href="sandplover.mask.ShorelineMask.html#sandplover.mask.ShorelineMask" title="sandplover.mask.ShorelineMask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShorelineMask</span></code></a>
 object, or a binarized array.</p></li>
-<li><p><strong>origin</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code>, optional) – Determines the location from where the distance to all shoreline
-points is computed.</p></li>
+<li><p><strong>origin</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray</span></code>, optional) – Origin from which the distance to all shoreline points is computed,
+specified in data dimensions (not indices) along <cite>dim1, dim2</cite> of the
+data. Default (0, 0).</p></li>
 <li><p><strong>return_distances</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to return the sorted line as a second argument. If True, a
 <code class="docutils literal notranslate"><span class="pre">Nx2</span></code> array of x-y points is returned. Default is <cite>False</cite>.</p></li>
 </ul>
@@ -116,8 +122,8 @@ are returned).</p></li>
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="sandplover.plan.compute_channel_width.html"
-                          title="next chapter">sandplover.plan.compute_channel_width</a></p>
+    <p class="topless"><a href="sandplover.plan.compute_shoreline_radius.html"
+                          title="next chapter">sandplover.plan.compute_shoreline_radius</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -147,7 +153,7 @@ are returned).</p></li>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="sandplover.plan.compute_channel_width.html" title="sandplover.plan.compute_channel_width"
+          <a href="sandplover.plan.compute_shoreline_radius.html" title="sandplover.plan.compute_shoreline_radius"
              >next</a> |</li>
         <li class="right" >
           <a href="sandplover.plan.compute_shoreline_length.html" title="sandplover.plan.compute_shoreline_length"
@@ -160,7 +166,7 @@ are returned).</p></li>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright 2025, The sandpiper-toolchain Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     </div>
   </body>
 </html>

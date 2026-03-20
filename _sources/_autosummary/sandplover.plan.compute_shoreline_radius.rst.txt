@@ -1,0 +1,6 @@
+﻿sandplover.plan.compute\_shoreline\_radius
+==========================================
+
+.. currentmodule:: sandplover.plan
+
+.. autofunction:: compute_shoreline_radius
