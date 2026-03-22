@@ -114,7 +114,7 @@ addopts = [
     "--tb=native",
     "--durations=16",
     "--strict-markers",
-    "--doctest-modules",
+    # "--doctest-modules",  # AM commented to avoid default doctest during coverage
     "-vvv",
 ]
 doctest_optionflags = [

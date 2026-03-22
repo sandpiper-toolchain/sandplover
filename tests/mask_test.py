@@ -1,5 +1,6 @@
 """Tests for the mask.py script."""
 
+import sys
 import unittest.mock as mock
 
 import matplotlib.pyplot as plt
@@ -162,6 +163,7 @@ class TestBaseMask:
         with pytest.raises(ValueError):
             basemask.trim_mask("arg1", "arg2", value=1, length=1)
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
     def test_show(self):
         """
         Here, we just test whether it works, and whether it takes a
@@ -186,6 +188,7 @@ class TestBaseMask:
         basemask.show(ax=ax)
         plt.close()
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
     def test_show_error_nomask(self):
         """
         Here, we just test whether it works, and whether it takes a

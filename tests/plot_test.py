@@ -1,3 +1,5 @@
+import sys
+
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
@@ -172,6 +174,7 @@ class TestVariableSet:
             _ = vs.fakevariable
 
 
+@pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
 class TestAppendColorbar:
     def test_append_colorbar_working(self):
         """Test that the routine works.
@@ -204,6 +207,7 @@ class TestAppendColorbar:
         assert cb.formatter is _formatter
 
 
+@pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
 class TestStyleAxesKm:
     def test_style_axes_km_ax(self):
         fig, ax = plt.subplots(1, 6)
@@ -237,6 +241,7 @@ class TestStyleAxesKm:
         plt.close()
 
 
+@pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
 class TestFillSteps:
     """Test the `_fill_steps` function."""
 
@@ -297,6 +302,7 @@ class TestFillSteps:
         assert np.all(pc.get_facecolors()[0] == _exp)
 
 
+@pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
 class TestSODTTST:
     """Test the `show_one_dimensional_trajectory_to_strata` function."""
 
@@ -723,6 +729,7 @@ class TestScaleLightness:
             assert darker_red[0] == pytest.approx(scale)
 
 
+@pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
 class TestShowHistograms:
     locs = [0.25, 1, 0.5, 4, 2]
     scales = [0.1, 0.25, 0.4, 0.5, 0.1]
@@ -784,6 +791,7 @@ class TestShowHistograms:
             show_histograms(*sets, sets=[0, 1], ax=ax)
 
 
+@pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
 class TestAerialView:
     """These are just "does it work" tests."""
 
@@ -817,6 +825,7 @@ class TestAerialView:
         plt.close()
 
 
+@pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
 class TestOverlaySparseArray:
     """These are just "does it work" tests."""
 

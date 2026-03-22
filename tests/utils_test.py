@@ -17,7 +17,6 @@ from sandplover.utils import runtime_from_log
 
 
 class TestNoStratigraphyError:
-
     def test_needs_obj_argument(self):
         with pytest.raises(TypeError):
             raise NoStratigraphyError()
@@ -34,7 +33,6 @@ class TestNoStratigraphyError:
 
 
 class TestLineToCells:
-
     def test_flat_inputs(self):
         x0, y0, x1, y1 = 10, 40, 50, 40
         ret1 = line_to_cells(np.array([[x0, y0], [x1, y1]]))

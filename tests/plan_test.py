@@ -1,3 +1,4 @@
+import sys
 import unittest.mock as mock
 
 import matplotlib.pyplot as plt
@@ -122,6 +123,7 @@ class TestPlanform:
         assert np.all(plnfrm2["time"] == golfcubestrat["time"][plnfrm2.idx, :, :])
         assert np.all(plnfrm3["time"] == golfstrat["time"][plnfrm3.idx, :, :])
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
     def test_Planform_private_show(self):
         """Doesn't actually check the plots,
         just checks that the function runs.
@@ -153,6 +155,7 @@ class TestPlanform:
         plnfrm._show(_field, _varinfo, ax=ax, title="some title")
         plt.close()
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
     def test_Planform_public_show(self):
         golfcube = DataCube(golf_path)
         plnfrm = Planform(golfcube, idx=-1)
@@ -241,6 +244,7 @@ class TestOpeningAnglePlanform:
         with pytest.raises(TypeError):
             OpeningAnglePlanform(self.golfcube["eta"][-1, :, :].data)
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
     def test_show_and_errors(self):
         oap = OpeningAnglePlanform.from_elevation_data(
             self.golfcube["eta"][-1, :, :], elevation_threshold=0
