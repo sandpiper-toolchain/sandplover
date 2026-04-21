@@ -2161,15 +2161,22 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
         Compute mean and stddev distance
 
         >>> mean, stddev = compute_shoreline_distance(
-        ...     sm, origin=[golf.meta["CTR"].data, golf.meta["L0"].data]
+        ...     sm, origin=[golf.meta["L0"].data, golf.meta["CTR"].data]
         ... )
 
         Make the plot
 
         >>> import matplotlib.pyplot as plt
-
+        >>> import matplotlib.patches as patches
         >>> fig, ax = plt.subplots()
         >>> golf.quick_show("eta", idx=-1, ticks=True, ax=ax)
+        >>> dx = golf.meta["dx"].data
+        >>> origin_x = golf.meta["CTR"].data * dx
+        >>> origin_y = golf.meta["L0"].data * dx
+        >>> circle = patches.Circle((origin_x, origin_y), radius=mean, edgecolor='red', facecolor='none', linewidth=2, linestyle='--')
+        >>> ax.add_patch(circle)
+        >>> ax.plot(origin_x, origin_y, 'r*', markersize=10)
+        >>> ax.set_ylim(top=0)
         >>> _ = ax.set_title("mean = {:.2f}".format(mean))
     """
     # check if mask or already array
