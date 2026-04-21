@@ -2173,9 +2173,16 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
         >>> dx = golf.meta["dx"].data
         >>> origin_x = golf.meta["CTR"].data * dx
         >>> origin_y = golf.meta["L0"].data * dx
-        >>> circle = patches.Circle((origin_x, origin_y), radius=mean, edgecolor='red', facecolor='none', linewidth=2, linestyle='--')
+        >>> circle = patches.Circle(
+        ...     (origin_x, origin_y),
+        ...     radius=mean,
+        ...     edgecolor="red",
+        ...     facecolor="none",
+        ...     linewidth=2,
+        ...     linestyle="--",
+        ... )
         >>> ax.add_patch(circle)
-        >>> ax.plot(origin_x, origin_y, 'r*', markersize=10)
+        >>> ax.plot(origin_x, origin_y, "r*", markersize=10)
         >>> ax.set_ylim(top=0)
         >>> _ = ax.set_title("mean = {:.2f}".format(mean))
     """
