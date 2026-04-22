@@ -80,6 +80,58 @@ def golf():
     return DataCube(golf_path)
 
 
+def _get_golf_sandsuet_path():
+    unpack = pooch.Unzip()
+    fnames = REGISTRY.fetch("golf_sandsuet.zip", processor=unpack)
+    nc_bool = [os.path.splitext(fname)[1] == ".nc" for fname in fnames]
+    nc_idx = [i for i, b in enumerate(nc_bool) if b]
+    golf_path = fnames[nc_idx[0]]
+    return golf_path
+
+
+def golf_sandsuet():
+    """Golf Delta dataset in sandsuet format.
+
+    This is a synthetic delta dataset generated from the pyDeltaRCM numerical
+    model.
+
+    This model run was created to generate sample data.
+    Model was run on 04/22/2026, at Texas A&M University.
+
+    Run was computed with pyDeltaRCM v2.2.0. See log file for complete information
+    on system and model configuration.
+
+    Data available at Zenodo, version 1.2: 10.5281/zenodo.19701176.
+
+    Version history:
+    v1.2: 10.5281/zenodo.19701176
+    v1.1: 10.5281/zenodo.5570962
+    v1.0: 10.5281/zenodo.4456144
+
+    .. plot::
+
+        >>> import matplotlib.pyplot as plt
+        >>> import numpy as np
+        >>> from sandplover.sample_data.sample_data import golf
+
+        >>> golf = golf_sandsuet()
+        >>> nt = 5
+        >>> ts = np.linspace(0, golf["eta"].shape[0] - 1, num=nt, dtype=int)
+
+        >>> fig, ax = plt.subplots(1, nt, figsize=(12, 2))
+        >>> for i, t in enumerate(ts):
+        ...     _ = ax[i].imshow(golf["eta"][t, :, :], vmin=-2, vmax=0.5)
+        ...     _ = ax[i].set_title(f"t = {t}")
+        ...     _ = ax[i].axes.get_xaxis().set_ticks([])
+        ...     _ = ax[i].axes.get_yaxis().set_ticks([])
+        ...
+        >>> _ = ax[0].set_ylabel("dim1 direction")
+        >>> _ = ax[0].set_xlabel("dim2 direction")
+    """
+    golf_path = _get_golf_sandsuet_path()
+    return DataCube(golf_path)
+
+
 def _get_xslope_path():
     unpack = pooch.Unzip()
     fnames = REGISTRY.fetch("xslope.zip", processor=unpack)

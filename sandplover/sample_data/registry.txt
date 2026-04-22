@@ -1,4 +1,5 @@
 golf.zip 4da329fa6ac7cac903d509a39b7921000cd987dc6889ccc14aeedfdf6f89e090 https://zenodo.org/record/5570962/files/golf.zip?download=1
+golf_sandsuet.zip md5:06a964e509ed9b1edf6b592769a18efd https://zenodo.org/record/19701176/files/golf.zip?download=1
 swanson_aeolian_expt1.nc 76001cd9e8b5570f6830a30e650b211180a2813618bc283f810b639b8b95e424 doi:10.6084/m9.figshare.17118827.v1/swanson_aeolian_expt1.nc
 LandsatEx.hdf5 56c5b6b3931b1a1182d9037742a0dc338e93261b1c073f66c2803886b4e2739f
 xslope.zip d2ffd09bbf05ae1087ec56f92a55752f9ecae25b5e463531260c294e354d7058 https://zenodo.org/record/6301362/files/xslope_demo_pyDeltaRCM.zip?download=1
