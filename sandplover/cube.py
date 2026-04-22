@@ -21,6 +21,7 @@ from sandplover.strat import MeshStratigraphyAttributes
 from sandplover.strat import _adjust_elevation_by_subsidence
 from sandplover.strat import _determine_strat_coordinates
 from sandplover.strat import compute_boxy_stratigraphy_coordinates
+from sandplover.utils import NoStratigraphyError
 
 
 class BaseCube(abc.ABC):
@@ -819,6 +820,13 @@ class DataCube(BaseCube):
         with the corresponding time coordinate value.
         """
         return self._T
+
+    @property
+    def strata(self):
+        if self._knows_stratigraphy:
+            return self.strat_attr.strata
+        else:
+            raise NoStratigraphyError(obj=self, var="strata")
 
 
 class StratigraphyCube(BaseCube):
