@@ -88,8 +88,7 @@ def compute_compensation(stratal_surfaces, time_idxs=None, clip_ends=0):
     Examples
     --------
 
-    * :doc:`Example on Compensational Stacking
-       <../guides/examples/computations/compensational_stacking>`
+    * :doc:`Example on Compensational Stacking <../guides/examples/computations/compensational_stacking>` # noqa: E501
 
     """
     if time_idxs is None:

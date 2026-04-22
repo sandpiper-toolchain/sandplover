@@ -1726,10 +1726,10 @@ def compute_shoreline_roughness_OAM(
         from sandplover.plan import compute_shoreline_roughness_OAM
 
         golf = spl.sample_data.golf()
-            origin = (
-                np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
-                * golf.meta["dx"].data
-            )
+        origin = (
+            np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
+            * golf.meta["dx"].data
+        )
 
         em = spl.mask.ElevationMask(
             golf["eta"][30, :, :], elevation_threshold=0, elevation_offset=-0.1

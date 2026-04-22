@@ -27,6 +27,14 @@ Sections
    computations/aggradation_preserved_time
    create_from/sections_into_arbitrary
 
+Masks
+-----
+
+.. toctree::
+   :maxdepth: 1
+
+   create_from/masks_from_planforms
+
 
 Plotting
 --------
