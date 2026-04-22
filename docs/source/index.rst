@@ -15,6 +15,7 @@ The package has robust objects and routines designed to help organize, visualize
 *sandplover* works especially well with data from deltaic systems (e.g., the `pyDeltaRCM numerical model <https://github.com/DeltaRCM/pyDeltaRCM>`_  and laboratory delta experiments).
 
 .. plot:: guides/cover.py
+   :include-source: False
 
    A :obj:`~sandplover.plan.Planform` view of bed elevation in a modeled deltaic deposit, and a cross-:obj:`~sandplover.section.StrikeSection` view of sediment deposition timing in stratigraphy.
 
