@@ -2167,7 +2167,6 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
         Make the plot
 
         >>> import matplotlib.pyplot as plt
-        >>> import matplotlib.patches as patches
         >>> fig, ax = plt.subplots()
         >>> golf.quick_show("eta", idx=-1, ticks=True, ax=ax)
         >>> dx = golf.meta["dx"].data
@@ -2175,7 +2174,6 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
         >>> origin_y = golf.meta["L0"].data * dx
         >>> ax.plot(origin_x, origin_y, 'ro')
         >>> _ = ax.set_title("mean = {:.2f}".format(mean))
-        >>> plt.show()
 
     """
     # check if mask or already array
