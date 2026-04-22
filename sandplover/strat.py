@@ -12,8 +12,8 @@ def compute_compensation(stratal_surfaces, time_idxs=None, clip_ends=0):
 
     This function is an implementation of the compensation statistic [1]_
     [2]_ that has been widely adapted studies of stratigraphic channelized
-    deposits. The metric is an assessment of the coefficient of
-    variation in accumulation over space, averaged over increasing vertical stratigraphic
+    deposits. The metric is an assessment of the coefficient of variation in
+    accumulation over space, averaged over increasing vertical stratigraphic
     time [1]_.
 
     .. math::
@@ -88,7 +88,8 @@ def compute_compensation(stratal_surfaces, time_idxs=None, clip_ends=0):
     Examples
     --------
 
-    * :doc:`Example on Compensational Stacking <../guides/examples/computations/compensational_stacking>`
+    * :doc:`Example on Compensational Stacking
+       <../guides/examples/computations/compensational_stacking>`
 
     """
     if time_idxs is None:
@@ -114,7 +115,7 @@ def compute_compensation(stratal_surfaces, time_idxs=None, clip_ends=0):
     # clip domain edges if specified
     if clip_ends == 0:
         ss = stratal_surfaces
-    elif isinstance(clip_ends, int) or isinstance(clip_ends, float):
+    elif isinstance(clip_ends, (int, float)):
         ss = stratal_surfaces[:, clip_ends:-clip_ends]
     elif isinstance(clip_ends, tuple):
         ss = stratal_surfaces[:, clip_ends[0] : -clip_ends[1]]
@@ -808,7 +809,6 @@ def compute_boxy_stratigraphy_coordinates(
 
 
 class BaseStratigraphyAttributes:
-
     def __init__(self, style):
         self._style = style
 

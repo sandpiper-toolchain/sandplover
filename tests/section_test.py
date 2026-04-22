@@ -743,7 +743,7 @@ class TestSectionFromDataCubeNoStratigraphy:
 
 
 @pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
-class TestSectionFromDataCubeNoStratigraphy:
+class TestSectionFromDataCubeNoStratigraphyPlotting:
     """same as above class, but all "show" related tests"""
 
     golfcube_nostrat = DataCube(golf_path)
@@ -899,7 +899,7 @@ class TestSectionFromDataCubeWithStratigraphy:
 
 
 @pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
-class TestSectionFromDataCubeWithStratigraphy:
+class TestSectionFromDataCubeWithStratigraphyPlotting:
     """same as above class, but all "show" related tests"""
 
     golfcube = DataCube(golf_path)

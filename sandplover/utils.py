@@ -65,7 +65,7 @@ class NoStratigraphyError(AttributeError):
                 "'" + type(obj).__name__ + "'" + " object has no preservation "
                 "or stratigraphy information."
             )
-        super().__init__(message)
+        super().__init__(message, obj)
 
 
 def needs_stratigraphy(func):

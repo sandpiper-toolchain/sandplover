@@ -1,4 +1,3 @@
-import re
 import unittest.mock as mock
 
 import numpy as np
@@ -475,14 +474,14 @@ class TestFrozenStratigraphyCube:
         assert np.all(fixd_log == frzn_log)
 
 
-class TestLegacyPyDeltaRCMCube:
+class TestLegacyPyDeltaRCMCubes:
     def test_init_cube_from_path_rcm8(self):
         with pytest.raises(RuntimeError):
-            rcm8_path = _get_rcm8_path()
+            _ = _get_rcm8_path()
 
-    def test_init_cube_from_path_rcm8(self):
+    def test_init_cube_rcm8(self):
         with pytest.raises(RuntimeError):
-            rcm8cube = rcm8()
+            _ = rcm8()
 
 
 class TestCubesFromDictionary:
@@ -639,7 +638,8 @@ class TestReadMetaFallbacks:
             if key in self._two_d:
                 return xr.DataArray(np.zeros((y, x)), dims=(d1, d2), name=key)
 
-            # Otherwise treat it like a coordinate lookup (1-D or 2-D/invalid as configured)
+            # Otherwise treat it like a coordinate lookup (1-D or 2-D/invalid
+            #     as configured)
             return self.dataset[key]
 
     def _fresh_cube(self, t=4, y=5, x=6):
@@ -649,7 +649,10 @@ class TestReadMetaFallbacks:
         return DataCube({"eta": da})
 
     def test_no_dims_scans_for_3d_var_and_builds_coords(self):
-        """When IO has no .dims, cube should scan for a 3-D var and use its dim names."""
+        """
+        When IO has no .dims, cube should scan for a 3-D var and use its dim
+        names.
+        """
         t, y, x = 4, 5, 6
         fake_io = self.FakeIO(t=t, y=y, x=x, mesh=False, bad_coord=False)
         cube = self._fresh_cube(t, y, x)
@@ -664,7 +667,10 @@ class TestReadMetaFallbacks:
         assert np.array_equal(cube._dim2_coords, np.arange(x))
 
     def test_2d_meshgrid_coords_collapsed_to_1d(self):
-        """If y/x are provided as 2-D meshgrids, they are collapsed to their 1-D axes."""
+        """
+        If y/x are provided as 2-D meshgrids, they are collapsed to their 1-D
+        axes.
+        """
         t, y, x = 3, 7, 8
         fake_io = self.FakeIO(t=t, y=y, x=x, mesh=True, bad_coord=False)
         cube = self._fresh_cube(t, y, x)

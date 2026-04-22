@@ -200,8 +200,11 @@ class BaseSection(abc.ABC):
 
         # check that zero or one postitional argument was given
         if len(args) > 1:
-            raise ValueError("Expected single positional argument to \
-                             %s instantiation." % type(self))
+            raise ValueError(
+                "Expected single positional argument to \
+                             %s instantiation."
+                % type(self)
+            )
 
         # if one positional argument was given, connect to the cube,
         #    otherwise return an unconnected section.
@@ -399,9 +402,10 @@ class BaseSection(abc.ABC):
     def strata(self):
         """Stratigraphic surfaces array.
 
-        Stratigraphic surfaces after presevration calculation.
-        Used for calculations of preserved bed thickness, and visualization.
-        Generally, this is used on a DataCube which has had the stratigraphic preservation calculated for that elevation timeseries.
+        Stratigraphic surfaces after presevration calculation. Used for
+        calculations of preserved bed thickness, and visualization.
+        Generally, this is used on a DataCube which has had the stratigraphic
+        preservation calculated for that elevation timeseries.
 
         See :obj:`~sandplover.cube.DataCube.strata` for more information.
 
@@ -423,7 +427,8 @@ class BaseSection(abc.ABC):
             golfcube.register_section("test", StrikeSection(distance_idx=5))
 
             fig, ax = plt.subplots()
-            ax.plot(golfcube.sections["test"].strata.T) # transpose for columns-->lines in matplotlib
+            # note: transpose `strata` for columns-->lines plotting in matplotlib
+            ax.plot(golfcube.sections["test"].strata.T)
             plt.show()
         """
         if self._underlying._knows_stratigraphy:
@@ -1960,12 +1965,12 @@ class RadialSection(BaseSection):
         #   vector is from (0, b) to (origin)
         theta_rad = theta * (np.pi / 180)
         magnitude = 1
-        if self.azimuth <= 90.0 and self.azimuth >= 0:
+        if self.azimuth <= 90.0 and self.azimuth >= 0:  # noqa: SIM114
             # vec = np.array([self._origin_idx[1] - 0, self._origin_idx[0] - b])
             x = magnitude * np.cos(theta_rad)
             y = magnitude * np.sin(theta_rad)
             vec = [x, y]
-        elif self.azimuth > 90 and self.azimuth <= 180:
+        elif self.azimuth > 90 and self.azimuth <= 180:  # noqa: SIM114
             # vec = np.array([0 - self._origin_idx[1], b - self._origin_idx[0]])
             x = magnitude * np.cos(theta_rad)
             y = magnitude * np.sin(theta_rad)
