@@ -237,6 +237,45 @@ create a new) <cite>Axes</cite> object.</p></li>
 </dl>
 <p class="rubric">Examples</p>
 <p><em>Example 1:</em> Display the <cite>velocity</cite> spacetime section of a DataCube.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.sample_data.sample_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">golf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.section</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrikeSection</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">register_section</span><span class="p">(</span><span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="n">StrikeSection</span><span class="p">(</span><span class="n">distance_idx</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s2">&quot;demo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s2">&quot;velocity&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that the last line above is functionally equivalent to
+<code class="docutils literal notranslate"><span class="pre">golfcube.show_section('demo',</span> <span class="pre">'velocity')</span></code>.</p>
+<p><em>Example 2:</em> Display a section, with “quick” stratigraphy, as the
+<cite>depth</cite> attribute, displaying several different section styles.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">stratigraphy_from</span><span class="p">(</span><span class="s2">&quot;eta&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">register_section</span><span class="p">(</span><span class="s2">&quot;demo&quot;</span><span class="p">,</span> <span class="n">StrikeSection</span><span class="p">(</span><span class="n">distance</span><span class="o">=</span><span class="mi">250</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s2">&quot;demo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;depth&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;spacetime&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;spacetime&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s2">&quot;demo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;depth&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;preserved&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;preserved&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s2">&quot;demo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;depth&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;stratigraphy&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;quick stratigraphy&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="s2">&quot;demo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;depth&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">data</span><span class="o">=</span><span class="s2">&quot;stratigraphy&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;quick stratigraphy&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>  <span class="c1"># noqa: E501</span>
+</pre></div>
+</div>
 <p>(<a class="reference download internal" download="" href="../_downloads/fffe91d7f03ef79ddb4ef3109dff211f/sandplover-section-BaseSection-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
 <figure class="align-default" id="id1">
 <img alt="../_images/sandplover-section-BaseSection-1_00.png" class="plot-directive" src="../_images/sandplover-section-BaseSection-1_00.png" />
