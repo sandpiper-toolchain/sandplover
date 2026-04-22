@@ -3,7 +3,6 @@ import sys
 import warnings
 
 import pooch
-from pooch import DOIDownloader
 
 if sys.version_info >= (3, 12):  # pragma: no cover (PY12+)
     import importlib.resources as importlib_resources

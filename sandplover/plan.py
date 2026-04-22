@@ -1213,9 +1213,13 @@ def compute_shoreline_roughness_area(
         R = L_{shore} / \\sqrt{A_{land}} \\approx (N \\times dx) / (\\sqrt{A_{land}}
 
     given binary masks of the shoreline and land area. The length of the
-    shoreline is computed internally with :obj:`compute_shoreline_length`.
+    shoreline is computed as the number of shoreline pixels if
+    `calculate_length=False` and the :obj:`compute_shoreline_length` function
+    is used if `calculate_length=True`.
 
-    .. versionchanged:: 0.5 This function was formerly named `compute_shoreline_roughness`.
+    .. versionchanged:: 0.5
+
+        This function was formerly named `compute_shoreline_roughness`.
 
     .. important::
 
@@ -1668,7 +1672,8 @@ def compute_shoreline_roughness_radius(
 def compute_shoreline_roughness_OAM(
     shore_mask_45, shore_mask_120, calculate_length=False, **kwargs
 ):
-    """Compute shoreline roughness, as ratio of shoreline lengths at different thresholds.
+    """Compute shoreline roughness, as ratio of shoreline lengths at
+    different thresholds.
 
     Computes the shoreline roughness metric:
 
@@ -1721,7 +1726,10 @@ def compute_shoreline_roughness_OAM(
         from sandplover.plan import compute_shoreline_roughness_OAM
 
         golf = spl.sample_data.golf()
-        origin = np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
+        origin = (
+            np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
+            * golf.meta["dx"].data
+        )
 
         em = spl.mask.ElevationMask(
             golf["eta"][30, :, :], elevation_threshold=0, elevation_offset=-0.1
@@ -2172,7 +2180,7 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
         >>> dx = golf.meta["dx"].data
         >>> origin_x = golf.meta["CTR"].data * dx
         >>> origin_y = golf.meta["L0"].data * dx
-        >>> ax.plot(origin_x, origin_y, "ro")
+        >>> _ = ax.plot(origin_x, origin_y, "ro")
         >>> _ = ax.set_title("mean = {:.2f}".format(mean))
 
     """
@@ -2343,7 +2351,10 @@ def compute_shoreline_radius(shore_mask, origin=(0, 0), return_radii=False, **kw
         import sandplover as spl
 
         golf = spl.sample_data.golf()
-        origin = np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
+        origin = (
+            np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
+            * golf.meta["dx"].data
+        )
 
         azimuth_kwargs = {"num": 7}
         shore_mask = spl.mask.ShorelineMask(golf["eta"][-1], elevation_threshold=0)
@@ -2388,7 +2399,8 @@ def compute_shoreline_radius(shore_mask, origin=(0, 0), return_radii=False, **kw
 
     if np.all(np.isnan(radii)):  # if all nan
         warnings.warn(
-            "No shoreline identified in shore_mask at intersection with any RadialSection, returning np.nan.",
+            "No shoreline identified in shore_mask at intersection with any "
+            "RadialSection, returning np.nan.",
             category=UserWarning,
             stacklevel=2,
         )
@@ -2539,7 +2551,8 @@ def compute_topset_slope(
 
     if np.all(np.isnan(slopes)):  # if all nan
         warnings.warn(
-            "Insufficient elevation data above elevation_threshold identified along any RadialSection, returning np.nan.",
+            "Insufficient elevation data above elevation_threshold identified "
+            "along any RadialSection, returning np.nan.",
             category=UserWarning,
             stacklevel=2,
         )

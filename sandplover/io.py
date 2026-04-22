@@ -225,11 +225,11 @@ class NetCDFIO(FileIO):
 
         # try to find if coordinates have been preconfigured
         _coords_list = list(_dataset.coords)
-        with warnings.catch_warnings():
-            # filter warning about Dataset.dims changing return, we use the
-            # correct use already
-            warnings.filterwarnings("ignore", category=FutureWarning)
-            _dims_set = set(_dataset.dims.keys())
+        # with warnings.catch_warnings():
+        #     # filter warning about Dataset.dims changing return, we use the
+        #     # correct use already
+        #     warnings.filterwarnings("ignore", category=FutureWarning)
+        #     _dims_set = set(_dataset.dims.keys())
         if len(_coords_list) == 3:
             # the coordinates are preconfigured
             self.dataset = _dataset
@@ -362,8 +362,10 @@ class DictionaryIO(BaseIO):
         """List known coordinates.
 
         Priority:
-          1) If any value is an xarray.DataArray -> IGNORE `dimensions` and use its dims/coords.
-          2) Else if `dimensions` provided -> validate against first 3-D var's shape.
+          1) If any value is an xarray.DataArray -> IGNORE `dimensions`
+             and use its dims/coords.
+          2) Else if `dimensions` provided -> validate against first
+             3-D var's shape.
           3) Else -> infer from first 3-D var; if none, error.
         """
         values = list(self.dataset.values())
@@ -424,7 +426,8 @@ class DictionaryIO(BaseIO):
         ref_shp = _first_3d_shape(values)
         if ref_shp is None:
             raise ValueError(
-                "Cannot infer coordinates: supply `dimensions` or include at least one 3-D variable."
+                "Cannot infer coordinates: supply `dimensions` or include at "
+                "least one 3-D variable."
             )
         self.dims = ["dim0", "dim1", "dim2"]
         self.coords = [np.arange(n) for n in ref_shp]

@@ -816,8 +816,9 @@ class DataCube(BaseCube):
         """Time mesh.
 
         This is a three-dimensional representation of the time coordinate of
-        the `DataCube`. Every element of each row (i.e., layer) of the returned array is filled
-        with the corresponding time coordinate value.
+        the `DataCube`. Every element of each row (i.e., layer) of the
+        returned array is filled with the corresponding time coordinate
+        value.
         """
         return self._T
 
