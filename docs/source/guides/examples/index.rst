@@ -56,6 +56,8 @@ Stratigraphy
 .. toctree::
    :maxdepth: 1
 
+   computations/compensational_stacking
+   computations/stratigraphy_temporal_subset
    computations/preserved_velocities
    computations/comparing_speeds_of_stratigraphy_access
    computations/accounting_for_subsidence

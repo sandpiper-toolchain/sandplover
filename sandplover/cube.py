@@ -21,6 +21,7 @@ from sandplover.strat import MeshStratigraphyAttributes
 from sandplover.strat import _adjust_elevation_by_subsidence
 from sandplover.strat import _determine_strat_coordinates
 from sandplover.strat import compute_boxy_stratigraphy_coordinates
+from sandplover.utils import NoStratigraphyError
 
 
 class BaseCube(abc.ABC):
@@ -820,6 +821,13 @@ class DataCube(BaseCube):
         """
         return self._T
 
+    @property
+    def strata(self):
+        if self._knows_stratigraphy:
+            return self.strat_attr.strata
+        else:
+            raise NoStratigraphyError(obj=self, var="strata")
+
 
 class StratigraphyCube(BaseCube):
     """StratigraphyCube object.
@@ -863,6 +871,15 @@ class StratigraphyCube(BaseCube):
             compute preservation and stratigraphy using that variable as
             elevation data. Typically, this is ``'eta'`` in pyDeltaRCM model
             outputs.
+
+        sigma_dist : :obj:`float`, :obj:`list` of `float`, optional
+            Subsidence distance per timestep or list of subsidence per
+            timestep. When a singular (integer or float) value for subsidence
+            is provided, it is assumed that the provided value is the rate of
+            subsidence in terms of some vertical distance per timestep.
+            Conversely, when a time-series is provided, the each value is
+            assumed to be the cumulative distance subsided up until that
+            point in time. Does not currently support spatially variable subsidence.
 
         **kwargs
             Keyword arguments passed to stratigraphy initialization. Can

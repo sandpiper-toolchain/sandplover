@@ -396,6 +396,53 @@ class BaseSection(abc.ABC):
         return self._variables
 
     @property
+    def strata(self):
+        """Stratigraphic surfaces array.
+
+        Stratigraphic surfaces after presevration calculation.
+        Used for calculations of preserved bed thickness, and visualization.
+        Generally, this is used on a DataCube which has had the stratigraphic preservation calculated for that elevation timeseries.
+
+        See :obj:`~sandplover.cube.DataCube.strata` for more information.
+
+        Raises
+        ------
+        NoStratigraphyError
+            If no stratigraphy information is found for the section.
+
+        Examples
+        --------
+
+        .. plot::
+
+            from sandplover.sample_data import golf
+            from sandplover.section import StrikeSection
+
+            golfcube = golf()
+            golfcube.stratigraphy_from("eta", dz=0.1)
+            golfcube.register_section("test", StrikeSection(distance_idx=5))
+
+            fig, ax = plt.subplots()
+            ax.plot(golfcube.sections["test"].strata.T) # transpose for columns-->lines in matplotlib
+            plt.show()
+        """
+        if self._underlying._knows_stratigraphy:
+            _xrDA = xr.DataArray(
+                self._underlying.strata[:, self._dim1_idx, self._dim2_idx],
+                coords={"s": self._s, self._z.dims[0]: self._z},
+                dims=[self._z.dims[0], "s"],
+                name="strata",
+                attrs={
+                    "slicetype": "data_section",
+                    "knows_stratigraphy": self._underlying._knows_stratigraphy,
+                    "knows_spacetime": True,
+                },
+            )
+            return _xrDA
+        else:
+            raise NoStratigraphyError(obj=self, var="strata")
+
+    @property
     def strat_attr(self):
         """Stratigraphic attributes data object.
 
