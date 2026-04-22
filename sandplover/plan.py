@@ -2172,7 +2172,7 @@ def compute_shoreline_distance(shore_mask, origin=(0, 0), return_distances=False
         >>> dx = golf.meta["dx"].data
         >>> origin_x = golf.meta["CTR"].data * dx
         >>> origin_y = golf.meta["L0"].data * dx
-        >>> ax.plot(origin_x, origin_y, 'ro')
+        >>> ax.plot(origin_x, origin_y, "ro")
         >>> _ = ax.set_title("mean = {:.2f}".format(mean))
 
     """
@@ -2841,9 +2841,9 @@ def shaw_opening_angle_method(
     #   fill the query points with the value returned from theta
     pad_opening_angles[query_set_idxs[:, 0], query_set_idxs[:, 1]] = theta
     #   fill the rest of the array
-    pad_opening_angles[
-        sea_idxs_outside_hull[:, 0], sea_idxs_outside_hull[:, 1]
-    ] = outside_hull_value  # aka 180
+    pad_opening_angles[sea_idxs_outside_hull[:, 0], sea_idxs_outside_hull[:, 1]] = (
+        outside_hull_value  # aka 180
+    )
     #   grab the data that is the same shape as the input below_mask
     opening_angles = pad_opening_angles[1:-1, 1:-1]
 
