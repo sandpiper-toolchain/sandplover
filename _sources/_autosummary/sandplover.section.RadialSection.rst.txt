@@ -34,6 +34,7 @@
       ~RadialSection.s
       ~RadialSection.shape
       ~RadialSection.strat_attr
+      ~RadialSection.strata
       ~RadialSection.trace
       ~RadialSection.trace_idx
       ~RadialSection.variables

@@ -33,6 +33,7 @@
       ~PathSection.s
       ~PathSection.shape
       ~PathSection.strat_attr
+      ~PathSection.strata
       ~PathSection.trace
       ~PathSection.trace_idx
       ~PathSection.variables

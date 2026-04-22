@@ -34,6 +34,7 @@
       ~StrikeSection.s
       ~StrikeSection.shape
       ~StrikeSection.strat_attr
+      ~StrikeSection.strata
       ~StrikeSection.trace
       ~StrikeSection.trace_idx
       ~StrikeSection.variables

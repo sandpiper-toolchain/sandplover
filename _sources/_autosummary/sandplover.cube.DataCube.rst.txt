@@ -54,6 +54,7 @@
       ~DataCube.section_set
       ~DataCube.sections
       ~DataCube.shape
+      ~DataCube.strata
       ~DataCube.t
       ~DataCube.variables
       ~DataCube.varset

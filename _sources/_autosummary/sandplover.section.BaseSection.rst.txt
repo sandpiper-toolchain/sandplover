@@ -32,6 +32,7 @@
       ~BaseSection.s
       ~BaseSection.shape
       ~BaseSection.strat_attr
+      ~BaseSection.strata
       ~BaseSection.trace
       ~BaseSection.trace_idx
       ~BaseSection.variables

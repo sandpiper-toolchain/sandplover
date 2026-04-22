@@ -347,6 +347,13 @@ StratigraphyCube.</p></li>
 compute preservation and stratigraphy using that variable as
 elevation data. Typically, this is <code class="docutils literal notranslate"><span class="pre">'eta'</span></code> in pyDeltaRCM model
 outputs.</p></li>
+<li><p><strong>sigma_dist</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <cite>float</cite>, optional) – Subsidence distance per timestep or list of subsidence per
+timestep. When a singular (integer or float) value for subsidence
+is provided, it is assumed that the provided value is the rate of
+subsidence in terms of some vertical distance per timestep.
+Conversely, when a time-series is provided, the each value is
+assumed to be the cumulative distance subsided up until that
+point in time. Does not currently support spatially variable subsidence.</p></li>
 <li><p><strong>**kwargs</strong> – Keyword arguments passed to stratigraphy initialization. Can
 include specification for vertical resolution in <cite>Boxy</cite> case,
 see <a class="reference internal" href="../reference/strat/index.html#sandplover.strat._determine_strat_coordinates" title="sandplover.strat._determine_strat_coordinates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_determine_strat_coordinates</span></code></a>,

@@ -186,16 +186,19 @@ in a dictionary.</p></li>
 <tr class="row-even"><td><p><a class="reference internal" href="#sandplover.cube.DataCube.shape" title="sandplover.cube.DataCube.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></p></td>
 <td><p>Number of elements in data (HxLxW).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.cube.DataCube.t" title="sandplover.cube.DataCube.t"><code class="xref py py-obj docutils literal notranslate"><span class="pre">t</span></code></a></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">strata</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.cube.DataCube.t" title="sandplover.cube.DataCube.t"><code class="xref py py-obj docutils literal notranslate"><span class="pre">t</span></code></a></p></td>
 <td><p>time coordinate.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.cube.DataCube.variables" title="sandplover.cube.DataCube.variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.cube.DataCube.variables" title="sandplover.cube.DataCube.variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></a></p></td>
 <td><p>List of variable names as strings.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.cube.DataCube.varset" title="sandplover.cube.DataCube.varset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">varset</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.cube.DataCube.varset" title="sandplover.cube.DataCube.varset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">varset</span></code></a></p></td>
 <td><p>Variable styling for plotting.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.cube.DataCube.z" title="sandplover.cube.DataCube.z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.cube.DataCube.z" title="sandplover.cube.DataCube.z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></a></p></td>
 <td><p>Vertical coordinate.</p></td>
 </tr>
 </tbody>
@@ -217,8 +220,9 @@ in a dictionary.</p></li>
 <span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">T</span></span><a class="headerlink" href="#sandplover.cube.DataCube.T" title="Link to this definition">¶</a></dt>
 <dd><p>Time mesh.</p>
 <p>This is a three-dimensional representation of the time coordinate of
-the <cite>DataCube</cite>. Every element of each row (i.e., layer) of the returned array is filled
-with the corresponding time coordinate value.</p>
+the <cite>DataCube</cite>. Every element of each row (i.e., layer) of the
+returned array is filled with the corresponding time coordinate
+value.</p>
 </dd></dl>
 
 <dl class="py property">

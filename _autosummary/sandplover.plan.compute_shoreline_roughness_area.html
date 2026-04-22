@@ -54,7 +54,9 @@
 <div class="math notranslate nohighlight">
 \[R = L_{shore} / \sqrt{A_{land}} \approx (N \times dx) / (\sqrt{A_{land}}\]</div>
 <p>given binary masks of the shoreline and land area. The length of the
-shoreline is computed internally with <a class="reference internal" href="sandplover.plan.compute_shoreline_length.html#sandplover.plan.compute_shoreline_length" title="sandplover.plan.compute_shoreline_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_shoreline_length</span></code></a>.</p>
+shoreline is computed as the number of shoreline pixels if
+<cite>calculate_length=False</cite> and the <a class="reference internal" href="sandplover.plan.compute_shoreline_length.html#sandplover.plan.compute_shoreline_length" title="sandplover.plan.compute_shoreline_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_shoreline_length</span></code></a> function
+is used if <cite>calculate_length=True</cite>.</p>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 0.5: </span>This function was formerly named <cite>compute_shoreline_roughness</cite>.</p>
 </div>

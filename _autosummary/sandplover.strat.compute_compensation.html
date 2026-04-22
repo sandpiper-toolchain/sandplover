@@ -14,6 +14,7 @@
     <script src="../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="sandplover.strat.compute_net_to_gross" href="sandplover.strat.compute_net_to_gross.html" />
@@ -47,28 +48,85 @@
 <h1>sandplover.strat.compute_compensation<a class="headerlink" href="#sandplover-strat-compute-compensation" title="Link to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="sandplover.strat.compute_compensation">
-<span class="sig-prename descclassname"><span class="pre">sandplover.strat.</span></span><span class="sig-name descname"><span class="pre">compute_compensation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.strat.compute_compensation" title="Link to this definition">¶</a></dt>
-<dd><p>Compute compensation statistic betwen two lines.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Not Implemented.</p>
-</div>
+<span class="sig-prename descclassname"><span class="pre">sandplover.strat.</span></span><span class="sig-name descname"><span class="pre">compute_compensation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stratal_surfaces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_idxs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip_ends</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.strat.compute_compensation" title="Link to this definition">¶</a></dt>
+<dd><p>Compute compensation, given stratal surfaces.</p>
+<p>This function is an implementation of the compensation statistic <a class="footnote-reference brackets" href="#id4" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>
+<a class="footnote-reference brackets" href="#id5" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> that has been widely adapted studies of stratigraphic channelized
+deposits. The metric is an assessment of the coefficient of variation in
+accumulation over space, averaged over increasing vertical stratigraphic
+time <a class="footnote-reference brackets" href="#id4" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<div class="math notranslate nohighlight">
+\[\sigma_{ss}(T) = \left( \int_L \left[ \frac{r(T;x)}{\hat{r}(x)}
+    - 1 \right]^2 dL \right)^{1/2}\]</div>
+<p>where, <span class="math notranslate nohighlight">\(r(T;x)\)</span> is the local sedimentation rate measured at a
+specific point x over the time interval T, <span class="math notranslate nohighlight">\(\hat{r}(x)\)</span> is the
+average sedimentation rate at point x over the entire timeseries,
+and <span class="math notranslate nohighlight">\(L\)</span> is the length of the stratigraphic sections for
+computation.</p>
+<p>Here, we implement an adaptable and flexible function to help asses
+compensational stacking. To understand the conceptual meaning of function
+outputs and how to work with these outputs to assess compensational
+stacking patterns in stratigraphy, see the <a class="reference internal" href="../guides/examples/computations/compensational_stacking.html"><span class="doc">example on Compensational
+Stacking</span></a>
+and especially references therein.</p>
+<p>This function operates on a two-dimensional array of stratal surfaces.
+Time is expected to be oriented along the first axis dimension. See the
+examples below for function use.</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id3">2</a>)</span>
+<p>Kyle M. Straub, Chris Paola, David Mohrig, Matthew A. Wolinsky,
+Terra George; Compensational Stacking of Channelized Sedimentary
+Deposits. Journal of Sedimentary Research 2009; 79 (9): 673–688.
+doi: 10.2110/jsr.2009.070</p>
+</aside>
+<aside class="footnote brackets" id="id5" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Yinan Wang, Kyle M. Straub, Elizabeth A. Hajek; Scale-dependent
+compensational stacking: An estimate of autogenic time scales in
+channelized sedimentary deposits. Geology 2011; 39 (9): 811–814.
+doi: 10.1130/G32068.1</p>
+</aside>
+</aside>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>line1</strong> (<em>ndarray</em>) – First surface to use (two-dimensional matrix with x-z coordinates of
-line).</p></li>
-<li><p><strong>line2</strong> (<em>ndarray</em>) – Second surface to use (two-dimensional matrix with x-z coordinates of
-line).</p></li>
+<li><p><strong>stratal_surface</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">DataArray</span></code>) – Array of stratigraphic surfaces, with vaules in the array representing
+elevations (i.e., stratigraphic height) and any other dimensions
+representing a spatial coordinate. This array should record along the
+first dimension each isochron in the stratigraphic record collapsed
+to that elevation at which the sedimentary surface at all later times
+occupied a higher stratigraphic height.</p></li>
+<li><p><strong>time_idxs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ndarray</span></code>, optional) – NOT IMPLEMENTED; only works for all input surfaces. Which time indices
+of the <code class="xref py py-obj docutils literal notranslate"><span class="pre">stratal_surfaces</span></code> array to use for computation. I.e.,
+specifying indices will subset the <cite>stratal_surfaces</cite> array for
+faster computations.</p></li>
+<li><p><strong>clip_ends</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>, optional) – How many stratigraphic columns from the edge of the section to ignore
+from the computation. This can be used to remove columns which have no
+deposition recorded, or are effected by bouundary conditions and/or
+wall effects. Can be <cite>int</cite> or 2-tuple of <cite>int</cite>, specifying the left
+and right clip indicies. Default is <cite>0</cite>, no clipping.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>CV</strong> – Compensation statistic.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>sigmas</em> – Compensation calculation for all combinations of pairs in
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">stratal_surfaces</span></code>.</p></li>
+<li><p><em>window_lengths</em> – The averaging windows used for each compensation calculation. These
+values are returned in the same coordinates as input <code class="xref py py-obj docutils literal notranslate"><span class="pre">times</span></code>.
+For example, if <code class="xref py py-obj docutils literal notranslate"><span class="pre">stratal_surfaces</span></code> is a <cite>DataArray</cite> then
+<cite>window_lengths</cite> records the time intervals between surfaces, and
+if <code class="xref py py-obj docutils literal notranslate"><span class="pre">stratal_surfaces</span></code> is an <cite>ndarray</cite> then <cite>window_lengths</cite>
+records the number of array indices between surfaces.</p></li>
+</ul>
+</p>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../guides/examples/computations/compensational_stacking.html"><span class="doc">Example on Compensational Stacking</span></a> # noqa: E501</p></li>
+</ul>
 </dd></dl>
 
 </section>

@@ -34,6 +34,7 @@
       ~CircularSection.s
       ~CircularSection.shape
       ~CircularSection.strat_attr
+      ~CircularSection.strata
       ~CircularSection.trace
       ~CircularSection.trace_idx
       ~CircularSection.variables

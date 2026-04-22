@@ -1,7 +1,10 @@
 import sandplover as spl
 
 golf = spl.sample_data.golf()
-origin = np.array([golf.meta["L0"].data, golf.meta["CTR"].data]) * golf.meta["dx"].data
+origin = (
+    np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
+    * golf.meta["dx"].data
+)
 
 azimuth_kwargs = {"num": 7}
 shore_mask = spl.mask.ShorelineMask(golf["eta"][-1], elevation_threshold=0)
