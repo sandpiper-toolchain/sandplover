@@ -119,9 +119,7 @@ class BaseCube(abc.ABC):
         """
         _, ext = os.path.splitext(data_path)
         if ext == ".nc":
-            self._dataio = NetCDFIO(
-                data_path, "netcdf", metadata_group=metadata_group
-            )
+            self._dataio = NetCDFIO(data_path, "netcdf", metadata_group=metadata_group)
         elif ext == ".hdf5":
             self._dataio = NetCDFIO(data_path, "hdf5", metadata_group=metadata_group)
         else:
