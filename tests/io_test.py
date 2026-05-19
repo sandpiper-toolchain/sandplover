@@ -24,6 +24,42 @@ def empty_netcdf_file(tmp_path):
     return p
 
 
+def _netcdf_file_with_metadata_group(tmp_path, group_name):
+    """Create a NetCDF file with coordinates, data, and a metadata group."""
+    p = tmp_path / f"{group_name}.nc"
+    f = netCDF4.Dataset(p, "w", format="NETCDF4")
+    f.createDimension("time", 2)
+    f.createDimension("x", 3)
+    f.createDimension("y", 4)
+
+    time = f.createVariable("time", "f8", ("time",))
+    x = f.createVariable("x", "f8", ("x",))
+    y = f.createVariable("y", "f8", ("y",))
+    eta = f.createVariable("eta", "f8", ("time", "x", "y"))
+    time[:] = np.arange(2)
+    x[:] = np.arange(3)
+    y[:] = np.arange(4)
+    eta[:] = np.ones((2, 3, 4))
+
+    meta = f.createGroup(group_name)
+    meta.createVariable("H_SL", "f8")
+    meta["H_SL"][:] = 1.5
+    f.close()
+    return p
+
+
+@pytest.fixture
+def netcdf_file_with_auxdata(tmp_path):
+    """Create NetCDF4 file with pyDeltaRCM-style auxdata metadata."""
+    return _netcdf_file_with_metadata_group(tmp_path, "auxdata")
+
+
+@pytest.fixture
+def netcdf_file_with_run_metadata(tmp_path):
+    """Create NetCDF4 file with a custom metadata group."""
+    return _netcdf_file_with_metadata_group(tmp_path, "run_metadata")
+
+
 @pytest.fixture
 def empty_txt_file(tmp_path):
     """Create a dummy text file."""
@@ -152,6 +188,18 @@ def test_netcdf_no_metadata():
     # works fine, because there is no `connect` call in io init
     netcdf_io = NetCDFIO(golf_path, "netcdf")
     assert len(netcdf_io._in_memory_data) == 0
+
+
+def test_netcdf_auxdata_metadata_group(netcdf_file_with_auxdata):
+    netcdf_io = NetCDFIO(netcdf_file_with_auxdata, "netcdf")
+    assert netcdf_io.meta["H_SL"].item() == 1.5
+
+
+def test_netcdf_custom_metadata_group(netcdf_file_with_run_metadata):
+    netcdf_io = NetCDFIO(
+        netcdf_file_with_run_metadata, "netcdf", metadata_group="run_metadata"
+    )
+    assert netcdf_io.meta["H_SL"].item() == 1.5
 
 
 class TestDictionaryIO:

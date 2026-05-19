@@ -165,7 +165,7 @@ class NetCDFIO(FileIO):
     `docs <https://www.unidata.ucar.edu/software/netcdf/docs/faq.html>`_.
     """
 
-    def __init__(self, data_path, io_type, write=False):
+    def __init__(self, data_path, io_type, write=False, metadata_group=None):
         """Initialize the NetCDFIO handler.
 
         Initialize a connection to a NetCDF file.
@@ -183,7 +183,12 @@ class NetCDFIO(FileIO):
             Whether to allow writing to an existing file. Set to False by
             default, if a file already exists at ``data_path``, writing is
             disabled, unless ``write`` is set to True.
+
+        metadata_group : `str`, optional
+            Name of a NetCDF group to use for metadata before falling back to
+            the default metadata group names.
         """
+        self.metadata_group = metadata_group
 
         super().__init__(data_path=data_path, io_type=io_type, write=write)
 
@@ -259,17 +264,26 @@ class NetCDFIO(FileIO):
             # warn('Coordinates for "time", and set("x", "y") not provided in the \
             #       given data file.', UserWarning)
 
-        # check for a matching meta field, and set it accordingly
-        if "/metadata" in self.dataset.groups:
-            self.meta = self.dataset["metadata"]
-        elif "/meta" in self.dataset.groups:
-            self.meta = self.dataset["meta"]
-            warnings.warn(
-                "Metadata found with group name `meta`, but this specification "
-                "is deprecated. Change group name to `metadata`.",
-                UserWarning,
-                stacklevel=2,
-            )
+        # check for a matching metadata group, and set it accordingly
+        metadata_groups = [self.metadata_group, "metadata", "auxdata", "meta"]
+        for metadata_group in metadata_groups:
+            if metadata_group is None:
+                continue
+
+            metadata_group = metadata_group.strip("/")
+            if f"/{metadata_group}" not in self.dataset.groups:
+                continue
+
+            self.meta = self.dataset[metadata_group]
+            if metadata_group == "meta":
+                warnings.warn(
+                    "Metadata found with group name `meta`, but this "
+                    "specification is deprecated. Change group name to "
+                    "`metadata`.",
+                    UserWarning,
+                    stacklevel=2,
+                )
+            break
         else:
             warnings.warn(
                 "No associated metadata was found in the given data file.",

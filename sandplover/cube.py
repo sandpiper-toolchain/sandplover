@@ -41,7 +41,9 @@ class BaseCube(abc.ABC):
 
     """
 
-    def __init__(self, data, read=(), varset=None, dimensions=None):
+    def __init__(
+        self, data, read=(), varset=None, dimensions=None, metadata_group=None
+    ):
         """Initialize the BaseCube.
 
         Parameters
@@ -65,11 +67,15 @@ class BaseCube(abc.ABC):
             A dictionary with names and coordinates for dimensions of the
             cube, if instantiating the cube from data loaded in memory
             in a dictionary.
+
+        metadata_group : `str`, optional
+            Name of a NetCDF group to use for metadata before falling back to
+            the default metadata group names.
         """
         if type(data) is str:
             # handle a path to netCDF file
             self._data_path = data
-            self._connect_to_file(data_path=data)
+            self._connect_to_file(data_path=data, metadata_group=metadata_group)
             self._read_meta_from_file()
         elif type(data) is dict:
             # handle a dict, arrays set up already, make an io class to wrap it
@@ -105,7 +111,7 @@ class BaseCube(abc.ABC):
         """
         ...
 
-    def _connect_to_file(self, data_path):
+    def _connect_to_file(self, data_path, metadata_group=None):
         """Connect to file.
 
         This method is used internally to send the ``data_path`` to the
@@ -113,9 +119,11 @@ class BaseCube(abc.ABC):
         """
         _, ext = os.path.splitext(data_path)
         if ext == ".nc":
-            self._dataio = NetCDFIO(data_path, "netcdf")
+            self._dataio = NetCDFIO(
+                data_path, "netcdf", metadata_group=metadata_group
+            )
         elif ext == ".hdf5":
-            self._dataio = NetCDFIO(data_path, "hdf5")
+            self._dataio = NetCDFIO(data_path, "hdf5", metadata_group=metadata_group)
         else:
             raise ValueError('Invalid file extension for "data_path": %s' % data_path)
 
@@ -657,7 +665,13 @@ class DataCube(BaseCube):
     """
 
     def __init__(
-        self, data, read=(), varset=None, stratigraphy_from=None, dimensions=None
+        self,
+        data,
+        read=(),
+        varset=None,
+        stratigraphy_from=None,
+        dimensions=None,
+        metadata_group=None,
     ):
         """Initialize the BaseCube.
 
@@ -691,8 +705,18 @@ class DataCube(BaseCube):
             A dictionary with names and coordinates for dimensions of the
             `DataCube`, if instantiating the cube from data loaded in memory
             in a dictionary.
+
+        metadata_group : `str`, optional
+            Name of a NetCDF group to use for metadata before falling back to
+            the default metadata group names.
         """
-        super().__init__(data, read, varset, dimensions=dimensions)
+        super().__init__(
+            data,
+            read,
+            varset,
+            dimensions=dimensions,
+            metadata_group=metadata_group,
+        )
 
         # Set up the time mesh (DataCube is t–x–y)
         _, self._T, _ = np.meshgrid(
