@@ -96,6 +96,10 @@ class BaseCube(abc.ABC):
         self.plans = self._planform_set
         self.plan_set = self._planform_set
 
+        # Actually use the read parameter to load variables into memory
+        if read:
+            self.read(read)
+
     @abc.abstractmethod
     def __getitem__(self, var):
         """Return the variable.
@@ -175,13 +179,24 @@ class BaseCube(abc.ABC):
         # DEVELOPER NOTE: can we remvoe the _dimX_idx altogether and just use
         # the _dimX_coords arrays?
 
-    def read(self, variables):
+    def read(self, variables, force=False):
         """Read variable into memory.
 
         Parameters
         ----------
-        variables : :obj:`list` of :obj:`str`, :obj:`str`
-            Which variables to read into memory.
+        variables : :obj:`list` of :obj:`str`, :obj:`str`, :obj:`bool`
+            Which variables to read into memory. Pass `True` to read all
+            available variables.
+
+        force : `bool`, optional
+            If True, bypass memory safety checks and load the data regardless
+            of size. Default is False.
+
+        Warnings
+        --------
+        If any variable size exceeds 80% of currently available RAM and
+        `force=False`, a warning will be issued for that variable and it will
+        NOT be loaded into memory. Set `force=True` to override this check.
         """
         if variables is True:  # special case, read all variables
             variables = self.variables
@@ -191,7 +206,7 @@ class BaseCube(abc.ABC):
             raise TypeError('Invalid type for "variables": %s ' % variables)
 
         for var in variables:
-            self._dataio.read(var)
+            self._dataio.read(var, force=force)
 
     @property
     def meta(self):
@@ -749,7 +764,7 @@ class DataCube(BaseCube):
             _obj = _xrt
         elif (var in self._coords) or (var in self._variables):
             # ensure coords can be called by cube[var]
-            _obj = self._dataio.dataset[var]
+            _obj = self._dataio[var]
 
         else:
             raise AttributeError(f"No variable of {str(self)} named {var}")

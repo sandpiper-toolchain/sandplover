@@ -5,6 +5,7 @@ import warnings
 
 import netCDF4
 import numpy as np
+import psutil
 import xarray as xr
 
 
@@ -296,7 +297,7 @@ class NetCDFIO(FileIO):
         """
         self.known_coords = list(self.dataset.coords)
 
-    def read(self, var):
+    def read(self, var, force=False):
         """Read variable from file and into memory.
 
         Converts `variables` in data file to `xarray` objects for coersion
@@ -306,11 +307,51 @@ class NetCDFIO(FileIO):
         ----------
         var : `str`
             Which variable to load from the file.
+
+        force : `bool`, optional
+            If True, bypass memory safety checks and load the data regardless
+            of size. Default is False.
+
+        Warnings
+        --------
+        If the variable size exceeds 80% of currently available RAM and
+        `force=False`, a warning will be issued and the data will NOT be
+        loaded into memory. Set `force=True` to override this check.
         """
         try:
             _arr = self.dataset[var]
         except KeyError as e:
             raise e
+
+        # Check memory safety before loading
+        if not force:
+            # Calculate the memory footprint of the variable
+            itemsize = _arr.dtype.itemsize
+            total_elements = np.prod(_arr.shape)
+            var_size_bytes = itemsize * total_elements
+
+            # Get currently available memory
+            available_mem = psutil.virtual_memory().available
+            threshold = 0.8 * available_mem
+
+            # Check if variable is too large
+            if var_size_bytes > threshold:
+                var_size_gb = var_size_bytes / (1024**3)
+                available_gb = available_mem / (1024**3)
+                threshold_gb = threshold / (1024**3)
+
+                warnings.warn(
+                    f"Variable '{var}' is too large to safely load into memory.\n"
+                    f"  Variable size: {var_size_gb:.2f} GB\n"
+                    f"  Available memory: {available_gb:.2f} GB\n"
+                    f"  Safety threshold (80%): {threshold_gb:.2f} GB\n"
+                    f"Data was NOT loaded. To override this check and load anyway, "
+                    f"call read() with force=True:\n"
+                    f"  cube.read('{var}', force=True)",
+                    UserWarning,
+                    stacklevel=2,
+                )
+                return  # Exit without loading
 
         self._in_memory_data[var] = _arr.load()
 
