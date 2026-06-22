@@ -94,7 +94,7 @@ disabled, unless <code class="docutils literal notranslate"><span class="pre">wr
 <tr class="row-even"><td><p><a class="reference internal" href="#sandplover.io.NetCDFIO.get_known_variables" title="sandplover.io.NetCDFIO.get_known_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_known_variables</span></code></a>()</p></td>
 <td><p>List known variables.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.io.NetCDFIO.read" title="sandplover.io.NetCDFIO.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>(var)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.io.NetCDFIO.read" title="sandplover.io.NetCDFIO.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a>(var[, force])</p></td>
 <td><p>Read variable from file and into memory.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sandplover.io.NetCDFIO.write" title="sandplover.io.NetCDFIO.write"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write</span></code></a>()</p></td>
@@ -168,15 +168,25 @@ IO object, so it is not necessary to call it directly.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.io.NetCDFIO.read">
-<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.io.NetCDFIO.read" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.io.NetCDFIO.read" title="Link to this definition">¶</a></dt>
 <dd><p>Read variable from file and into memory.</p>
 <p>Converts <cite>variables</cite> in data file to <cite>xarray</cite> objects for coersion
 into a <code class="xref py py-obj docutils literal notranslate"><span class="pre">Cube</span></code> instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>var</strong> (<cite>str</cite>) – Which variable to load from the file.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var</strong> (<cite>str</cite>) – Which variable to load from the file.</p></li>
+<li><p><strong>force</strong> (<cite>bool</cite>, optional) – If True, bypass memory safety checks and load the data regardless
+of size. Default is False.</p></li>
+</ul>
 </dd>
 </dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If the variable size exceeds 80% of currently available RAM and
+<cite>force=False</cite>, a warning will be issued and the data will NOT be
+loaded into memory. Set <cite>force=True</cite> to override this check.</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
