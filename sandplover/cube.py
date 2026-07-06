@@ -398,6 +398,7 @@ class BaseCube(abc.ABC):
             self.dim1_coords[-1] + self.dim1_coords[1],  # dim0, end + dx
             self.dim1_coords[0],
         ]  # dim0, 0
+        _extent = [float(e) for e in _extent]  # quickfix list comp
         return _extent
 
     @property
@@ -407,7 +408,7 @@ class BaseCube(abc.ABC):
         limits of the dim1 by dim2 plane,
         """
         _extent = self.extent
-        return [_extent[:2], _extent[3], _extent[2]]
+        return [*_extent[:2], _extent[3], _extent[2]]
 
     @property
     def extent_zeros(self):
