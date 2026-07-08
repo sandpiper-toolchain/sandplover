@@ -303,6 +303,18 @@ class TestDataCubeNoStratigraphy:
         with pytest.raises(TypeError, match=r"`name` was not .*"):
             golf.show_planform(1, "two")
 
+    def test_extent(self):
+        golf = DataCube(golf_path)
+        assert len(golf.extent) == 4
+        assert isinstance(golf.extent, list)
+        assert isinstance(golf.extent[0], float)
+
+    def test_extent_flipud(self):
+        golf = DataCube(golf_path)
+        assert len(golf.extent_flipud) == 4
+        assert isinstance(golf.extent_flipud, list)
+        assert isinstance(golf.extent_flipud[0], float)
+
 
 class TestDataCubeWithStratigraphy:
     # test setting all the properties / attributes
