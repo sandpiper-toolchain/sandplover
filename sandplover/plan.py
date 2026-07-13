@@ -3199,6 +3199,11 @@ def compute_channel_depth(
     _channelstarts, _channelends = _get_channel_starts_and_ends(
         channelmask, section_trace
     )
+    if _channelstarts.size == 0:
+        if return_depths:
+            return np.nan, np.nan, []
+        else:
+            return np.nan, np.nan
 
     # compute channel widths
     _channelwidths = section_coord[_channelends - 1] - section_coord[_channelstarts - 1]
@@ -3211,7 +3216,10 @@ def compute_channel_depth(
     _channel_depth_means = np.full(len(_channelwidths), np.nan)
     _channel_depth_thalweg = np.full(len(_channelwidths), np.nan)
     # _channel_depth_area = np.full(len(_channelwidths), np.nan)
+
     for k in np.arange(len(_channelwidths)):
+        if _channelwidths[k] == 0:
+            continue  # go to next loop, leave as nan
         # extract the depths for the kth channel
         _kth_channel_depths = _depthseries[_channelstarts[k] : _channelends[k]]
 
@@ -3219,7 +3227,7 @@ def compute_channel_depth(
         _channel_depth_means[k] = np.nanmean(_kth_channel_depths)
 
         # compute the max depth, aka the thalweg
-        _channel_depth_thalweg[k] = np.max(_kth_channel_depths)
+        _channel_depth_thalweg[k] = np.nanmax(_kth_channel_depths)
 
     if depth_type == "thalweg":
         _channel_depth_list = _channel_depth_thalweg
@@ -3228,7 +3236,7 @@ def compute_channel_depth(
     else:
         raise ValueError(f"Invalid argument to `depth_type` {str(depth_type)}")
 
-    _m, _s = np.mean(_channel_depth_list), np.std(_channel_depth_list)
+    _m, _s = np.nanmean(_channel_depth_list), np.nanstd(_channel_depth_list)
     if return_depths:
         return _m, _s, _channel_depth_list
     else:
