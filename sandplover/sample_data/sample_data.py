@@ -255,7 +255,7 @@ def tdb12():
         >>> fig, ax = plt.subplots(1, nt, figsize=(12, 4))
         >>> for i, t in enumerate(ts):
         ...     im = ax[i].imshow(tdb12["bed_elevation"][t, :, :])
-        ...     fig.colorbar(im, ax=ax[i], shrink=0.25)
+        ...     _ = fig.colorbar(im, ax=ax[i], shrink=0.25)
         ...     _ = ax[i].set_title(f"t = {t}")
         ...     _ = ax[i].axes.get_xaxis().set_ticks([])
         ...     _ = ax[i].axes.get_yaxis().set_ticks([])
