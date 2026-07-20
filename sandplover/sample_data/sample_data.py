@@ -252,15 +252,17 @@ def tdb12():
         >>> nt = 5
         >>> ts = np.linspace(0, tdb12["bed_elevation"].shape[0] - 1, num=nt, dtype=int)
 
-        >>> fig, ax = plt.subplots(1, nt, figsize=(8, 4))
+        >>> fig, ax = plt.subplots(1, nt, figsize=(12, 4))
         >>> for i, t in enumerate(ts):
-        ...     _ = ax[i].imshow(tdb12["bed_elevation"][t, :, :], vmin=-5, vmax=7)
+        ...     im = ax[i].imshow(tdb12["bed_elevation"][t, :, :])
+        ...     fig.colorbar(im, ax=ax[i], shrink=0.25)
         ...     _ = ax[i].set_title(f"t = {t}")
         ...     _ = ax[i].axes.get_xaxis().set_ticks([])
         ...     _ = ax[i].axes.get_yaxis().set_ticks([])
         ...
         >>> _ = ax[0].set_ylabel("dim0")
         >>> _ = ax[0].set_xlabel("dim1")
+        >>> plt.tight_layout()
     """
     tdb12_path = _get_tdb12_path()
     return DataCube(tdb12_path)
@@ -280,7 +282,7 @@ def aeolian():
     formatted into a netCDF file.
 
     Swanson, T., Mohrig, D., Kocurek, G. et al. A Surface Model for Aeolian
-    Dune Topography. Math Geosci 49, 635–655
+    Dune Topography. Math Geosci 49, 635-655
     (2017). https://doi.org/10.1007/s11004-016-9654-x
 
     Dataset reference: https://doi.org/10.6084/m9.figshare.17118827.v1
