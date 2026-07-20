@@ -5,6 +5,7 @@ from sandplover.sample_data.sample_data import landsat
 from sandplover.sample_data.sample_data import rcm8
 from sandplover.sample_data.sample_data import savi2020
 from sandplover.sample_data.sample_data import xslope
+from sandplover.sample_data.sample_data import tdb12
 
 __all__ = (
     "aeolian",
@@ -14,4 +15,5 @@ __all__ = (
     "rcm8",
     "savi2020",
     "xslope",
+    "tdb12",
 )

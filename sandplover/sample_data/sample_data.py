@@ -211,8 +211,59 @@ def xslope():
     return DataCube(xslope_path0), DataCube(xslope_path1)
 
 
+def _get_tdb12_path():
+    tdb12_path = REGISTRY.fetch("tdb12-sample.nc")
+    return tdb12_path
+
+
 def tdb12():
-    raise NotImplementedError
+    """Tulane Delta Basin 12-1.
+
+    This dataset is a subsample of the TDB-12-1 laboratory delta. This dataset
+    is a 200x200x200 datacube representing 200 hours of experimental runtime,
+    covering a 1mx1m square of the experimental delta with a per-pixel
+    resolution of 5mm. This data is formatted in the *sandsuet* data
+    specification.
+
+    Data available at Zenodo, version 1.0.0:
+    https://doi.org/10.5281/zenodo.19076638
+
+    TDB-12-1: Fan-delta experiment performed in Tulane University Delta Basin.
+    Experiment evolved under constant forcings of water (0.17 l/s), sediment
+    (0.00017 l/s), and sea-level rise rate 0.25 (mm/hr). Total experiment run
+    time was 1285 hr. Experiment used a strongly cohesive sediment that had a
+    wide grain size distribution with a median diameter of 65 microns.
+    Experiment performed to explore autogenic sediment transport and
+    stratigraphy with topography monitored every 1 hour of run time.
+
+    .. hint::
+
+        The full dataset is `available here
+        <https://zenodo.org/records/18992073>`_, formatted in the *sandsuet*
+        data specification, and ready for reanalysis.
+
+    .. plot::
+
+        >>> import matplotlib.pyplot as plt
+        >>> import numpy as np
+        >>> import sandplover as spl
+
+        >>> tdb12 = spl.sample_data.tdb12()
+        >>> nt = 5
+        >>> ts = np.linspace(0, tdb12["bed_elevation"].shape[0] - 1, num=nt, dtype=int)
+
+        >>> fig, ax = plt.subplots(1, nt, figsize=(8, 4))
+        >>> for i, t in enumerate(ts):
+        ...     _ = ax[i].imshow(tdb12["bed_elevation"][t, :, :], vmin=-5, vmax=7)
+        ...     _ = ax[i].set_title(f"t = {t}")
+        ...     _ = ax[i].axes.get_xaxis().set_ticks([])
+        ...     _ = ax[i].axes.get_yaxis().set_ticks([])
+        ...
+        >>> _ = ax[0].set_ylabel("dim0")
+        >>> _ = ax[0].set_xlabel("dim1")
+    """
+    tdb12_path = _get_tdb12_path()
+    return DataCube(tdb12_path)
 
 
 def _get_aeolian_path():
