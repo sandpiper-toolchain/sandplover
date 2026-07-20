@@ -2616,8 +2616,6 @@ def _compute_angles_between(test_set_points, query_set_points, numviews):
             theta[i] = np.max(dangles)
         else:
             dangles = np.sort(dangles)
-            # summed = np.sum(dangles[-numviews:])
-            # theta[i] = np.minimum(summed, 180)
             tops = dangles[-numviews:]
             summed = np.sum(tops)
             theta[i] = np.minimum(summed, 180)
@@ -2640,7 +2638,7 @@ def shaw_opening_angle_method(
 
     This *function* takes an image and extracts its opening angle map.
 
-    .. [1] Shaw, John B., et al. "An image‐based method for
+    .. [1] Shaw, John B., et al. "An image-based method for
        shoreline mapping on complex coasts." Geophysical Research Letters
        35.12 (2008).
 
