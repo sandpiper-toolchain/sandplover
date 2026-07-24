@@ -30,6 +30,7 @@ class BaseIO(abc.ABC):
     def __init__(self, io_type):
         """Initialize the base IO."""
         self.io_type = io_type
+        self._aux = None  # default None
 
     @abc.abstractmethod
     def __getitem__(self):
@@ -41,6 +42,16 @@ class BaseIO(abc.ABC):
     def keys(self):
         """Should link to all key _names_ stored in file."""
         return
+
+    @property
+    def aux(self):
+        self._aux
+
+    @property
+    def meta(self):
+        """alias for backwards compatability"""
+        # will be removed in future release.
+        self._aux
 
 
 class FileIO(BaseIO):
@@ -54,7 +65,7 @@ class FileIO(BaseIO):
     `read`, and `write`, and the  `keys` attribute.
     """
 
-    def __init__(self, data_path, io_type, write=False):
+    def __init__(self, data_path, auxdata_path, io_type, write=False):
         """Initialize a file IO handler.
 
         Initialize a connection to a NetCDF file.
@@ -74,7 +85,9 @@ class FileIO(BaseIO):
             disabled, unless ``write`` is set to True.
         """
         self.data_path = data_path
+        self.auxdata_path = auxdata_path
         self.io_type = io_type
+
         self.write = write
 
         self.connect()
@@ -166,7 +179,7 @@ class NetCDFIO(FileIO):
     `docs <https://www.unidata.ucar.edu/software/netcdf/docs/faq.html>`_.
     """
 
-    def __init__(self, data_path, io_type, write=False):
+    def __init__(self, data_path, auxdata_path, io_type, write=False):
         """Initialize the NetCDFIO handler.
 
         Initialize a connection to a NetCDF file.
@@ -185,8 +198,9 @@ class NetCDFIO(FileIO):
             default, if a file already exists at ``data_path``, writing is
             disabled, unless ``write`` is set to True.
         """
-
-        super().__init__(data_path=data_path, io_type=io_type, write=write)
+        super().__init__(
+            data_path=data_path, auxdata_path=auxdata_path, io_type=io_type, write=write
+        )
 
         self._in_memory_data = {}
 
@@ -260,24 +274,33 @@ class NetCDFIO(FileIO):
             # warn('Coordinates for "time", and set("x", "y") not provided in the \
             #       given data file.', UserWarning)
 
-        # check for a matching meta field, and set it accordingly
-        if "/metadata" in self.dataset.groups:
-            self.meta = self.dataset["metadata"]
-        elif "/meta" in self.dataset.groups:
-            self.meta = self.dataset["meta"]
-            warnings.warn(
-                "Metadata found with group name `meta`, but this specification "
-                "is deprecated. Change group name to `metadata`.",
-                UserWarning,
-                stacklevel=2,
-            )
+        # if something was specified for auxdata, set it accordingly
+        if not self.auxdata_path is None:
+            self._aux = self.dataset[self.auxdata_path]
+        # otherwise nothing was passed and we may be able to detect it *for now*
+        # for backwards compatability,  but this will be deprecated in the
+        # future, requiring explicit specification of the aux group.
+
         else:
-            warnings.warn(
-                "No associated metadata was found in the given data file.",
-                UserWarning,
-                stacklevel=2,
-            )
-            self.meta = None
+            _known = ["/meta", "/metadata", "/auxdata"]
+            matched = set(_known).intersection(self.dataset.groups)
+            if any(matched):
+                warnings.warn(
+                    "Group with recognized name found for auxiliary data, "
+                    "but this group was not passed as `auxdata` during instantiation. "
+                    "Autodetecting auxiliary data is deprecated and may be removed "
+                    "in the future.",
+                    UserWarning,
+                    stacklevel=2,
+                )
+                if len(matched) > 1:
+                    warnings.warn(
+                        "Multiple groups recognized. Using first in set, which may lead to inconsistent behavior.",
+                        UserWarning,
+                        stacklevel=2,
+                    )
+                match = next(iter(matched))[1:]  # get the match and drop leading /
+                self._aux = self.dataset[match]
 
     def get_known_variables(self):
         """List known variables.

@@ -41,7 +41,7 @@ class BaseCube(abc.ABC):
 
     """
 
-    def __init__(self, data, read=(), varset=None, dimensions=None):
+    def __init__(self, data, auxdata=None, read=(), varset=None, dimensions=None):
         """Initialize the BaseCube.
 
         Parameters
@@ -52,6 +52,10 @@ class BaseCube(abc.ABC):
             output from the pyDeltaRCM model. Alternatively, pass a
             :obj:`dict` with keys indicating variable names, and values with
             corresponding t-x-y `ndarray` of data.
+
+        auxdata : :obj:`str`, optional
+            The information `data` is searched for a key matching the string
+            `auxdata`, and if found, this key is assigned to `cube.aux`.
 
         read : :obj:`bool`, optional
             Which variables to read from dataset into memory. Special option
@@ -69,7 +73,7 @@ class BaseCube(abc.ABC):
         if type(data) is str:
             # handle a path to netCDF file
             self._data_path = data
-            self._connect_to_file(data_path=data)
+            self._connect_to_file(data_path=data, auxdata_path=auxdata)
             self._read_meta_from_file()
         elif type(data) is dict:
             # handle a dict, arrays set up already, make an io class to wrap it
@@ -109,7 +113,7 @@ class BaseCube(abc.ABC):
         """
         ...
 
-    def _connect_to_file(self, data_path):
+    def _connect_to_file(self, data_path, auxdata_path):
         """Connect to file.
 
         This method is used internally to send the ``data_path`` to the
@@ -117,9 +121,9 @@ class BaseCube(abc.ABC):
         """
         _, ext = os.path.splitext(data_path)
         if ext == ".nc":
-            self._dataio = NetCDFIO(data_path, "netcdf")
+            self._dataio = NetCDFIO(data_path, auxdata_path, "netcdf")
         elif ext == ".hdf5":
-            self._dataio = NetCDFIO(data_path, "hdf5")
+            self._dataio = NetCDFIO(data_path, auxdata_path, "hdf5")
         else:
             raise ValueError('Invalid file extension for "data_path": %s' % data_path)
 
@@ -210,7 +214,22 @@ class BaseCube(abc.ABC):
 
     @property
     def meta(self):
-        return self._dataio.meta
+        warnings.warn(
+            DeprecationWarning(
+                "The `meta` property of the Cube has been replaced by the "
+                "`aux` property, and will be removed in a future release."
+            )
+        )
+        return self._dataio.aux
+
+    @property
+    def aux(self):
+        return self._dataio.aux
+
+    @property
+    def auxdata(self):
+        """simple alias"""
+        return self._dataio.aux
 
     @property
     def varset(self):
@@ -673,7 +692,13 @@ class DataCube(BaseCube):
     """
 
     def __init__(
-        self, data, read=(), varset=None, stratigraphy_from=None, dimensions=None
+        self,
+        data,
+        auxdata=None,
+        read=(),
+        varset=None,
+        stratigraphy_from=None,
+        dimensions=None,
     ):
         """Initialize the BaseCube.
 
@@ -708,7 +733,7 @@ class DataCube(BaseCube):
             `DataCube`, if instantiating the cube from data loaded in memory
             in a dictionary.
         """
-        super().__init__(data, read, varset, dimensions=dimensions)
+        super().__init__(data, auxdata, read, varset, dimensions=dimensions)
 
         # Set up the time mesh (DataCube is t–x–y)
         _, self._T, _ = np.meshgrid(
@@ -923,6 +948,7 @@ class StratigraphyCube(BaseCube):
     def __init__(
         self,
         data,
+        auxdata=None,
         read=(),
         varset=None,
         stratigraphy_from=None,
@@ -954,7 +980,7 @@ class StratigraphyCube(BaseCube):
             to style this cube similarly to another cube. If no argument is
             supplied, a new default VariableSet instance is created.
         """
-        super().__init__(data, read, varset)
+        super().__init__(data, auxdata, read, varset)
         if isinstance(data, str):
             raise NotImplementedError("Precomputed NetCDF?")
         elif isinstance(data, np.ndarray):
