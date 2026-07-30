@@ -133,6 +133,7 @@ def compute_compensation(stratal_surfaces, time_idxs=None, clip_ends=0):
 
     return sigmas, windows
 
+
 def _compute_compensation(stratal_surfaces, times):
     """Compensation statistic implementation.
 
