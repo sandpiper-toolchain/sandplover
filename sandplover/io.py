@@ -45,13 +45,13 @@ class BaseIO(abc.ABC):
 
     @property
     def aux(self):
-        self._aux
+        return self._aux
 
     @property
     def meta(self):
         """alias for backwards compatability"""
         # will be removed in future release.
-        self._aux
+        return self._aux
 
 
 class FileIO(BaseIO):
@@ -84,6 +84,8 @@ class FileIO(BaseIO):
             default, if a file already exists at ``data_path``, writing is
             disabled, unless ``write`` is set to True.
         """
+        super().__init__(io_type=io_type)
+
         self.data_path = data_path
         self.auxdata_path = auxdata_path
         self.io_type = io_type
@@ -94,8 +96,6 @@ class FileIO(BaseIO):
 
         self.get_known_coords()
         self.get_known_variables()
-
-        super().__init__(io_type=io_type)
 
     @property
     def data_path(self):
@@ -300,7 +300,9 @@ class NetCDFIO(FileIO):
                         stacklevel=2,
                     )
                 match = next(iter(matched))[1:]  # get the match and drop leading /
+                self.dataset[match]
                 self._aux = self.dataset[match]
+                print(self.aux)
 
     def get_known_variables(self):
         """List known variables.
