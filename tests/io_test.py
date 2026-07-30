@@ -32,126 +32,121 @@ def empty_txt_file(tmp_path):
     return p
 
 
-def test_netcdf_io_init():
-    netcdf_io = NetCDFIO(golf_path, "netcdf")
-    assert netcdf_io.io_type == "netcdf"
-    assert len(netcdf_io._in_memory_data) == 0
+class TestNetCDFIO:
+    def test_netcdf_io_init(self):
+        netcdf_io = NetCDFIO(golf_path)
+        assert netcdf_io.io_type == "file"
+        assert netcdf_io._engine == "netcdf4"
+        assert len(netcdf_io._in_memory_data) == 0
 
+    def test_netcdf_io_keys(self):
+        netcdf_io = NetCDFIO(golf_path)
+        assert len(netcdf_io.keys) > 3
 
-def test_netcdf_io_keys():
-    netcdf_io = NetCDFIO(golf_path, "netcdf")
-    assert len(netcdf_io.keys) > 3
+    def test_netcdf_io_nomemory(self):
+        netcdf_io = NetCDFIO(golf_path)
+        dataset_size = sys.getsizeof(netcdf_io.dataset)
+        inmemory_size = sys.getsizeof(netcdf_io._in_memory_data)
 
+        var = "velocity"
+        # slice the dataset directly
+        velocity_arr = netcdf_io.dataset[var].data[:, 10, :]
+        assert len(velocity_arr.shape) == 2
+        assert type(velocity_arr) is np.ndarray
 
-def test_netcdf_io_nomemory():
-    netcdf_io = NetCDFIO(golf_path, "netcdf")
-    dataset_size = sys.getsizeof(netcdf_io.dataset)
-    inmemory_size = sys.getsizeof(netcdf_io._in_memory_data)
+        dataset_size_after = sys.getsizeof(netcdf_io.dataset)
+        inmemory_size_after = sys.getsizeof(netcdf_io._in_memory_data)
 
-    var = "velocity"
-    # slice the dataset directly
-    velocity_arr = netcdf_io.dataset[var].data[:, 10, :]
-    assert len(velocity_arr.shape) == 2
-    assert type(velocity_arr) is np.ndarray
+        assert dataset_size == dataset_size_after
+        assert inmemory_size == inmemory_size_after
 
-    dataset_size_after = sys.getsizeof(netcdf_io.dataset)
-    inmemory_size_after = sys.getsizeof(netcdf_io._in_memory_data)
+    @pytest.mark.xfail()
+    def test_netcdf_io_intomemory_direct(self):
+        netcdf_io = NetCDFIO(golf_path, "netcdf")
+        dataset_size = sys.getsizeof(netcdf_io.dataset)
+        inmemory_size = sys.getsizeof(netcdf_io._in_memory_data)
 
-    assert dataset_size == dataset_size_after
-    assert inmemory_size == inmemory_size_after
+        var = "velocity"
+        assert len(netcdf_io._in_memory_data) == 0
+        netcdf_io._in_memory_data[var] = np.array(netcdf_io.dataset.variables[var])
+        assert len(netcdf_io._in_memory_data) == 1
+        _arr = netcdf_io._in_memory_data[var]
 
+        dataset_size_after = sys.getsizeof(netcdf_io.dataset)
+        inmemory_size_after = sys.getsizeof(netcdf_io._in_memory_data)
 
-@pytest.mark.xfail()
-def test_netcdf_io_intomemory_direct():
-    netcdf_io = NetCDFIO(golf_path, "netcdf")
-    dataset_size = sys.getsizeof(netcdf_io.dataset)
-    inmemory_size = sys.getsizeof(netcdf_io._in_memory_data)
+        assert dataset_size == dataset_size_after
+        assert inmemory_size < inmemory_size_after
+        assert sys.getsizeof(_arr) > 1000
 
-    var = "velocity"
-    assert len(netcdf_io._in_memory_data) == 0
-    netcdf_io._in_memory_data[var] = np.array(netcdf_io.dataset.variables[var])
-    assert len(netcdf_io._in_memory_data) == 1
-    _arr = netcdf_io._in_memory_data[var]
+    @pytest.mark.xfail()
+    def test_netcdf_io_intomemory_read(self):
+        netcdf_io = NetCDFIO(golf_path, "netcdf")
+        dataset_size = sys.getsizeof(netcdf_io.dataset)
+        inmemory_size = sys.getsizeof(netcdf_io._in_memory_data)
 
-    dataset_size_after = sys.getsizeof(netcdf_io.dataset)
-    inmemory_size_after = sys.getsizeof(netcdf_io._in_memory_data)
+        var = "velocity"
+        assert len(netcdf_io._in_memory_data) == 0
+        netcdf_io.read(var)
+        assert len(netcdf_io._in_memory_data) == 1
+        _arr = netcdf_io._in_memory_data[var]
 
-    assert dataset_size == dataset_size_after
-    assert inmemory_size < inmemory_size_after
-    assert sys.getsizeof(_arr) > 1000
+        assert isinstance(_arr, xr.core.dataarray.DataArray)
 
+        dataset_size_after = sys.getsizeof(netcdf_io.dataset)
+        inmemory_size_after = sys.getsizeof(netcdf_io._in_memory_data)
 
-@pytest.mark.xfail()
-def test_netcdf_io_intomemory_read():
-    netcdf_io = NetCDFIO(golf_path, "netcdf")
-    dataset_size = sys.getsizeof(netcdf_io.dataset)
-    inmemory_size = sys.getsizeof(netcdf_io._in_memory_data)
+        assert dataset_size == dataset_size_after
+        assert inmemory_size < inmemory_size_after
 
-    var = "velocity"
-    assert len(netcdf_io._in_memory_data) == 0
-    netcdf_io.read(var)
-    assert len(netcdf_io._in_memory_data) == 1
-    _arr = netcdf_io._in_memory_data[var]
+    def test_hdf5_io_init_without_engine(self):
+        netcdf_io = NetCDFIO(hdf_path)
+        assert netcdf_io.io_type == "file"
+        assert netcdf_io._engine == "h5netcdf"
+        assert len(netcdf_io._in_memory_data) == 0
 
-    assert isinstance(_arr, xr.core.dataarray.DataArray)
+    def test_hdf5_io_init_with_engine(self):
+        netcdf_io = NetCDFIO(hdf_path, engine="h5netcdf")
+        assert netcdf_io.io_type == "file"
+        assert netcdf_io._engine == "h5netcdf"
+        assert len(netcdf_io._in_memory_data) == 0
 
-    dataset_size_after = sys.getsizeof(netcdf_io.dataset)
-    inmemory_size_after = sys.getsizeof(netcdf_io._in_memory_data)
+    def test_hdf5_io_keys(self):
+        hdf5_io = NetCDFIO(hdf_path)
+        assert len(hdf5_io.keys) == 7
 
-    assert dataset_size == dataset_size_after
-    assert inmemory_size < inmemory_size_after
+    def test_nofile(self):
+        with pytest.raises(FileNotFoundError):
+            NetCDFIO("badpath")
 
+    def test_empty_file(self, empty_netcdf_file):
+        assert empty_netcdf_file.is_file()
+        with pytest.raises(NotImplementedError):
+            NetCDFIO(empty_netcdf_file)
 
-def test_hdf5_io_init():
-    with pytest.warns(UserWarning, match=r"No associated .*"):
-        netcdf_io = NetCDFIO(hdf_path, "hdf5")
-    assert netcdf_io.io_type == "hdf5"
-    assert len(netcdf_io._in_memory_data) == 0
+    def test_invalid_file(self, empty_txt_file):
+        assert empty_txt_file.is_file()
+        with pytest.raises(TypeError):
+            NetCDFIO(empty_txt_file)
 
+    def test_readvar_intomemory(self):
+        netcdf_io = NetCDFIO(golf_path, auxdata_path="meta")
+        assert netcdf_io._in_memory_data == {}
 
-def test_hdf5_io_keys():
-    with pytest.warns(UserWarning, match=r"No associated .*"):
-        hdf5_io = NetCDFIO(hdf_path, "hdf5")
-    assert len(hdf5_io.keys) == 7
+        netcdf_io.read("eta")
+        assert ("eta" in netcdf_io._in_memory_data) is True
 
+    def test_readvar_intomemory_error(self):
+        netcdf_io = NetCDFIO(golf_path)
+        assert netcdf_io._in_memory_data == {}
 
-def test_nofile():
-    with pytest.raises(FileNotFoundError):
-        NetCDFIO("badpath", "netcdf")
+        with pytest.raises(KeyError):
+            netcdf_io.read("nonexistant")
 
-
-def test_empty_file(empty_netcdf_file):
-    assert empty_netcdf_file.is_file()
-    with pytest.raises(NotImplementedError):
-        NetCDFIO(empty_netcdf_file, "netcdf")
-
-
-def test_invalid_file(empty_txt_file):
-    assert empty_txt_file.is_file()
-    with pytest.raises(TypeError):
-        NetCDFIO(empty_txt_file, "netcdf")
-
-
-def test_readvar_intomemory():
-    netcdf_io = NetCDFIO(golf_path, "netcdf")
-    assert netcdf_io._in_memory_data == {}
-
-    netcdf_io.read("eta")
-    assert ("eta" in netcdf_io._in_memory_data) is True
-
-
-def test_readvar_intomemory_error():
-    netcdf_io = NetCDFIO(golf_path, "netcdf")
-    assert netcdf_io._in_memory_data == {}
-
-    with pytest.raises(KeyError):
-        netcdf_io.read("nonexistant")
-
-
-def test_netcdf_no_metadata():
-    # works fine, because there is no `connect` call in io init
-    netcdf_io = NetCDFIO(golf_path, "netcdf")
-    assert len(netcdf_io._in_memory_data) == 0
+    def test_netcdf_no_metadata(self):
+        # works fine, because there is no `connect` call in io init
+        netcdf_io = NetCDFIO(golf_path)
+        assert len(netcdf_io._in_memory_data) == 0
 
 
 class TestDictionaryIO:

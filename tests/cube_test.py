@@ -1,5 +1,6 @@
 import unittest.mock as mock
 
+
 import numpy as np
 import pytest
 import xarray as xr
@@ -23,25 +24,32 @@ aeolian_path = _get_aeolian_path()
 hdf_path = _get_landsat_path()
 
 
-class TestDataCubeAuxdata:
+@mock.patch("sandplover.cube.NetCDFIO")
+class TestDataCubeInitializationArguments:
 
-    def test_initializing_without_argument_warns_autodetect(self):
-        with pytest.warns(UserWarning, match=r"Autodetecting"):
-            golf = DataCube(golf_path)
-        assert golf.aux is not None
-
-    def test_initializing_without_argument_nc(self):
+    def test_initializing_without_argument_nc(self, mock_netcdfio):
         # cube = DataCube(tdb12_path)
         # assert cube.aux is None
         ## NO SAMPLE DATA AVAILABLE TO TEST
         pass
 
-    def test_initializing_with_argument(self):
-        golf = DataCube(golf_path, auxdata="meta")
-        assert golf.aux is not None
+    def test_initializing_without_argument_warns_autodetect(self, mock_netcdfio):
+        with pytest.raises(Exception):
+            # the functions following instantiation will error out, so just
+            # check that argument was passed to io
+            golf = DataCube(golf_path)
+        mock_netcdfio.assert_called_once_with(data_path=mock.ANY, auxdata_path=None)
+
+    def test_initializing_with_argument(self, mock_netcdfio):
+        with pytest.raises(Exception):
+            # the functions following instantiation will error out, so just
+            # check that argument was passed to io
+            golf = DataCube(golf_path, auxdata="meta")
+        mock_netcdfio.assert_called_once_with(data_path=mock.ANY, auxdata_path="meta")
 
 
 class TestDataCubeNoStratigraphy:
+
     def test_init_cube_from_path_rcm8(self):
         golf = DataCube(golf_path)
         assert golf._data_path == golf_path

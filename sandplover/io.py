@@ -178,7 +178,7 @@ class NetCDFIO(FileIO):
     `docs <https://www.unidata.ucar.edu/software/netcdf/docs/faq.html>`_.
     """
 
-    def __init__(self, data_path, auxdata_path, engine=None, write=False):
+    def __init__(self, data_path, auxdata_path=None, engine=None, write=False):
         """Initialize the NetCDFIO handler.
 
         Initialize a connection to a NetCDF file.
@@ -188,12 +188,25 @@ class NetCDFIO(FileIO):
         data_path : `str`
             Path to file to read or write to.
 
+        auxdata_path : `str`, optional
+            Path to auxilliary data that exist in the file. This is most
+            commonly the name of a group within the file. Default is None, and
+            no auxilliary data is assigned.
+
+        .. warning::
+
+            Deprecation: If `auxdata_path=None`, we will for a few minor
+            versions, search the file for groups that match commonly used
+            names for auxilliary data and will assign this group if found.
+            This will issue a warning and will be removed in a future release.
+
         engine : `str`, optional
             Engine used to open the file with xarray. Default is None, which
             will lead to trying to infer from file extension. If no inference
             can be made, we pass no engine during loading and allow xarray to
-            attempt to determine the file type. For a netCDF4 file use 'netcdf4' or
-            for an HDF5 file use 'h5netcdf', or any other valid engine for xarray.
+            attempt to determine the file type. For a netCDF4 file use 'netcdf4'
+            or for an HDF5 file use 'h5netcdf', or any other valid engine for
+            xarray.
 
         write : `bool`, optional
             Whether to allow writing to an existing file. Set to False by
