@@ -11,6 +11,7 @@ from sandplover.plan import BasePlanform
 from sandplover.plan import Planform
 from sandplover.plot import VariableSet
 from sandplover.sample_data.sample_data import _get_golf_path
+from sandplover.sample_data.sample_data import _get_golf_sandsuet_path
 from sandplover.sample_data.sample_data import _get_aeolian_path
 from sandplover.sample_data.sample_data import _get_landsat_path
 from sandplover.sample_data.sample_data import _get_rcm8_path
@@ -19,7 +20,7 @@ from sandplover.section import BaseSection
 from sandplover.section import StrikeSection
 from sandplover.utils import NoStratigraphyError
 
-golf_path = _get_golf_path()
+golf_path = _get_golf_sandsuet_path()
 aeolian_path = _get_aeolian_path()
 hdf_path = _get_landsat_path()
 
