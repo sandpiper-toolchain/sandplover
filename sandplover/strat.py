@@ -133,38 +133,36 @@ def compute_compensation(stratal_surfaces, time_idxs=None, clip_ends=0):
 
     return sigmas, windows
 
-
 def _compute_compensation(stratal_surfaces, times):
     """Compensation statistic implementation.
 
-    Delared private, this method has the actual implementation code of the
-    compensation statistic. If you want a subset of space of time indices
-    from the strigraphic array, this should be taken care of in a preprocessesing
+    Declared private, this method has the actual implementation code of the
+    compensation statistic. If you want a subset of space of time indices from
+    the stratigraphic array, this should be taken care of in a preprocessesing
     step.
 
     .. important::
 
-        This helper function is meant to be efficient, so data must be
-        properly prepared in dimensionality. E.g., there can be no `np.nan`
-        values in the array, and `times` must be provided to match the shape
-        of `stratal_surfaces`. There are no data input checks in this
-        function; see public function :obj:`compute_compensation` for a more
-        flexible function.
+        This helper function is meant to be efficient, so data must be properly
+        prepared in dimensionality. E.g., there can be no `np.nan` values in the
+        array, and `times` must be provided to match the shape of
+        `stratal_surfaces`. There are no data input checks in this function; see
+        public function :obj:`compute_compensation` for a more flexible
+        function.
 
     Parameters
     ----------
     stratal_surfaces : :obj:`ndarray`
-        Array of stratigraphic surfaces. I.e., the values in the array are
-        z (elevation) values, and the first axis is organized as time,
-        and the second and third axes are spatial dimensions; these could be an
+        Array of stratigraphic surfaces. I.e., the values in the array are z
+        (elevation) values, and the first axis is organized as time, and the
+        second and third axes are spatial dimensions; these could be an
         along-section coordinate or x-y dimensions for a surface.
 
     times : :obj:`ndarray`
 
-        Times corresponding to each stratigraphic surface
-        in :obj:`stratal_surfaces`. This can be time in real coordinates
-        (seconds, years) or indices (an
-        ``np.arange(stratal_surfaces.shape[0]``).
+        Times corresponding to each stratigraphic surface in
+        :obj:`stratal_surfaces`. This can be time in real coordinates (seconds,
+        years) or indices (an ``np.arange(stratal_surfaces.shape[0]``).
 
     Returns
     -------
@@ -177,9 +175,9 @@ def _compute_compensation(stratal_surfaces, times):
         returned in the same coordinates as input :obj:`times`.
     """
     n_surfaces = stratal_surfaces.shape[0]  # number of time indices
-    detabar = np.mean(
+    total_thickness = np.mean(
         stratal_surfaces[-1] - stratal_surfaces[0]
-    )  # mean aggradation length over the whole section
+    )  # mean aggradation thickness over the whole section
     n_sigmas = int(
         (n_surfaces - 1) * (1 + (n_surfaces - 1)) / 2
     )  # number of sigma we will return (n choose k (k=2))
@@ -192,13 +190,14 @@ def _compute_compensation(stratal_surfaces, times):
         # compare with all other surfaces earlier than it
         for j in np.arange(0, i):
             # do the compensation calc
-            deta = (
+            elev_diff = (
                 stratal_surfaces[i] - stratal_surfaces[j]
             )  # elev diff (strat thickness)
             dt = times[i] - times[j]
-            window_length = (detabar / total_time) * dt
-            norm_deta = deta / window_length  # norm elev diff (norm strat thickness)
-            window_lengths[k] = window_length
+            di = i - j
+            detabar = (total_thickness / n_surfaces) * di
+            norm_deta = elev_diff / detabar  # norm elev diff (norm strat thickness)
+            window_lengths[k] = di
             sigmas[k] = np.std(norm_deta)
             k += 1  # storage counter
     return sigmas, window_lengths
