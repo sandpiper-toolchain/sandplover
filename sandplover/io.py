@@ -65,7 +65,7 @@ class FileIO(BaseIO):
     `read`, and `write`, and the  `keys` attribute.
     """
 
-    def __init__(self, data_path, auxdata_path, io_type, write=False):
+    def __init__(self, data_path, auxdata_path, write=False):
         """Initialize a file IO handler.
 
         Initialize a connection to a NetCDF file.
@@ -84,11 +84,10 @@ class FileIO(BaseIO):
             default, if a file already exists at ``data_path``, writing is
             disabled, unless ``write`` is set to True.
         """
-        super().__init__(io_type=io_type)
+        super().__init__(io_type="file")
 
         self.data_path = data_path
         self.auxdata_path = auxdata_path
-        self.io_type = io_type
 
         self.write = write
 
@@ -179,7 +178,7 @@ class NetCDFIO(FileIO):
     `docs <https://www.unidata.ucar.edu/software/netcdf/docs/faq.html>`_.
     """
 
-    def __init__(self, data_path, auxdata_path, io_type, write=False):
+    def __init__(self, data_path, auxdata_path, engine=None, write=False):
         """Initialize the NetCDFIO handler.
 
         Initialize a connection to a NetCDF file.
@@ -189,18 +188,32 @@ class NetCDFIO(FileIO):
         data_path : `str`
             Path to file to read or write to.
 
-        io_type : `str`
-            Stores the type of output file loaded, either a netCDF4 file,
-            'netcdf' or an HDF5 file, 'hdf5'.
+        engine : `str`, optional
+            Engine used to open the file with xarray. Default is None, which
+            will lead to trying to infer from file extension. If no inference
+            can be made, we pass no engine during loading and allow xarray to
+            attempt to determine the file type. For a netCDF4 file use 'netcdf4' or
+            for an HDF5 file use 'h5netcdf', or any other valid engine for xarray.
 
         write : `bool`, optional
             Whether to allow writing to an existing file. Set to False by
             default, if a file already exists at ``data_path``, writing is
             disabled, unless ``write`` is set to True.
         """
-        super().__init__(
-            data_path=data_path, auxdata_path=auxdata_path, io_type=io_type, write=write
-        )
+        # set engine used to open the file
+        if engine is not None:
+            self._engine = engine
+        else:
+            # attempt to guess
+            _, ext = os.path.splitext(data_path)
+            if ext == ".nc":
+                self._engine = "netcdf4"
+            elif ext == ".hdf5":
+                self._engine = "h5netcdf"
+            else:
+                self._engine = None  # let xarray figure it out
+
+        super().__init__(data_path=data_path, auxdata_path=auxdata_path, write=write)
 
         self._in_memory_data = {}
 
@@ -220,17 +233,9 @@ class NetCDFIO(FileIO):
             _tempdataset = netCDF4.Dataset(self.data_path, "w", format="NETCDF4")
             _tempdataset.close()
 
-        _ext = os.path.splitext(self.data_path)[-1]
-        if _ext == ".nc":
-            _engine = "netcdf4"
-        elif _ext == ".hdf5":
-            _engine = "h5netcdf"
-        else:
-            _engine = None  # not sure, let xarray figure it out
-
         try:
             # open the dataset
-            _dataset = xr.open_datatree(self.data_path, engine=_engine)
+            _dataset = xr.open_datatree(self.data_path, engine=self._engine)
         except Exception as e:
             raise TypeError(
                 f"Could not open dataset, raising error: {e}.\n\n"

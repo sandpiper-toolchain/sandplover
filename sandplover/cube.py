@@ -73,18 +73,18 @@ class BaseCube(abc.ABC):
         if type(data) is str:
             # handle a path to netCDF file
             self._data_path = data
-            self._connect_to_file(data_path=data, auxdata_path=auxdata)
-            self._read_meta_from_file()
+            self._dataio = NetCDFIO(data_path=data, auxdata_path=auxdata)
+            self._read_coords_dims_variables_from_dataio()
         elif type(data) is dict:
             # handle a dict, arrays set up already, make an io class to wrap it
             self._data_path = None
             self._dataio = DictionaryIO(data, dimensions=dimensions)
-            self._read_meta_from_file()
+            self._read_coords_dims_variables_from_dataio()
         elif isinstance(data, DataCube):
             # handle initializing one cube type from another
             self._data_path = data.data_path
             self._dataio = data._dataio
-            self._read_meta_from_file()
+            self._read_coords_dims_variables_from_dataio()
         else:
             raise TypeError('Invalid type for "data": %s' % type(data))
 
@@ -113,21 +113,7 @@ class BaseCube(abc.ABC):
         """
         ...
 
-    def _connect_to_file(self, data_path, auxdata_path):
-        """Connect to file.
-
-        This method is used internally to send the ``data_path`` to the
-        correct IO handler.
-        """
-        _, ext = os.path.splitext(data_path)
-        if ext == ".nc":
-            self._dataio = NetCDFIO(data_path, auxdata_path, "netcdf")
-        elif ext == ".hdf5":
-            self._dataio = NetCDFIO(data_path, auxdata_path, "hdf5")
-        else:
-            raise ValueError('Invalid file extension for "data_path": %s' % data_path)
-
-    def _read_meta_from_file(self):
+    def _read_coords_dims_variables_from_dataio(self):
         """Read metadata information from variables in file.
 
         Robustly determine dimension names by preferring explicitly
