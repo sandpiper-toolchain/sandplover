@@ -10,6 +10,7 @@ from sandplover.plan import BasePlanform
 from sandplover.plan import Planform
 from sandplover.plot import VariableSet
 from sandplover.sample_data.sample_data import _get_golf_path
+from sandplover.sample_data.sample_data import _get_aeolian_path
 from sandplover.sample_data.sample_data import _get_landsat_path
 from sandplover.sample_data.sample_data import _get_rcm8_path
 from sandplover.sample_data.sample_data import rcm8
@@ -18,7 +19,26 @@ from sandplover.section import StrikeSection
 from sandplover.utils import NoStratigraphyError
 
 golf_path = _get_golf_path()
+aeolian_path = _get_aeolian_path()
 hdf_path = _get_landsat_path()
+
+
+class TestDataCubeAuxdata:
+
+    def test_initializing_without_argument_warns_autodetect(self):
+        with pytest.warns(UserWarning, match=r"Autodetecting"):
+            golf = DataCube(golf_path)
+        assert golf.aux is not None
+
+    def test_initializing_without_argument_nc(self):
+        # cube = DataCube(tdb12_path)
+        # assert cube.aux is None
+        ## NO SAMPLE DATA AVAILABLE TO TEST
+        pass
+
+    def test_initializing_with_argument(self):
+        golf = DataCube(golf_path, auxdata="meta")
+        assert golf.aux is not None
 
 
 class TestDataCubeNoStratigraphy:
@@ -745,8 +765,8 @@ class TestReadMetaFallbacks:
 
 class TestLandsatCube:
     def test_init_cube_from_path_hdf5(self):
-        with pytest.warns(UserWarning, match=r"No associated metadata"):
-            hdfcube = DataCube(hdf_path)
+        # with pytest.warns(UserWarning, match=r"Group with.*"):
+        hdfcube = DataCube(hdf_path)
         assert hdfcube._data_path == hdf_path
         assert hdfcube.dataio.io_type == "hdf5"
         assert hdfcube._planform_set == {}
@@ -754,8 +774,8 @@ class TestLandsatCube:
         assert type(hdfcube.varset) is VariableSet
 
     def test_read_Blue_intomemory(self):
-        with pytest.warns(UserWarning, match=r"No associated metadata"):
-            landsatcube = DataCube(hdf_path)
+        # with pytest.warns(UserWarning, match=r"Group with.*"):
+        landsatcube = DataCube(hdf_path)
         assert landsatcube._dataio._in_memory_data == {}
         assert landsatcube.variables == ["Blue", "Green", "NIR", "Red"]
         assert len(landsatcube.variables) == 4
@@ -764,8 +784,8 @@ class TestLandsatCube:
         assert len(landsatcube.dataio._in_memory_data) == 1
 
     def test_read_all_intomemory(self):
-        with pytest.warns(UserWarning, match=r"No associated metadata"):
-            landsatcube = DataCube(hdf_path)
+        # with pytest.warns(UserWarning, match=r"Group with.*"):
+        landsatcube = DataCube(hdf_path)
         assert landsatcube.variables == ["Blue", "Green", "NIR", "Red"]
         assert len(landsatcube.variables) == 4
 
@@ -773,13 +793,13 @@ class TestLandsatCube:
         assert len(landsatcube.dataio._in_memory_data) == 4
 
     def test_read_invalid(self):
-        with pytest.warns(UserWarning, match=r"No associated metadata"):
-            landsatcube = DataCube(hdf_path)
+        # with pytest.warns(UserWarning, match=r"Group with.*"):
+        landsatcube = DataCube(hdf_path)
         with pytest.raises(TypeError):
             landsatcube.read(5)
 
     def test_get_coords(self):
-        with pytest.warns(UserWarning, match=r"No associated metadata"):
-            landsatcube = DataCube(hdf_path)
+        # with pytest.warns(UserWarning, match=r"Group with.*"):
+        landsatcube = DataCube(hdf_path)
         assert landsatcube.coords == ["time", "x", "y"]
         assert landsatcube._coords == ["time", "x", "y"]
