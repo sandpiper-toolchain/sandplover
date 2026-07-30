@@ -50,10 +50,10 @@ class TestDataCubeInitializationArguments:
 
 class TestDataCubeNoStratigraphy:
 
-    def test_init_cube_from_path_rcm8(self):
+    def test_init_cube_from_path_golf(self):
         golf = DataCube(golf_path)
         assert golf._data_path == golf_path
-        assert golf.dataio.io_type == "netcdf"
+        assert golf.dataio.io_type == "file"
         assert golf._planform_set == {}
         assert golf._section_set == {}
         assert type(golf.varset) is VariableSet
@@ -67,7 +67,7 @@ class TestDataCubeNoStratigraphy:
             _ = DataCube("./nonexistent/path.nc")
 
     def test_error_init_bad_extension(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(FileNotFoundError):
             _ = DataCube("./nonexistent/path.doc")
 
     def test_error_init_bad_type(self):
@@ -571,8 +571,9 @@ class TestCubesFromDictionary:
         fixeddatacube = DataCube(golf_path)
         eta_data = fixeddatacube["eta"][:30, :, :]
         dict_cube = DataCube({"eta": eta_data})
-        with pytest.raises(AttributeError):
-            dict_cube.meta
+        assert dict_cube.aux is None
+        with pytest.warns(DeprecationWarning):
+            assert dict_cube.meta is None  # to be deprecated
 
     @pytest.mark.parametrize(
         "order",
@@ -607,7 +608,7 @@ class TestCubesFromDictionary:
 
 class TestReadMetaFallbacks:
     class FakeIO:
-        """Very small IO stub exposing only what _read_meta_from_file uses."""
+        """Very small IO stub exposing only what _read_coords_dims_variables_from_dataio uses."""
 
         def __init__(
             self,
@@ -699,7 +700,7 @@ class TestReadMetaFallbacks:
 
         # Swap in the stub IO and re-run metadata discovery
         cube._dataio = fake_io
-        cube._read_meta_from_file()
+        cube._read_coords_dims_variables_from_dataio()
 
         # Indices/coords should come from the stubbed 1-D arrays
         assert np.array_equal(cube._dim0_coords, np.arange(t))
@@ -716,7 +717,7 @@ class TestReadMetaFallbacks:
         cube = self._fresh_cube(t, y, x)
 
         cube._dataio = fake_io
-        cube._read_meta_from_file()
+        cube._read_coords_dims_variables_from_dataio()
 
         # Collapsed coords must match the original 1-D ranges that produced the mesh
         assert np.array_equal(cube._dim1_coords, np.arange(y))  # from [:, 0]
@@ -732,7 +733,7 @@ class TestReadMetaFallbacks:
             TypeError,
             match=r"(?i)shape of coordinate array was not 1[-\s]?d or 2[-\s]?d",
         ):
-            cube._read_meta_from_file()
+            cube._read_coords_dims_variables_from_dataio()
 
     def test_scan_3d_var_handles_getitem_error(self):
         """Cover the `except: continue` branch while scanning known_variables."""
@@ -747,7 +748,7 @@ class TestReadMetaFallbacks:
             three_d={"temperature"},  # second var is the 3-D one
         )
         cube._dataio = fake_io
-        cube._read_meta_from_file()
+        cube._read_coords_dims_variables_from_dataio()
 
         # Confirm we built coords successfully from the stub
         assert np.array_equal(cube._dim0_coords, np.arange(t))
@@ -768,7 +769,7 @@ class TestReadMetaFallbacks:
         )
         cube._dataio = fake_io
         with pytest.raises(ValueError, match=r"Could not infer 3-D dimensions"):
-            cube._read_meta_from_file()
+            cube._read_coords_dims_variables_from_dataio()
 
 
 class TestLandsatCube:
