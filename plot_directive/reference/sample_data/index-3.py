@@ -1,16 +1,20 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import sandplover as spl
+from sandplover.sample_data.sample_data import xslope
 #
-aeolian = spl.sample_data.aeolian()
+xslope0, xslope1 = xslope()
 nt = 5
-ts = np.linspace(0, aeolian["eta"].shape[0] - 1, num=nt, dtype=int)
+ts = np.linspace(0, xslope0["eta"].shape[0] - 1, num=nt, dtype=int)
 #
-fig, ax = plt.subplots(1, nt, figsize=(8, 4))
+fig, ax = plt.subplots(2, nt, figsize=(12, 2))
 for i, t in enumerate(ts):
-    _ = ax[i].imshow(aeolian["eta"][t, :, :], vmin=-5, vmax=7)
-    _ = ax[i].set_title(f"t = {t}")
-    _ = ax[i].axes.get_xaxis().set_ticks([])
-    _ = ax[i].axes.get_yaxis().set_ticks([])
-_ = ax[0].set_ylabel("northing")
-_ = ax[0].set_xlabel("easting")
+    _ = ax[0, i].imshow(xslope0["eta"][t, :, :], vmin=-10, vmax=0.5)
+    _ = ax[0, i].set_title(f"t = {t}")
+    _ = ax[1, i].imshow(xslope1["eta"][t, :, :], vmin=-10, vmax=0.5)
+#
+_ = ax[1, 0].set_ylabel("dim1 direction")
+_ = ax[1, 0].set_xlabel("dim2 direction")
+#
+for axi in ax.ravel():
+    _ = axi.axes.get_xaxis().set_ticks([])
+    _ = axi.axes.get_yaxis().set_ticks([])

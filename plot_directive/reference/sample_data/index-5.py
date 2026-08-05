@@ -2,17 +2,23 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sandplover as spl
 #
-img, scans = spl.sample_data.savi2020()
-nt = 5
-ts_i = np.linspace(0, img["red"].shape[0] - 1, num=nt, dtype=int)
-ts_s = np.linspace(0, scans["eta"].shape[0] - 1, num=nt, dtype=int)
+landsat = spl.sample_data.landsat()
+nt = landsat.shape[0]
 #
-fig, ax = plt.subplots(2, nt, figsize=(9, 6))
-for i in range(nt):
-    _ = ax[0, i].imshow(img["red"][ts_i[i], :, :], vmin=0, vmax=1)
-    _ = ax[0, i].set_title(f"t = {ts_i[i]}")
-    _ = ax[1, i].imshow(scans["eta"][ts_s[i], :, :])
-    _ = ax[1, i].set_title(f"t = {ts_s[i]}")
+maxr = np.max(landsat["Red"][:])
+maxg = np.max(landsat["Green"][:])
+maxb = np.max(landsat["Blue"][:])
 #
-_ = ax[1, 0].set_ylabel("dim1 direction")
-_ = ax[1, 0].set_xlabel("dim2 direction")
+fig, ax = plt.subplots(1, nt, figsize=(12, 2))
+for i in np.arange(nt):
+    _arr = np.dstack(
+        (
+            landsat["Red"][i, :, :] / maxr,
+            landsat["Green"][i, :, :] / maxg,
+            landsat["Blue"][i, :, :] / maxb,
+        )
+    )
+    _ = ax[i].imshow(_arr)
+    _ = ax[i].set_title(f"year = {landsat.t[i]}")
+    _ = ax[i].axes.get_xaxis().set_ticks([])
+    _ = ax[i].axes.get_yaxis().set_ticks([])

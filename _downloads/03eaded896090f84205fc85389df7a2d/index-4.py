@@ -2,23 +2,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sandplover as spl
 #
-landsat = spl.sample_data.landsat()
-nt = landsat.shape[0]
+aeolian = spl.sample_data.aeolian()
+nt = 5
+ts = np.linspace(0, aeolian["eta"].shape[0] - 1, num=nt, dtype=int)
 #
-maxr = np.max(landsat["Red"][:])
-maxg = np.max(landsat["Green"][:])
-maxb = np.max(landsat["Blue"][:])
-#
-fig, ax = plt.subplots(1, nt, figsize=(12, 2))
-for i in np.arange(nt):
-    _arr = np.dstack(
-        (
-            landsat["Red"][i, :, :] / maxr,
-            landsat["Green"][i, :, :] / maxg,
-            landsat["Blue"][i, :, :] / maxb,
-        )
-    )
-    _ = ax[i].imshow(_arr)
-    _ = ax[i].set_title(f"year = {landsat.t[i]}")
+fig, ax = plt.subplots(1, nt, figsize=(8, 4))
+for i, t in enumerate(ts):
+    _ = ax[i].imshow(aeolian["eta"][t, :, :], vmin=-5, vmax=7)
+    _ = ax[i].set_title(f"t = {t}")
     _ = ax[i].axes.get_xaxis().set_ticks([])
     _ = ax[i].axes.get_yaxis().set_ticks([])
+_ = ax[0].set_ylabel("northing")
+_ = ax[0].set_xlabel("easting")

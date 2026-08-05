@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sandplover.plan.shaw_opening_angle_method &#8212; sandplover 0.5.0 documentation</title>
+    <title>sandplover.plan.shaw_opening_angle_method &#8212; sandplover 0.5.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
-    <script src="../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../_static/documentation_options.js?v=b9afe91b"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="sandplover.plan.compute_surface_deposit_age.html" title="sandplover.plan.compute_surface_deposit_age"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../reference/plan/index.html" accesskey="U">Planview operations</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">sandplover.plan.shaw_opening_angle_method</a></li> 
@@ -56,7 +56,7 @@ Adapted from the Matlab implementation in <a class="footnote-reference brackets"
 <aside class="footnote brackets" id="id3" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
 <span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id5">2</a>,<a role="doc-backlink" href="#id6">3</a>,<a role="doc-backlink" href="#id7">4</a>,<a role="doc-backlink" href="#id8">5</a>,<a role="doc-backlink" href="#id9">6</a>)</span>
-<p>Shaw, John B., et al. “An image‐based method for
+<p>Shaw, John B., et al. “An image-based method for
 shoreline mapping on complex coasts.” Geophysical Research Letters
 35.12 (2008).</p>
 </aside>
@@ -99,11 +99,10 @@ disconnected from the open water in the landmask. This is a helpful
 operation for reducing computational load and ensuring the “correct”
 shoreline is ultimately identified. Preprocessing is implemented in a
 manner consistent with <a class="footnote-reference brackets" href="#id3" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p></li>
-<li><p><strong>parallel</strong> (<em>int</em><em>, </em><em>optional</em>) – Whether to use parallelization in the opening angle calculation. If
-sufficient processors are available, we recommend using two to four
-cores per mask being calculated. A value of <cite>0</cite> uses no
-parallelization, and other positive integers specify the number of
-threads to use (i.e., <cite>1</cite> also uses no parallelization).</p></li>
+<li><p><strong>parallel</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>deprecated</em>) – Deprecated in v0.5.1, due to inconsistencies with higher-level
+parallelization. Support for parallel computation may return in the
+future, but specifying anything other than <cite>0</cite> or <cite>False</cite> currently
+issues a warning and defaults to serial operation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -201,7 +200,7 @@ threads to use (i.e., <cite>1</cite> also uses no parallelization).</p></li>
         <li class="right" >
           <a href="sandplover.plan.compute_surface_deposit_age.html" title="sandplover.plan.compute_surface_deposit_age"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../reference/plan/index.html" >Planview operations</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">sandplover.plan.shaw_opening_angle_method</a></li> 

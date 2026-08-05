@@ -34,6 +34,7 @@ Example data cubes
 ------------------
 
 .. autofunction:: golf
+.. autofunction:: tdb12
 .. autofunction:: xslope
 .. autofunction:: aeolian
 .. autofunction:: landsat
