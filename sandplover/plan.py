@@ -2567,7 +2567,7 @@ def compute_topset_slope(
             return np.nanmean(slopes), np.nanstd(slopes)
 
 
-@njit(parallel=True)
+@njit
 def _compute_angles_between(test_set_points, query_set_points, numviews):
     """Private helper for shaw_opening_angle_method.
 
@@ -2592,7 +2592,7 @@ def _compute_angles_between(test_set_points, query_set_points, numviews):
 
         This function uses jit compilation via `numba`.
 
-    .. [1] Shaw, John B., et al. "An image‐based method for
+    .. [1] Shaw, John B., et al. "An image-based method for
        shoreline mapping on complex coasts." Geophysical Research Letters
        35.12 (2008).
 
@@ -2600,7 +2600,7 @@ def _compute_angles_between(test_set_points, query_set_points, numviews):
     query_set_length = query_set_points.shape[0]
     theta = np.zeros((query_set_length,))
 
-    for i in prange(query_set_length):
+    for i in range(query_set_length):
         diff = test_set_points - query_set_points[i]
         x = diff[:, 0]
         y = diff[:, 1]
@@ -2616,8 +2616,6 @@ def _compute_angles_between(test_set_points, query_set_points, numviews):
             theta[i] = np.max(dangles)
         else:
             dangles = np.sort(dangles)
-            # summed = np.sum(dangles[-numviews:])
-            # theta[i] = np.minimum(summed, 180)
             tops = dangles[-numviews:]
             summed = np.sum(tops)
             theta[i] = np.minimum(summed, 180)
@@ -2640,7 +2638,7 @@ def shaw_opening_angle_method(
 
     This *function* takes an image and extracts its opening angle map.
 
-    .. [1] Shaw, John B., et al. "An image‐based method for
+    .. [1] Shaw, John B., et al. "An image-based method for
        shoreline mapping on complex coasts." Geophysical Research Letters
        35.12 (2008).
 
@@ -2689,12 +2687,12 @@ def shaw_opening_angle_method(
         shoreline is ultimately identified. Preprocessing is implemented in a
         manner consistent with [1]_.
 
-    parallel : int, optional
-        Whether to use parallelization in the opening angle calculation. If
-        sufficient processors are available, we recommend using two to four
-        cores per mask being calculated. A value of `0` uses no
-        parallelization, and other positive integers specify the number of
-        threads to use (i.e., `1` also uses no parallelization).
+    parallel : int, optional, deprecated
+        Deprecated in v0.5.1, due to inconsistencies with higher-level
+        parallelization. Support for parallel computation may return in the
+        future, but specifying anything other than `0` or `False` currently
+        issues a warning and defaults to serial operation.
+
 
     Returns
     -------
@@ -2843,9 +2841,10 @@ def shaw_opening_angle_method(
     #   this is the main workhorse of the algorithm
     #   (see _compute_angles_between docstring for more information).
     if parallel > 0:
-        set_num_threads(parallel)
-    else:
-        set_num_threads(1)  # if false, 1 thread max
+        warnings.warn(
+            "Parallel support is currently deprecated, "
+            "but may return in the future. Defaulting to serial."
+        )
     theta = _compute_angles_between(test_set_points, query_set_points, numviews)
 
     # Cast to map shape
