@@ -1096,6 +1096,26 @@ class TestComputeChannelDepth:
         assert m == (0.5 + 0.3 + 1 + 9) / 4
         assert s == pytest.approx(3.6462309307009066)
 
+    def test_simple_empty_no_channels(self):
+        empty_cm = np.zeros_like(self.simple_cm)
+        empty_depth = np.zeros_like(self.simple_depth)
+        m, s = compute_channel_depth(
+            empty_cm, empty_depth, section=self.trace, depth_type="thalweg"
+        )
+        assert np.isnan(m)
+        assert np.isnan(s)
+
+    def test_simple_single_pixel_width_channel(self):
+        empty_cm = np.zeros_like(self.simple_cm)
+        empty_depth = np.zeros_like(self.simple_depth)
+        empty_cm[0, self.trace[4, 1]] = 1
+        m, s = compute_channel_depth(
+            empty_cm,
+            empty_depth,
+            section=self.trace,
+        )
+        assert m == 0
+
     def test_depths_simple_list_equal(self):
         """Get mean, std, list from simple, check that same."""
         m1, s1 = compute_channel_depth(
