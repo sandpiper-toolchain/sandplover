@@ -222,9 +222,11 @@ class TestDataCubeNoStratigraphy:
         assert type(fixeddatacube.sections) is dict
         assert fixeddatacube.sections is fixeddatacube.section_set
 
-    def test_metadata_present(self):
+    def test_auxadata_present(self):
         fixeddatacube = DataCube(golf_path)
-        assert fixeddatacube.meta is fixeddatacube._dataio.meta
+        assert fixeddatacube.aux is fixeddatacube._dataio.aux
+        with pytest.warns(UserWarning, match=r"The `meta` property"):
+            fixeddatacube.meta
 
     def test_fixeddatacube_dim1_coords(self):
         fixeddatacube = DataCube(golf_path)

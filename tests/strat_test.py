@@ -562,7 +562,7 @@ class TestComputeThicknessSurfaces:
             golfcube["eta"][-1, :, :], np.min(golfcube["eta"], axis=0)
         )
         # zeros = (deposit_thickness == 0)
-        gtr_hb = deposit_thickness > golfcube.meta["hb"].data
+        gtr_hb = deposit_thickness > golfcube.aux["hb"].data
         # nans = np.isnan(deposit_thickness)
         assert np.any(gtr_hb)  # any greater than thickness
 
