@@ -1664,7 +1664,7 @@ class CircularSection(BaseSection):
 
         # determine the origin in indices
         if (self._input_origin is None) and (self._input_origin_idx is None):
-            # if no inputs are provided, try to guess from metadata or land
+            # if no inputs are provided, try to guess from aux data or land
             if self._underlying_type == "cube":
                 # cube is attached and can be used
                 center_dim2 = int(
@@ -1684,7 +1684,7 @@ class CircularSection(BaseSection):
                         5,
                     )
                 else:
-                    # extract L0 from the cube metadata
+                    # extract L0 from the cube aux data
                     land_width = int(self._underlying.aux["L0"])
             else:
                 # no cube is known
@@ -1913,7 +1913,7 @@ class RadialSection(BaseSection):
 
         # determine the origin in indices
         if (self._input_origin is None) and (self._input_origin_idx is None):
-            # if no inputs are provided, try to guess from metadata or land,
+            # if no inputs are provided, try to guess from aux data or land,
             #   or fall back on just using (0, len(dim2) / 2)
             if self._underlying_type == "cube":
                 # cube is attached and can be used
@@ -1934,7 +1934,7 @@ class RadialSection(BaseSection):
                         5,
                     )
                 else:
-                    # extract L0 from the cube metadata
+                    # extract L0 from the cube aux data
                     land_width = int(self._underlying.aux["L0"])
             else:
                 # no cube is known

@@ -403,6 +403,9 @@ class DictionaryIO(BaseIO):
 
     This module wraps calls to an underyling data dictionary, so that any
     arbitrary data can be used as a cube dataset.
+
+    `auxdata_path` should be a string if the auxiliary data is a dictionary
+    within the `data_dictionary`, or should be a dictionary itself.
     """
 
     def __init__(self, data_dictionary, auxdata_path=None, dimensions=None):
@@ -411,7 +414,6 @@ class DictionaryIO(BaseIO):
         self.dataset = data_dictionary
         self._in_memory_data = self.dataset
 
-        # self.auxdata_path = auxdata_path  # store it
         # if something was specified for auxdata, set it accordingly
         if not auxdata_path is None:
             # can be either a string (a dict in a dict) or a separate dict
@@ -423,17 +425,14 @@ class DictionaryIO(BaseIO):
                 self._aux = auxdata_path
             else:
                 raise TypeError(
-                    f"Invalid type for DictionaryIO auxdata type. Must be str or dict, was {type(auxdata_path)}."
-                )
-            # now verify that aux is dict
-            if not isinstance(self._aux, dict):
-                raise TypeError(
-                    f"auxiliary information found at auxdata_path was not dict but was {type(self._aux)}"
+                    f"Invalid type for DictionaryIO `auxdata_path`. Must be str or dict, but was {type(auxdata_path)}."
                 )
 
-        # otherwise nothing was passed and we may be able to detect it *for now*
-        # for backwards compatability,  but this will be deprecated in the
-        # future, requiring explicit specification of the aux group.
+            # now verify that aux is dict (requirement for DictionaryIO)
+            if not isinstance(self._aux, dict):
+                raise TypeError(
+                    f"Auxiliary information found at `auxdata_path` was not dict but was {type(self._aux)}"
+                )
 
         self.get_known_variables()
         self.get_known_coords(dimensions)

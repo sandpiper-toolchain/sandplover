@@ -116,7 +116,7 @@ class BaseCube(abc.ABC):
         ...
 
     def _read_coords_dims_variables_from_dataio(self):
-        """Read metadata information from variables in file.
+        """Read coordinate and dimension information from variables in file.
 
         Robustly determine dimension names by preferring explicitly
         provided dims, otherwise by scanning for the first 3-D data variable.
@@ -695,31 +695,39 @@ class DataCube(BaseCube):
         data : :obj:`str`, :obj:`dict`
             If data is type `str`, the string points to a NetCDF or HDF5 file
             that can be read. Typically this is used to directly import files
-            output from the pyDeltaRCM model. Alternatively, pass a
-            :obj:`dict` with keys indicating variable names, and values with
-            corresponding t-x-y `ndarray` of data.
+            output from the pyDeltaRCM model. Alternatively, pass a :obj:`dict`
+            with keys indicating variable names, and values with corresponding
+            t-x-y `ndarray` of data.
+
+        auxdata : :obj:`str`, :obj:`dict`, optional
+            If `data` is a `str` pointing to a file, then `auxdata` shall be a
+            string specifying a group within the file with auxiliary
+            information. If `data` is a dictionary, `auxdata` may be either
+            another dictionary with auxiliary information, or a `str` specifying
+            a key within `data` to be treated as auxiliary informationl; note
+            that the last case does not remove the key from `data` variables.
+            Default is `None`, no auxiliary information.
 
         read : :obj:`bool`, optional
-            Which variables to read from dataset into memory. Special option
-            for ``read=True`` to read all available variables into memory.
+            Which variables to read from dataset into memory. Special option for
+            ``read=True`` to read all available variables into memory.
 
         varset : :class:`~sandplover.plot.VariableSet`, optional
-            Pass a `~sandplover.plot.VariableSet` instance if you wish
-            to style this cube similarly to another cube. If no argument is
-            supplied, a new default VariableSet instance is created.
+            Pass a `~sandplover.plot.VariableSet` instance if you wish to style
+            this cube similarly to another cube. If no argument is supplied, a
+            new default VariableSet instance is created.
 
         stratigraphy_from : :obj:`str`, optional
-            Pass a string that matches a variable name in the dataset to
-            compute preservation and stratigraphy using that variable as
-            elevation data. Typically, this is ``'eta'`` in pyDeltaRCM model
-            outputs. Stratigraphy can be computed on an existing data cube
-            with the :meth:`~sandplover.cube.DataCube.stratigraphy_from`
-            method.
+            Pass a string that matches a variable name in the dataset to compute
+            preservation and stratigraphy using that variable as elevation data.
+            Typically, this is ``'eta'`` in pyDeltaRCM model outputs.
+            Stratigraphy can be computed on an existing data cube with the
+            :meth:`~sandplover.cube.DataCube.stratigraphy_from` method.
 
         dimensions : `dict`, optional
             A dictionary with names and coordinates for dimensions of the
-            `DataCube`, if instantiating the cube from data loaded in memory
-            in a dictionary.
+            `DataCube`, if instantiating the cube from data loaded in memory in
+            a dictionary.
         """
         super().__init__(data, auxdata, read, varset, dimensions=dimensions)
 
@@ -958,6 +966,15 @@ class StratigraphyCube(BaseCube):
             output from the pyDeltaRCM model. Alternatively, pass a
             :obj:`dict` with keys indicating variable names, and values with
             corresponding t-x-y `ndarray` of data.
+
+        auxdata : :obj:`str`, :obj:`dict`, optional
+            If `data` is a `str` pointing to a file, then `auxdata` shall be a
+            string specifying a group within the file with auxiliary
+            information. If `data` is a dictionary, `auxdata` may be either
+            another dictionary with auxiliary information, or a `str` specifying
+            a key within `data` to be treated as auxiliary informationl; note
+            that the last case does not remove the key from `data` variables.
+            Default is `None`, no auxiliary information.
 
         read : :obj:`bool`, optional
             Which variables to read from dataset into memory. Special option

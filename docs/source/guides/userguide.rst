@@ -44,9 +44,8 @@ Connecting to a netCDF file on disk is as simple as:
 
     >>> acube = spl.cube.DataCube("/path/to/data/file.nc")
 
-.. hint::
-
-    For more information about data files, and how to configure your data to work with sandplover, please visit the ``Examples/io`` section of the documentation.
+You can also connect to data already loaded in your workflow, for example as `numpy` arrays. 
+For more information about data files, and how to configure your data to work with sandplover, please visit the ``Examples/io`` section of the documentation.
 
 For this guide to be easy to follow along with, we will use some sample data that comes with sandplover.
 
@@ -318,6 +317,31 @@ You can also create a standalone section, which is not registered to the cube, b
     ...     sass["velocity"] == golfcube.sections["demo"]["velocity"]
     ... )  # doctest: +SKIP
     True
+
+
+Auxiliary information
+---------------------
+
+Many datasets, especially those that have been carefully formatted into the
+NetCDF format likely include metadata and auxiliary information. In
+`sandplover`, we generally follow the `sandsuet
+<https://github.com/sandpiper-toolchain/sandsuet>`_ data model, so auxiliary
+data are thought of as those that support analyses, but are not main variables
+of interest.
+
+Auxiliary information is stored in an attribute of the `DataCube` and
+`StratigraphyCube` called `aux`. If your dataset includes auxiliary information,
+it is a best practice to specify `auxdata=<path>` during instantiation of the
+cube; see the cube documentation for complete details. So, the first example
+from this guide then becomes:
+
+.. code::
+
+    >>> acube = spl.cube.DataCube("/path/to/data/file.nc", auxdata="group_name")
+
+Several of the sample datasets include auxiliary information, and the `auxdata=`
+argument is specified when those datasets are provided to the user (like in this guide!).
+
 
 
 .. _userguide_quick_stratigraphy:
