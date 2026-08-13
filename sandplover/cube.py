@@ -78,7 +78,9 @@ class BaseCube(abc.ABC):
         elif type(data) is dict:
             # handle a dict, arrays set up already, make an io class to wrap it
             self._data_path = None
-            self._dataio = DictionaryIO(data, dimensions=dimensions)
+            self._dataio = DictionaryIO(
+                data, dimensions=dimensions, auxdata_path=auxdata
+            )
             self._read_coords_dims_variables_from_dataio()
         elif isinstance(data, DataCube):
             # handle initializing one cube type from another
