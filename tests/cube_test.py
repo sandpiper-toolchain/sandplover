@@ -225,7 +225,7 @@ class TestDataCubeNoStratigraphy:
     def test_auxadata_present(self):
         fixeddatacube = DataCube(golf_path)
         assert fixeddatacube.aux is fixeddatacube._dataio.aux
-        with pytest.warns(UserWarning, match=r"The `meta` property"):
+        with pytest.warns(DeprecationWarning, match=r"The `meta` property"):
             fixeddatacube.meta
 
     def test_fixeddatacube_dim1_coords(self):
