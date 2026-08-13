@@ -780,7 +780,7 @@ class TestLandsatCube:
         # with pytest.warns(UserWarning, match=r"Group with.*"):
         hdfcube = DataCube(hdf_path)
         assert hdfcube._data_path == hdf_path
-        assert hdfcube.dataio.io_type == "hdf5"
+        assert hdfcube.dataio.io_type == "file"
         assert hdfcube._planform_set == {}
         assert hdfcube._section_set == {}
         assert type(hdfcube.varset) is VariableSet
