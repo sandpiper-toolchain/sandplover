@@ -428,11 +428,35 @@ class DictionaryIO(BaseIO):
     arbitrary data can be used as a cube dataset.
     """
 
-    def __init__(self, data_dictionary, dimensions=None):
+    def __init__(self, data_dictionary, auxdata_path=None, dimensions=None):
         super().__init__(io_type="dictionary")
 
         self.dataset = data_dictionary
         self._in_memory_data = self.dataset
+
+        # self.auxdata_path = auxdata_path  # store it
+        # if something was specified for auxdata, set it accordingly
+        if not auxdata_path is None:
+            # can be either a string (a dict in a dict) or a separate dict
+            if isinstance(auxdata_path, str):
+                self.auxdata_path = auxdata_path  # store it
+                self._aux = self.dataset[auxdata_path]
+            elif isinstance(auxdata_path, dict):
+                self.auxdata_path = None  # store None, is dict, no path
+                self._aux = auxdata_path
+            else:
+                raise TypeError(
+                    f"Invalid type for DictionaryIO auxdata type. Must be str or dict, was {type(auxdata_path)}."
+                )
+            # now verify that aux is dict
+            if not isinstance(self._aux, dict):
+                raise TypeError(
+                    f"auxiliary information found at auxdata_path was not dict but was {type(self._aux)}"
+                )
+
+        # otherwise nothing was passed and we may be able to detect it *for now*
+        # for backwards compatability,  but this will be deprecated in the
+        # future, requiring explicit specification of the aux group.
 
         self.get_known_variables()
         self.get_known_coords(dimensions)

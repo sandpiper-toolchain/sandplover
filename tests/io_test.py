@@ -1,4 +1,5 @@
 import sys
+import copy
 
 import netCDF4
 import numpy as np
@@ -161,6 +162,16 @@ class TestDictionaryIO:
         dict_io = DictionaryIO(self.dict_xr)
         assert ("eta" in dict_io._in_memory_data) is True
         assert isinstance(dict_io["eta"], xr.core.dataarray.DataArray)
+
+    def test_create_with_auxdata(self):
+        _dict_w_aux = copy.deepcopy(self.dict_np)
+        _dict_w_aux["auxdata"] = self.dict_np
+        dict_io_str = DictionaryIO(_dict_w_aux, auxdata_path="auxdata")
+        dict_io_dict = DictionaryIO(self.dict_np, auxdata_path=self.dict_np)
+        assert isinstance(dict_io_str["eta"], np.ndarray)
+        assert isinstance(dict_io_str.aux["eta"], np.ndarray)
+        assert isinstance(dict_io_dict["eta"], np.ndarray)
+        assert isinstance(dict_io_dict.aux["eta"], np.ndarray)
 
     def test_dimensions_ignored_if_xarray(self):
         dict_io = DictionaryIO(self.dict_xr, dimensions=(3, 4, 5))
