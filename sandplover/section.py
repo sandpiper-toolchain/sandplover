@@ -1670,7 +1670,7 @@ class CircularSection(BaseSection):
                 center_dim2 = int(
                     self._underlying.shape[2] // 2
                 )  # center of the dim2 axis
-                if self._underlying.meta is None:
+                if self._underlying.aux is None:
                     # try and guess the value (should issue a warning?)
                     #   if no field called 'eta'?? this will fail.
                     warnings.warn(
@@ -1685,7 +1685,7 @@ class CircularSection(BaseSection):
                     )
                 else:
                     # extract L0 from the cube metadata
-                    land_width = int(self._underlying.meta["L0"])
+                    land_width = int(self._underlying.aux["L0"])
             else:
                 # no cube is known
                 land_width = 0
@@ -1920,7 +1920,7 @@ class RadialSection(BaseSection):
                 center_dim2 = int(
                     self._underlying.shape[2] // 2
                 )  # center of the dim2 axis
-                if self._underlying.meta is None:
+                if self._underlying.aux is None:
                     # try and guess the value (should issue a warning?)
                     #   if no field called 'eta'?? this will fail.
                     warnings.warn(
@@ -1935,7 +1935,7 @@ class RadialSection(BaseSection):
                     )
                 else:
                     # extract L0 from the cube metadata
-                    land_width = int(self._underlying.meta["L0"])
+                    land_width = int(self._underlying.aux["L0"])
             else:
                 # no cube is known
                 land_width = 0
