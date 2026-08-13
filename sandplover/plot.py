@@ -433,10 +433,12 @@ class VariableSet:
     @strata_sand_frac.setter
     def strata_sand_frac(self, var):
         if not var:
-            sandfrac = colors.ListedColormap(
+            _basecmap = colors.ListedColormap(
                 ["saddlebrown", "sienna", "goldenrod", "gold"]
             )
-            sandfrac.set_under("saddlebrown")
+            sandfrac = _basecmap.with_extremes(
+                under=("saddlebrown", 0)
+            )  # under=(color, alpha)
             self._strata_sand_frac = VariableInfo(
                 "strata_sand_frac",
                 cmap=sandfrac,
@@ -465,8 +467,10 @@ class VariableSet:
                     for i in range(3)
                 ]  # for each column in RGB
             )
-            sand_frac = colors.ListedColormap(endpts_colors)
-            sand_frac.set_under("saddlebrown")
+            _basecmap = colors.ListedColormap(endpts_colors)
+            sand_frac = _basecmap.with_extremes(
+                under=("saddlebrown", 0)
+            )  # under=(color, alpha)
             self._sandfrac = VariableInfo(
                 "sandfrac", cmap=sand_frac, norm=None, vmin=0, label="sand fraction"
             )
@@ -502,8 +506,8 @@ class VariableSet:
             combined = np.vstack(
                 (greys(np.linspace(0.3, 0.6, 16)), oranges(np.linspace(0.2, 0.8, 48)))
             )
-            ntgcmap = colors.ListedColormap(combined, name="net_to_gross")
-            ntgcmap.set_bad("white", alpha=0)
+            _basecmap = colors.ListedColormap(combined, name="net_to_gross")
+            ntgcmap = _basecmap.with_extremes(bad=("white", 0))  #  bad=(color, alpha)
             self._net_to_gross = VariableInfo(
                 "net_to_gross", cmap=ntgcmap, label="net-to-gross"
             )

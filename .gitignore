@@ -113,6 +113,9 @@ venv.bak/
 *.sublime-project
 *.sublime-workspace
 
+# vscode files
+*.code-workspace
+
 # svg files in private
 /private/*.svg
 

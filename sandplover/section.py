@@ -683,9 +683,9 @@ class BaseSection(abc.ABC):
             ax = plt.gca()
 
         # work through display options based on type of underlying
-        SectionVariableInstance = self[SectionAttribute]
         if self._underlying_type == "cube":
             # if te underlying is a cube
+            SectionVariableInstance = self[SectionAttribute]
             _varinfo = (
                 self._underlying.varset[SectionAttribute]
                 if issubclass(type(self._underlying), BaseCube)
