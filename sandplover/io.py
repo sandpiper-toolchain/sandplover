@@ -299,29 +299,6 @@ class NetCDFIO(FileIO):
         # for backwards compatability,  but this will be deprecated in the
         # future, requiring explicit specification of the aux group.
 
-        else:
-            _known = ["/meta", "/metadata", "/auxdata"]
-            matched = set(_known).intersection(self.dataset.groups)
-            if any(matched):
-                warnings.warn(
-                    "Group with recognized name found for auxiliary data, "
-                    "but this group was not passed as `auxdata` during instantiation. "
-                    "Autodetecting auxiliary data is deprecated and may be removed "
-                    "in the future.",
-                    UserWarning,
-                    stacklevel=2,
-                )
-                if len(matched) > 1:
-                    warnings.warn(
-                        "Multiple groups recognized. Using first in set, which may lead to inconsistent behavior.",
-                        UserWarning,
-                        stacklevel=2,
-                    )
-                match = next(iter(matched))[1:]  # get the match and drop leading /
-                self.dataset[match]
-                self._aux = self.dataset[match]
-                print(self.aux)
-
     def get_known_variables(self):
         """List known variables.
 
