@@ -193,13 +193,6 @@ class NetCDFIO(FileIO):
             commonly the name of a group within the file. Default is None, and
             no auxilliary data is assigned.
 
-        .. warning::
-
-            Deprecation: If `auxdata_path=None`, we will for a few minor
-            versions, search the file for groups that match commonly used
-            names for auxilliary data and will assign this group if found.
-            This will issue a warning and will be removed in a future release.
-
         engine : `str`, optional
             Engine used to open the file with xarray. Default is None, which
             will lead to trying to infer from file extension. If no inference
