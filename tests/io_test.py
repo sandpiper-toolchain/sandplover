@@ -149,6 +149,15 @@ class TestNetCDFIO:
         netcdf_io = NetCDFIO(golf_path)
         assert len(netcdf_io._in_memory_data) == 0
 
+    def test_register_variable(self):
+        # this private method assumes shape already validated by cube, so we
+        # just verify here that the method is callable
+        netcdf_io = NetCDFIO(golf_path)
+        assert len(netcdf_io._in_memory_variables) == 0
+        netcdf_io._register_variable("test", np.zeros((100, 100)))
+        assert len(netcdf_io._in_memory_variables) == 1
+        assert "test" in netcdf_io.known_variables
+
 
 class TestDictionaryIO:
     _shape = (50, 100, 200)

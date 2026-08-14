@@ -90,8 +90,8 @@ class BaseCube(abc.ABC):
         else:
             raise TypeError('Invalid type for "data": %s' % type(data))
 
-        self._planform_set = {}
-        self._section_set = {}
+        self._planform_set = {}  # registered planforms
+        self._section_set = {}  # registered sections
 
         if varset:
             self.varset = varset
@@ -122,7 +122,6 @@ class BaseCube(abc.ABC):
         provided dims, otherwise by scanning for the first 3-D data variable.
         """
         self._coords = self._dataio.known_coords
-        self._variables = self._dataio.known_variables
 
         # 1) Determine (d0, d1, d2)
         if hasattr(self._dataio, "dims") and len(self._dataio.dims) >= 3:
@@ -191,7 +190,7 @@ class BaseCube(abc.ABC):
         NOT be loaded into memory. Set `force=True` to override this check.
         """
         if variables is True:  # special case, read all variables
-            variables = self.variables
+            variables = self.dataio.known_variables
         elif type(variables) is str:
             variables = [variables]
         else:
@@ -258,7 +257,7 @@ class BaseCube(abc.ABC):
     @property
     def variables(self):
         """`list` : List of variable names as strings."""
-        return self._variables
+        return self._dataio.known_variables
 
     @property
     def planform_set(self):
@@ -269,7 +268,7 @@ class BaseCube(abc.ABC):
     def planforms(self):
         """`dict` : Set of plan instances.
 
-        Alias to :meth:`plan_set`.
+        Alias to :meth:`planform_set`.
         """
         return self._planform_set
 
@@ -364,6 +363,53 @@ class BaseCube(abc.ABC):
         self._section_set[name] = SectionInstance
         if return_section:
             return self._section_set[name]
+
+    def register_variable(self, name, data):
+        """Register a variable to the cube.
+
+        Add a variable to the cube, which can be accessed and sliced identically
+        to underlying data.
+
+        This is generally useful for data that are derived in the course of
+        analyses (i.e., not a part of the original dataset) but are useful (in a
+        general sense) for subsequent analyses.
+
+        Only variables with identical dimensionality to the underlying dataset
+        can be registered. Registered variables should not be modified after
+        registration, but can be easily used in subsequent analysis.
+
+        .. important::
+
+            Registered variables are stored in memory, and are not recorded to
+            underlying data!
+
+        Parameters
+        ----------
+        name : :obj:`str`
+            The name to register the variable.
+
+        data : :obj:`xr.DataArray` or :obj:`np.ndarray`
+            The data to register. Must have same dimensionality as underying
+            data variables.
+
+        """
+        if not isinstance(name, str):
+            raise TypeError(
+                "`name` was not a string. " "Instead, was: {}".format(type(name))
+            )
+
+        # verify shape is identical
+        if np.all(data.shape != self.shape):
+            raise ValueError("Incorrect shape, was is.......")
+
+        if isinstance(data, np.ndarray):
+            # convert to xarray
+            data = xr.DataArray(
+                data, coords=self._view_coordinates, dims=self._view_dimensions
+            )
+
+        # pass to dataio layer to add as needed
+        self.dataio._register_variable(name, data)
 
     @property
     def dim0_coords(self):
@@ -776,24 +822,24 @@ class DataCube(BaseCube):
         CubeVariable : `~sandplover.cube.CubeVariable`
             The instantiated CubeVariable.
         """
-        if var == "time":  # special case for time
+        # special case for time
+        if var == "time":
             # use the name of the first dimension, to enable
             #   unlabeled np.ndarrays and flexible name for time
             dim0_name = self.dataio.dims[0]
             dim0_coord = np.array(self.dataio.dataset[dim0_name])
             _t = np.expand_dims(dim0_coord, axis=(1, 2))
-            _xrt = xr.DataArray(
+            _obj = xr.DataArray(
                 np.tile(_t, (1, *self.shape[1:])),
                 coords=self._view_coordinates,
                 dims=self._view_dimensions,
             )
-            _obj = _xrt
-        elif (var in self._coords) or (var in self._variables):
+        # if the variable is part of the underlying dataio layer
+        elif (var in self._coords) or (var in self.dataio.known_variables):
             # ensure coords can be called by cube[var]
             _obj = self._dataio[var]
-
         else:
-            raise AttributeError(f"No variable of {str(self)} named {var}")
+            raise AttributeError(f"No variable of '{str(self)}' named '{var}'")
 
         # make _obj xarray if it not already
         if isinstance(_obj, np.ndarray):
@@ -1052,9 +1098,8 @@ class StratigraphyCube(BaseCube):
             _t = np.expand_dims(dim0_coord, axis=(1, 2))
             _arr = np.full(self.shape, np.nan)
             _var = np.tile(_t, (1, *self.shape[1:]))
-        elif var in self._variables:
+        elif var in self._dataio.known_variables:
             _arr = np.full(self.shape, np.nan)
-            # _var = np.array(self.dataio[var], copy=True)
             _var = self.dataio[var]
         else:
             raise AttributeError(f"No variable of {str(self)} named {var}")
