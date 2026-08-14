@@ -174,7 +174,7 @@ Now, let's load the NetCDF file with sandplover. Make a cube by pointing to the 
     :include-source:
     :context: close-figs
 
-    nc_datacube = spl.cube.DataCube(os.path.join(output_folder, 'model_output.nc'))
+    nc_datacube = spl.cube.DataCube(os.path.join(output_folder, 'model_output.nc'), auxdata="auxdata")
 
     fig, ax = plt.subplots(2, len(t), figsize=(8, 3))
     for i, _ in enumerate(t):
