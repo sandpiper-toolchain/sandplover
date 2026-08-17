@@ -33,7 +33,8 @@ from sandplover.plan import compute_surface_deposit_age
 from sandplover.plan import compute_surface_deposit_time
 from sandplover.plan import compute_topset_slope
 from sandplover.plan import shaw_opening_angle_method
-from sandplover.sample_data.sample_data import _get_golf_path, golf_sandsuet
+from sandplover.sample_data.sample_data import _get_golf_path
+from sandplover.sample_data.sample_data import golf_sandsuet
 from sandplover.section import CircularSection
 
 # a simple custom layout

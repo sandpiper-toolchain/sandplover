@@ -1,6 +1,5 @@
 import unittest.mock as mock
 
-
 import numpy as np
 import pytest
 import xarray as xr
@@ -10,9 +9,9 @@ from sandplover.cube import StratigraphyCube
 from sandplover.plan import BasePlanform
 from sandplover.plan import Planform
 from sandplover.plot import VariableSet
+from sandplover.sample_data.sample_data import _get_aeolian_path
 from sandplover.sample_data.sample_data import _get_golf_path
 from sandplover.sample_data.sample_data import _get_golf_sandsuet_path
-from sandplover.sample_data.sample_data import _get_aeolian_path
 from sandplover.sample_data.sample_data import _get_landsat_path
 from sandplover.sample_data.sample_data import _get_rcm8_path
 from sandplover.sample_data.sample_data import rcm8

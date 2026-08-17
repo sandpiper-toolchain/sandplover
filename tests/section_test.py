@@ -9,7 +9,8 @@ from sandplover.cube import DataCube
 from sandplover.cube import StratigraphyCube
 from sandplover.mask import ElevationMask
 from sandplover.plan import Planform
-from sandplover.sample_data.sample_data import _get_golf_path, golf_sandsuet
+from sandplover.sample_data.sample_data import _get_golf_path
+from sandplover.sample_data.sample_data import golf_sandsuet
 from sandplover.section import CircularSection
 from sandplover.section import DipSection
 from sandplover.section import PathSection

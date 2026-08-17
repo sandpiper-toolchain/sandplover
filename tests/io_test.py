@@ -1,5 +1,5 @@
-import sys
 import copy
+import sys
 
 import netCDF4
 import numpy as np

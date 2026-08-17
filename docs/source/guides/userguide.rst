@@ -44,7 +44,7 @@ Connecting to a netCDF file on disk is as simple as:
 
     >>> acube = spl.cube.DataCube("/path/to/data/file.nc")
 
-You can also connect to data already loaded in your workflow, for example as `numpy` arrays. 
+You can also connect to data already loaded in your workflow, for example as `numpy` arrays.
 For more information about data files, and how to configure your data to work with sandplover, please visit the ``Examples/io`` section of the documentation.
 
 For this guide to be easy to follow along with, we will use some sample data that comes with sandplover.
@@ -349,7 +349,7 @@ or if your data contains multiple groups with supporting information, you can
 always access this information as:
 
 .. code::
-    
+
     >>> acube.dataio.dataset["group_name"]
 
 
