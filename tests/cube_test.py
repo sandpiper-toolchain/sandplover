@@ -74,22 +74,6 @@ class TestDataCubeNoStratigraphy:
         with pytest.raises(TypeError):
             _ = DataCube(9)
 
-    def test_stratigraphy_from_eta(self):
-        golf0 = DataCube(golf_path)
-        golf1 = DataCube(golf_path)
-        golf0.stratigraphy_from("eta")
-        assert golf0._knows_stratigraphy is True
-        assert golf1._knows_stratigraphy is False
-
-    def test_init_cube_stratigraphy_argument(self):
-        golf = DataCube(golf_path, stratigraphy_from="eta")
-        assert golf._knows_stratigraphy is True
-
-    def test_stratigraphy_from_default_noargument(self):
-        golf = DataCube(golf_path)
-        golf.stratigraphy_from()
-        assert golf._knows_stratigraphy is True
-
     def test_init_with_shared_varset_prior(self):
         shared_varset = VariableSet()
         golf1 = DataCube(golf_path, varset=shared_varset)
@@ -120,7 +104,7 @@ class TestDataCubeNoStratigraphy:
 
     def test_register_section(self):
         golf = DataCube(golf_path)
-        golf.stratigraphy_from("eta", dz=0.1)
+        # golf.stratigraphy_from("eta", dz=0.1)
         golf.register_section("testsection", StrikeSection(distance_idx=10))
         assert golf.sections is golf.section_set
         assert len(golf.sections) == 1
@@ -134,7 +118,7 @@ class TestDataCubeNoStratigraphy:
 
     def test_sections_slice_op(self):
         golf = DataCube(golf_path)
-        golf.stratigraphy_from("eta", dz=0.1)
+        # golf.stratigraphy_from("eta", dz=0.1)
         golf.register_section("testsection", StrikeSection(distance_idx=10))
         assert "testsection" in golf.sections
         slc = golf.sections["testsection"]
@@ -142,7 +126,7 @@ class TestDataCubeNoStratigraphy:
 
     def test_register_planform(self):
         golf = DataCube(golf_path)
-        golf.stratigraphy_from("eta", dz=0.1)
+        # golf.stratigraphy_from("eta", dz=0.1)
         golf.register_planform("testplanform", Planform(idx=10))
         assert golf.planforms is golf.planform_set
         assert len(golf.planforms) == 1
@@ -168,7 +152,7 @@ class TestDataCubeNoStratigraphy:
 
     def test_planforms_slice_op(self):
         golf = DataCube(golf_path)
-        golf.stratigraphy_from("eta", dz=0.1)
+        # golf.stratigraphy_from("eta", dz=0.1)
         golf.register_planform("testplanform", Planform(idx=10))
         assert "testplanform" in golf.planforms
         slc = golf.planforms["testplanform"]
@@ -184,6 +168,21 @@ class TestDataCubeNoStratigraphy:
         assert golf._knows_stratigraphy is False
         with pytest.raises(NoStratigraphyError):
             golf.sections["testsection"]["velocity"].strat.as_stratigraphy()
+
+    def test_register_variable(self):
+        golf = DataCube(golf_path)
+        # golf.stratigraphy_from("eta", dz=0.1)
+        golf.register_variable("testvar", np.zeros(golf.shape))
+        assert "testvar" in golf.variables
+
+    def test_register_variable_bad_inputs(self):
+        golf = DataCube(golf_path)
+        with pytest.raises(ValueError, match=r"Input 'data' was incorrect"):
+            golf.register_variable("testvar", np.zeros((10, 10, 10)))
+        with pytest.raises(ValueError, match=r"Input 'data' was incorrect"):
+            golf.register_variable("testvar", np.zeros((10, 10)))
+        with pytest.raises(TypeError, match=r"Input 'name' was not"):
+            golf.register_variable(33, "name")
 
     def test_fixeddatacube_init_varset(self):
         fixeddatacube = DataCube(golf_path)
@@ -356,6 +355,22 @@ class TestDataCubeNoStratigraphy:
 
 
 class TestDataCubeWithStratigraphy:
+    def test_stratigraphy_from_eta(self):
+        golf0 = DataCube(golf_path)
+        golf1 = DataCube(golf_path)
+        golf0.stratigraphy_from("eta")
+        assert golf0._knows_stratigraphy is True
+        assert golf1._knows_stratigraphy is False
+
+    def test_init_cube_stratigraphy_argument(self):
+        golf = DataCube(golf_path, stratigraphy_from="eta")
+        assert golf._knows_stratigraphy is True
+
+    def test_stratigraphy_from_default_noargument(self):
+        golf = DataCube(golf_path)
+        golf.stratigraphy_from()
+        assert golf._knows_stratigraphy is True
+
     # test setting all the properties / attributes
     def test_fixeddatacube_set_varset(self):
         # create a fixed cube for variable existing, type checks
