@@ -346,6 +346,15 @@ class TestDataCubeNoStratigraphy:
         assert isinstance(golf.extent_flipud, list)
         assert isinstance(golf.extent_flipud[0], float)
 
+    def test_access_groups_manually(self):
+        golf = DataCube(golf_path, auxdata="auxdata")
+        assert np.all(golf.dataio.dataset["auxdata"]["H_SL"] == golf.aux["H_SL"])
+
+    def test_set_aux_data(self):
+        golf = DataCube(golf_path)
+        golf.set_aux("auxdata")
+        assert np.all(golf.dataio.dataset["auxdata"]["H_SL"] == golf.aux["H_SL"])
+
 
 class TestDataCubeWithStratigraphy:
     # test setting all the properties / attributes
@@ -473,6 +482,28 @@ class TestStratigraphyCube:
         # when creating from DataCube, varset should be inherited
         tempsc = StratigraphyCube.from_DataCube(fixeddatacube, dz=1)
         assert tempsc.varset is fixeddatacube.varset
+
+    def test_auxiliary_data(self):
+        fixeddatacube = DataCube(golf_path, auxdata="auxdata")
+        fixedstratigraphycube = StratigraphyCube.from_DataCube(fixeddatacube, dz=0.1)
+        assert fixedstratigraphycube.aux is fixeddatacube.aux
+
+    def test_access_groups_manually(self):
+        fixeddatacube = DataCube(golf_path, auxdata="auxdata")
+        fixedstratigraphycube = StratigraphyCube.from_DataCube(fixeddatacube, dz=0.1)
+        assert np.all(
+            fixedstratigraphycube.dataio.dataset["auxdata"]["H_SL"]
+            == fixedstratigraphycube.aux["H_SL"]
+        )
+
+    def test_set_aux_data(self):
+        fixeddatacube = DataCube(golf_path)
+        fixedstratigraphycube = StratigraphyCube.from_DataCube(fixeddatacube, dz=0.1)
+        fixedstratigraphycube.set_aux("auxdata")
+        assert np.all(
+            fixedstratigraphycube.dataio.dataset["auxdata"]["H_SL"]
+            == fixedstratigraphycube.aux["H_SL"]
+        )
 
 
 class TestStratigraphyCubeSubsidence:

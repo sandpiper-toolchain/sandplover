@@ -273,6 +273,10 @@ class BaseCube(abc.ABC):
         """
         return self._planform_set
 
+    def set_aux(self, auxdata):
+        """Set a group of the DataIO layer as the 'aux' group."""
+        self.dataio._set_aux(auxdata)
+
     def register_plan(self, *args, **kwargs):
         """wrapper, might not really need this."""
         return self.register_planform(*args, **kwargs)

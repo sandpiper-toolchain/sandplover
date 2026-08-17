@@ -37,6 +37,11 @@ class BaseIO(abc.ABC):
         """Should slice the data from file."""
         return
 
+    @abc.abstractmethod
+    def _set_aux(self):
+        """Should set auxiliary group."""
+        return
+
     @property
     @abc.abstractmethod
     def keys(self):
@@ -284,13 +289,22 @@ class NetCDFIO(FileIO):
             # self.dims = []
             # warn('Coordinates for "time", and set("x", "y") not provided in the \
             #       given data file.', UserWarning)
+        self._set_aux(auxdata_path=self.auxdata_path)
 
+    def _set_aux(self, auxdata_path):
+        """Set auxiliary group (declared private).
+
+        Defined as a function so it can also be called by the public
+        `Cube.set_aux` method.
+
+        Parameters
+        ----------
+        auxdata_path : auxiliary data path. See specifications in init docstring.
+        """
         # if something was specified for auxdata, set it accordingly
-        if not self.auxdata_path is None:
+        if not auxdata_path is None:
+            self.auxdata_path = auxdata_path
             self._aux = self.dataset[self.auxdata_path]
-        # otherwise nothing was passed and we may be able to detect it *for now*
-        # for backwards compatability,  but this will be deprecated in the
-        # future, requiring explicit specification of the aux group.
 
     def get_known_variables(self):
         """List known variables.
@@ -396,17 +410,53 @@ class DictionaryIO(BaseIO):
 
     This module wraps calls to an underyling data dictionary, so that any
     arbitrary data can be used as a cube dataset.
-
-    `auxdata_path` should be a string if the auxiliary data is a dictionary
-    within the `data_dictionary`, or should be a dictionary itself.
     """
 
     def __init__(self, data_dictionary, auxdata_path=None, dimensions=None):
+        """Initialize the DictionaryIO handler.
+
+        Parameters
+        ----------
+        data_dictionary : `dict`
+            Dictionary with `np.ndarray` or `xr.DataArray` arrays containing the
+            dataset of interest. All arrays in dict
+
+        auxdata_path : `str`, `dict`, optional
+            Path to auxilliary data within the dictionary `data_dictionary`, or
+            another dictionary to be treated as auxiliary data. Default is None, and
+            no auxilliary data is assigned.
+
+        dimensions : `dict`, optional
+
+            Dimensions of the data in the `data_dictionary` and relevant to
+            `aux_datapath`. If any inputs to `data_dictionary` are xarray.DataArray,
+            then `dimensions` is ignored, and the dimensions of that `DataArray` are
+            applied to all data. Otherwise, provide a dictionary `dimensions` that
+            is applied to data in `data_dictionary`. Finally, if `dimensions` is
+            None, dimensions are inferred from the first three dimensional variable
+            in `data_dictionary`.
+        """
         super().__init__(io_type="dictionary")
 
         self.dataset = data_dictionary
         self._in_memory_data = self.dataset
 
+        # set the auxiliary group
+        self._set_aux(auxdata_path)
+
+        self.get_known_variables()
+        self.get_known_coords(dimensions)
+
+    def _set_aux(self, auxdata_path):
+        """Set auxiliary group (declared private).
+
+        Defined as a function so it can also be called by the public
+        `Cube.set_aux` method.
+
+        Parameters
+        ----------
+        auxdata_path : auxiliary data path. See specifications in init docstring.
+        """
         # if something was specified for auxdata, set it accordingly
         if not auxdata_path is None:
             # can be either a string (a dict in a dict) or a separate dict
@@ -426,9 +476,6 @@ class DictionaryIO(BaseIO):
                 raise TypeError(
                     f"Auxiliary information found at `auxdata_path` was not dict but was {type(self._aux)}"
                 )
-
-        self.get_known_variables()
-        self.get_known_coords(dimensions)
 
     def get_known_variables(self):
         """List known variables."""

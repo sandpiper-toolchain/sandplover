@@ -329,8 +329,8 @@ NetCDF format likely include metadata and auxiliary information. In
 data are thought of as those that support analyses, but are not main variables
 of interest.
 
-Auxiliary information is stored in an attribute of the `DataCube` and
-`StratigraphyCube` called `aux`. If your dataset includes auxiliary information,
+Auxiliary information can be stored in an attribute of the :obj:`~sandplover.cube.DataCube` and
+:obj:`~sandplover.cube.StratigraphyCube` called `aux`. If your dataset includes auxiliary information,
 it is a best practice to specify `auxdata=<path>` during instantiation of the
 cube; see the cube documentation for complete details. So, the first example
 from this guide then becomes:
@@ -340,7 +340,17 @@ from this guide then becomes:
     >>> acube = spl.cube.DataCube("/path/to/data/file.nc", auxdata="group_name")
 
 Several of the sample datasets include auxiliary information, and the `auxdata=`
-argument is specified when those datasets are provided to the user (like in this guide!).
+argument is specified when those datasets are provided to the user (like within this guide!).
+
+If you forget to specify an auxiliary data group during instantiation, you can
+add one to an existing cube with the :meth:`~sandplover.cube.DataCube.set_aux`
+method. Or if you prefer to access groups in your underlying dataset directly,
+or if your data contains multiple groups with supporting information, you can
+always access this information as:
+
+.. code::
+    
+    >>> acube.dataio.dataset["group_name"]
 
 
 
