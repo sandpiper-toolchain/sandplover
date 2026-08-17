@@ -257,9 +257,10 @@ class BaseCube(abc.ABC):
         return self._coords
 
     @property
+    @abc.abstractmethod
     def variables(self):
         """`list` : List of variable names as strings."""
-        return self._dataio.known_variables
+        ...
 
     @property
     def registered_variables(self):
@@ -892,6 +893,15 @@ class DataCube(BaseCube):
         self._knows_stratigraphy = True
 
     @property
+    def variables(self):
+        """Variable available to DataCube.
+
+        Includes only underlying data available from DataIO layer and registered
+        variables.
+        """
+        return self.dataio._underlying_variables + self._registered_variables
+
+    @property
     def z(self):
         """Vertical coordinate."""
         return self.t
@@ -1140,6 +1150,20 @@ class StratigraphyCube(BaseCube):
             _arr, coords=self._view_coordinates, dims=self._view_dimensions
         )
         return _obj
+
+    @property
+    def variables(self):
+        """Variable available to StratigraphyCube.
+
+        Includes underlying data available from DataIO layer (including those
+        registered to a DataCube sharing the same DataIO layer), and registered
+        variables.
+        """
+        return (
+            self.dataio._underlying_variables
+            + list(self.dataio._in_memory_variables)
+            + self._registered_variables
+        )
 
     @property
     def strata(self):
