@@ -93,6 +93,8 @@ class BaseCube(abc.ABC):
         self._planform_set = {}  # registered planforms
         self._section_set = {}  # registered sections
 
+        self._registered_variables = []  # list of names registered variables
+
         if varset:
             self.varset = varset
         else:
@@ -260,6 +262,11 @@ class BaseCube(abc.ABC):
         return self._dataio.known_variables
 
     @property
+    def registered_variables(self):
+        """`list` : List of variable names as strings, subset to those registered (i.e., not in the underlying data)."""
+        return self._registered_variables
+
+    @property
     def planform_set(self):
         """:obj:`dict` : Set of planform instances."""
         return self._planform_set
@@ -394,13 +401,14 @@ class BaseCube(abc.ABC):
 
         """
         if not isinstance(name, str):
-            raise TypeError(
-                "`name` was not a string. " "Instead, was: {}".format(type(name))
-            )
+            raise TypeError(f"Input 'name' was not a string, but was {type(name)}")
 
         # verify shape is identical
         if np.all(data.shape != self.shape):
-            raise ValueError("Incorrect shape, was is.......")
+            raise ValueError(
+                f"Input 'data' was incorrect shape {data.shape}. "
+                f"Must match cube shape {self.shape}."
+            )
 
         if isinstance(data, np.ndarray):
             # convert to xarray
@@ -410,6 +418,8 @@ class BaseCube(abc.ABC):
 
         # pass to dataio layer to add as needed
         self.dataio._register_variable(name, data)
+        # append to list of registered variables
+        self._registered_variables.append(name)
 
     @property
     def dim0_coords(self):
@@ -835,8 +845,10 @@ class DataCube(BaseCube):
                 dims=self._view_dimensions,
             )
         # if the variable is part of the underlying dataio layer
-        elif (var in self._coords) or (var in self.dataio.known_variables):
+        elif (var in self._coords) or (var in self.dataio._underlying_variables):
             # ensure coords can be called by cube[var]
+            _obj = self._dataio[var]
+        elif var in self.registered_variables:
             _obj = self._dataio[var]
         else:
             raise AttributeError(f"No variable of '{str(self)}' named '{var}'")
@@ -1103,6 +1115,15 @@ class StratigraphyCube(BaseCube):
             _var = self.dataio[var]
         else:
             raise AttributeError(f"No variable of {str(self)} named {var}")
+
+        # check if the var registered and correct shape, return it
+        if var in self.registered_variables:
+            if np.all(_var.shape == self.shape):
+                return _var
+            else:
+                raise RuntimeError(
+                    f"Registered variable '{var}' sliced, but has incorrect shape: expect {self.shape}, got {_var.shape}"
+                )
 
         # the following lines apply the data to stratigraphy mapping
         if isinstance(_var, xr.core.dataarray.DataArray):
