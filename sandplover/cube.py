@@ -400,6 +400,18 @@ class BaseCube(abc.ABC):
             The data to register. Must have same dimensionality as underying
             data variables.
 
+        Examples
+        --------
+        See the example document :doc:`/guides/examples/create_from/register_variable`.
+
+        >>> from sandplover.sample_data.sample_data import golf
+
+        >>> golfcube = golf()
+        >>> golfcube.register_variable("somevar", np.zeros(golfcube.shape))
+
+        A list of registered variables can be accessed with:
+
+        >>> cube.registered_variables
         """
         if not isinstance(name, str):
             raise TypeError(f"Input 'name' was not a string, but was {type(name)}")
