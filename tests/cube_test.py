@@ -536,6 +536,11 @@ class TestStratigraphyCube:
         with pytest.raises(AttributeError):
             # parent cannot access var registered because would be wrong shape
             fixeddatacube["testvar"]
+        with pytest.raises(ValueError):
+            # try to register the wrong shape to the strat cube
+            fixedstratigraphycube.register_variable(
+                "testvar", np.zeros(fixeddatacube.shape)
+            )
 
     def test_register_variable_parent(self):
         fixeddatacube = DataCube(golf_path)
