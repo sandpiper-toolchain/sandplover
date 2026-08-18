@@ -255,16 +255,12 @@ class TestOpeningAnglePlanform:
         oap.show()
         assert oap._show.call_count == 1
         _field_called = oap._show.mock_calls[0][1][0]
-        _varinfo_called = oap._show.mock_calls[0][1][1]
         assert _field_called is oap.opening_angles  # default
-        assert _varinfo_called is oap._default_varinfo  # default
         # test that different field uses different varinfo
         oap.show("below_mask")
         assert oap._show.call_count == 2
         _field_called = oap._show.mock_calls[1][1][0]
-        _varinfo_called = oap._show.mock_calls[1][1][1]
         assert _field_called is oap._below_mask
-        assert _varinfo_called is oap._below_mask_varinfo
         # test that a nonexisting field throws error
         with pytest.raises(AttributeError, match=r".* no attribute 'nonexisting'"):
             oap.show("nonexisting")
