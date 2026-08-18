@@ -8,7 +8,6 @@ from sandplover.cube import DataCube
 from sandplover.cube import StratigraphyCube
 from sandplover.plan import BasePlanform
 from sandplover.plan import Planform
-from sandplover.plot import VariableSet
 from sandplover.sample_data.sample_data import _get_golf_path
 from sandplover.sample_data.sample_data import _get_landsat_path
 from sandplover.sample_data.sample_data import _get_rcm8_path
@@ -28,7 +27,6 @@ class TestDataCubeNoStratigraphy:
         assert golf.dataio.io_type == "netcdf"
         assert golf._planform_set == {}
         assert golf._section_set == {}
-        assert type(golf.varset) is VariableSet
 
     def test_error_init_empty_cube(self):
         with pytest.raises(TypeError):
@@ -61,22 +59,6 @@ class TestDataCubeNoStratigraphy:
         golf = DataCube(golf_path)
         golf.stratigraphy_from()
         assert golf._knows_stratigraphy is True
-
-    def test_init_with_shared_varset_prior(self):
-        shared_varset = VariableSet()
-        golf1 = DataCube(golf_path, varset=shared_varset)
-        golf2 = DataCube(golf_path, varset=shared_varset)
-        assert type(golf1.varset) is VariableSet
-        assert type(golf2.varset) is VariableSet
-        assert golf1.varset is shared_varset
-        assert golf1.varset is golf2.varset
-
-    def test_init_with_shared_varset_from_first(self):
-        golf1 = DataCube(golf_path)
-        golf2 = DataCube(golf_path, varset=golf1.varset)
-        assert type(golf1.varset) is VariableSet
-        assert type(golf2.varset) is VariableSet
-        assert golf1.varset is golf2.varset
 
     def test_slice_op(self):
         golf = DataCube(golf_path)
@@ -156,10 +138,6 @@ class TestDataCubeNoStratigraphy:
         assert golf._knows_stratigraphy is False
         with pytest.raises(NoStratigraphyError):
             golf.sections["testsection"]["velocity"].strat.as_stratigraphy()
-
-    def test_fixeddatacube_init_varset(self):
-        fixeddatacube = DataCube(golf_path)
-        assert type(fixeddatacube.varset) is VariableSet
 
     def test_fixeddatacube_init_data_path(self):
         fixeddatacube = DataCube(golf_path)
@@ -318,24 +296,6 @@ class TestDataCubeNoStratigraphy:
 
 class TestDataCubeWithStratigraphy:
     # test setting all the properties / attributes
-    def test_fixeddatacube_set_varset(self):
-        # create a fixed cube for variable existing, type checks
-        fixeddatacube = DataCube(golf_path)
-        fixeddatacube.stratigraphy_from(
-            "eta", dz=0.1
-        )  # compute stratigraphy for the cube
-
-        new_varset = VariableSet()
-        fixeddatacube.varset = new_varset
-        assert hasattr(fixeddatacube, "varset")
-        assert type(fixeddatacube.varset) is VariableSet
-        assert fixeddatacube.varset is new_varset
-
-    def test_fixeddatacube_set_varset_bad_type(self):
-        fixeddatacube = DataCube(golf_path)
-        fixeddatacube.stratigraphy_from("eta", dz=0.1)
-        with pytest.raises(TypeError):
-            fixeddatacube.varset = np.zeros(10)
 
     def test_fixeddatacube_set_data_path(self):
         fixeddatacube = DataCube(golf_path)
@@ -435,13 +395,6 @@ class TestStratigraphyCube:
         fixedstratigraphycube = StratigraphyCube.from_DataCube(fixeddatacube, dz=0.1)
         frzn = fixedstratigraphycube.export_frozen_variable("time")
         assert frzn.ndim == 3
-
-    def test_StratigraphyCube_inherit_varset(self):
-        # create a fixed cube for variable existing, type checks
-        fixeddatacube = DataCube(golf_path)
-        # when creating from DataCube, varset should be inherited
-        tempsc = StratigraphyCube.from_DataCube(fixeddatacube, dz=1)
-        assert tempsc.varset is fixeddatacube.varset
 
 
 class TestStratigraphyCubeSubsidence:
@@ -751,7 +704,6 @@ class TestLandsatCube:
         assert hdfcube.dataio.io_type == "hdf5"
         assert hdfcube._planform_set == {}
         assert hdfcube._section_set == {}
-        assert type(hdfcube.varset) is VariableSet
 
     def test_read_Blue_intomemory(self):
         with pytest.warns(UserWarning, match=r"No associated metadata"):
