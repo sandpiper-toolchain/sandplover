@@ -555,7 +555,7 @@ Similar to the demonstration above, each variable (property) of the underlying c
 
 .. plot:: guides/userguide_all_vars_stratigraphy.py
     :include-source: false
-    
+
 
 .. _userguide_stratigraphy_planforms:
 
