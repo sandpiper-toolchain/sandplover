@@ -675,6 +675,20 @@ class TestCompensation:
         with pytest.raises(ValueError, match="NaN found in stratal surfaces."):
             compute_compensation(data)
 
+    def test_compute_compensation_clips_nans_at_ends(self):
+        data = np.array(
+            [
+                [np.nan, 0.0, 0.0, 0.0, np.nan],
+                [np.nan, 1.0, 2.0, 1.0, np.nan],
+                [np.nan, 2.0, 4.0, 2.0, np.nan],
+            ]
+        )
+
+        actual = compute_compensation(data, clip_ends=1)
+        expected = compute_compensation(data[:, 1:-1])
+
+        np.testing.assert_allclose(actual, expected)
+
     def test_compute_compensation_not_implemented_time_idxs(self):
         # Test that passing time_idxs (not yet supported) raises error
         data = np.zeros((5, 10))
