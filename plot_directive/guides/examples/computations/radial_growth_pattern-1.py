@@ -17,4 +17,4 @@ for i, time_idx in enumerate(time_idxs):
 
     # compute the mean shoreline distance
     shoredist_mean[i], shoredist_std[i] = spl.plan.compute_shoreline_distance(
-        SM_mpm, origin=(golf.meta['CTR'].data, golf.meta['L0'].data))
+        SM_mpm, origin=(golf.aux['CTR'].data, golf.aux['L0'].data))

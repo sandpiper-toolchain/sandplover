@@ -37,14 +37,14 @@ v_velocity.units = 'meter/second'
 v_eta[:] = eta
 v_velocity[:] = velocity
 
-# set up metadata group and populate variables
-output_netcdf.createGroup('meta')
+# set up auxdata group and populate variables
+output_netcdf.createGroup('auxdata')
 v_L0 = output_netcdf.createVariable(  # a scalar, the inlet length
-    'meta/L0', 'f4', ())  # no dims for scalar
+    'auxdata/L0', 'f4', ())  # no dims for scalar
 v_L0.units = 'cell'
 v_L0[:] = 5
 v_H_SL = output_netcdf.createVariable( # an array, the sea level
-    'meta/H_SL', 'f4', ('time',))  # only has time dimensions
+    'auxdata/H_SL', 'f4', ('time',))  # only has time dimensions
 v_H_SL.units = 'meters'
 v_H_SL[:] = H_SL
 

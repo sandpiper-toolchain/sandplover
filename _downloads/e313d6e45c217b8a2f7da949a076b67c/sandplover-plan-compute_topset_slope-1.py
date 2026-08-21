@@ -5,8 +5,8 @@ from sandplover.plan import compute_topset_slope
 golf = golf()
 azimuth_kwargs = {"num": 5, "start": 90, "end": 180}
 origin = (
-    np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
-    * golf.meta["dx"].data
+    np.array([golf.aux["L0"].data, golf.aux["CTR"].data])
+    * golf.aux["dx"].data
 )
 mean_slope, std_slope = compute_topset_slope(
     golf["eta"][-1, :, :], origin=origin, **azimuth_kwargs

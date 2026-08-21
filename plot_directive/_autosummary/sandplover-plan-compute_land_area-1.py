@@ -7,11 +7,11 @@ golf = golf()
 #
 lm = LandMask(
     golf["eta"][-1, :, :],
-    elevation_threshold=golf.meta["H_SL"][-1],
+    elevation_threshold=golf.aux["H_SL"][-1],
     elevation_offset=-0.5,
 )
 #
-lm.trim_mask(length=golf.meta["L0"].data + 1)
+lm.trim_mask(length=golf.aux["L0"].data + 1)
 #
 land_area = compute_land_area(lm)
 #

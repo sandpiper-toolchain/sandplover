@@ -78,8 +78,14 @@ subclass <cite>BaseIO</cite> directly, and you just need to implement the
 <p class="rubric">Attributes</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.io.BaseIO.keys" title="sandplover.io.BaseIO.keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">keys</span></code></a></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">aux</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.io.BaseIO.keys" title="sandplover.io.BaseIO.keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">keys</span></code></a></p></td>
 <td><p>Should link to all key _names_ stored in file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.io.BaseIO.meta" title="sandplover.io.BaseIO.meta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">meta</span></code></a></p></td>
+<td><p>alias for backwards compatability</p></td>
 </tr>
 </tbody>
 </table>
@@ -93,6 +99,12 @@ subclass <cite>BaseIO</cite> directly, and you just need to implement the
 <dt class="sig sig-object py" id="sandplover.io.BaseIO.keys">
 <span class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">keys</span></span><a class="headerlink" href="#sandplover.io.BaseIO.keys" title="Link to this definition">¶</a></dt>
 <dd><p>Should link to all key _names_ stored in file.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.io.BaseIO.meta">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">meta</span></span><a class="headerlink" href="#sandplover.io.BaseIO.meta" title="Link to this definition">¶</a></dt>
+<dd><p>alias for backwards compatability</p>
 </dd></dl>
 
 </dd></dl>
@@ -114,6 +126,7 @@ subclass <cite>BaseIO</cite> directly, and you just need to implement the
 <li><a class="reference internal" href="#sandplover.io.BaseIO.__init__"><code class="docutils literal notranslate"><span class="pre">BaseIO.__init__()</span></code></a></li>
 <li><a class="reference internal" href="#sandplover.io.BaseIO.__getitem__"><code class="docutils literal notranslate"><span class="pre">BaseIO.__getitem__()</span></code></a></li>
 <li><a class="reference internal" href="#sandplover.io.BaseIO.keys"><code class="docutils literal notranslate"><span class="pre">BaseIO.keys</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.io.BaseIO.meta"><code class="docutils literal notranslate"><span class="pre">BaseIO.meta</span></code></a></li>
 </ul>
 </li>
 </ul>

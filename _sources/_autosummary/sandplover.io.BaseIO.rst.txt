@@ -23,6 +23,8 @@
 
    .. autosummary::
    
+      ~BaseIO.aux
       ~BaseIO.keys
+      ~BaseIO.meta
    
    

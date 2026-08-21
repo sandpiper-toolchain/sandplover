@@ -20,6 +20,7 @@
       ~DataCube.register_plan
       ~DataCube.register_planform
       ~DataCube.register_section
+      ~DataCube.set_aux
       ~DataCube.show_cube
       ~DataCube.show_plan
       ~DataCube.show_planform
@@ -39,6 +40,8 @@
       ~DataCube.T
       ~DataCube.W
       ~DataCube.Z
+      ~DataCube.aux
+      ~DataCube.auxdata
       ~DataCube.coords
       ~DataCube.data_path
       ~DataCube.dataio

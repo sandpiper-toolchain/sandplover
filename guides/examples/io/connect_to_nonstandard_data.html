@@ -44,24 +44,29 @@
             
   <section id="quick-connect-to-your-own-data">
 <span id="quick-non-standard-testing"></span><h1>Quick connect to your own  data<a class="headerlink" href="#quick-connect-to-your-own-data" title="Link to this heading">¶</a></h1>
-<p>If you are considering sandplover for your project, it may be helpful to use some of your data and see how DeltaMetrics works with that data, before committing to formatting a NetCDF file.</p>
+<p>If you are considering sandplover for your project, it may be helpful to use
+some of your data and see how sandplover works with that data, before committing
+to formatting a NetCDF file.</p>
 <p>This guide covers how to connect to non-standard data with sandplover</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The preferred approach to using sandplover is to <a class="reference internal" href="setup_any_dataset.html"><span class="doc">properly format a NetCDF file for input datasets</span></a>.</p>
 </div>
-<p>First, use <cite>numpy</cite> to manipulate each variable in your dataset into a 3D array with “time” on the first axis, and the two spatial dimensions on the next two axes.
-In the following example, the data is from a 100x200 domain with 51 saved data intervals.</p>
+<p>First, use <cite>numpy</cite> to manipulate each variable in your dataset into a 3D array
+with “time” on the first axis, and the two spatial dimensions on the next two
+axes. In the following example, the data is from a 100x200 domain with 51 saved
+data intervals.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">51</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
 
 <span class="n">dict_datacube</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">DataCube</span><span class="p">(</span>
-    <span class="p">{</span><span class="s1">&#39;eta&#39;</span><span class="p">:</span> <span class="n">eta</span><span class="p">})</span>
+    <span class="p">{</span><span class="s1">'eta'</span><span class="p">:</span> <span class="n">eta</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>(<a class="reference download internal" download="" href="../../../_downloads/bbe1bac9c1503d90cf9fb0b17fe26363/connect_to_nonstandard_data-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
 <p>That is all you need to get your data into sandplover to test the package out.
-You could also have additional variables by adding key-value pairs to the input dictionary.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dict_datacube</span><span class="o">.</span><span class="n">quick_show</span><span class="p">(</span><span class="s1">&#39;eta&#39;</span><span class="p">,</span> <span class="n">idx</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+You could also have additional variables by adding key-value pairs to the input
+dictionary.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dict_datacube</span><span class="o">.</span><span class="n">quick_show</span><span class="p">(</span><span class="s1">'eta'</span><span class="p">,</span> <span class="n">idx</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>(<a class="reference download internal" download="" href="../../../_downloads/74c177ead37fca42e029db74a80ad4a3/connect_to_nonstandard_data-2.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/fd20a8efe3292987b147318420da4c7c/connect_to_nonstandard_data-2.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../../../_downloads/3e77a0fd0181ed18e348c836d2924805/connect_to_nonstandard_data-2.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>

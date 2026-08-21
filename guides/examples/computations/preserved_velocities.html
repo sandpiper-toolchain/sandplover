@@ -54,21 +54,21 @@ With this paired information we can interrogate the velocity of deposits in the 
 <span class="kn">import</span><span class="w"> </span><span class="nn">sandplover</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">spl</span>
 
 <span class="n">golfcube</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
-<span class="n">golfcube</span><span class="o">.</span><span class="n">stratigraphy_from</span><span class="p">(</span><span class="s2">&quot;eta&quot;</span><span class="p">)</span>
+<span class="n">golfcube</span><span class="o">.</span><span class="n">stratigraphy_from</span><span class="p">(</span><span class="s2">"eta"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">pick_velocities</span><span class="p">(</span><span class="n">sect</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract data.</span>
+<span class="w">    </span><span class="sd">"""Extract data.</span>
 
 <span class="sd">    Utility function to grab mean velocity of a section, returning the value</span>
 <span class="sd">    from the total section, and just the preserved section.</span>
 
 <span class="sd">    Note that both extractions are limited to where sediment has been</span>
 <span class="sd">    deposited/eroded in the model domain.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">_whr</span> <span class="o">=</span> <span class="p">[</span><span class="n">sect</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">sect</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]]</span>
-    <span class="n">_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">sect</span><span class="p">[</span><span class="s2">&quot;velocity&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">_whr</span><span class="p">)])</span>
-    <span class="n">_s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">sect</span><span class="p">[</span><span class="s2">&quot;velocity&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strat</span><span class="o">.</span><span class="n">as_preserved</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">_whr</span><span class="p">)])</span>
+<span class="sd">    """</span>
+    <span class="n">_whr</span> <span class="o">=</span> <span class="p">[</span><span class="n">sect</span><span class="p">[</span><span class="s2">"eta"</span><span class="p">]</span> <span class="o">!=</span> <span class="n">sect</span><span class="p">[</span><span class="s2">"eta"</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]]</span>
+    <span class="n">_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">sect</span><span class="p">[</span><span class="s2">"velocity"</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">_whr</span><span class="p">)])</span>
+    <span class="n">_s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">sect</span><span class="p">[</span><span class="s2">"velocity"</span><span class="p">]</span><span class="o">.</span><span class="n">strat</span><span class="o">.</span><span class="n">as_preserved</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">_whr</span><span class="p">)])</span>
     <span class="k">return</span> <span class="n">_a</span><span class="p">,</span> <span class="n">_s</span>
 
 
@@ -86,10 +86,10 @@ With this paired information we can interrogate the velocity of deposits in the 
 
 <span class="c1"># make the plot</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">_mall</span><span class="p">,</span> <span class="s2">&quot;b-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;all values&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">_mstrat</span><span class="p">,</span> <span class="s2">&quot;r-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;preserved only&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;distance from channel inlet&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;mean velocity&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">_mall</span><span class="p">,</span> <span class="s2">"b-"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"all values"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">_mstrat</span><span class="p">,</span> <span class="s2">"r-"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"preserved only"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"distance from channel inlet"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"mean velocity"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>

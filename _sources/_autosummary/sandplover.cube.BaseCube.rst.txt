@@ -20,6 +20,7 @@
       ~BaseCube.register_plan
       ~BaseCube.register_planform
       ~BaseCube.register_section
+      ~BaseCube.set_aux
       ~BaseCube.show_cube
       ~BaseCube.show_plan
       ~BaseCube.show_planform
@@ -37,6 +38,8 @@
       ~BaseCube.L
       ~BaseCube.W
       ~BaseCube.Z
+      ~BaseCube.aux
+      ~BaseCube.auxdata
       ~BaseCube.coords
       ~BaseCube.data_path
       ~BaseCube.dataio

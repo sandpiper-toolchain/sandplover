@@ -52,8 +52,8 @@ The sedimentograph is a measure of sand fraction of delta stratigraphy. In this 
 <span class="n">golfcube</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">sample_data</span><span class="o">.</span><span class="n">golf</span><span class="p">()</span>
 <span class="n">golfstrat</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">StratigraphyCube</span><span class="o">.</span><span class="n">from_DataCube</span><span class="p">(</span><span class="n">golfcube</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
 
-<span class="n">background</span> <span class="o">=</span> <span class="p">(</span><span class="n">golfstrat</span><span class="o">.</span><span class="n">Z</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-<span class="n">frozen_sand</span> <span class="o">=</span> <span class="n">golfstrat</span><span class="o">.</span><span class="n">export_frozen_variable</span><span class="p">(</span><span class="s1">&#39;sandfrac&#39;</span><span class="p">)</span>
+<span class="n">background</span> <span class="o">=</span> <span class="p">(</span><span class="n">golfstrat</span><span class="o">.</span><span class="n">Z</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">golfcube</span><span class="p">[</span><span class="s1">'eta'</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">frozen_sand</span> <span class="o">=</span> <span class="n">golfstrat</span><span class="o">.</span><span class="n">export_frozen_variable</span><span class="p">(</span><span class="s1">'sandfrac'</span><span class="p">)</span>
 
 <span class="p">(</span><span class="n">sedimentograph</span><span class="p">,</span>
     <span class="n">section_radii</span><span class="p">,</span>
@@ -62,15 +62,15 @@ The sedimentograph is a measure of sand fraction of delta stratigraphy. In this 
     <span class="n">num_sections</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
     <span class="n">last_section_radius</span><span class="o">=</span><span class="mi">2750</span><span class="p">,</span>
     <span class="n">background</span><span class="o">=</span><span class="n">background</span><span class="p">,</span>
-    <span class="n">origin_idx</span><span class="o">=</span><span class="p">[</span><span class="n">golfcube</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;L0&#39;</span><span class="p">],</span> <span class="n">golfcube</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;CTR&#39;</span><span class="p">]])</span>
+    <span class="n">origin_idx</span><span class="o">=</span><span class="p">[</span><span class="n">golfcube</span><span class="o">.</span><span class="n">aux</span><span class="p">[</span><span class="s1">'L0'</span><span class="p">],</span> <span class="n">golfcube</span><span class="o">.</span><span class="n">aux</span><span class="p">[</span><span class="s1">'CTR'</span><span class="p">]])</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">section_radii</span><span class="p">,</span>
     <span class="n">sedimentograph</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># plot only the second bin (sandfrac &gt; 0.5)</span>
-    <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;radial distance from apex (m)&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;stratigraphy &quot;sandfrac&quot; fraction &gt; 0.5&#39;</span><span class="p">)</span>
+    <span class="s1">'o-'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'radial distance from apex (m)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'stratigraphy "sandfrac" fraction &gt; 0.5'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -81,7 +81,7 @@ The sedimentograph is a measure of sand fraction of delta stratigraphy. In this 
 <p>We can mask a portion of the domain, and compute the sedimentograph over just a portion of the domain.
 The result is a (only slightly) different sedimentograph.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">GM</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">GeometricMask</span><span class="p">(</span>
-    <span class="n">golfcube</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">golfcube</span><span class="p">[</span><span class="s1">'eta'</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
     <span class="n">angular</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
         <span class="n">theta1</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">8</span><span class="p">,</span>
         <span class="n">theta2</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">8</span><span class="p">))</span>
@@ -103,7 +103,7 @@ The result is a (only slightly) different sedimentograph.</p>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">section_radii2</span><span class="p">,</span>
     <span class="n">sedimentograph2</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>  <span class="c1"># plot only the second bin (sandfrac &gt; 0.5)</span>
-    <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
+    <span class="s1">'o-'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -117,7 +117,7 @@ The result is a (only slightly) different sedimentograph.</p>
 <span class="p">(</span><span class="n">time_sedimentograph</span><span class="p">,</span>
     <span class="n">time_radii</span><span class="p">,</span>
     <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">strat</span><span class="o">.</span><span class="n">compute_sedimentograph</span><span class="p">(</span>
-    <span class="n">golfstrat</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span>
+    <span class="n">golfstrat</span><span class="p">[</span><span class="s1">'time'</span><span class="p">],</span>
     <span class="n">num_sections</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
     <span class="n">last_section_radius</span><span class="o">=</span><span class="mi">2750</span><span class="p">,</span>
     <span class="n">sediment_bins</span><span class="o">=</span><span class="n">time_bins</span><span class="p">,</span>
@@ -125,19 +125,19 @@ The result is a (only slightly) different sedimentograph.</p>
     <span class="n">origin_idx</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
-<span class="n">cmap</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">colormaps</span><span class="p">[</span><span class="s1">&#39;viridis&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resampled</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
-<span class="n">cycler</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">cycler</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">.</span><span class="n">colors</span><span class="p">)</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">colormaps</span><span class="p">[</span><span class="s1">'viridis'</span><span class="p">]</span><span class="o">.</span><span class="n">resampled</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">cycler</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">cycler</span><span class="p">(</span><span class="s1">'color'</span><span class="p">,</span> <span class="n">cmap</span><span class="o">.</span><span class="n">colors</span><span class="p">)</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_prop_cycle</span><span class="p">(</span><span class="n">cycler</span><span class="p">)</span>
 <span class="n">lines</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">time_radii</span><span class="p">,</span>
     <span class="n">time_sedimentograph</span><span class="p">,</span>
-    <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
+    <span class="s1">'o-'</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">time_bin_labels</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time_bins</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">--</span><span class="si">{</span><span class="n">time_bins</span><span class="p">[</span><span class="n">b</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> million seconds&quot;</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time_bins</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">time_bin_labels</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">time_bins</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">--</span><span class="si">{</span><span class="n">time_bins</span><span class="p">[</span><span class="n">b</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mf">1e6</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> million seconds"</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time_bins</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">time_bin_labels</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;radial distance from apex (m)&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;stratigraphy fraction in time bin&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'radial distance from apex (m)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'stratigraphy fraction in time bin'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>

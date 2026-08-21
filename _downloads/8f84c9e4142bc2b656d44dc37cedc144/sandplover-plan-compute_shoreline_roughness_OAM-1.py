@@ -2,14 +2,14 @@ from sandplover.plan import compute_shoreline_roughness_OAM
 
 golf = spl.sample_data.golf()
 origin = (
-    np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
-    * golf.meta["dx"].data
+    np.array([golf.aux["L0"].data, golf.aux["CTR"].data])
+    * golf.aux["dx"].data
 )
 
 em = spl.mask.ElevationMask(
     golf["eta"][30, :, :], elevation_threshold=0, elevation_offset=-0.1
 )
-em.trim_mask(length=golf.meta["L0"].data + 1, value=1)
+em.trim_mask(length=golf.aux["L0"].data + 1, value=1)
 oam = spl.plan.OpeningAnglePlanform.from_mask(em)
 
 sm45 = spl.mask.ShorelineMask.from_Planform(oam, contour_threshold=45)

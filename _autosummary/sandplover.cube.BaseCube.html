@@ -47,7 +47,7 @@
 <h1>sandplover.cube.BaseCube<a class="headerlink" href="#sandplover-cube-basecube" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sandplover.cube.BaseCube">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">sandplover.cube.</span></span><span class="sig-name descname"><span class="pre">BaseCube</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.cube.BaseCube" title="Link to this definition">¶</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">sandplover.cube.</span></span><span class="sig-name descname"><span class="pre">BaseCube</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auxdata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.cube.BaseCube" title="Link to this definition">¶</a></dt>
 <dd><p>Base cube object.</p>
 <p>Cube objects contain t-x-y or z-x-y information.</p>
 <p>This base class should not be used directly, but is subclassed below,
@@ -61,7 +61,7 @@ See the <a class="reference internal" href="#sandplover.cube.BaseCube.read" titl
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.cube.BaseCube.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.cube.BaseCube.__init__" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auxdata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.cube.BaseCube.__init__" title="Link to this definition">¶</a></dt>
 <dd><p>Initialize the BaseCube.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -71,6 +71,8 @@ that can be read. Typically this is used to directly import files
 output from the pyDeltaRCM model. Alternatively, pass a
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code> with keys indicating variable names, and values with
 corresponding t-x-y <cite>ndarray</cite> of data.</p></li>
+<li><p><strong>auxdata</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – The information <cite>data</cite> is searched for a key matching the string
+<cite>auxdata</cite>, and if found, this key is assigned to <cite>cube.aux</cite>.</p></li>
 <li><p><strong>read</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Which variables to read from dataset into memory. Special option
 for <code class="docutils literal notranslate"><span class="pre">read=True</span></code> to read all available variables into memory.</p></li>
 <li><p><strong>varset</strong> (<a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">VariableSet</span></code></a>, optional) – Pass a <cite>~sandplover.plot.VariableSet</cite> instance if you wish
@@ -86,7 +88,7 @@ in a dictionary.</p></li>
 <p class="rubric">Methods</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.__init__" title="sandplover.cube.BaseCube.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(data[, read, varset, dimensions])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.__init__" title="sandplover.cube.BaseCube.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(data[, auxdata, read, varset, ...])</p></td>
 <td><p>Initialize the BaseCube.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.export_frozen_variable" title="sandplover.cube.BaseCube.export_frozen_variable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export_frozen_variable</span></code></a>(var[, return_cube])</p></td>
@@ -107,16 +109,19 @@ in a dictionary.</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.register_section" title="sandplover.cube.BaseCube.register_section"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_section</span></code></a>(name, SectionInstance[, ...])</p></td>
 <td><p>Register a section to the <a class="reference internal" href="#sandplover.cube.BaseCube.section_set" title="sandplover.cube.BaseCube.section_set"><code class="xref py py-attr docutils literal notranslate"><span class="pre">section_set</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.show_cube" title="sandplover.cube.BaseCube.show_cube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_cube</span></code></a>(var[, style, ve, ax])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.set_aux" title="sandplover.cube.BaseCube.set_aux"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_aux</span></code></a>(auxdata)</p></td>
+<td><p>Set a group of the DataIO layer as the 'aux' group.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.show_cube" title="sandplover.cube.BaseCube.show_cube"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_cube</span></code></a>(var[, style, ve, ax])</p></td>
 <td><p>Show the cube in a 3D axis.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.show_plan" title="sandplover.cube.BaseCube.show_plan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_plan</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.show_plan" title="sandplover.cube.BaseCube.show_plan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_plan</span></code></a>(*args, **kwargs)</p></td>
 <td><p>Deprecated.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.show_planform" title="sandplover.cube.BaseCube.show_planform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_planform</span></code></a>(name, variable, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.show_planform" title="sandplover.cube.BaseCube.show_planform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_planform</span></code></a>(name, variable, **kwargs)</p></td>
 <td><p>Show a registered planform by name and variable.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.show_section" title="sandplover.cube.BaseCube.show_section"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_section</span></code></a>(name, variable, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.show_section" title="sandplover.cube.BaseCube.show_section"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_section</span></code></a>(name, variable, **kwargs)</p></td>
 <td><p>Show a registered section by name and variable.</p></td>
 </tr>
 </tbody>
@@ -135,6 +140,12 @@ in a dictionary.</p></li>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.Z" title="sandplover.cube.BaseCube.Z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Z</span></code></a></p></td>
 <td><p>Vertical mesh.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">aux</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.auxdata" title="sandplover.cube.BaseCube.auxdata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">auxdata</span></code></a></p></td>
+<td><p>simple alias</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sandplover.cube.BaseCube.coords" title="sandplover.cube.BaseCube.coords"><code class="xref py py-obj docutils literal notranslate"><span class="pre">coords</span></code></a></p></td>
 <td><p>List of coordinate names as strings.</p></td>
@@ -222,6 +233,12 @@ in a dictionary.</p></li>
 <dd><p>Return the variable.</p>
 <p>Overload slicing operations for io to return correct var. Must be
 implemented by subclasses.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sandplover.cube.BaseCube.auxdata">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">auxdata</span></span><a class="headerlink" href="#sandplover.cube.BaseCube.auxdata" title="Link to this definition">¶</a></dt>
+<dd><p>simple alias</p>
 </dd></dl>
 
 <dl class="py property">
@@ -366,8 +383,8 @@ to <a class="reference internal" href="sandplover.section.BaseSection.html#sandp
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">golfstrat</span> <span class="o">=</span> <span class="n">StratigraphyCube</span><span class="o">.</span><span class="n">from_DataCube</span><span class="p">(</span><span class="n">golfcube</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">quick_show</span><span class="p">(</span><span class="s2">&quot;eta&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># a Planform (axis=0)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">golfstrat</span><span class="o">.</span><span class="n">quick_show</span><span class="p">(</span><span class="s2">&quot;eta&quot;</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># a DipSection</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">quick_show</span><span class="p">(</span><span class="s2">"eta"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># a Planform (axis=0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfstrat</span><span class="o">.</span><span class="n">quick_show</span><span class="p">(</span><span class="s2">"eta"</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># a DipSection</span>
 </pre></div>
 </div>
 <p>(<a class="reference download internal" download="" href="../_downloads/e7d13e41ac96791f41cf219d1873ce9b/sandplover-cube-BaseCube-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../_downloads/dca0a56dcfab8c3b91605977b97b896d/sandplover-cube-BaseCube-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../_downloads/52776c8072884802254d8afe64e4e6bd/sandplover-cube-BaseCube-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>)</p>
@@ -467,6 +484,12 @@ the <code class="docutils literal notranslate"><span class="pre">register_sectio
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="sandplover.cube.BaseCube.set_aux">
+<span class="sig-name descname"><span class="pre">set_aux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">auxdata</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.cube.BaseCube.set_aux" title="Link to this definition">¶</a></dt>
+<dd><p>Set a group of the DataIO layer as the ‘aux’ group.</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="sandplover.cube.BaseCube.shape">
 <span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">shape</span></span><a class="headerlink" href="#sandplover.cube.BaseCube.shape" title="Link to this definition">¶</a></dt>
@@ -509,12 +532,12 @@ plots in the documentation.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">golfstrat</span> <span class="o">=</span> <span class="n">StratigraphyCube</span><span class="o">.</span><span class="n">from_DataCube</span><span class="p">(</span><span class="n">golfcube</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">golfstrat</span><span class="o">.</span><span class="n">show_cube</span><span class="p">(</span><span class="s2">&quot;eta&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfstrat</span><span class="o">.</span><span class="n">show_cube</span><span class="p">(</span><span class="s2">"eta"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span> <span class="o">=</span> <span class="n">golf</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">show_cube</span><span class="p">(</span><span class="s2">&quot;velocity&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;fence&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">golfcube</span><span class="o">.</span><span class="n">show_cube</span><span class="p">(</span><span class="s2">"velocity"</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">"fence"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -618,6 +641,7 @@ to <a class="reference internal" href="sandplover.section.BaseSection.html#sandp
 <li><a class="reference internal" href="#sandplover.cube.BaseCube.W"><code class="docutils literal notranslate"><span class="pre">BaseCube.W</span></code></a></li>
 <li><a class="reference internal" href="#sandplover.cube.BaseCube.Z"><code class="docutils literal notranslate"><span class="pre">BaseCube.Z</span></code></a></li>
 <li><a class="reference internal" href="#sandplover.cube.BaseCube.__getitem__"><code class="docutils literal notranslate"><span class="pre">BaseCube.__getitem__()</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.cube.BaseCube.auxdata"><code class="docutils literal notranslate"><span class="pre">BaseCube.auxdata</span></code></a></li>
 <li><a class="reference internal" href="#sandplover.cube.BaseCube.coords"><code class="docutils literal notranslate"><span class="pre">BaseCube.coords</span></code></a></li>
 <li><a class="reference internal" href="#sandplover.cube.BaseCube.data_path"><code class="docutils literal notranslate"><span class="pre">BaseCube.data_path</span></code></a></li>
 <li><a class="reference internal" href="#sandplover.cube.BaseCube.dataio"><code class="docutils literal notranslate"><span class="pre">BaseCube.dataio</span></code></a></li>
@@ -637,6 +661,7 @@ to <a class="reference internal" href="sandplover.section.BaseSection.html#sandp
 <li><a class="reference internal" href="#sandplover.cube.BaseCube.register_section"><code class="docutils literal notranslate"><span class="pre">BaseCube.register_section()</span></code></a></li>
 <li><a class="reference internal" href="#sandplover.cube.BaseCube.section_set"><code class="docutils literal notranslate"><span class="pre">BaseCube.section_set</span></code></a></li>
 <li><a class="reference internal" href="#sandplover.cube.BaseCube.sections"><code class="docutils literal notranslate"><span class="pre">BaseCube.sections</span></code></a></li>
+<li><a class="reference internal" href="#sandplover.cube.BaseCube.set_aux"><code class="docutils literal notranslate"><span class="pre">BaseCube.set_aux()</span></code></a></li>
 <li><a class="reference internal" href="#sandplover.cube.BaseCube.shape"><code class="docutils literal notranslate"><span class="pre">BaseCube.shape</span></code></a></li>
 <li><a class="reference internal" href="#sandplover.cube.BaseCube.show_cube"><code class="docutils literal notranslate"><span class="pre">BaseCube.show_cube()</span></code></a></li>
 <li><a class="reference internal" href="#sandplover.cube.BaseCube.show_plan"><code class="docutils literal notranslate"><span class="pre">BaseCube.show_plan()</span></code></a></li>

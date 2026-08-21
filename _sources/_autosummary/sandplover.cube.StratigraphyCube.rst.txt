@@ -21,6 +21,7 @@
       ~StratigraphyCube.register_plan
       ~StratigraphyCube.register_planform
       ~StratigraphyCube.register_section
+      ~StratigraphyCube.set_aux
       ~StratigraphyCube.show_cube
       ~StratigraphyCube.show_plan
       ~StratigraphyCube.show_planform
@@ -38,6 +39,8 @@
       ~StratigraphyCube.L
       ~StratigraphyCube.W
       ~StratigraphyCube.Z
+      ~StratigraphyCube.aux
+      ~StratigraphyCube.auxdata
       ~StratigraphyCube.coords
       ~StratigraphyCube.data_path
       ~StratigraphyCube.dataio

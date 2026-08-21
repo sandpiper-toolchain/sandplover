@@ -2,8 +2,8 @@ import sandplover as spl
 
 golf = spl.sample_data.golf()
 origin = (
-    np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
-    * golf.meta["dx"].data
+    np.array([golf.aux["L0"].data, golf.aux["CTR"].data])
+    * golf.aux["dx"].data
 )
 
 azimuth_kwargs = {"num": 7}

@@ -61,7 +61,7 @@ would create the VariableInfo as:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sandplover.plot</span><span class="w"> </span><span class="kn">import</span> <span class="n">VariableInfo</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">veg</span> <span class="o">=</span> <span class="n">VariableInfo</span><span class="p">(</span><span class="s2">&quot;vegetation_density&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Greens&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">veg</span> <span class="o">=</span> <span class="n">VariableInfo</span><span class="p">(</span><span class="s2">"vegetation_density"</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"Greens"</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">veg</span><span class="o">.</span><span class="n">cmap</span>
@@ -76,14 +76,14 @@ would create the VariableInfo as:</p>
 colormap. If instead we wanted just three colors, we could specify the
 colormap manually:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">veg3</span> <span class="o">=</span> <span class="n">VariableInfo</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;vegetation_density&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">colormaps</span><span class="p">[</span><span class="s2">&quot;Greens&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">resampled</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="s2">"vegetation_density"</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">colormaps</span><span class="p">[</span><span class="s2">"Greens"</span><span class="p">]</span><span class="o">.</span><span class="n">resampled</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">veg3</span><span class="o">.</span><span class="n">cmap</span><span class="o">.</span><span class="n">N</span>
 <span class="go">3</span>
 </pre></div>
 </div>
 <p>We can then set a more human-readable label for the variable:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">veg3</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;vegetation density&quot;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">veg3</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s2">"vegetation density"</span>
 </pre></div>
 </div>
 <dl class="py method">

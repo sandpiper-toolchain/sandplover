@@ -6,10 +6,10 @@ golf = golf()
 sm = ShorelineMask(
     golf["eta"][-1, :, :], elevation_threshold=0, elevation_offset=-0.5
 )
-sm.trim_mask(length=golf.meta["L0"].data + 1)
+sm.trim_mask(length=golf.aux["L0"].data + 1)
 origin = (
-    np.array([golf.meta["L0"].data, golf.meta["CTR"].data])
-    * golf.meta["dx"].data
+    np.array([golf.aux["L0"].data, golf.aux["CTR"].data])
+    * golf.aux["dx"].data
 )
 #
 # Compute roughness

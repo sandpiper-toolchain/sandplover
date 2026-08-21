@@ -63,33 +63,33 @@ The expectation is that a delta’s planform area grows according to a power law
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">time_idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">time_idxs</span><span class="p">):</span>
     <span class="c1"># compute the shoreline mask</span>
     <span class="n">SM_mpm</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">ShorelineMask</span><span class="p">(</span>
-        <span class="n">golf</span><span class="p">[</span><span class="s1">&#39;eta&#39;</span><span class="p">][</span><span class="n">time_idx</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
+        <span class="n">golf</span><span class="p">[</span><span class="s1">'eta'</span><span class="p">][</span><span class="n">time_idx</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
         <span class="n">elevation_threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">method</span><span class="o">=</span><span class="s1">&#39;MPM&#39;</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="s1">'MPM'</span><span class="p">,</span>
         <span class="n">contour_threshold</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
         <span class="n">max_disk</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
     <span class="n">SM_mpm</span><span class="o">.</span><span class="n">trim_mask</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
     <span class="c1"># compute the mean shoreline distance</span>
     <span class="n">shoredist_mean</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">shoredist_std</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">spl</span><span class="o">.</span><span class="n">plan</span><span class="o">.</span><span class="n">compute_shoreline_distance</span><span class="p">(</span>
-        <span class="n">SM_mpm</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;CTR&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;L0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+        <span class="n">SM_mpm</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="n">golf</span><span class="o">.</span><span class="n">aux</span><span class="p">[</span><span class="s1">'CTR'</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">golf</span><span class="o">.</span><span class="n">aux</span><span class="p">[</span><span class="s1">'L0'</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>(<a class="reference download internal" download="" href="../../../_downloads/59e82fdbabbb74c4dcb9141ec5cc6612/radial_growth_pattern-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>)</p>
 <p>Now plot</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># make a predictive model</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">predict_for_t</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">Qs</span><span class="p">,</span> <span class="n">hb</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Predict the delta shoreline radius.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Predict the delta shoreline radius.</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mi">2</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">Qs</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">hb</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
 
 <span class="c1"># set up the parameters</span>
-<span class="n">hb</span> <span class="o">=</span> <span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;hb&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>  <span class="c1"># basin depth, m</span>
-<span class="n">Qs</span> <span class="o">=</span> <span class="p">(</span><span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;h0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span>
-      <span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;u0&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span>
-      <span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;N0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span>
-      <span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;dx&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span>
-      <span class="p">(</span><span class="n">golf</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;C0_percent&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="mi">100</span><span class="p">))</span>  <span class="c1"># sediment input, m3/s</span>
+<span class="n">hb</span> <span class="o">=</span> <span class="n">golf</span><span class="o">.</span><span class="n">aux</span><span class="p">[</span><span class="s1">'hb'</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>  <span class="c1"># basin depth, m</span>
+<span class="n">Qs</span> <span class="o">=</span> <span class="p">(</span><span class="n">golf</span><span class="o">.</span><span class="n">aux</span><span class="p">[</span><span class="s1">'h0'</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span>
+      <span class="n">golf</span><span class="o">.</span><span class="n">aux</span><span class="p">[</span><span class="s1">'u0'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span>
+      <span class="n">golf</span><span class="o">.</span><span class="n">aux</span><span class="p">[</span><span class="s1">'N0'</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span>
+      <span class="n">golf</span><span class="o">.</span><span class="n">aux</span><span class="p">[</span><span class="s1">'dx'</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">*</span>
+      <span class="p">(</span><span class="n">golf</span><span class="o">.</span><span class="n">aux</span><span class="p">[</span><span class="s1">'C0_percent'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="mi">100</span><span class="p">))</span>  <span class="c1"># sediment input, m3/s</span>
 <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">golf</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">time_idxs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
 <span class="c1"># make the figure</span>
@@ -99,13 +99,13 @@ The expectation is that a delta’s planform area grows according to a power law
     <span class="n">t</span><span class="p">,</span> <span class="n">predict_for_t</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">Qs</span><span class="p">,</span> <span class="n">hb</span><span class="p">))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span>
     <span class="n">golf</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">time_idxs</span><span class="p">],</span> <span class="n">shoredist_mean</span><span class="p">,</span> <span class="n">shoredist_std</span><span class="p">,</span>
-    <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+    <span class="n">c</span><span class="o">=</span><span class="s1">'r'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'none'</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">golf</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">time_idxs</span><span class="p">],</span> <span class="n">shoredist_mean</span><span class="p">,</span>
-    <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+    <span class="n">c</span><span class="o">=</span><span class="s1">'r'</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">)</span>
 
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;radius (m)&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;time (s)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'radius (m)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'time (s)'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>

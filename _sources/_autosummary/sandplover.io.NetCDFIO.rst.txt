@@ -28,7 +28,9 @@
 
    .. autosummary::
    
+      ~NetCDFIO.aux
       ~NetCDFIO.data_path
       ~NetCDFIO.keys
+      ~NetCDFIO.meta
    
    
