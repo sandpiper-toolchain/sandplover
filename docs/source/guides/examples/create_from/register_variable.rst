@@ -7,7 +7,7 @@ variables directly on a :class:`~sandplover.cube.StratigraphyCube`.
 
 During analyses, it is very common to derive custom data variables. For example,
 grain-size estimates, synthetic tracer concentrations, or any other variable you
-may imagine! 
+may imagine!
 
 To seamlessly use ``sandplover`` built-in tools (such as `Section` slicing,
 stratigraphy mapping, and visualization tools), you can **register** these
@@ -91,7 +91,7 @@ information available, trying to access the `sqrt_new_var` variable of the
 `DataCube` results in an error! (See advanced usage below.)
 
 .. code::
-    
+
     test_strat["new_var"]  # this works
     test_data["sqrt_new_var"]  # this does not work
 
