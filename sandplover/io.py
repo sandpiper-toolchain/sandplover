@@ -30,10 +30,16 @@ class BaseIO(abc.ABC):
     def __init__(self, io_type):
         """Initialize the base IO."""
         self.io_type = io_type
+        self._aux = None  # default None
 
     @abc.abstractmethod
     def __getitem__(self):
         """Should slice the data from file."""
+        return
+
+    @abc.abstractmethod
+    def _set_aux(self):
+        """Should set auxiliary group."""
         return
 
     @property
@@ -41,6 +47,16 @@ class BaseIO(abc.ABC):
     def keys(self):
         """Should link to all key _names_ stored in file."""
         return
+
+    @property
+    def aux(self):
+        return self._aux
+
+    @property
+    def meta(self):
+        """alias for backwards compatability"""
+        # will be removed in future release.
+        return self._aux
 
 
 class FileIO(BaseIO):
@@ -54,7 +70,7 @@ class FileIO(BaseIO):
     `read`, and `write`, and the  `keys` attribute.
     """
 
-    def __init__(self, data_path, io_type, write=False):
+    def __init__(self, data_path, auxdata_path, write=False):
         """Initialize a file IO handler.
 
         Initialize a connection to a NetCDF file.
@@ -73,16 +89,17 @@ class FileIO(BaseIO):
             default, if a file already exists at ``data_path``, writing is
             disabled, unless ``write`` is set to True.
         """
+        super().__init__(io_type="file")
+
         self.data_path = data_path
-        self.io_type = io_type
+        self.auxdata_path = auxdata_path
+
         self.write = write
 
         self.connect()
 
         self.get_known_coords()
         self.get_known_variables()
-
-        super().__init__(io_type=io_type)
 
     @property
     def data_path(self):
@@ -166,7 +183,7 @@ class NetCDFIO(FileIO):
     `docs <https://www.unidata.ucar.edu/software/netcdf/docs/faq.html>`_.
     """
 
-    def __init__(self, data_path, io_type, write=False):
+    def __init__(self, data_path, auxdata_path=None, engine=None, write=False):
         """Initialize the NetCDFIO handler.
 
         Initialize a connection to a NetCDF file.
@@ -176,17 +193,38 @@ class NetCDFIO(FileIO):
         data_path : `str`
             Path to file to read or write to.
 
-        io_type : `str`
-            Stores the type of output file loaded, either a netCDF4 file,
-            'netcdf' or an HDF5 file, 'hdf5'.
+        auxdata_path : `str`, optional
+            Path to auxilliary data that exist in the file. This is most
+            commonly the name of a group within the file. Default is None, and
+            no auxilliary data is assigned.
+
+        engine : `str`, optional
+            Engine used to open the file with xarray. Default is None, which
+            will lead to trying to infer from file extension. If no inference
+            can be made, we pass no engine during loading and allow xarray to
+            attempt to determine the file type. For a netCDF4 file use 'netcdf4'
+            or for an HDF5 file use 'h5netcdf', or any other valid engine for
+            xarray.
 
         write : `bool`, optional
             Whether to allow writing to an existing file. Set to False by
             default, if a file already exists at ``data_path``, writing is
             disabled, unless ``write`` is set to True.
         """
+        # set engine used to open the file
+        if engine is not None:
+            self._engine = engine
+        else:
+            # attempt to guess
+            _, ext = os.path.splitext(data_path)
+            if ext == ".nc":
+                self._engine = "netcdf4"
+            elif ext == ".hdf5":
+                self._engine = "h5netcdf"
+            else:
+                self._engine = None  # let xarray figure it out
 
-        super().__init__(data_path=data_path, io_type=io_type, write=write)
+        super().__init__(data_path=data_path, auxdata_path=auxdata_path, write=write)
 
         self._in_memory_data = {}
 
@@ -206,17 +244,9 @@ class NetCDFIO(FileIO):
             _tempdataset = netCDF4.Dataset(self.data_path, "w", format="NETCDF4")
             _tempdataset.close()
 
-        _ext = os.path.splitext(self.data_path)[-1]
-        if _ext == ".nc":
-            _engine = "netcdf4"
-        elif _ext == ".hdf5":
-            _engine = "h5netcdf"
-        else:
-            _engine = None  # not sure, let xarray figure it out
-
         try:
             # open the dataset
-            _dataset = xr.open_datatree(self.data_path, engine=_engine)
+            _dataset = xr.open_datatree(self.data_path, engine=self._engine)
         except Exception as e:
             raise TypeError(
                 f"Could not open dataset, raising error: {e}.\n\n"
@@ -259,25 +289,22 @@ class NetCDFIO(FileIO):
             # self.dims = []
             # warn('Coordinates for "time", and set("x", "y") not provided in the \
             #       given data file.', UserWarning)
+        self._set_aux(auxdata_path=self.auxdata_path)
 
-        # check for a matching meta field, and set it accordingly
-        if "/metadata" in self.dataset.groups:
-            self.meta = self.dataset["metadata"]
-        elif "/meta" in self.dataset.groups:
-            self.meta = self.dataset["meta"]
-            warnings.warn(
-                "Metadata found with group name `meta`, but this specification "
-                "is deprecated. Change group name to `metadata`.",
-                UserWarning,
-                stacklevel=2,
-            )
-        else:
-            warnings.warn(
-                "No associated metadata was found in the given data file.",
-                UserWarning,
-                stacklevel=2,
-            )
-            self.meta = None
+    def _set_aux(self, auxdata_path):
+        """Set auxiliary group (declared private).
+
+        Defined as a function so it can also be called by the public
+        `Cube.set_aux` method.
+
+        Parameters
+        ----------
+        auxdata_path : auxiliary data path. See specifications in init docstring.
+        """
+        # if something was specified for auxdata, set it accordingly
+        if not auxdata_path is None:
+            self.auxdata_path = auxdata_path
+            self._aux = self.dataset[self.auxdata_path]
 
     def get_known_variables(self):
         """List known variables.
@@ -385,14 +412,70 @@ class DictionaryIO(BaseIO):
     arbitrary data can be used as a cube dataset.
     """
 
-    def __init__(self, data_dictionary, dimensions=None):
+    def __init__(self, data_dictionary, auxdata_path=None, dimensions=None):
+        """Initialize the DictionaryIO handler.
+
+        Parameters
+        ----------
+        data_dictionary : `dict`
+            Dictionary with `np.ndarray` or `xr.DataArray` arrays containing the
+            dataset of interest. All arrays in dict
+
+        auxdata_path : `str`, `dict`, optional
+            Path to auxilliary data within the dictionary `data_dictionary`, or
+            another dictionary to be treated as auxiliary data. Default is None, and
+            no auxilliary data is assigned.
+
+        dimensions : `dict`, optional
+
+            Dimensions of the data in the `data_dictionary` and relevant to
+            `aux_datapath`. If any inputs to `data_dictionary` are xarray.DataArray,
+            then `dimensions` is ignored, and the dimensions of that `DataArray` are
+            applied to all data. Otherwise, provide a dictionary `dimensions` that
+            is applied to data in `data_dictionary`. Finally, if `dimensions` is
+            None, dimensions are inferred from the first three dimensional variable
+            in `data_dictionary`.
+        """
         super().__init__(io_type="dictionary")
 
         self.dataset = data_dictionary
         self._in_memory_data = self.dataset
 
+        # set the auxiliary group
+        self._set_aux(auxdata_path)
+
         self.get_known_variables()
         self.get_known_coords(dimensions)
+
+    def _set_aux(self, auxdata_path):
+        """Set auxiliary group (declared private).
+
+        Defined as a function so it can also be called by the public
+        `Cube.set_aux` method.
+
+        Parameters
+        ----------
+        auxdata_path : auxiliary data path. See specifications in init docstring.
+        """
+        # if something was specified for auxdata, set it accordingly
+        if not auxdata_path is None:
+            # can be either a string (a dict in a dict) or a separate dict
+            if isinstance(auxdata_path, str):
+                self.auxdata_path = auxdata_path  # store it
+                self._aux = self.dataset[auxdata_path]
+            elif isinstance(auxdata_path, dict):
+                self.auxdata_path = None  # store None, is dict, no path
+                self._aux = auxdata_path
+            else:
+                raise TypeError(
+                    f"Invalid type for DictionaryIO `auxdata_path`. Must be str or dict, but was {type(auxdata_path)}."
+                )
+
+            # now verify that aux is dict (requirement for DictionaryIO)
+            if not isinstance(self._aux, dict):
+                raise TypeError(
+                    f"Auxiliary information found at `auxdata_path` was not dict but was {type(self._aux)}"
+                )
 
     def get_known_variables(self):
         """List known variables."""
