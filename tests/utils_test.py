@@ -31,6 +31,15 @@ class TestNoStratigraphyError:
         with pytest.raises(NoStratigraphyError, match=_mtch):
             raise NoStratigraphyError("someobj", "somevar")
 
+    def test_obj_metadata(self):
+        obj = object()
+        error = NoStratigraphyError(obj)
+
+        assert error.obj is obj
+        assert error.args == (
+            "'object' object has no preservation or stratigraphy information.",
+        )
+
 
 class TestLineToCells:
     def test_flat_inputs(self):

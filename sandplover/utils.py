@@ -53,7 +53,7 @@ class NoStratigraphyError(AttributeError):
     or stratigraphy information.
     """
 
-    def __init__(self, obj, var=None):
+    def __init__(self, obj, var=None):  # noqa: B042
         """Documented in class docstring."""
         if not (var is None):
             message = (
@@ -65,7 +65,7 @@ class NoStratigraphyError(AttributeError):
                 "'" + type(obj).__name__ + "'" + " object has no preservation "
                 "or stratigraphy information."
             )
-        super().__init__(message, obj)
+        super().__init__(message, obj=obj)
 
 
 def needs_stratigraphy(func):
