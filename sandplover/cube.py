@@ -411,7 +411,7 @@ class BaseCube(abc.ABC):
 
         A list of registered variables can be accessed with:
 
-        >>> cube.registered_variables
+        >>> golfcube.registered_variables
         """
         if not isinstance(name, str):
             raise TypeError(f"Input 'name' was not a string, but was {type(name)}")
