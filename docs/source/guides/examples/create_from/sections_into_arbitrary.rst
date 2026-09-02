@@ -118,7 +118,7 @@ You can also create a `Section` into any array-like data.
         ax.plot(arrss[None])
         plt.show()
 
-.. hint:: 
+.. hint::
 
     Instead of manually creating sections into data in this way, consider the
     :meth:`register_variable` capabilities of the `Cube`. `See an example here
