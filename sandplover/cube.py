@@ -424,6 +424,13 @@ class BaseCube(abc.ABC):
                 f"Must match cube shape {self.shape}."
             )
 
+        # if input DataArray also validate dimensions (name, size, and order all checked)
+        if isinstance(data, xr.DataArray):
+            if data.sizes != self[self.variables[0]].sizes:
+                raise ValueError(
+                    f"Dimension mismatch: {dict(data.sizes)} != {dict(self[self.variables[0]].sizes)}"
+                )
+
         if isinstance(data, np.ndarray):
             # convert to xarray
             data = xr.DataArray(

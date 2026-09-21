@@ -167,6 +167,7 @@ class TestDataCubeNoStratigraphy:
 
     def test_register_variable(self):
         golf = DataCube(golf_path)
+        # as numpy array
         golf.register_variable("testvar", np.zeros(golf.shape))
         assert "testvar" in golf.variables
         assert np.all(golf["testvar"].shape == golf.shape)
@@ -177,6 +178,7 @@ class TestDataCubeNoStratigraphy:
         assert np.all(golf["testvar2"].shape == golf.shape)
 
     def test_register_variable_bad_inputs(self):
+        # mismatched inputs and numpy array
         golf = DataCube(golf_path)
         with pytest.raises(ValueError, match=r"Input 'data' was incorrect"):
             golf.register_variable("testvar", np.zeros((10, 10, 10)))
