@@ -192,7 +192,7 @@ class BaseCube(abc.ABC):
         NOT be loaded into memory. Set `force=True` to override this check.
         """
         if variables is True:  # special case, read all variables
-            variables = self.dataio.known_variables
+            variables = self.dataio._underlying_variables
         elif type(variables) is str:
             variables = [variables]
         else:
