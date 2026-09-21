@@ -210,6 +210,11 @@ class BaseMask(abc.ABC):
         return self._mask
 
     @property
+    def count(self):
+        """int : Number of cells evaluating as ``True`` in the mask."""
+        return int(self._mask.sum())
+
+    @property
     def integer_mask(self):
         """ndarray : Binary mask values as integer
 
