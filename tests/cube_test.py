@@ -196,7 +196,7 @@ class TestDataCubeNoStratigraphy:
             golf.register_variable("da_size", da_size)
         with pytest.raises(ValueError, match=r"Dimension mismatch:"):
             golf.register_variable("da_size", da_name)
-        with pytest.raises(ValueError, match=r"Dimension mismatch:"):
+        with pytest.raises(ValueError, match=r"Input 'data' was incorrect"):
             golf.register_variable("da_size", da_order)
 
     def test_fixeddatacube_init_varset(self):
