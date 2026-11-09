@@ -192,7 +192,7 @@ class BaseCube(abc.ABC):
         NOT be loaded into memory. Set `force=True` to override this check.
         """
         if variables is True:  # special case, read all variables
-            variables = self.dataio.known_variables
+            variables = self.dataio._underlying_variables
         elif type(variables) is str:
             variables = [variables]
         else:
@@ -423,6 +423,13 @@ class BaseCube(abc.ABC):
                 f"Input 'data' was incorrect shape {data.shape}. "
                 f"Must match cube shape {self.shape}."
             )
+
+        # if input DataArray also validate dimensions (name, size, and order all checked)
+        if isinstance(data, xr.DataArray):
+            if data.sizes != self[self.variables[0]].sizes:
+                raise ValueError(
+                    f"Dimension mismatch: {dict(data.sizes)} != {dict(self[self.variables[0]].sizes)}"
+                )
 
         if isinstance(data, np.ndarray):
             # convert to xarray
