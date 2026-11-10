@@ -65,6 +65,10 @@ class TestBaseMask:
         assert np.all(basemask.integer_mask == 0)
         assert basemask._mask is basemask.mask
         assert basemask.shape == self.fake_input.shape
+        assert basemask.count == 0
+
+        basemask._mask[:5, :10] = True
+        assert basemask.count == 50
 
     def test_trim_mask_length(self):
         basemask = BaseMask("field", self.fake_input)
