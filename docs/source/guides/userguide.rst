@@ -100,8 +100,8 @@ Remember that `time` is ordered along the 0th dimension.
     >>> fig, ax = plt.subplots(1, nt, figsize=(12, 2))
     >>> for i, idx in enumerate(t_idxs):
     ...     ax[i].imshow(
-    ...         golfcube["eta"][idx, :, :], vmin=-2, vmax=0.5
-    ...     )  # show the slice
+    ...         golfcube["eta"][idx, :, :], cmap="cividis", vmin=-2, vmax=0.5
+    ...     )  # show the slice with cividis colormap for eta
     ...     ax[i].set_title("idx = {0}".format(idx))
     ...     ax[i].set_xticks([])
     ...     ax[i].set_yticks([])
@@ -197,8 +197,8 @@ You can visualize the data yourself, or use the built-in `show()` method of a `P
     :context:
 
     >>> fig, ax = plt.subplots(1, 2, figsize=(7, 3))
-    >>> ax[0].imshow(final["velocity"])  # display directly
-    >>> final.show("velocity", ax=ax[1])  # use the built-in show()
+    >>> ax[0].imshow(final["velocity"], cmap="plasma")  # display directly with plasma colormap for velocity
+    >>> final.show("velocity", ax=ax[1], cmap="plasma")  # use the built-in show()
     >>> plt.show()
 
 .. hint::
@@ -300,8 +300,8 @@ We can visualize sections:
 .. doctest::
 
     >>> fig, ax = plt.subplots(3, 1, sharex=True, figsize=(12, 6))
-    >>> golfcube.show_section("demo", "eta", ax=ax[0])
-    >>> golfcube.show_section("demo", "velocity", ax=ax[1])
+    >>> golfcube.show_section("demo", "eta", ax=ax[0], cmap="cividis")
+    >>> golfcube.show_section("demo", "velocity", ax=ax[1], cmap="plasma")
     >>> golfcube.show_section("demo", "sandfrac", ax=ax[2])
     >>> plt.show()  # doctest: +SKIP
 
@@ -399,9 +399,9 @@ Now, the ``DataCube`` has knowledge of stratigraphy, which we can further use to
 .. doctest::
 
     >>> fig, ax = plt.subplots(3, 1, sharex=True, figsize=(12, 8))
-    >>> golfcube.show_section("demo", "velocity", ax=ax[0])
-    >>> golfcube.show_section("demo", "velocity", data="preserved", ax=ax[1])
-    >>> golfcube.show_section("demo", "velocity", data="stratigraphy", ax=ax[2])
+    >>> golfcube.show_section("demo", "velocity", ax=ax[0], cmap="plasma")
+    >>> golfcube.show_section("demo", "velocity", data="preserved", ax=ax[1], cmap="plasma")
+    >>> golfcube.show_section("demo", "velocity", data="stratigraphy", ax=ax[2], cmap="plasma")
     >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_quick_stratigraphy_sections.py
@@ -414,8 +414,9 @@ Quick stratigraphy makes it easy to visualize the behavior of the model across e
     >>> fig, ax = plt.subplots(5, 1, sharex=True, sharey=True, figsize=(12, 12))
     >>> ax = ax.flatten()
     >>> for i, var in enumerate(["time", "eta", "velocity", "discharge", "sandfrac"]):
+    ...     cmap = {"eta": "cividis", "velocity": "plasma", "discharge": "Blues"}.get(var, None)
     ...     golfcube.show_section(
-    ...         "demo", var, ax=ax[i], label=True, style="shaded", data="stratigraphy"
+    ...         "demo", var, ax=ax[i], label=True, style="shaded", data="stratigraphy", cmap=cmap
     ...     )
     ...
     >>> plt.show()  # doctest: +SKIP
@@ -517,7 +518,7 @@ Compare the slice from the `golfcube` (left) to the `stratcube` (right):
 Validation of the stratigraphy is easily seen by looking at the ``time`` attribute.
 Note that sections are *not* inherited from the ``DataCube`` by default (we’re working on this and related features).
 
-Let’s add a section at the same location as ``golfcube.sections['demo']``.
+Let's add a section at the same location as ``golfcube.sections['demo']``.
 
 .. doctest::
 
@@ -547,8 +548,9 @@ Similar to the demonstration above, each variable (property) of the underlying c
     >>> fig, ax = plt.subplots(5, 1, sharex=True, sharey=True, figsize=(12, 12))
     >>> ax = ax.flatten()
     >>> for i, var in enumerate(["time", "eta", "velocity", "discharge", "sandfrac"]):
+    ...     cmap = {"eta": "cividis", "velocity": "plasma", "discharge": "Blues"}.get(var, None)
     ...     stratcube.show_section(
-    ...         "demo", var, ax=ax[i], label=True, style="shaded", data="stratigraphy"
+    ...         "demo", var, ax=ax[i], label=True, style="shaded", data="stratigraphy", cmap=cmap
     ...     )
     ...
     >>> plt.show()  # doctest: +SKIP
@@ -575,7 +577,7 @@ Specify `z` as the elevation of the planform slice:
     >>> minus2_slice = spl.plan.Planform(stratcube, z=-2)
 
     >>> fig, ax = plt.subplots()
-    >>> minus2_slice.show("sandfrac", ticks=True, ax=ax)
+    >>> minus2_slice.show("sandfrac", ticks=True, ax=ax, cmap="Blues")
     >>> plt.show()
 
 
