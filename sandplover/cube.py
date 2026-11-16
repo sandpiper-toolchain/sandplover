@@ -1,6 +1,5 @@
 import abc
 import copy
-import os
 import warnings
 
 import matplotlib.pyplot as plt
@@ -231,7 +230,8 @@ class BaseCube(abc.ABC):
         :class:`~sandplover.plot.VariableSet`.
         """
         raise AttributeError(
-            "The `varset` attribute is deprecated. Plot styling is to be handled manually by the user."
+            "The `varset` attribute is deprecated. "
+            "Plot styling is to be handled manually by the user."
         )
 
     @property
@@ -261,7 +261,8 @@ class BaseCube(abc.ABC):
 
     @property
     def registered_variables(self):
-        """`list` : List of variable names as strings, subset to those registered (i.e., not in the underlying data)."""
+        """`list` : List of variable names as strings, subset to those
+        registered (i.e., not in the underlying data)."""
         return self._registered_variables
 
     @property
@@ -421,11 +422,13 @@ class BaseCube(abc.ABC):
                 f"Must match cube shape {self.shape}."
             )
 
-        # if input DataArray also validate dimensions (name, size, and order all checked)
+        # if input DataArray also validate dimensions (name, size, and order
+        #   all checked)
         if isinstance(data, xr.DataArray):
             if data.sizes != self[self.variables[0]].sizes:
                 raise ValueError(
-                    f"Dimension mismatch: {dict(data.sizes)} != {dict(self[self.variables[0]].sizes)}"
+                    f"Dimension mismatch: {dict(data.sizes)} "
+                    f"!= {dict(self[self.variables[0]].sizes)}"
                 )
 
         if isinstance(data, np.ndarray):
@@ -1146,7 +1149,8 @@ class StratigraphyCube(BaseCube):
                 return _var
             else:
                 raise RuntimeError(
-                    f"Registered variable '{var}' sliced, but has incorrect shape: expect {self.shape}, got {_var.shape}"
+                    f"Registered variable '{var}' sliced, but has incorrect shape: "
+                    f"expect {self.shape}, got {_var.shape}"
                 )
 
         # the following lines apply the data to stratigraphy mapping

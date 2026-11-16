@@ -5,8 +5,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
 from numba import njit
-from numba import prange
-from numba import set_num_threads
 from scipy.ndimage import binary_fill_holes
 from scipy.signal import fftconvolve
 from scipy.spatial import ConvexHull

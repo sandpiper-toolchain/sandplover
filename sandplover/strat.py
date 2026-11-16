@@ -185,7 +185,6 @@ def _compute_compensation(stratal_surfaces, times):
     sigmas = np.zeros(n_sigmas)  # preallocate for storage
     window_lengths = np.zeros(n_sigmas)  # preallocate for storage
     k = 0  # storage counter
-    total_time = times[-1] - times[0]
     # for each surface
     for i in np.arange(1, n_surfaces):
         # compare with all other surfaces earlier than it
@@ -194,7 +193,6 @@ def _compute_compensation(stratal_surfaces, times):
             elev_diff = (
                 stratal_surfaces[i] - stratal_surfaces[j]
             )  # elev diff (strat thickness)
-            dt = times[i] - times[j]
             di = i - j
             detabar = (total_thickness / n_surfaces) * di
             norm_deta = elev_diff / detabar  # norm elev diff (norm strat thickness)

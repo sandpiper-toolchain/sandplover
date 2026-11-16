@@ -659,7 +659,6 @@ class BaseSection(abc.ABC):
             ...     label="quick stratigraphy",
             ... )  # noqa: E501
         """
-        from sandplover.cube import BaseCube
         from sandplover.plot import append_colorbar
         from sandplover.plot import get_display_arrays
         from sandplover.plot import get_display_limits
