@@ -32,14 +32,14 @@ class TestDataCubeInitializationArguments:
         pass
 
     def test_initializing_without_argument_warns_autodetect(self, mock_netcdfio):
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError, match="Could not infer 3-D dimensions"):
             # the functions following instantiation will error out, so just
             # check that argument was passed to io
             DataCube(golf_path)
         mock_netcdfio.assert_called_once_with(data_path=mock.ANY, auxdata_path=None)
 
     def test_initializing_with_argument(self, mock_netcdfio):
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError, match="Could not infer 3-D dimensions"):
             # the functions following instantiation will error out, so just
             # check that argument was passed to io
             DataCube(golf_path, auxdata="meta")

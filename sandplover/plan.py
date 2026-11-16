@@ -2790,7 +2790,8 @@ def shaw_opening_angle_method(
     if parallel > 0:
         warnings.warn(
             "Parallel support is currently deprecated, "
-            "but may return in the future. Defaulting to serial."
+            "but may return in the future. Defaulting to serial.",
+            stacklevel=2,
         )
     theta = _compute_angles_between(test_set_points, query_set_points, numviews)
 
