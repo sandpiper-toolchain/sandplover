@@ -155,6 +155,10 @@ class TestPlanform:
         fig, ax = plt.subplots()
         plnfrm._show(_field, ax=ax, title="some title")
         plt.close()
+        # with unexpected kwargs
+        fig, ax = plt.subplots()
+        plnfrm._show(_field, ax=ax, cmap="cividis")
+        plt.close()
 
     @pytest.mark.skipif(sys.platform == "win32", reason="TCL install error common.")
     def test_Planform_public_show(self):

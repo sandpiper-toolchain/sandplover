@@ -311,7 +311,7 @@ class Planform(BasePlanform):
             raise TypeError("Unknown Cube type encountered: %s" % type(self.cube))
 
     def show(
-        self, var, ax=None, title=None, ticks=False, colorbar=True, colorbar_label=False
+        self, var, ax=None, title=None, ticks=False, colorbar=True, colorbar_label=False, **kwargs
     ):
         """Show the planform.
 
@@ -368,6 +368,7 @@ class Planform(BasePlanform):
             ticks=ticks,
             colorbar=colorbar,
             colorbar_label=colorbar_label,
+            **kwargs
         )
 
         return im
