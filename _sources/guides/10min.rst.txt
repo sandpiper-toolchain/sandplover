@@ -99,12 +99,13 @@ of the Cube at the fortieth (40th) timestep:
     >>> import matplotlib.pyplot as plt
 
     >>> fig, ax = plt.subplots(1, 3)
-    >>> golfcube.quick_show("eta", idx=40, ax=ax[0])
-    >>> golfcube.quick_show("velocity", idx=40, ax=ax[1], ticks=True)
+    >>> golfcube.quick_show("eta", idx=40, ax=ax[0], cmap="cividis")
+    >>> golfcube.quick_show("velocity", idx=40, ax=ax[1], cmap="plasma", ticks=True)
     >>> golfcube.quick_show("sandfrac", idx=40, ax=ax[2])
     >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/10min_three_plans.py
+    :include-source: false
 
 
 Section data
@@ -145,10 +146,14 @@ Using the "quick" stratigraphy, we can visualize a few of the available data var
     >>> fig, ax = plt.subplots(5, 1, sharex=True, figsize=(8, 5))
     >>> ax = ax.flatten()
     >>> for i, var in enumerate(["time", "eta", "velocity", "discharge", "sandfrac"]):
+    ...     cmap = {"eta": "cividis", "velocity": "plasma", "discharge": "Blues"}.get(
+    ...         var, None
+    ...     )
     ...     golfcube.show_section(
-    ...         "demo", var, data="stratigraphy", ax=ax[i], label=True
+    ...         "demo", var, data="stratigraphy", ax=ax[i], label=True, cmap=cmap
     ...     )
     ...
     >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/10min_all_sections_strat.py
+    :include-source: false

@@ -5,8 +5,8 @@ t_idxs = np.linspace(
 fig, ax = plt.subplots(1, nt, figsize=(12, 2))
 for i, idx in enumerate(t_idxs):
     ax[i].imshow(
-        golfcube["eta"][idx, :, :], vmin=-2, vmax=0.5
-    )  # show the slice
+        golfcube["eta"][idx, :, :], cmap="cividis", vmin=-2, vmax=0.5
+    )  # show the slice with cividis colormap for eta
     ax[i].set_title("idx = {0}".format(idx))
     ax[i].set_xticks([])
     ax[i].set_yticks([])

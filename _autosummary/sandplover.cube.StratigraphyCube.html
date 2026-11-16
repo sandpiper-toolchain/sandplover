@@ -75,9 +75,8 @@ that the last case does not remove the key from <cite>data</cite> variables.
 Default is <cite>None</cite>, no auxiliary information.</p></li>
 <li><p><strong>read</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Which variables to read from dataset into memory. Special option
 for <code class="docutils literal notranslate"><span class="pre">read=True</span></code> to read all available variables into memory.</p></li>
-<li><p><strong>varset</strong> (<a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">VariableSet</span></code></a>, optional) – Pass a <cite>~sandplover.plot.VariableSet</cite> instance if you wish
-to style this cube similarly to another cube. If no argument is
-supplied, a new default VariableSet instance is created.</p></li>
+<li><p><strong>varset</strong> (<em>deprecated</em>) – Deprecated in v0.6.0. Plot styling is to be handled manually
+by the user.</p></li>
 </ul>
 </dd>
 </dl>
@@ -740,10 +739,10 @@ variables.</p>
 <dd><p>Variable styling for plotting.</p>
 <p>Can be set with <code class="code docutils literal notranslate"><span class="pre">cube.varset</span> <span class="pre">=</span> <span class="pre">VariableSetInstance</span></code> where
 <code class="docutils literal notranslate"><span class="pre">VariableSetInstance</span></code> is a valid instance of
-<a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">VariableSet</span></code></a>.</p>
+<code class="xref py py-class docutils literal notranslate"><span class="pre">VariableSet</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-class docutils literal notranslate"><span class="pre">VariableSet</span></code></a></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">VariableSet</span></code></p>
 </dd>
 </dl>
 </dd></dl>

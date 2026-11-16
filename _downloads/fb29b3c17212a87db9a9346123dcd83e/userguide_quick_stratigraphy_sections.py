@@ -4,6 +4,6 @@ golfcube.register_section("demo", spl.section.StrikeSection(distance_idx=10))
 
 
 fig, ax = plt.subplots(3, 1, sharex=True, figsize=(12, 8))
-golfcube.show_section("demo", "velocity", ax=ax[0])
-golfcube.show_section("demo", "velocity", data="preserved", ax=ax[1])
-golfcube.show_section("demo", "velocity", data="stratigraphy", ax=ax[2])
+golfcube.show_section("demo", "velocity", ax=ax[0], cmap="plasma")
+golfcube.show_section("demo", "velocity", data="preserved", ax=ax[1], cmap="plasma")
+golfcube.show_section("demo", "velocity", data="stratigraphy", ax=ax[2], cmap="plasma")

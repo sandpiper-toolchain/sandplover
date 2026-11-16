@@ -30,10 +30,10 @@ axs = [
 ]
 
 t10cmap = plt.get_cmap("tab10")
-golfcube.quick_show("eta", idx=-1, ax=ax0, ticks=True)
+golfcube.quick_show("eta", idx=-1, ax=ax0, ticks=True, cmap="cividis")
 for i, s in enumerate([_strike, _dip, _path, _circ, _rad]):
     s.show_trace("--", color=t10cmap(i), ax=ax0)
-    s.show("velocity", ax=axs[i])
+    s.show("velocity", ax=axs[i], cmap="plasma")
     axs[i].set_title(s.section_type, color=t10cmap(i))
 
 fig.delaxes(axs[-1])

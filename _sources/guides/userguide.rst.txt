@@ -100,8 +100,8 @@ Remember that `time` is ordered along the 0th dimension.
     >>> fig, ax = plt.subplots(1, nt, figsize=(12, 2))
     >>> for i, idx in enumerate(t_idxs):
     ...     ax[i].imshow(
-    ...         golfcube["eta"][idx, :, :], vmin=-2, vmax=0.5
-    ...     )  # show the slice
+    ...         golfcube["eta"][idx, :, :], cmap="cividis", vmin=-2, vmax=0.5
+    ...     )  # show the slice with cividis colormap for eta
     ...     ax[i].set_title("idx = {0}".format(idx))
     ...     ax[i].set_xticks([])
     ...     ax[i].set_yticks([])
@@ -197,8 +197,10 @@ You can visualize the data yourself, or use the built-in `show()` method of a `P
     :context:
 
     >>> fig, ax = plt.subplots(1, 2, figsize=(7, 3))
-    >>> ax[0].imshow(final["velocity"])  # display directly
-    >>> final.show("velocity", ax=ax[1])  # use the built-in show()
+    >>> ax[0].imshow(
+    ...     final["velocity"], cmap="plasma"
+    ... )  # display directly with plasma colormap for velocity
+    >>> final.show("velocity", ax=ax[1], cmap="plasma")  # use the built-in show()
     >>> plt.show()
 
 .. hint::
@@ -300,8 +302,8 @@ We can visualize sections:
 .. doctest::
 
     >>> fig, ax = plt.subplots(3, 1, sharex=True, figsize=(12, 6))
-    >>> golfcube.show_section("demo", "eta", ax=ax[0])
-    >>> golfcube.show_section("demo", "velocity", ax=ax[1])
+    >>> golfcube.show_section("demo", "eta", ax=ax[0], cmap="cividis")
+    >>> golfcube.show_section("demo", "velocity", ax=ax[1], cmap="plasma")
     >>> golfcube.show_section("demo", "sandfrac", ax=ax[2])
     >>> plt.show()  # doctest: +SKIP
 
@@ -399,9 +401,13 @@ Now, the ``DataCube`` has knowledge of stratigraphy, which we can further use to
 .. doctest::
 
     >>> fig, ax = plt.subplots(3, 1, sharex=True, figsize=(12, 8))
-    >>> golfcube.show_section("demo", "velocity", ax=ax[0])
-    >>> golfcube.show_section("demo", "velocity", data="preserved", ax=ax[1])
-    >>> golfcube.show_section("demo", "velocity", data="stratigraphy", ax=ax[2])
+    >>> golfcube.show_section("demo", "velocity", ax=ax[0], cmap="plasma")
+    >>> golfcube.show_section(
+    ...     "demo", "velocity", data="preserved", ax=ax[1], cmap="plasma"
+    ... )
+    >>> golfcube.show_section(
+    ...     "demo", "velocity", data="stratigraphy", ax=ax[2], cmap="plasma"
+    ... )
     >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_quick_stratigraphy_sections.py
@@ -414,8 +420,17 @@ Quick stratigraphy makes it easy to visualize the behavior of the model across e
     >>> fig, ax = plt.subplots(5, 1, sharex=True, sharey=True, figsize=(12, 12))
     >>> ax = ax.flatten()
     >>> for i, var in enumerate(["time", "eta", "velocity", "discharge", "sandfrac"]):
+    ...     cmap = {"eta": "cividis", "velocity": "plasma", "discharge": "Blues"}.get(
+    ...         var, None
+    ...     )
     ...     golfcube.show_section(
-    ...         "demo", var, ax=ax[i], label=True, style="shaded", data="stratigraphy"
+    ...         "demo",
+    ...         var,
+    ...         ax=ax[i],
+    ...         label=True,
+    ...         style="shaded",
+    ...         data="stratigraphy",
+    ...         cmap=cmap,
     ...     )
     ...
     >>> plt.show()  # doctest: +SKIP
@@ -426,9 +441,13 @@ Quick stratigraphy makes it easy to visualize the behavior of the model across e
 
 .. hint::
 
-    The labels in each panel above are determined by the value of the `label` attribute of the matching :obj:`~sandplover.plot.VariableInfo` attached to the `DataCube`. These `VariableInfo` objects are used throughout sandplover to style plots and label items, and are typically created during instantiation of the `DataCube`.
+    The labels in each panel above are determined by the name of the variable
+    being plotted (`label=True`). To display another label, pass a string to
+    `label`.
 
-    See the :doc:`Visualization Guide </guides/subject_guides/visualization>` for a complete description and examples for configuring and creating visualtions in sandplover.
+    See the :doc:`Visualization Guide </guides/subject_guides/visualization>`
+    for a complete description and examples for configuring and creating
+    visualtions in sandplover.
 
 
 All Section types
@@ -449,19 +468,16 @@ The below figure shows each section type available and the `velocity` spacetime 
     >>> _rad = spl.section.RadialSection(golfcube, azimuth=70)
 
 .. plot:: guides/userguide_section_type_demos.py
+    :include-source: false
 
 
 Visualizations in sandplover
 ############################
 
-You may have noticed the colors and labels above, and be wondering: "how are these options set?"
-We use a custom object (:obj:`~sandplover.plot.VariableSet`) to define common plotting properties for all plots.
-The `VariableSet` supports all kinds of other controls, such as custom colormaps for any variable, addition of new defined variables, fixed color limits, color normalizations, and more.
-You can also use these attributes of the `VariableSet` in your own plotting routines.
-
 See the :doc:`Visualization Guide </guides/subject_guides/visualization>` for a complete description and examples for configuring and creating visualtions in sandplover.
 
 Additionally, there are a :doc:`number of plotting routines <../reference/plot/index>` that are helpful in visualizations.
+
 
 .. _userguide_full_stratigraphy:
 
@@ -477,7 +493,7 @@ This requires full computation for any variable you want to examine though.
 Here, we use a method that computes boxy stratigraphy only once, then synthesizes the volume from
 the precomputed sparse indicies.
 
-Here’s a simple example to demonstrate how we place data into the stratigraphy.
+Here's a simple example to demonstrate how we place data into the stratigraphy.
 
 .. doctest::
 
@@ -487,6 +503,7 @@ Here’s a simple example to demonstrate how we place data into the stratigraphy
     >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_1d_example.py
+    :include-source: false
 
 
 Begin by creating a ``StratigraphyCube``:
@@ -509,12 +526,13 @@ Compare the slice from the `golfcube` (left) to the `stratcube` (right):
     >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_compare_slices.py
+    :include-source: false
 
 
 Validation of the stratigraphy is easily seen by looking at the ``time`` attribute.
 Note that sections are *not* inherited from the ``DataCube`` by default (we’re working on this and related features).
 
-Let’s add a section at the same location as ``golfcube.sections['demo']``.
+Let's add a section at the same location as ``golfcube.sections['demo']``.
 
 .. doctest::
 
@@ -535,6 +553,7 @@ Let's examine the stratigraphy in three different visual styles.
     >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_three_stratigraphy.py
+    :include-source: false
 
 Similar to the demonstration above, each variable (property) of the underlying cube can be displayed. These displays utilize the same *precomputed* locations in the stratigraphy and simply filled the synthesized matrix with the different variable values.
 
@@ -543,13 +562,24 @@ Similar to the demonstration above, each variable (property) of the underlying c
     >>> fig, ax = plt.subplots(5, 1, sharex=True, sharey=True, figsize=(12, 12))
     >>> ax = ax.flatten()
     >>> for i, var in enumerate(["time", "eta", "velocity", "discharge", "sandfrac"]):
+    ...     cmap = {"eta": "cividis", "velocity": "plasma", "discharge": "Blues"}.get(
+    ...         var, None
+    ...     )
     ...     stratcube.show_section(
-    ...         "demo", var, ax=ax[i], label=True, style="shaded", data="stratigraphy"
+    ...         "demo",
+    ...         var,
+    ...         ax=ax[i],
+    ...         label=True,
+    ...         style="shaded",
+    ...         data="stratigraphy",
+    ...         cmap=cmap,
     ...     )
     ...
     >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_all_vars_stratigraphy.py
+    :include-source: false
+
 
 .. _userguide_stratigraphy_planforms:
 
@@ -569,7 +599,7 @@ Specify `z` as the elevation of the planform slice:
     >>> minus2_slice = spl.plan.Planform(stratcube, z=-2)
 
     >>> fig, ax = plt.subplots()
-    >>> minus2_slice.show("sandfrac", ticks=True, ax=ax)
+    >>> minus2_slice.show("sandfrac", ticks=True, ax=ax, cmap="Blues")
     >>> plt.show()
 
 

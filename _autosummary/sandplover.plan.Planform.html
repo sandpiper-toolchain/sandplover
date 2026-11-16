@@ -156,7 +156,7 @@ coordinates.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.plan.Planform.show">
-<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.Planform.show" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.plan.Planform.show" title="Link to this definition">¶</a></dt>
 <dd><p>Show the planform.</p>
 <p>Method enumerates convenient routines for visualizing planform data
 and slices of stratigraphy.</p>
@@ -165,15 +165,13 @@ and slices of stratigraphy.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>var</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – Which attribute to show. Can be a string for a named <cite>Cube</cite>
 attribute.</p></li>
-<li><p><strong>label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>str</cite>, optional) – Display a label of the variable name on the plot. Default is
-False, display nothing. If <code class="docutils literal notranslate"><span class="pre">label=True</span></code>, the label name from the
-<a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableSet</span></code></a> is used. Other arguments are
-attempted to coerce to <cite>str</cite>, and the literal is diplayed.</p></li>
+<li><p><strong>label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – A string to display as a label of the variable name on the plot.
+Default is False, display nothing. Other arguments are coerced to
+<cite>str</cite>, and the literal is diplayed.</p></li>
 <li><p><strong>colorbar</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Whether a colorbar is appended to the axis.</p></li>
-<li><p><strong>colorbar_label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>str</cite>, optional) – Display a label of the variable name along the colorbar. Default is
-False, display nothing. If <code class="docutils literal notranslate"><span class="pre">label=True</span></code>, the label name from the
-<a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableSet</span></code></a> is used. Other arguments are
-attempted to coerce to <cite>str</cite>, and the literal is diplayed.</p></li>
+<li><p><strong>colorbar_label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – A string to display as a label of the variable name along the
+colorbar. Default is False, display nothing. Other arguments are
+coerced to <cite>str</cite>, and the literal is diplayed.</p></li>
 <li><p><strong>ax</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Axes</span></code> object, optional) – A <cite>matplotlib</cite> <cite>Axes</cite> object to plot the section. Optional; if not
 provided, a call is made to <code class="docutils literal notranslate"><span class="pre">plt.gca()</span></code> to get the current (or
 create a new) <cite>Axes</cite> object.</p></li>

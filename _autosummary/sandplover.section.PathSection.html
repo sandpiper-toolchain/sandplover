@@ -293,16 +293,16 @@ coordinates.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sandplover.section.PathSection.show">
-<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'shaded'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.section.PathSection.show" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'shaded'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colorbar_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.section.PathSection.show" title="Link to this definition">¶</a></dt>
 <dd><p>Show the section.</p>
 <p>Method enumerates convenient routines for visualizing sections of data
 and stratigraphy. Includes support for multiple data <cite>style</cite> and
 multiple <cite>data</cite> choices as well.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The colors for <cite>style=’lines’</cite> are determined from the left-end
-edge node, and colors for the <cite>style=’shaded’</cite> mesh are determined
-from the lower-left-end edge node of the quad.</p>
+<p>The colors for <cite>style=’lines’</cite> are determined from the left-end edge
+node, and colors for the <cite>style=’shaded’</cite> mesh are determined from
+the lower-left-end edge node of the quad.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -314,25 +314,24 @@ used.</p></li>
 <li><p><strong>style</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – What style to display the section with. Choices are ‘mesh’ or
 ‘line’.</p></li>
 <li><p><strong>data</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – Argument passed to
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">get_display_arrays</span></code>
-or
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">get_display_arrays</span></code> or
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">get_display_lines</span></code>.
 Supported options are <cite>‘spacetime’</cite>, <cite>‘preserved’</cite>, and
 <cite>‘stratigraphy’</cite>. Default is to display full spacetime plot for
 section generated from a <cite>DataCube</cite>, and stratigraphy for a
 <cite>StratigraphyCube</cite> section.</p></li>
-<li><p><strong>label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>str</cite>, optional) – Display a label of the variable name on the plot. Default is
-False, display nothing. If <code class="docutils literal notranslate"><span class="pre">label=True</span></code>, the label name from the
-<a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableSet</span></code></a> is used. Other arguments are
-attempted to coerce to <cite>str</cite>, and the literal is diplayed.</p></li>
+<li><p><strong>label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – A string to display as a label of the variable name on the plot.
+Default is False, display nothing. Other arguments are coerced to
+<cite>str</cite>, and the literal is diplayed.</p></li>
 <li><p><strong>colorbar</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – Whether a colorbar is appended to the axis.</p></li>
-<li><p><strong>colorbar_label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, <cite>str</cite>, optional) – Display a label of the variable name along the colorbar. Default is
-False, display nothing. If <code class="docutils literal notranslate"><span class="pre">label=True</span></code>, the label name from the
-<a class="reference internal" href="sandplover.plot.VariableSet.html#sandplover.plot.VariableSet" title="sandplover.plot.VariableSet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VariableSet</span></code></a> is used. Other arguments are
-attempted to coerce to <cite>str</cite>, and the literal is diplayed.</p></li>
+<li><p><strong>colorbar_label</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>, optional) – A string to display as a label of the variable name along the
+colorbar. Default is False, display nothing. Other arguments are
+coerced to <cite>str</cite>, and the literal is diplayed.</p></li>
 <li><p><strong>ax</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Axes</span></code> object, optional) – A <cite>matplotlib</cite> <cite>Axes</cite> object to plot the section. Optional; if not
 provided, a call is made to <code class="docutils literal notranslate"><span class="pre">plt.gca()</span></code> to get the current (or
 create a new) <cite>Axes</cite> object.</p></li>
+<li><p><strong>**kwargs</strong> – Any other keyword arguments passed to
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">pcolormesh()</span></code> or <cite>LineCollection</cite></p></li>
 </ul>
 </dd>
 </dl>
