@@ -2598,27 +2598,43 @@ def _compute_angles_between(test_set_points, query_set_points, numviews):
 
     """
     query_set_length = query_set_points.shape[0]
-    theta = np.zeros((query_set_length,))
+    test_set_length = test_set_points.shape[0]
+    rad_to_deg = 180.0 / np.pi
+
+    # Preallocate output and working buffers outside the loop
+    theta = np.empty(query_set_length, dtype=query_set_points.dtype)
+    angles = np.empty(test_set_length, dtype=query_set_points.dtype)
+    dangles = np.empty(test_set_length, dtype=query_set_points.dtype)
 
     for i in range(query_set_length):
-        diff = test_set_points - query_set_points[i]
-        x = diff[:, 0]
-        y = diff[:, 1]
+        qx = query_set_points[i, 0]
+        qy = query_set_points[i, 1]
 
-        angles = np.arctan2(y, x)
-        angles = np.sort(angles) * 180.0 / np.pi
+        # Calculate angles directly into buffer (avoids diff/x/y array creations)
+        for j in range(test_set_length):
+            dx = test_set_points[j, 0] - qx
+            dy = test_set_points[j, 1] - qy
+            angles[j] = np.arctan2(dy, dx) * rad_to_deg
 
-        dangles = np.zeros_like(angles)
-        dangles[:-1] = angles[1:] - angles[:-1]
-        remangle = 360 - (angles.max() - angles.min())
+        # In-place sort on preallocated array
+        angles.sort()
+
+        # Compute element differences in-place without slicing
+        for j in range(test_set_length - 1):
+            dangles[j] = angles[j + 1] - angles[j]
+
+        # Array is already sorted: min is angles[0], max is angles[-1]
+        remangle = 360.0 - (angles[-1] - angles[0])
         dangles[-1] = remangle
+
         if numviews == 1:
-            theta[i] = np.max(dangles)
+            theta[i] = dangles.max()
         else:
-            dangles = np.sort(dangles)
-            tops = dangles[-numviews:]
-            summed = np.sum(tops)
-            theta[i] = np.minimum(summed, 180)
+            dangles.sort()
+            summed = 0.0
+            for j in range(test_set_length - numviews, test_set_length):
+                summed += dangles[j]
+            theta[i] = min(summed, 180.0)
 
     return theta
 
@@ -2633,59 +2649,59 @@ def shaw_opening_angle_method(
 ):
     """Extract the opening angle map from an image.
 
-    Applies the opening angle method [1]_ to compute the shoreline mask.
-    Adapted from the Matlab implementation in [2]_.
+    Applies the opening angle method [1]_ to compute the shoreline mask. Adapted
+    from the Matlab implementation in [2]_.
 
     This *function* takes an image and extracts its opening angle map.
 
-    .. [1] Shaw, John B., et al. "An image-based method for
-       shoreline mapping on complex coasts." Geophysical Research Letters
-       35.12 (2008).
+    .. [1] Shaw, John B., et al. "An image-based method for shoreline mapping on
+       complex coasts." Geophysical Research Letters 35.12 (2008).
 
-    .. [2] Liang, Man, Corey Van Dyk, and Paola Passalacqua.
-       "Quantifying the patterns and dynamics of river deltas under
-       conditions of steady forcing and relative sea level rise." Journal
-       of Geophysical Research: Earth Surface 121.2 (2016): 465-496.
+    .. [2] Liang, Man, Corey Van Dyk, and Paola Passalacqua. "Quantifying the
+       patterns and dynamics of river deltas under conditions of steady forcing
+       and relative sea level rise." Journal of Geophysical Research: Earth
+       Surface 121.2 (2016): 465-496.
 
     Parameters
     ----------
     below_mask : ndarray
-        Binary image that has been thresholded to split water/land. At
-        minimum, this should be a thresholded elevation matrix, or some
-        classification of land/water based on pixel color or reflectance
-        intensity. This is the starting point for the opening
-        angle method.
+        Binary image that has been thresholded to split water/land. At minimum,
+        this should be a thresholded elevation matrix, or some classification of
+        land/water based on pixel color or reflectance intensity. This is the
+        starting point for the opening angle method.
 
     query_set : str, optional
         Where to compute the opening angle. Default is "sea", consistent with
         the original paper. Also implemented is "lwi", which approximates the
-        view of open water from every point along the coast.
+        view of open water from every point along the coast. Note that the `sea`
+        includes all water: lakes, rivers, ocean, etc.
 
     test_set : str, optional
         Which pixels to use as bounding in the opening angle calculation.
-        Default (`"lwi+border"`)is to use land-water interface and the border
-        of land pixels In some applications, a computational gain can be had
-        by using `"lwi"`. These options differ from the description in
-        [1]_ that describes the test set as comprising all land pixels; this
-        behavior is accomplished by option `"land"`, but comes at
-        considerable computational cost. Note that none of these options will
-        avoid the issue (described in [1]_ where a barrier island 1 pixel wide
-        may not properly block a view.
+        Default (`"lwi+border"`)is to use land-water interface and the border of
+        land pixels. Note that the `lwi` includes the border between all land
+        and all water: lakes, rivers, ocean, etc. In some applications, a
+        computational gain can be had by using `"lwi"`. These options differ
+        from the description in [1]_ that describes the test set as comprising
+        all land pixels; this behavior is accomplished by option `"land"`, but
+        comes at considerable computational cost. Note that none of these
+        options will avoid the issue (described in [1]_ where a barrier island 1
+        pixel wide may not properly block a view.
 
     numviews : int, optional
         Defines the number of largest angles to consider for the opening angle
-        map for each pixel. Default is 1, based on parameter $p$ in
-        [1]_. Note, this parameter is not an iteration count, but values >1
-        incur an additional `sort` operation, which can drastically increase
-        computation time. Value in original paper [1]_ is `numviews=3`.
+        map for each pixel. Default is 1, based on parameter $p$ in [1]_. Note,
+        this parameter is not an iteration count, but values >1 incur an
+        additional `sort` operation, which can drastically increase computation
+        time. Value in original paper [1]_ is `numviews=3`.
 
     preprocess : bool or int, optional
-        Whether to preprocess the input binary mask before applying the
-        opening angle method. Preprocessing fills lakes that are entirely
-        disconnected from the open water in the landmask. This is a helpful
-        operation for reducing computational load and ensuring the "correct"
-        shoreline is ultimately identified. Preprocessing is implemented in a
-        manner consistent with [1]_.
+        Whether to preprocess the input binary mask before applying the opening
+        angle method. Preprocessing fills lakes that are entirely disconnected
+        from the open water in the landmask. This is a helpful operation for
+        reducing computational load and ensuring the "correct" shoreline is
+        ultimately identified. Preprocessing is implemented in a manner
+        consistent with [1]_.
 
     parallel : int, optional, deprecated
         Deprecated in v0.5.1, due to inconsistencies with higher-level
@@ -2697,8 +2713,8 @@ def shaw_opening_angle_method(
     Returns
     -------
     opening_angles : ndarray
-        The opening angle detected for each location in the input
-        `below_mask`, with values determined according to the `query_set`.
+        The opening angle detected for each location in the input `below_mask`,
+        with values determined according to the `query_set`.
 
     Examples
     --------
@@ -2845,6 +2861,8 @@ def shaw_opening_angle_method(
             "Parallel support is currently deprecated, "
             "but may return in the future. Defaulting to serial."
         )
+    # print(len(test_set_points), len(query_set_points))
+    # breakpoint()
     theta = _compute_angles_between(test_set_points, query_set_points, numviews)
 
     # Cast to map shape
