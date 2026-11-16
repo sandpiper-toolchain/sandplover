@@ -146,7 +146,9 @@ Using the "quick" stratigraphy, we can visualize a few of the available data var
     >>> fig, ax = plt.subplots(5, 1, sharex=True, figsize=(8, 5))
     >>> ax = ax.flatten()
     >>> for i, var in enumerate(["time", "eta", "velocity", "discharge", "sandfrac"]):
-    ...     cmap = {"eta": "cividis", "velocity": "plasma", "discharge": "Blues"}.get(var, None)
+    ...     cmap = {"eta": "cividis", "velocity": "plasma", "discharge": "Blues"}.get(
+    ...         var, None
+    ...     )
     ...     golfcube.show_section(
     ...         "demo", var, data="stratigraphy", ax=ax[i], label=True, cmap=cmap
     ...     )

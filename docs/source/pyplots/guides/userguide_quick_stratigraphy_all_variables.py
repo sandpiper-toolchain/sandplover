@@ -8,5 +8,11 @@ ax = ax.flatten()
 for i, var in enumerate(["time", "eta", "velocity", "discharge", "sandfrac"]):
     cmap = {"eta": "cividis", "velocity": "plasma", "discharge": "Blues"}.get(var, None)
     golfcube.show_section(
-        "demo", var, ax=ax[i], label=True, style="shaded", data="stratigraphy", cmap=cmap
+        "demo",
+        var,
+        ax=ax[i],
+        label=True,
+        style="shaded",
+        data="stratigraphy",
+        cmap=cmap,
     )

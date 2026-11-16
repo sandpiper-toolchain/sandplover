@@ -4,10 +4,22 @@ golfcube.register_section("demo", spl.section.StrikeSection(distance_idx=10))
 
 fig, ax = plt.subplots(3, 2, sharex=True, figsize=(8, 6))
 _v = "velocity"
-golfcube.sections["demo"].show(_v, style="lines", data="spacetime", ax=ax[0, 0], cmap="plasma")
-golfcube.sections["demo"].show(_v, style="shaded", data="spacetime", ax=ax[0, 1], cmap="plasma")
-golfcube.sections["demo"].show(_v, style="lines", data="preserved", ax=ax[1, 0], cmap="plasma")
-golfcube.sections["demo"].show(_v, style="shaded", data="preserved", ax=ax[1, 1], cmap="plasma")
-golfcube.sections["demo"].show(_v, style="lines", data="stratigraphy", ax=ax[2, 0], cmap="plasma")
-golfcube.sections["demo"].show(_v, style="shaded", data="stratigraphy", ax=ax[2, 1], cmap="plasma")
+golfcube.sections["demo"].show(
+    _v, style="lines", data="spacetime", ax=ax[0, 0], cmap="plasma"
+)
+golfcube.sections["demo"].show(
+    _v, style="shaded", data="spacetime", ax=ax[0, 1], cmap="plasma"
+)
+golfcube.sections["demo"].show(
+    _v, style="lines", data="preserved", ax=ax[1, 0], cmap="plasma"
+)
+golfcube.sections["demo"].show(
+    _v, style="shaded", data="preserved", ax=ax[1, 1], cmap="plasma"
+)
+golfcube.sections["demo"].show(
+    _v, style="lines", data="stratigraphy", ax=ax[2, 0], cmap="plasma"
+)
+golfcube.sections["demo"].show(
+    _v, style="shaded", data="stratigraphy", ax=ax[2, 1], cmap="plasma"
+)
 plt.show(block=False)

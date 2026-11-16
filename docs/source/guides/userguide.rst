@@ -197,7 +197,9 @@ You can visualize the data yourself, or use the built-in `show()` method of a `P
     :context:
 
     >>> fig, ax = plt.subplots(1, 2, figsize=(7, 3))
-    >>> ax[0].imshow(final["velocity"], cmap="plasma")  # display directly with plasma colormap for velocity
+    >>> ax[0].imshow(
+    ...     final["velocity"], cmap="plasma"
+    ... )  # display directly with plasma colormap for velocity
     >>> final.show("velocity", ax=ax[1], cmap="plasma")  # use the built-in show()
     >>> plt.show()
 
@@ -400,8 +402,12 @@ Now, the ``DataCube`` has knowledge of stratigraphy, which we can further use to
 
     >>> fig, ax = plt.subplots(3, 1, sharex=True, figsize=(12, 8))
     >>> golfcube.show_section("demo", "velocity", ax=ax[0], cmap="plasma")
-    >>> golfcube.show_section("demo", "velocity", data="preserved", ax=ax[1], cmap="plasma")
-    >>> golfcube.show_section("demo", "velocity", data="stratigraphy", ax=ax[2], cmap="plasma")
+    >>> golfcube.show_section(
+    ...     "demo", "velocity", data="preserved", ax=ax[1], cmap="plasma"
+    ... )
+    >>> golfcube.show_section(
+    ...     "demo", "velocity", data="stratigraphy", ax=ax[2], cmap="plasma"
+    ... )
     >>> plt.show()  # doctest: +SKIP
 
 .. plot:: guides/userguide_quick_stratigraphy_sections.py
@@ -414,9 +420,17 @@ Quick stratigraphy makes it easy to visualize the behavior of the model across e
     >>> fig, ax = plt.subplots(5, 1, sharex=True, sharey=True, figsize=(12, 12))
     >>> ax = ax.flatten()
     >>> for i, var in enumerate(["time", "eta", "velocity", "discharge", "sandfrac"]):
-    ...     cmap = {"eta": "cividis", "velocity": "plasma", "discharge": "Blues"}.get(var, None)
+    ...     cmap = {"eta": "cividis", "velocity": "plasma", "discharge": "Blues"}.get(
+    ...         var, None
+    ...     )
     ...     golfcube.show_section(
-    ...         "demo", var, ax=ax[i], label=True, style="shaded", data="stratigraphy", cmap=cmap
+    ...         "demo",
+    ...         var,
+    ...         ax=ax[i],
+    ...         label=True,
+    ...         style="shaded",
+    ...         data="stratigraphy",
+    ...         cmap=cmap,
     ...     )
     ...
     >>> plt.show()  # doctest: +SKIP
@@ -548,9 +562,17 @@ Similar to the demonstration above, each variable (property) of the underlying c
     >>> fig, ax = plt.subplots(5, 1, sharex=True, sharey=True, figsize=(12, 12))
     >>> ax = ax.flatten()
     >>> for i, var in enumerate(["time", "eta", "velocity", "discharge", "sandfrac"]):
-    ...     cmap = {"eta": "cividis", "velocity": "plasma", "discharge": "Blues"}.get(var, None)
+    ...     cmap = {"eta": "cividis", "velocity": "plasma", "discharge": "Blues"}.get(
+    ...         var, None
+    ...     )
     ...     stratcube.show_section(
-    ...         "demo", var, ax=ax[i], label=True, style="shaded", data="stratigraphy", cmap=cmap
+    ...         "demo",
+    ...         var,
+    ...         ax=ax[i],
+    ...         label=True,
+    ...         style="shaded",
+    ...         data="stratigraphy",
+    ...         cmap=cmap,
     ...     )
     ...
     >>> plt.show()  # doctest: +SKIP

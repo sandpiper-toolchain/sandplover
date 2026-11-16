@@ -180,7 +180,7 @@ class TestDataCubeNoStratigraphy:
 
     def test_fixeddatacube_deprecated_varset(self):
         fixeddatacube = DataCube(golf_path)
-        with pytest.raises(AttributeError, match=r'The `varset`'):
+        with pytest.raises(AttributeError, match=r"The `varset`"):
             fixeddatacube.varset
 
     def test_fixeddatacube_init_data_path(self):
@@ -479,7 +479,7 @@ class TestStratigraphyCube:
         fixeddatacube = DataCube(golf_path)
         # when creating from DataCube, varset should be inherited
         tempsc = StratigraphyCube.from_DataCube(fixeddatacube, dz=1)
-        with pytest.raises(AttributeError, match=r'The `varset`'):
+        with pytest.raises(AttributeError, match=r"The `varset`"):
             fixeddatacube.varset
 
     def test_auxiliary_data(self):
