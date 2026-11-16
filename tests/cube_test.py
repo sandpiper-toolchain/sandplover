@@ -163,6 +163,26 @@ class TestDataCubeNoStratigraphy:
         with pytest.raises(NoStratigraphyError):
             golf.sections["testsection"]["velocity"].strat.as_stratigraphy()
 
+    def test_register_variable(self):
+        golf = DataCube(golf_path)
+        golf.register_variable("testvar", np.zeros(golf.shape))
+        assert "testvar" in golf.variables
+        assert np.all(golf["testvar"].shape == golf.shape)
+
+    def test_register_variable_bad_inputs(self):
+        golf = DataCube(golf_path)
+        with pytest.raises(ValueError, match=r"Input 'data' was incorrect"):
+            golf.register_variable("testvar", np.zeros((10, 10, 10)))
+        with pytest.raises(ValueError, match=r"Input 'data' was incorrect"):
+            golf.register_variable("testvar", np.zeros((10, 10)))
+        with pytest.raises(TypeError, match=r"Input 'name' was not"):
+            golf.register_variable(33, "name")
+
+    def test_fixeddatacube_deprecated_varset(self):
+        fixeddatacube = DataCube(golf_path)
+        with pytest.raises(AttributeError, match=r'The `varset`'):
+            fixeddatacube.varset
+
     def test_fixeddatacube_init_data_path(self):
         fixeddatacube = DataCube(golf_path)
         assert fixeddatacube.data_path == golf_path
@@ -453,6 +473,77 @@ class TestStratigraphyCube:
         fixedstratigraphycube = StratigraphyCube.from_DataCube(fixeddatacube, dz=0.1)
         frzn = fixedstratigraphycube.export_frozen_variable("time")
         assert frzn.ndim == 3
+
+    def test_StratigraphyCube_deprecated_varset(self):
+        # create a fixed cube for variable existing, type checks
+        fixeddatacube = DataCube(golf_path)
+        # when creating from DataCube, varset should be inherited
+        tempsc = StratigraphyCube.from_DataCube(fixeddatacube, dz=1)
+        with pytest.raises(AttributeError, match=r'The `varset`'):
+            fixeddatacube.varset
+
+    def test_auxiliary_data(self):
+        fixeddatacube = DataCube(golf_path, auxdata="auxdata")
+        fixedstratigraphycube = StratigraphyCube.from_DataCube(fixeddatacube, dz=0.1)
+        assert fixedstratigraphycube.aux is fixeddatacube.aux
+
+    def test_access_groups_manually(self):
+        fixeddatacube = DataCube(golf_path, auxdata="auxdata")
+        fixedstratigraphycube = StratigraphyCube.from_DataCube(fixeddatacube, dz=0.1)
+        assert np.all(
+            fixedstratigraphycube.dataio.dataset["auxdata"]["H_SL"]
+            == fixedstratigraphycube.aux["H_SL"]
+        )
+
+    def test_set_aux_data(self):
+        fixeddatacube = DataCube(golf_path)
+        fixedstratigraphycube = StratigraphyCube.from_DataCube(fixeddatacube, dz=0.1)
+        fixedstratigraphycube.set_aux("auxdata")
+        assert np.all(
+            fixedstratigraphycube.dataio.dataset["auxdata"]["H_SL"]
+            == fixedstratigraphycube.aux["H_SL"]
+        )
+
+    def test_register_variable_self(self):
+        fixeddatacube = DataCube(golf_path)
+        fixedstratigraphycube = StratigraphyCube.from_DataCube(fixeddatacube, dz=0.1)
+        fixedstratigraphycube.register_variable(
+            "testvar", np.zeros(fixedstratigraphycube.shape)
+        )
+        assert "testvar" in fixedstratigraphycube.variables
+        assert "testvar" not in fixeddatacube.variables
+        assert np.all(
+            fixedstratigraphycube["testvar"].shape == fixedstratigraphycube.shape
+        )
+        with pytest.raises(AttributeError):
+            # parent cannot access var registered because would be wrong shape
+            fixeddatacube["testvar"]
+        with pytest.raises(ValueError):
+            # try to register the wrong shape to the strat cube
+            fixedstratigraphycube.register_variable(
+                "testvar", np.zeros(fixeddatacube.shape)
+            )
+
+    def test_register_variable_parent(self):
+        fixeddatacube = DataCube(golf_path)
+        fixedstratigraphycube = StratigraphyCube.from_DataCube(fixeddatacube, dz=0.1)
+        fixeddatacube.register_variable("testvar", np.zeros(fixeddatacube.shape))
+        assert "testvar" in fixeddatacube.variables
+        assert "testvar" in fixedstratigraphycube.variables
+        # both can slice and both get "correct" shape
+        assert np.all(fixeddatacube["testvar"].shape == fixeddatacube.shape)
+        assert np.all(
+            fixedstratigraphycube["testvar"].shape == fixedstratigraphycube.shape
+        )
+
+    def test_register_variable_bad_inputs(self):
+        golf = DataCube(golf_path)
+        with pytest.raises(ValueError, match=r"Input 'data' was incorrect"):
+            golf.register_variable("testvar", np.zeros((10, 10, 10)))
+        with pytest.raises(ValueError, match=r"Input 'data' was incorrect"):
+            golf.register_variable("testvar", np.zeros((10, 10)))
+        with pytest.raises(TypeError, match=r"Input 'name' was not"):
+            golf.register_variable(33, "name")
 
 
 class TestStratigraphyCubeSubsidence:
