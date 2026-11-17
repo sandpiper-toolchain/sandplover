@@ -2969,7 +2969,6 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
         ...     elevation_threshold=0,
         ...     flow_threshold=0.3,
         ... )
-        >>> sec = CircularSection(golf, radius_idx=40)
         >>> sec = CircularSection(
         ...     golf,
         ...     origin_idx=(golf.aux["L0"].data, golf.shape[2] // 2),
