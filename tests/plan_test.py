@@ -1056,7 +1056,7 @@ class TestComputeChannelDepth:
 
     golf = golf_sandsuet()
 
-    cm = ChannelMask(S
+    cm = ChannelMask(
         golf["eta"][-1, :, :],
         golf["velocity"][-1, :, :],
         elevation_threshold=0,
