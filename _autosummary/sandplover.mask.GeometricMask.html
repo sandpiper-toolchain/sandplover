@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sandplover.mask.GeometricMask &#8212; sandplover 0.5.1 documentation</title>
+    <title>sandplover.mask.GeometricMask &#8212; sandplover 0.6.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
-    <script src="../_static/documentation_options.js?v=b9afe91b"></script>
+    <script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="sandplover.mask.DepositMask.html" title="sandplover.mask.DepositMask"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.6.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../reference/mask/index.html" accesskey="U">Masking operations</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">sandplover.mask.GeometricMask</a></li> 
@@ -111,8 +111,7 @@ which the shape is inferred.</p></li>
 <li><p><strong>origin</strong> (<cite>tuple</cite>) – The “origin” of the domain. Usually this is the water/sediment
 inlet location. The <cite>origin</cite> is used as the mathematical origin
 point for computation setting the mask within the <cite>GeometricMask</cite>
-methods. If unspecified, it is inferred, based on the default
-configuration of a pyDeltaRCM model inlet.</p></li>
+methods. If unspecified, it is assumed to be (0, 0).</p></li>
 <li><p><strong>**kwargs</strong> – Keyword arguments can be specified to instantiate a
 <cite>GeometricMask</cite> and apply one (or more) of the geometric masking
 operations during instantiation. Accepted arguments are
@@ -131,12 +130,14 @@ function (see examples).</p></li>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gmsk0</span> <span class="o">=</span> <span class="n">GeometricMask</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gmsk0</span> <span class="o">=</span> <span class="n">GeometricMask</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gmsk0</span><span class="o">.</span><span class="n">angular</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gmsk1</span> <span class="o">=</span> <span class="n">GeometricMask</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="n">angular</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">theta1</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="n">theta2</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">angular</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">theta1</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="n">theta2</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
 <span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
@@ -227,8 +228,8 @@ only ‘mask’ or ‘integer’.</p>
 <span class="sig-name descname"><span class="pre">angular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.141592653589793</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sandplover.mask.GeometricMask.angular" title="Link to this definition">¶</a></dt>
 <dd><p>Make a mask based on two angles.</p>
 <p>Computes a mask that is bounded by 2 angles input by the user.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
 <p>Currently origin point is fixed, function should be extended to
 allow for an input origin point from which the angular bounds are
 determined.</p>
@@ -613,7 +614,7 @@ the top domain edge.</p></li>
         <li class="right" >
           <a href="sandplover.mask.DepositMask.html" title="sandplover.mask.DepositMask"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.6.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../reference/mask/index.html" >Masking operations</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">sandplover.mask.GeometricMask</a></li> 

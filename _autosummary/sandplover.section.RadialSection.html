@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sandplover.section.RadialSection &#8212; sandplover 0.5.1 documentation</title>
+    <title>sandplover.section.RadialSection &#8212; sandplover 0.6.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" href="../_static/style.css" type="text/css" />
-    <script src="../_static/documentation_options.js?v=b9afe91b"></script>
+    <script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="sandplover.section.CircularSection.html" title="sandplover.section.CircularSection"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.6.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../reference/section/index.html" accesskey="U">Section operations</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">sandplover.section.RadialSection</a></li> 
@@ -76,12 +76,6 @@ nearest integer model domain cells, following the a line-walking algorithm
 </figure>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>The <cite>origin</cite> attempts to detect the land width from bed elevation
-changes, but should use the value of <code class="docutils literal notranslate"><span class="pre">L0</span></code> recorded in the netcdf
-file, or defined in the cube.</p>
-</div>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
 <p>This Section type will only work for deltas with an inlet along the
 <code class="docutils literal notranslate"><span class="pre">dim1</span></code> lower domain edge. For other delta configurations, specify a
 radial section by defining two end points and instantiating a
@@ -98,9 +92,7 @@ value is given, the <cite>azimuth</cite> defaults to <code class="docutils liter
 specified as a two-element tuple <code class="docutils literal notranslate"><span class="pre">(dim1,</span> <span class="pre">dim2)</span></code>. This is the
 starting point of the radial line. If no value is given, the origin
 defaults to the center of the x-direction of the model domain, and
-offsets into the domain a distance of <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">==</span> <span class="pre">L0</span></code>, if this values can
-be determined. I.e., the origin defaults to be centered over the
-channel inlet.</p></li>
+offsets into the domain a distance of <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">==</span> <span class="pre">0</span></code>.</p></li>
 <li><p><strong>origin_idx</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code> of <cite>int</cite>, optional) – The <cite>origin</cite> of the radial section in dimensional coordinates,
 specified as a two-element tuple <code class="docutils literal notranslate"><span class="pre">(dim1,</span> <span class="pre">dim2)</span></code>. This is the
 starting point of the radial line. Mutually exclusive
@@ -635,7 +627,7 @@ preservation calculated for that elevation timeseries.</p>
         <li class="right" >
           <a href="sandplover.section.CircularSection.html" title="sandplover.section.CircularSection"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">sandplover 0.6.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../reference/index.html" >API reference</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../reference/section/index.html" >Section operations</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">sandplover.section.RadialSection</a></li> 

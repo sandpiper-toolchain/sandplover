@@ -13,7 +13,11 @@ cm = ChannelMask(
     elevation_threshold=0,
     flow_threshold=0.3,
 )
-sec = CircularSection(golf, radius_idx=40)
+sec = CircularSection(
+    golf,
+    origin_idx=(golf.aux["L0"].data, golf.shape[2] // 2),
+    radius_idx=40,
+)
 #
 # Compute the metric
 #
