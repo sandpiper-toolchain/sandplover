@@ -7,6 +7,8 @@ on:
   pull_request:
   schedule:
     - cron: '0 0 1 * *'  # run workflow at 12AM on first day of every month
+  release:
+    types: [published]
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
@@ -18,7 +20,8 @@ jobs:
     if: |
       github.event_name == 'push' ||
       github.event_name == 'schedule' ||
-      github.event.pull_request.head.repo.full_name != github.repository
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.head.repo.full_name != github.repository)
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -56,7 +59,8 @@ jobs:
     if: |
       github.event_name == 'push' ||
       github.event_name == 'schedule' ||
-      github.event.pull_request.head.repo.full_name != github.repository
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.head.repo.full_name != github.repository)
     runs-on: "ubuntu-latest"
 
     steps:
@@ -78,7 +82,9 @@ jobs:
     if: |
       github.event_name == 'push' ||
       github.event_name == 'schedule' ||
-      github.event.pull_request.head.repo.full_name != github.repository
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.head.repo.full_name != github.repository) ||
+      github.event_name == 'release'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -96,16 +102,20 @@ jobs:
     - name: Build and test documentation
       run: |
         nox -s docs
-    - name: Debug
+    - name: Check release tag
+      id: release-version
+      if: ${{ github.event_name == 'release' && !github.event.release.prerelease }}
+      env:
+        RELEASE_TAG: ${{ github.event.release.tag_name }}
       run: |
-        echo $REF
-        echo $EVENT_NAME
-        echo ${{ github.event_name == 'push' }}
-        echo ${{ github.ref == 'refs/heads/develop' }}
-        echo ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
+        if [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "matches=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "matches=false" >> "$GITHUB_OUTPUT"
+        fi
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
-      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
+      if: ${{ steps.release-version.outputs.matches == 'true' }}
       with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EVENT_NAME: ${{ github.event_name }}
