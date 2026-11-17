@@ -14,6 +14,7 @@ from sandplover.utils import format_number
 from sandplover.utils import format_table
 from sandplover.utils import line_to_cells
 from sandplover.utils import runtime_from_log
+from sandplover.utils import guess_land_width_from_land
 
 
 class TestNoStratigraphyError:
@@ -269,3 +270,8 @@ def test_time_from_log_sampledataset(tmp_path):
     # elapsed time should exceed 0, but exact time will vary
     assert isinstance(elapsed_time, float)
     assert elapsed_time > 0
+
+
+def test_deprecated_inference():
+    with pytest.raises():
+        guess_land_width_from_land(None)

@@ -239,6 +239,7 @@ def guess_land_width_from_land(land_col_0):
     """
     raise NotImplementedError
 
+
 def coordinates_to_segments(coordinates):
     """Transform coordinate [x, y] array into line segments.
 

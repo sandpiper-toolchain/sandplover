@@ -1724,7 +1724,9 @@ class TestGeometricMask:
         assert gmsk.xc == 0
         assert gmsk.yc == 0
 
-        gmsk2 = GeometricMask(arr, origin=(0, 3), circular={"rad1": 1, "rad2": 2, "origin": (3, 3)})
+        gmsk2 = GeometricMask(
+            arr, origin=(0, 3), circular={"rad1": 1, "rad2": 2, "origin": (3, 3)}
+        )
         assert np.all(gmsk2.mask == gmsk.mask)
 
     def test_strike_one(self):

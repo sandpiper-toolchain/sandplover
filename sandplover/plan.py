@@ -947,8 +947,6 @@ class MorphologicalPlanform(SpecialtyPlanform):
             may not be what you expect.
 
         """
-        from sandplover.cube import BaseCube
-
         super().__init__("morphological method", *args)
         self._shape = None
         self._elevation_mask = None

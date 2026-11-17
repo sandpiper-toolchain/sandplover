@@ -10,7 +10,6 @@ from scipy import sparse
 from sandplover.utils import NoStratigraphyError
 from sandplover.utils import circle_to_cells
 from sandplover.utils import coordinates_to_segments
-from sandplover.utils import guess_land_width_from_land
 from sandplover.utils import is_ndarray_or_xarray
 from sandplover.utils import line_to_cells
 from sandplover.utils import segments_to_cells
