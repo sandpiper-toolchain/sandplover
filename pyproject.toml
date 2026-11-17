@@ -2,6 +2,8 @@
 name = "sandplover"
 requires-python = ">=3.11"
 description = "Tools for manipulating sedimentologic data cubes."
+license = "MIT"
+license-files = ["LICENSE.txt"]
 keywords = []
 authors = [
     { name = "Andrew Moodie", email = "amoodie@tamu.edu" },
@@ -12,7 +14,6 @@ maintainers = [
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.11",
@@ -42,9 +43,6 @@ dynamic = [
     "readme",
 ]
 
-[project.license]
-text = "MIT"
-
 [project.urls]
 documentation = "https://sandpiper-toolchain.github.io/sandplover"
 homepage = "https://github.com/sandpiper-toolchain/sandplover"
@@ -63,7 +61,7 @@ testing = [
 
 [build-system]
 requires = [
-    "setuptools >=61",
+    "setuptools >=77",
 ]
 build-backend = "setuptools.build_meta"
 
