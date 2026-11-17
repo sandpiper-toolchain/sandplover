@@ -332,7 +332,7 @@ class NetCDFIO(FileIO):
         auxdata_path : auxiliary data path. See specifications in init docstring.
         """
         # if something was specified for auxdata, set it accordingly
-        if not auxdata_path is None:
+        if auxdata_path is not None:
             self.auxdata_path = auxdata_path
             self._aux = self.dataset[self.auxdata_path]
 
@@ -469,7 +469,7 @@ class DictionaryIO(BaseIO):
         super().__init__(io_type="dictionary")
 
         self.dataset = data_dictionary
-        # in DictionaryIO, overwrite the existing in_memory_variables with the full dataset
+        # in DictionaryIO, overwrite existing in_memory_variables with the full dataset
         self._in_memory_variables = self.dataset
         self._in_memory_data = self._in_memory_variables  # alias for backwards compat
 
@@ -490,7 +490,7 @@ class DictionaryIO(BaseIO):
         auxdata_path : auxiliary data path. See specifications in init docstring.
         """
         # if something was specified for auxdata, set it accordingly
-        if not auxdata_path is None:
+        if auxdata_path is not None:
             # can be either a string (a dict in a dict) or a separate dict
             if isinstance(auxdata_path, str):
                 self.auxdata_path = auxdata_path  # store it
@@ -500,13 +500,15 @@ class DictionaryIO(BaseIO):
                 self._aux = auxdata_path
             else:
                 raise TypeError(
-                    f"Invalid type for DictionaryIO `auxdata_path`. Must be str or dict, but was {type(auxdata_path)}."
+                    f"Invalid type for DictionaryIO `auxdata_path`. "
+                    f"Must be str or dict, but was {type(auxdata_path)}."
                 )
 
             # now verify that aux is dict (requirement for DictionaryIO)
             if not isinstance(self._aux, dict):
                 raise TypeError(
-                    f"Auxiliary information found at `auxdata_path` was not dict but was {type(self._aux)}"
+                    f"Auxiliary information found at `auxdata_path` was not dict "
+                    f"but was {type(self._aux)}"
                 )
 
     def get_known_variables(self):

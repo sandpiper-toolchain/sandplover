@@ -9,7 +9,6 @@ from sandplover.cube import StratigraphyCube
 from sandplover.plan import BasePlanform
 from sandplover.plan import Planform
 from sandplover.sample_data.sample_data import _get_aeolian_path
-from sandplover.sample_data.sample_data import _get_golf_path
 from sandplover.sample_data.sample_data import _get_golf_sandsuet_path
 from sandplover.sample_data.sample_data import _get_landsat_path
 from sandplover.sample_data.sample_data import _get_rcm8_path
@@ -29,21 +28,21 @@ class TestDataCubeInitializationArguments:
     def test_initializing_without_argument_nc(self, mock_netcdfio):
         # cube = DataCube(tdb12_path)
         # assert cube.aux is None
-        ## NO SAMPLE DATA AVAILABLE TO TEST
+        # NO SAMPLE DATA AVAILABLE TO TEST
         pass
 
     def test_initializing_without_argument_warns_autodetect(self, mock_netcdfio):
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError, match="Could not infer 3-D dimensions"):
             # the functions following instantiation will error out, so just
             # check that argument was passed to io
-            golf = DataCube(golf_path)
+            DataCube(golf_path)
         mock_netcdfio.assert_called_once_with(data_path=mock.ANY, auxdata_path=None)
 
     def test_initializing_with_argument(self, mock_netcdfio):
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError, match="Could not infer 3-D dimensions"):
             # the functions following instantiation will error out, so just
             # check that argument was passed to io
-            golf = DataCube(golf_path, auxdata="meta")
+            DataCube(golf_path, auxdata="meta")
         mock_netcdfio.assert_called_once_with(data_path=mock.ANY, auxdata_path="meta")
 
 
@@ -478,7 +477,7 @@ class TestStratigraphyCube:
         # create a fixed cube for variable existing, type checks
         fixeddatacube = DataCube(golf_path)
         # when creating from DataCube, varset should be inherited
-        tempsc = StratigraphyCube.from_DataCube(fixeddatacube, dz=1)
+        StratigraphyCube.from_DataCube(fixeddatacube, dz=1)
         with pytest.raises(AttributeError, match=r"The `varset`"):
             fixeddatacube.varset
 
@@ -682,7 +681,8 @@ class TestCubesFromDictionary:
 
 class TestReadMetaFallbacks:
     class FakeIO:
-        """Very small IO stub exposing only what _read_coords_dims_variables_from_dataio uses."""
+        """Very small IO stub exposing only what
+        _read_coords_dims_variables_from_dataio uses."""
 
         def __init__(
             self,

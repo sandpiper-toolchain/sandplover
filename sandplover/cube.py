@@ -1,6 +1,5 @@
 import abc
 import copy
-import os
 import warnings
 
 import matplotlib.pyplot as plt
@@ -209,7 +208,8 @@ class BaseCube(abc.ABC):
             DeprecationWarning(
                 "The `meta` property of the Cube has been replaced by the "
                 "`aux` property, and will be removed in a future release."
-            )
+            ),
+            stacklevel=2,
         )
         return self._dataio.aux
 
@@ -231,7 +231,8 @@ class BaseCube(abc.ABC):
         :class:`~sandplover.plot.VariableSet`.
         """
         raise AttributeError(
-            "The `varset` attribute is deprecated. Plot styling is to be handled manually by the user."
+            "The `varset` attribute is deprecated. "
+            "Plot styling is to be handled manually by the user."
         )
 
     @property
@@ -261,7 +262,8 @@ class BaseCube(abc.ABC):
 
     @property
     def registered_variables(self):
-        """`list` : List of variable names as strings, subset to those registered (i.e., not in the underlying data)."""
+        """`list` : List of variable names as strings, subset to those
+        registered (i.e., not in the underlying data)."""
         return self._registered_variables
 
     @property
@@ -421,12 +423,15 @@ class BaseCube(abc.ABC):
                 f"Must match cube shape {self.shape}."
             )
 
-        # if input DataArray also validate dimensions (name, size, and order all checked)
-        if isinstance(data, xr.DataArray):
-            if data.sizes != self[self.variables[0]].sizes:
-                raise ValueError(
-                    f"Dimension mismatch: {dict(data.sizes)} != {dict(self[self.variables[0]].sizes)}"
-                )
+        # if input DataArray also validate dimensions (name, size, and order
+        #   all checked)
+        if isinstance(data, xr.DataArray) and (
+            data.sizes != self[self.variables[0]].sizes
+        ):
+            raise ValueError(
+                f"Dimension mismatch: {dict(data.sizes)} "
+                f"!= {dict(self[self.variables[0]].sizes)}"
+            )
 
         if isinstance(data, np.ndarray):
             # convert to xarray
@@ -636,12 +641,10 @@ class BaseCube(abc.ABC):
         """
         try:
             import pyvista as pv
-        except ImportError:
-            ImportError("3d plotting dependency, pyvista, was not found.")
-        except ModuleNotFoundError:
-            ModuleNotFoundError("3d plotting dependency, pyvista, was not found.")
-        except Exception as e:
-            raise e
+        except ImportError as exc:
+            raise ImportError(
+                "3d plotting dependency, pyvista, was not found."
+            ) from exc
 
         if not ax:
             ax = plt.gca()
@@ -862,10 +865,11 @@ class DataCube(BaseCube):
                 dims=self._view_dimensions,
             )
         # if the variable is part of the underlying dataio layer
-        elif (var in self._coords) or (var in self.dataio._underlying_variables):
-            # ensure coords can be called by cube[var]
-            _obj = self._dataio[var]
-        elif var in self.registered_variables:
+        elif (
+            var in self._coords
+            or var in self.dataio._underlying_variables
+            or var in self.registered_variables
+        ):
             _obj = self._dataio[var]
         else:
             raise AttributeError(f"No variable of '{str(self)}' named '{var}'")
@@ -1146,7 +1150,8 @@ class StratigraphyCube(BaseCube):
                 return _var
             else:
                 raise RuntimeError(
-                    f"Registered variable '{var}' sliced, but has incorrect shape: expect {self.shape}, got {_var.shape}"
+                    f"Registered variable '{var}' sliced, but has incorrect shape: "
+                    f"expect {self.shape}, got {_var.shape}"
                 )
 
         # the following lines apply the data to stratigraphy mapping
