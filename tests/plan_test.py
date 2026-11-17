@@ -989,7 +989,11 @@ class TestComputeChannelWidth:
         elevation_threshold=0,
         flow_threshold=0.3,
     )
-    sec = CircularSection(golf, radius_idx=40)
+    sec = CircularSection(
+        golf,
+        origin_idx=(golf.aux["L0"].data, golf.shape[2] // 2),
+        radius_idx=40
+    )
 
     def test_widths_simple(self):
         """Get mean and std from simple."""
@@ -1058,7 +1062,11 @@ class TestComputeChannelDepth:
         elevation_threshold=0,
         flow_threshold=0.3,
     )
-    sec = CircularSection(golf, radius_idx=40)
+    sec = CircularSection(
+            golf,
+            origin_idx=(golf.aux["L0"].data, golf.shape[2] // 2),
+            radius_idx=40
+    )
 
     def test_depths_simple_thalweg(self):
         """Get mean and std from simple."""
