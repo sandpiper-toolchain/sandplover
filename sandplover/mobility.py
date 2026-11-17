@@ -760,6 +760,7 @@ def channel_presence(chmap):
         >>> golfcube.quick_show("eta", ax=ax[0])  # final delta
         >>> p = ax[1].imshow(channel_presence(chmap), cmap="Blues")
         >>> _ = append_colorbar(p, ax[1], label="Channelized Time")
+        >>> plt.show()
     """
     tmp_chans = None  # instantiate
     if isinstance(chmap, mask.ChannelMask) is True:
