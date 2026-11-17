@@ -1650,9 +1650,9 @@ class CircularSection(BaseSection):
 
         # determine the origin in indices
         if (self._input_origin is None) and (self._input_origin_idx is None):
-            # if no inputs are provided, use (0, len(dim2) / 2)
+            # if no inputs are provided, use (0, 0)
             land_width = 0
-            center_dim2 = len(dim2_coords) // 2
+            center_dim2 = 0
             # combine into the origin as a (dim1, dim2) point
             self._origin_idx = (land_width, center_dim2)
         elif not (self._input_origin is None):
@@ -1868,9 +1868,9 @@ class RadialSection(BaseSection):
 
         # determine the origin in indices
         if (self._input_origin is None) and (self._input_origin_idx is None):
-            # if no inputs are provided, use (0, len(dim2) / 2)
+            # if no inputs are provided, use (0, 0)
             land_width = 0
-            center_dim2 = len(dim2_coords) // 2
+            center_dim2 = 0
             # combine into the origin as a (dim1, dim2) point
             self._origin_idx = (land_width, center_dim2)
 

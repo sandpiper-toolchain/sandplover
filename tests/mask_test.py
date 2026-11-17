@@ -1657,7 +1657,7 @@ class TestGeometricMask:
         assert np.shape(gmsk._mask) == np.shape(arr)
         assert np.all(gmsk._mask == 1)
         assert gmsk._xc == 0
-        assert gmsk._yc == 100
+        assert gmsk._yc == 0
         assert gmsk.xc == gmsk._xc
         assert gmsk.yc == gmsk._yc
 
@@ -1670,31 +1670,31 @@ class TestGeometricMask:
         assert np.shape(gmsk._mask) == (100, 200)
         assert np.all(gmsk._mask == 1)
         assert gmsk._xc == 0
-        assert gmsk._yc == 100
+        assert gmsk._yc == 0
         assert gmsk.xc == gmsk._xc
         assert gmsk.yc == gmsk._yc
 
     def test_circular_default(self):
         """Test circular mask with defaults, small case."""
-        arr = np.zeros((5, 5))
-        gmsk = GeometricMask(arr)
+        arr = np.zeros((7, 7))
+        gmsk = GeometricMask(arr, origin=(0, 3))
         gmsk.circular(1)
-        assert gmsk._mask[0, 2] == 0
+        assert int(gmsk._mask[0, 3]) == 0
 
-        gmsk2 = GeometricMask(arr, circular={"rad1": 1})
+        gmsk2 = GeometricMask(arr, origin=(0, 3), circular={"rad1": 1})
         assert np.all(gmsk2.mask == gmsk.mask)
 
     def test_circular_2radii(self):
         """Test circular mask with 2 radii, small case."""
         arr = np.zeros((7, 7))
-        gmsk = GeometricMask(arr)
+        gmsk = GeometricMask(arr, origin=(0, 3))
         gmsk.circular(1, 2)
         assert gmsk._mask[0, 3] == 0
         assert np.all(gmsk._mask[:, -1] == 0)
         assert np.all(gmsk._mask[:, 0] == 0)
         assert np.all(gmsk._mask[-1, :] == 0)
 
-        gmsk2 = GeometricMask(arr, circular={"rad1": 1, "rad2": 2})
+        gmsk2 = GeometricMask(arr, origin=(0, 3), circular={"rad1": 1, "rad2": 2})
         assert np.all(gmsk2.mask == gmsk.mask)
 
     def test_circular_custom_origin(self):
@@ -1722,9 +1722,9 @@ class TestGeometricMask:
         # check that the Mask origin is different
         #  from the one used in method (3, 3)
         assert gmsk.xc == 0
-        assert gmsk.yc == 3
+        assert gmsk.yc == 0
 
-        gmsk2 = GeometricMask(arr, circular={"rad1": 1, "rad2": 2, "origin": (3, 3)})
+        gmsk2 = GeometricMask(arr, origin=(0, 3), circular={"rad1": 1, "rad2": 2, "origin": (3, 3)})
         assert np.all(gmsk2.mask == gmsk.mask)
 
     def test_strike_one(self):
@@ -1753,13 +1753,13 @@ class TestGeometricMask:
     def test_dip_one(self):
         """Test dip masking with one value."""
         arr = np.zeros((7, 7))
-        gmsk = GeometricMask(arr)
+        gmsk = GeometricMask(arr, origin=(0, 3))
         gmsk.dip(5)
         assert np.all(gmsk._mask[:, 1:-1] == 1)
         assert np.all(gmsk._mask[:, 0] == 0)
         assert np.all(gmsk._mask[:, -1] == 0)
 
-        gmsk2 = GeometricMask(arr, dip={"ind1": 5})
+        gmsk2 = GeometricMask(arr, origin=(0, 3), dip={"ind1": 5})
         assert np.all(gmsk2.mask == gmsk.mask)
 
     def test_dip_two(self):
