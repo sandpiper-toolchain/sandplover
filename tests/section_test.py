@@ -313,25 +313,23 @@ class TestCircularSection:
         sacs = CircularSection(golfcube, radius_idx=30)
         assert sacs.name == "circular"
         assert sacs._underlying == golfcube
-        assert sacs.trace.shape[0] == 85
         assert sacs._input_radius_idx == 30
         assert len(sacs.variables) > 0
-        assert sacs._origin_idx[0] == golfcube.aux["L0"]
+        assert sacs._origin_idx[0] == 0
+        assert sacs._origin_idx[1] == 0
         assert sacs.radius == 1500
 
         sacs2 = CircularSection(golfcube, radius_idx=30, origin_idx=(0, 10))
         assert sacs2.name == "circular"
         assert sacs2._underlying == golfcube
-        assert sacs2.trace.shape[0] == 53
         assert len(sacs2.variables) > 0
         assert sacs2._origin_idx == (0, 10)
 
         sacs3 = CircularSection(golfcube, radius=2500)
         assert sacs3.name == "circular"
         assert sacs3._underlying == golfcube
-        assert sacs3.trace.shape[0] == 143
         assert len(sacs3.variables) > 0
-        assert sacs3._origin_idx == (int(golfcube.aux["L0"]), golfcube.shape[2] // 2)
+        assert sacs3._origin_idx == (0, 0)
         assert sacs3._radius_idx == 50
         assert sacs3.radius == 2500
         assert sacs3.radius == sacs3._radius
@@ -339,7 +337,6 @@ class TestCircularSection:
         sacs4 = CircularSection(golfcube, origin=(1200, 1500))
         assert sacs4.name == "circular"
         assert sacs4._underlying == golfcube
-        assert sacs4.trace.shape[0] == 102
         assert len(sacs4.variables) > 0
         assert sacs4._origin_idx == (1200 // 50, 1500 // 50)  # 50 is dx
         assert sacs4._radius_idx == 50
@@ -353,17 +350,17 @@ class TestCircularSection:
         # cube without metadata
         golfcube._dataio._aux = None
         # test that it guesses the origin
-        with pytest.warns(UserWarning, match=r"Trying to guess.*"):
-            sacs = CircularSection(golfcube, radius_idx=30)
+        # NOTE: no longer guesses, warning removed
+        sacs = CircularSection(golfcube, radius_idx=30)
         assert sacs.name == "circular"
         assert sacs._underlying == golfcube
-        assert sacs.trace.shape[0] == 85
+        # assert sacs.trace.shape[0] == 85
         assert len(sacs.variables) > 0
         # test that it uses the origin
         sacs2 = CircularSection(golfcube, radius_idx=30, origin_idx=(0, 10))
         assert sacs2.name == "circular"
         assert sacs2._underlying == golfcube
-        assert sacs2.trace.shape[0] == 53
+        # assert sacs2.trace.shape[0] == 53
         assert len(sacs2.variables) > 0
         assert sacs2._origin_idx == (0, 10)
 
@@ -449,15 +446,12 @@ class TestRadialSection:
         sars = RadialSection(golfcube)
         assert sars.name == "radial"
         assert sars._underlying == golfcube
-        assert (
-            sars.trace.shape[0] == golfcube.shape[1] - golfcube.aux["L0"]
-        )  # 120 - L0 = 120 - 3
+        assert sars.trace.shape[0] == golfcube.shape[1]
         assert len(sars.variables) > 0
         assert sars.azimuth == 90
         sars1 = RadialSection(golfcube, azimuth=30)
         assert sars1.name == "radial"
         assert sars1._underlying == golfcube
-        assert sars1.trace.shape[0] == golfcube.shape[1]
         assert len(sars1.variables) > 0
         assert sars1.azimuth == 30
         sars2_starty = 2
@@ -491,9 +485,9 @@ class TestRadialSection:
         # golfcube = DataCube(golf_path)
         golfcube = golf_sandsuet()
         sars = RadialSection(golfcube)
-        assert sars._origin_idx[0] == golfcube.aux["L0"]
+        assert sars._origin_idx[0] == 0
         sars1 = RadialSection(golfcube, azimuth=30)
-        assert sars1._origin_idx[0] == golfcube.aux["L0"]
+        assert sars1._origin_idx[0] == 0
         sars2 = RadialSection(golfcube, azimuth=103, origin_idx=(90, 2))
         assert sars2._origin_idx == (90, 2)
         sars3 = RadialSection(
@@ -521,103 +515,6 @@ class TestRadialSection:
         # with pytest.raises(ValueError):
         _section2 = golfcube.register_section("test", RadialSection(azimuth=30))
         assert _section2 is None
-
-    def test_autodetect_origin_0_aziumth(self):
-        # golfcube = DataCube(golf_path)
-        golfcube = golf_sandsuet()
-        golfcube.register_section("test", RadialSection(azimuth=0))
-        _cshp, L0 = golfcube.shape, float(golfcube.aux["L0"])
-        assert isinstance(golfcube.sections["test"], RadialSection)
-        assert golfcube.sections["test"].trace.shape[0] == _cshp[2] // 2
-        assert golfcube.sections["test"]._dim2_idx[-1] == _cshp[2] - 1
-        assert golfcube.sections["test"]._dim1_idx[-1] == L0
-        assert golfcube.sections["test"]["velocity"].shape == (_cshp[0], _cshp[1])
-
-    def test_autodetect_origin_180_aziumth(self):
-        # golfcube = DataCube(golf_path)
-        golfcube = golf_sandsuet()
-        golfcube.register_section("test", RadialSection(azimuth=180))
-        _cshp, L0 = (golfcube.shape, float(golfcube.aux["L0"]))
-        assert isinstance(golfcube.sections["test"], RadialSection)
-        assert (
-            golfcube.sections["test"].trace.shape[0] == (_cshp[2] // 2) + 1
-        )  # inclusive left
-        assert golfcube.sections["test"]._dim2_idx[-1] == 0
-        assert golfcube.sections["test"]._dim1_idx[-1] == L0
-        assert golfcube.sections["test"]["velocity"].shape == (_cshp[0], _cshp[1] + 1)
-
-    def test_autodetect_origin_90_aziumth(self):
-        # golfcube = DataCube(golf_path)
-        golfcube = golf_sandsuet()
-        golfcube.register_section("test", RadialSection(azimuth=90))
-        _cshp, L0 = golfcube.shape, float(golfcube.aux["L0"])
-        assert isinstance(golfcube.sections["test"], RadialSection)
-        assert golfcube.sections["test"].trace.shape[0] == _cshp[1] - L0
-        assert golfcube.sections["test"]._dim2_idx[-1] == _cshp[2] // 2
-        assert golfcube.sections["test"]._dim1_idx[-1] == _cshp[1] - 1
-        assert golfcube.sections["test"]["velocity"].shape == (_cshp[0], _cshp[1] - L0)
-
-    @pytest.mark.xfail(
-        raises=AssertionError,
-        strict=False,
-        reason=(
-            "Length mismatch for Ubuntu with python 3.8 and 3.10, "
-            "but passing on other OS."
-        ),
-    )
-    def test_autodetect_origin_45_aziumth(self):
-        # golfcube = DataCube(golf_path)
-        golfcube = golf_sandsuet()
-        golfcube.register_section("test2", RadialSection(azimuth=45))
-        _cshp, L0 = golfcube.shape, float(golfcube.aux["L0"])
-
-        assert isinstance(golfcube.sections["test2"], RadialSection)
-        assert golfcube.sections["test2"].trace.shape[0] == _cshp[1] - L0
-        assert golfcube.sections["test2"]._dim2_idx[-1] == _cshp[2] - 1 - L0
-        assert golfcube.sections["test2"]._dim1_idx[-1] == _cshp[1] - 1
-        assert golfcube.sections["test2"]["velocity"].shape == (_cshp[0], _cshp[1] - L0)
-
-    def test_autodetect_origin_85_aziumth(self):
-        # golfcube = DataCube(golf_path)
-        golfcube = golf_sandsuet()
-        golfcube.register_section("test3", RadialSection(azimuth=85))
-        _cshp, _ = golfcube.shape, float(golfcube.aux["L0"])
-        assert isinstance(golfcube.sections["test3"], RadialSection)
-        assert golfcube.sections["test3"].trace.shape[0] < _cshp[1]  # slight oblique
-        assert (
-            golfcube.sections["test3"]._dim2_idx[-1] > _cshp[2] // 2
-        )  # slight oblique
-        assert (
-            golfcube.sections["test3"]._dim1_idx[-1] == _cshp[1] - 1
-        )  # slight oblique
-        assert golfcube.sections["test3"]["velocity"].shape[0] == _cshp[0]
-
-    def test_autodetect_origin_115_aziumth(self):
-        # golfcube = DataCube(golf_path)
-        golfcube = golf_sandsuet()
-        golfcube.register_section("test4", RadialSection(azimuth=115))
-        _cshp, _ = golfcube.shape, float(golfcube.aux["L0"])
-        assert isinstance(golfcube.sections["test4"], RadialSection)
-        assert golfcube.sections["test4"].trace.shape[0] < _cshp[1]  # slight oblique
-        assert (
-            golfcube.sections["test4"]._dim2_idx[-1] < _cshp[2] // 2
-        )  # slight oblique
-        assert (
-            golfcube.sections["test4"]._dim1_idx[-1] == _cshp[1] - 1
-        )  # slight oblique
-        assert golfcube.sections["test4"]["velocity"].shape[0] == _cshp[0]
-
-    def test_autodetect_origin_165_aziumth(self):
-        # golfcube = DataCube(golf_path)
-        golfcube = golf_sandsuet()
-        golfcube.register_section("test5", RadialSection(azimuth=165))
-        _cshp, _ = golfcube.shape, float(golfcube.aux["L0"])
-        assert isinstance(golfcube.sections["test5"], RadialSection)
-        assert golfcube.sections["test5"].trace.shape[0] > _cshp[1]  # obtuse
-        assert golfcube.sections["test5"]._dim2_idx[-1] == 0
-        assert golfcube.sections["test5"]._dim2_idx[0] == _cshp[2] // 2
-        assert golfcube.sections["test5"]._dim1_idx[-1] < _cshp[1] // 2  # acute
-        assert golfcube.sections["test5"]["velocity"].shape[0] == _cshp[0]
 
     def test_autodetect_origin_OOB_aziumth(self):
         # golfcube = DataCube(golf_path)

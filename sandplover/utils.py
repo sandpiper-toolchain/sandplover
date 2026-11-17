@@ -234,20 +234,10 @@ def determine_land_width(data, land_width_input=None):
 def guess_land_width_from_land(land_col_0):
     """Guess the land width from bed elevations.
 
-    Utility to help autodetermine the domain setup. This utility should be
-    replaced when possible by pulling domain setup variables directly from the
-    netCDF file.
-
-    Algortihm works by finding the point where the bed elevation is *flat*
-    (i.e., where there is undisturbed basin).
+    .. deprecated:: 0.6.0
+        Specify land width manually.
     """
-    i = 0
-    delt = 10
-    while i < len(land_col_0) - 1 and delt != 0:
-        delt = land_col_0[i] - land_col_0[i + 1]
-        i += 1
-    trim_idx = i - 1  # assign the trimming index
-    return trim_idx
+    raise NotImplementedError
 
 
 def coordinates_to_segments(coordinates):

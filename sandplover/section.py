@@ -10,7 +10,6 @@ from scipy import sparse
 from sandplover.utils import NoStratigraphyError
 from sandplover.utils import circle_to_cells
 from sandplover.utils import coordinates_to_segments
-from sandplover.utils import guess_land_width_from_land
 from sandplover.utils import is_ndarray_or_xarray
 from sandplover.utils import line_to_cells
 from sandplover.utils import segments_to_cells
@@ -1540,8 +1539,7 @@ class CircularSection(BaseSection):
         specified as a two-element tuple ``(dim1, dim2)``. This is the center
         of the circle. If no value is given, the origin defaults to the
         center of the x-direction of the model domain, and offsets into the
-        domain a distance of ``y == L0``, if this values can be determined.
-        I.e., the origin defaults to be centered over the channel inlet.
+        domain a distance of ``y == 0``.
 
     radius_idx : :obj:`float`, `int`, optional
         The `radius` of the section in cell indices. This is the distance to
@@ -1651,32 +1649,9 @@ class CircularSection(BaseSection):
 
         # determine the origin in indices
         if (self._input_origin is None) and (self._input_origin_idx is None):
-            # if no inputs are provided, try to guess from aux data or land
-            if self._underlying_type == "cube":
-                # cube is attached and can be used
-                center_dim2 = int(
-                    self._underlying.shape[2] // 2
-                )  # center of the dim2 axis
-                if self._underlying.aux is None:
-                    # try and guess the value (should issue a warning?)
-                    #   if no field called 'eta'?? this will fail.
-                    warnings.warn(
-                        "Trying to guess origin distance from dim1==0."
-                        " This is unlikely to work for data not generated from"
-                        " pyDeltaRCM.",
-                        stacklevel=2,
-                    )
-                    land_width = np.minimum(
-                        guess_land_width_from_land(self._underlying["eta"][-1, :, 0]),
-                        5,
-                    )
-                else:
-                    # extract L0 from the cube aux data
-                    land_width = int(self._underlying.aux["L0"])
-            else:
-                # no cube is known
-                land_width = 0
-                center_dim2 = len(dim2_coords) // 2
+            # if no inputs are provided, use (0, 0)
+            land_width = 0
+            center_dim2 = 0
             # combine into the origin as a (dim1, dim2) point
             self._origin_idx = (land_width, center_dim2)
         elif not (self._input_origin is None):
@@ -1746,12 +1721,6 @@ class RadialSection(BaseSection):
 
     .. important::
 
-        The `origin` attempts to detect the land width from bed elevation
-        changes, but should use the value of ``L0`` recorded in the netcdf
-        file, or defined in the cube.
-
-    .. important::
-
         This Section type will only work for deltas with an inlet along the
         ``dim1`` lower domain edge. For other delta configurations, specify a
         radial section by defining two end points and instantiating a
@@ -1772,9 +1741,7 @@ class RadialSection(BaseSection):
         specified as a two-element tuple ``(dim1, dim2)``. This is the
         starting point of the radial line. If no value is given, the origin
         defaults to the center of the x-direction of the model domain, and
-        offsets into the domain a distance of ``y == L0``, if this values can
-        be determined. I.e., the origin defaults to be centered over the
-        channel inlet.
+        offsets into the domain a distance of ``y == 0``.
 
     origin_idx : :obj:`tuple` of `int`, optional
         The `origin` of the radial section in dimensional coordinates,
@@ -1900,33 +1867,9 @@ class RadialSection(BaseSection):
 
         # determine the origin in indices
         if (self._input_origin is None) and (self._input_origin_idx is None):
-            # if no inputs are provided, try to guess from aux data or land,
-            #   or fall back on just using (0, len(dim2) / 2)
-            if self._underlying_type == "cube":
-                # cube is attached and can be used
-                center_dim2 = int(
-                    self._underlying.shape[2] // 2
-                )  # center of the dim2 axis
-                if self._underlying.aux is None:
-                    # try and guess the value (should issue a warning?)
-                    #   if no field called 'eta'?? this will fail.
-                    warnings.warn(
-                        "Trying to guess origin distance from dim1==0."
-                        " This is unlikely to work for data not generated from"
-                        " pyDeltaRCM.",
-                        stacklevel=2,
-                    )
-                    land_width = np.minimum(
-                        guess_land_width_from_land(self._underlying["eta"][-1, :, 0]),
-                        5,
-                    )
-                else:
-                    # extract L0 from the cube aux data
-                    land_width = int(self._underlying.aux["L0"])
-            else:
-                # no cube is known
-                land_width = 0
-                center_dim2 = len(dim2_coords) // 2
+            # if no inputs are provided, use (0, 0)
+            land_width = 0
+            center_dim2 = 0
             # combine into the origin as a (dim1, dim2) point
             self._origin_idx = (land_width, center_dim2)
 

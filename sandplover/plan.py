@@ -947,8 +947,6 @@ class MorphologicalPlanform(SpecialtyPlanform):
             may not be what you expect.
 
         """
-        from sandplover.cube import BaseCube
-
         super().__init__("morphological method", *args)
         self._shape = None
         self._elevation_mask = None
@@ -992,17 +990,9 @@ class MorphologicalPlanform(SpecialtyPlanform):
                     "Expected single number to set max inlet size, got: "
                     "{}".format(args[1])
                 )
-        elif isinstance(self.cube, BaseCube):
-            try:
-                self._max_disk = self.cube.aux["N0"].data
-            except Exception as err:
-                raise TypeError(
-                    "Data cube does not contain auxiliary data, you must "
-                    "specify the inlet size."
-                ) from err
         else:
             raise TypeError(
-                "Something went wrong. Check second input argument for " "inlet width."
+                "Something went wrong. Check second input argument for inlet width."
             )
 
         self._shape = self._elevation_mask.shape
@@ -2979,7 +2969,11 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
         ...     elevation_threshold=0,
         ...     flow_threshold=0.3,
         ... )
-        >>> sec = CircularSection(golf, radius_idx=40)
+        >>> sec = CircularSection(
+        ...     golf,
+        ...     origin_idx=(golf.aux["L0"].data, golf.shape[2] // 2),
+        ...     radius_idx=40,
+        ... )
 
         Compute the metric
 

@@ -2182,11 +2182,9 @@ class GeometricMask(BaseMask):
             The "origin" of the domain. Usually this is the water/sediment
             inlet location. The `origin` is used as the mathematical origin
             point for computation setting the mask within the `GeometricMask`
-            methods. If unspecified, it is inferred, based on the default
-            configuration of a pyDeltaRCM model inlet.
+            methods. If unspecified, it is assumed to be (0, 0).
 
         **kwargs
-
             Keyword arguments can be specified to instantiate a
             `GeometricMask` and apply one (or more) of the geometric masking
             operations during instantiation. Accepted arguments are
@@ -2206,11 +2204,13 @@ class GeometricMask(BaseMask):
             >>> from sandplover.mask import GeometricMask
 
             >>> arr = np.random.uniform(size=(100, 200))
-            >>> gmsk0 = GeometricMask(arr)
+            >>> gmsk0 = GeometricMask(arr, origin=(0, 100))
             >>> gmsk0.angular(np.pi / 4, np.pi / 2)
 
             >>> gmsk1 = GeometricMask(
-            ...     (100, 200), angular=dict(theta1=np.pi / 4, theta2=np.pi / 2)
+            ...     (100, 200),
+            ...     origin=(0, 100),
+            ...     angular=dict(theta1=np.pi / 4, theta2=np.pi / 2),
             ... )
 
             >>> fig, ax = plt.subplots(1, 2)
@@ -2243,13 +2243,9 @@ class GeometricMask(BaseMask):
 
         # set the origin from argument
         if origin is None:
-            # try to infer it from the input type
-            if self._input_flag == "cube":
-                raise NotImplementedError
-                # get the value from CTR and L0 if aux present
-            else:
-                self._xc = 0
-                self._yc = int(self._W / 2)
+            # assume 0, 0
+            self._xc = 0
+            self._yc = 0
         elif isinstance(origin, tuple):
             # use the values in the tuple
             self._xc = origin[0]
@@ -2275,7 +2271,7 @@ class GeometricMask(BaseMask):
 
         Computes a mask that is bounded by 2 angles input by the user.
 
-        .. note::
+        .. important::
 
            Currently origin point is fixed, function should be extended to
            allow for an input origin point from which the angular bounds are
@@ -2405,6 +2401,9 @@ class GeometricMask(BaseMask):
             _yc = origin[1]
         else:
             raise ValueError
+
+        if _xc is None or _yc is None:
+            raise ValueError("Origin not defined.")
 
         if rad2 is None:
             rad2 = np.max((self._L, self._W))
