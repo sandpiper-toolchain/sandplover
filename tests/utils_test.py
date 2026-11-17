@@ -273,5 +273,5 @@ def test_time_from_log_sampledataset(tmp_path):
 
 
 def test_deprecated_inference():
-    with pytest.raises():
+    with pytest.raises(NotImplementedError):
         guess_land_width_from_land(None)
