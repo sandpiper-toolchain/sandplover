@@ -992,17 +992,9 @@ class MorphologicalPlanform(SpecialtyPlanform):
                     "Expected single number to set max inlet size, got: "
                     "{}".format(args[1])
                 )
-        elif isinstance(self.cube, BaseCube):
-            try:
-                self._max_disk = self.cube.aux["N0"].data
-            except Exception as err:
-                raise TypeError(
-                    "Data cube does not contain auxiliary data, you must "
-                    "specify the inlet size."
-                ) from err
         else:
             raise TypeError(
-                "Something went wrong. Check second input argument for " "inlet width."
+                "Something went wrong. Check second input argument for inlet width."
             )
 
         self._shape = self._elevation_mask.shape

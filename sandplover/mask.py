@@ -2243,13 +2243,9 @@ class GeometricMask(BaseMask):
 
         # set the origin from argument
         if origin is None:
-            # try to infer it from the input type
-            if self._input_flag == "cube":
-                raise NotImplementedError
-                # get the value from CTR and L0 if aux present
-            else:
-                self._xc = 0
-                self._yc = int(self._W / 2)
+            # pass, just set as None, will raise errors below
+            self._xc = None
+            self._yc = None
         elif isinstance(origin, tuple):
             # use the values in the tuple
             self._xc = origin[0]
@@ -2275,7 +2271,7 @@ class GeometricMask(BaseMask):
 
         Computes a mask that is bounded by 2 angles input by the user.
 
-        .. note::
+        .. important::
 
            Currently origin point is fixed, function should be extended to
            allow for an input origin point from which the angular bounds are
@@ -2405,6 +2401,9 @@ class GeometricMask(BaseMask):
             _yc = origin[1]
         else:
             raise ValueError
+
+        if _xc is None or _yc is None:
+            raise ValueError("Origin not defined.")
 
         if rad2 is None:
             rad2 = np.max((self._L, self._W))
