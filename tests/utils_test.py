@@ -12,9 +12,9 @@ from sandplover.utils import NoStratigraphyError
 from sandplover.utils import curve_fit
 from sandplover.utils import format_number
 from sandplover.utils import format_table
+from sandplover.utils import guess_land_width_from_land
 from sandplover.utils import line_to_cells
 from sandplover.utils import runtime_from_log
-from sandplover.utils import guess_land_width_from_land
 
 
 class TestNoStratigraphyError:

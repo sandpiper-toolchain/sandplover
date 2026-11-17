@@ -990,9 +990,7 @@ class TestComputeChannelWidth:
         flow_threshold=0.3,
     )
     sec = CircularSection(
-        golf,
-        origin_idx=(golf.aux["L0"].data, golf.shape[2] // 2),
-        radius_idx=40
+        golf, origin_idx=(golf.aux["L0"].data, golf.shape[2] // 2), radius_idx=40
     )
 
     def test_widths_simple(self):
@@ -1063,9 +1061,7 @@ class TestComputeChannelDepth:
         flow_threshold=0.3,
     )
     sec = CircularSection(
-            golf,
-            origin_idx=(golf.aux["L0"].data, golf.shape[2] // 2),
-            radius_idx=40
+        golf, origin_idx=(golf.aux["L0"].data, golf.shape[2] // 2), radius_idx=40
     )
 
     def test_depths_simple_thalweg(self):

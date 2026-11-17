@@ -2208,8 +2208,9 @@ class GeometricMask(BaseMask):
             >>> gmsk0.angular(np.pi / 4, np.pi / 2)
 
             >>> gmsk1 = GeometricMask(
-            ...     (100, 200), origin=(0, 100),
-            ...     angular=dict(theta1=np.pi / 4, theta2=np.pi / 2)
+            ...     (100, 200),
+            ...     origin=(0, 100),
+            ...     angular=dict(theta1=np.pi / 4, theta2=np.pi / 2),
             ... )
 
             >>> fig, ax = plt.subplots(1, 2)

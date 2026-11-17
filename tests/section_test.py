@@ -446,7 +446,7 @@ class TestRadialSection:
         sars = RadialSection(golfcube)
         assert sars.name == "radial"
         assert sars._underlying == golfcube
-        assert (sars.trace.shape[0] == golfcube.shape[1])
+        assert sars.trace.shape[0] == golfcube.shape[1]
         assert len(sars.variables) > 0
         assert sars.azimuth == 90
         sars1 = RadialSection(golfcube, azimuth=30)

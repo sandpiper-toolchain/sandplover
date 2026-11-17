@@ -2972,7 +2972,7 @@ def compute_channel_width(channelmask, section=None, return_widths=False):
         >>> sec = CircularSection(
         ...     golf,
         ...     origin_idx=(golf.aux["L0"].data, golf.shape[2] // 2),
-        ...     radius_idx=40
+        ...     radius_idx=40,
         ... )
 
         Compute the metric
