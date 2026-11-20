@@ -7,12 +7,16 @@ import xarray as xr
 from numba import njit
 from numba import prange
 from numba import set_num_threads
+from scipy.ndimage import binary_dilation
 from scipy.ndimage import binary_fill_holes
 from scipy.signal import fftconvolve
+from scipy.sparse import csr_matrix
+from scipy.sparse.csgraph import dijkstra
 from scipy.spatial import ConvexHull
 from skimage import morphology
 
 from sandplover.mask import BaseMask
+from sandplover.mask import CenterlineMask
 from sandplover.mask import ChannelMask
 from sandplover.mask import ElevationMask
 from sandplover.mask import LandMask
@@ -3413,3 +3417,276 @@ def _compute_surface_deposit_time_from_etas(etas, stasis_tol=0.01):
     sfc_date = np.argmax(whr, axis=0)
 
     return sfc_date
+
+
+def compute_channel_slope(
+    channelmask,
+    elevation_data,
+    depth_data,
+    shorelinemask,
+    origin,
+    landmask=None,
+    depth_alpha=1.0,
+    pixel_size=None,
+    return_details=False,
+):
+    """Compute main-stem channel bed slope along a depth-weighted Dijkstra path.
+
+    Extracts a 1-pixel centerline skeleton from ``channelmask`` via
+    :obj:`~sandplover.mask.CenterlineMask`, constructs an 8-neighbor graph
+    weighted by ``d_m / h_mean**depth_alpha``, finds the lowest-cost path from
+    ``origin`` to a shoreline-intersecting centerline pixel
+    (``shorelinemask``, excluding the inlet neighborhood), and fits a linear
+    regression of bed elevation against along-channel distance.
+
+    .. note::
+
+        If plain ``numpy.ndarray`` inputs are passed without ``pixel_size``,
+        grid spacing defaults to ``(1.0, 1.0)``. When ``xarray.DataArray``
+        inputs are passed, spacing is inferred from the spatial coordinates.
+
+    Parameters
+    ----------
+    channelmask : :obj:`~sandplover.mask.ChannelMask`, :obj:`xarray.DataArray`, or :obj:`ndarray`
+        Binary 2D channel mask.
+    elevation_data : :obj:`xarray.DataArray` or :obj:`ndarray`
+        2D bed elevation field with the same spatial shape as ``channelmask``.
+    depth_data : :obj:`xarray.DataArray` or :obj:`ndarray`
+        2D water depth field used to weight edge cost by
+        ``d_m / h_mean**depth_alpha``.
+    shorelinemask : :obj:`~sandplover.mask.ShorelineMask`, :obj:`xarray.DataArray`, or :obj:`ndarray`
+        Binary 2D delta shoreline mask used to identify outlet candidates.
+    origin : tuple of (int, int)
+        Approximate inlet location in ``(row, col)`` array index coordinates.
+    landmask : :obj:`~sandplover.mask.LandMask`, :obj:`xarray.DataArray`, or :obj:`ndarray`, optional
+        Binary 2D subaerial land mask used to restrict the channel centerline.
+    depth_alpha : float, optional
+        Exponent on edge-mean water depth in ``d_m / h_mean**depth_alpha``.
+        Default is 1.0.
+    pixel_size : float or tuple of (float, float), optional
+        Grid spacing ``(dy, dx)``. Inferred from ``xarray`` coordinates when
+        omitted, or ``(1.0, 1.0)`` for plain ``ndarray`` inputs.
+    return_details : bool, optional
+        If True, returns ``(abs_slope, details)`` where ``details`` is a dict
+        containing ``path_coords``, ``s``, ``eta_path``, ``mean_slope``,
+        ``b_fit``, ``max_dist``, ``n_pts``, and ``pixel_spacing``.
+
+    Returns
+    -------
+    abs_slope : float
+        Magnitude of the linear-regression bed slope ``|d(eta)/ds|``.
+    details : dict, optional
+        Returned only when ``return_details=True``.
+
+    See Also
+    --------
+    compute_topset_slope : Radial topset slope across subaerial delta.
+    compute_channel_depth : Channel depth along a section.
+    """
+    ch_arr = np.asarray(
+        channelmask.mask.values
+        if hasattr(channelmask, "mask")
+        else (channelmask.values if hasattr(channelmask, "values") else channelmask),
+        dtype=bool,
+    )
+    eta_arr = np.asarray(
+        elevation_data.values if hasattr(elevation_data, "values") else elevation_data,
+        dtype=float,
+    )
+    depth_arr = np.asarray(
+        depth_data.values if hasattr(depth_data, "values") else depth_data,
+        dtype=float,
+    )
+    shore_arr = np.asarray(
+        shorelinemask.mask.values
+        if hasattr(shorelinemask, "mask")
+        else (
+            shorelinemask.values if hasattr(shorelinemask, "values") else shorelinemask
+        ),
+        dtype=bool,
+    )
+    if landmask is not None:
+        land_arr = np.asarray(
+            landmask.mask.values
+            if hasattr(landmask, "mask")
+            else (landmask.values if hasattr(landmask, "values") else landmask),
+            dtype=bool,
+        )
+    else:
+        land_arr = None
+
+    dy, dx = 1.0, 1.0
+    if pixel_size is not None:
+        if np.ndim(pixel_size) == 0:
+            dy = float(pixel_size)
+            dx = float(pixel_size)
+        else:
+            dy = float(pixel_size[0])
+            dx = float(pixel_size[1])
+    else:
+        for obj in (elevation_data, channelmask, depth_data):
+            target = obj.mask if hasattr(obj, "mask") else obj
+            if (
+                hasattr(target, "dims")
+                and hasattr(target, "coords")
+                and len(target.dims) >= 2
+            ):
+                d0, d1 = target.dims[-2], target.dims[-1]
+                if d0 in target.coords and d1 in target.coords:
+                    c0 = np.asarray(target.coords[d0].values, dtype=float)
+                    c1 = np.asarray(target.coords[d1].values, dtype=float)
+                    if len(c0) >= 2 and len(c1) >= 2:
+                        dy0 = abs(float(np.median(np.diff(c0))))
+                        dx0 = abs(float(np.median(np.diff(c1))))
+                        if dy0 > 0 and dx0 > 0:
+                            dy, dx = dy0, dx0
+                            break
+
+    ch_obj = (
+        channelmask
+        if isinstance(channelmask, ChannelMask)
+        else ChannelMask.from_array(ch_arr)
+    )
+    skel_m = np.asarray(CenterlineMask.from_mask(ch_obj).mask.values, dtype=bool)
+    if land_arr is not None:
+        skel_m = skel_m & land_arr
+
+    skel_coords = np.argwhere(skel_m)
+    n_pts = len(skel_coords)
+    empty_details = {
+        "ok": False,
+        "abs_slope": np.nan,
+        "mean_slope": np.nan,
+        "b_fit": np.nan,
+        "max_dist": 0.0,
+        "n_pts": 0,
+        "path_coords": np.empty((0, 2), dtype=int),
+        "s": np.array([]),
+        "eta_path": np.array([]),
+        "pixel_spacing": (dy, dx),
+    }
+    if n_pts < 2:
+        warnings.warn(
+            "Insufficient channel centerline pixels identified; returning np.nan.",
+            category=UserWarning,
+            stacklevel=2,
+        )
+        if return_details:
+            return np.nan, empty_details
+        return np.nan
+
+    in_ch = depth_arr[ch_arr & np.isfinite(depth_arr)]
+    med_d = float(np.nanmedian(in_ch)) if len(in_ch) > 0 else 1.0
+    min_depth = max(0.05 * med_d, 1e-6)
+
+    coord_to_idx = {tuple(pt): i for i, pt in enumerate(skel_coords)}
+    row_ind, col_ind, weights = [], [], []
+    for i, (r, c) in enumerate(skel_coords):
+        for dr in (-1, 0, 1):
+            for dc in (-1, 0, 1):
+                if dr == 0 and dc == 0:
+                    continue
+                j = coord_to_idx.get((r + dr, c + dc))
+                if j is not None:
+                    d_m = float(np.hypot(dr * dy, dc * dx))
+                    r2, c2 = skel_coords[j]
+                    d_mean = max(
+                        0.5 * (float(depth_arr[r, c]) + float(depth_arr[r2, c2])),
+                        min_depth,
+                    )
+                    row_ind.append(i)
+                    col_ind.append(j)
+                    weights.append(d_m / (d_mean**depth_alpha))
+
+    r0, c0 = float(origin[0]), float(origin[1])
+    rad_m = 5.0 * max(dy, dx)
+    dist_to_origin = np.hypot(
+        (skel_coords[:, 0] - r0) * dy, (skel_coords[:, 1] - c0) * dx
+    )
+    inlet_indices = np.where(dist_to_origin <= rad_m)[0].tolist()
+    if not inlet_indices:
+        inlet_indices = [int(np.argmin(dist_to_origin))]
+
+    inlet_center = np.mean(skel_coords[inlet_indices], axis=0)
+    radial_dist = np.hypot(
+        (skel_coords[:, 0] - inlet_center[0]) * dy,
+        (skel_coords[:, 1] - inlet_center[1]) * dx,
+    )
+
+    adj = csr_matrix((weights, (row_ind, col_ind)), shape=(n_pts, n_pts))
+    dist_matrix, pred = dijkstra(
+        csgraph=adj, directed=False, indices=inlet_indices, return_predecessors=True
+    )
+    if dist_matrix.ndim == 1:
+        dist_matrix = dist_matrix[np.newaxis, :]
+        pred = pred[np.newaxis, :]
+
+    filled = np.where(np.isfinite(dist_matrix), dist_matrix, np.inf)
+    min_cost = np.min(filled, axis=0)
+    src_for_node = np.argmin(filled, axis=0)
+    finite = np.isfinite(min_cost)
+    if finite.sum() < 2:
+        warnings.warn(
+            "No connected main-stem channel path found from origin; returning np.nan.",
+            category=UserWarning,
+            stacklevel=2,
+        )
+        if return_details:
+            return np.nan, empty_details
+        return np.nan
+
+    min_outlet_dist = max(5.0 * max(dy, dx), 0.25 * float(radial_dist[finite].max()))
+    shore_dilated = binary_dilation(shore_arr, iterations=3)
+    intersect = finite & shore_dilated[skel_coords[:, 0], skel_coords[:, 1]]
+    downstream_candidates = np.where(intersect & (radial_dist > min_outlet_dist))[0]
+    if len(downstream_candidates) == 0:
+        warnings.warn(
+            "No reachable shoreline-intersecting centerline pixels found; returning np.nan.",
+            category=UserWarning,
+            stacklevel=2,
+        )
+        if return_details:
+            return np.nan, empty_details
+        return np.nan
+
+    far = int(downstream_candidates[np.argmin(min_cost[downstream_candidates])])
+
+    pred_row = pred[int(src_for_node[far])]
+    path, node = [], far
+    while node >= 0:
+        path.append(node)
+        node = int(pred_row[node])
+    path_coords = skel_coords[path[::-1]]
+
+    diffs = np.diff(path_coords, axis=0)
+    s = np.concatenate(([0.0], np.cumsum(np.hypot(diffs[:, 0] * dy, diffs[:, 1] * dx))))
+    eta_path = eta_arr[path_coords[:, 0], path_coords[:, 1]]
+
+    valid = np.isfinite(s) & np.isfinite(eta_path)
+    if valid.sum() < 2:
+        warnings.warn(
+            "Insufficient finite elevation data along main-stem path; returning np.nan.",
+            category=UserWarning,
+            stacklevel=2,
+        )
+        if return_details:
+            return np.nan, empty_details
+        return np.nan
+
+    m_fit, b_fit = np.polyfit(s[valid], eta_path[valid], 1)
+    abs_slope = abs(float(m_fit))
+    if not return_details:
+        return abs_slope
+
+    return abs_slope, {
+        "ok": True,
+        "abs_slope": abs_slope,
+        "mean_slope": float(m_fit),
+        "b_fit": float(b_fit),
+        "max_dist": float(s[valid].max()),
+        "n_pts": int(valid.sum()),
+        "path_coords": path_coords[valid],
+        "s": s[valid],
+        "eta_path": eta_path[valid],
+        "pixel_spacing": (dy, dx),
+    }
